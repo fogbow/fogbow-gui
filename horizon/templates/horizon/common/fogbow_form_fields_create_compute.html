@@ -1,0 +1,92 @@
+{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+{% if form.non_field_errors %}
+  <div class="alert alert-message alert-error">
+    {{ form.non_field_errors }}
+  </div>
+{% endif %}
+{% for field in form.visible_fields %}
+	
+  {% if 'hidden' in field.label_tag %}
+  <div class="control-group form-field clearfix{% if field.errors %} error{% endif %} {{ field.css_classes }}" style="visibility: hidden; display: none;">
+  {% endif %}
+  {% if 'hidden' not in field.label_tag %}
+  <div class="control-group form-field clearfix{% if field.errors %} error{% endif %} {{ field.css_classes }}">
+  {% endif %}
+    {{ field.label_tag }}
+    {% if field.errors %}
+      {% for error in field.errors %}
+        <span class="help-inline">{{ error }}</span>
+      {% endfor %}
+    {% endif %}
+    {% comment %}
+    Escape help_text a second time here, to avoid an XSS issue in bootstrap.js.
+    This can most likely be removed once we upgrade bootstrap.js past 2.0.2.
+    Note: the spaces are necessary here.
+    {% endcomment %}
+    <span class="help-block">{% filter force_escape %} {{ field.help_text }} {% endfilter %} </span>
+    <div class="input">
+      {{ field }}
+    </div>
+  </div>
+{% endfor %}
+
+<script type="text/javascript">
+(function() {
+
+	$(document).ready(function() {
+		$("#id_advanced_requirements").val("Glue2vCPU >= " + $('#id_cpu').val() + " && Glue2RAM >= " + $('#id_mem').val());
+		showComputeFields('');
+	});
+
+	function showComputeFields(transition) {
+		$(".control-group:has([for='id_cpu'])").show(transition);
+		$(".control-group:has([for='id_mem'])").show(transition);
+		$(".control-group:has([for='id_image'])").show(transition);
+		$(".control-group:has([for='id_data_user'])").show(transition);	
+		$(".control-group:has([for='id_data_user_type'])").show(transition);			
+		$(".control-group:has([for='id_publicKey'])").show(transition);		
+		$(".control-group:has([for='id_network_id'])").show(transition);
+	}
+	
+	function setValueOnRequiremetns() {
+		var vCpu = $('#id_cpu').val();
+		var ram = $('#id_mem').val();
+		originalString = "Glue2vCPU >= " + vCpu +" && Glue2RAM >= " + ram;						
+		
+		var member = $('#id_members').val();
+		if (member != '') {
+			if (originalString != null && originalString != '') {
+				originalString += ' && '
+			}
+			originalString = originalString + "Glue2CloudComputeManagerID==\"" + member + "\""; 
+		}
+		
+		$("#id_advanced_requirements").val(originalString);
+	};
+	
+	$('#id_mem, #id_cpu').keyup(function() {
+		setValueOnRequiremetns();
+	});	
+	
+	$('#id_members').change(function() {
+		setValueOnRequiremetns();
+	});		
+	
+	$('#id_data_user').change(function() {
+		var file = document.getElementById("id_data_user").files[0];		
+		if (file) {
+		    var reader = new FileReader();
+		    reader.readAsText(file, "UTF-8");
+		    reader.onload = function (evt) {
+		    	$('#id_data_user_file').val(evt.target.result);
+		    }
+		    reader.onerror = function (evt) {
+		    	$('#id_data_user_file').val('error');
+		    }
+		}
+	});
+	
+})();
+</script>

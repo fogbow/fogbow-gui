@@ -1,0 +1,523 @@
+Checking environment.
+Environment is up to date.
+Starting Django development server...
+Validating models...
+
+0 errors found
+June 05, 2018 - 22:22:39
+Django version 1.5.12, using settings 'openstack_dashboard.settings'
+Development server is running at http://0.0.0.0:9111/
+Quit the server with CONTROL-C.
+Server stopped.
+Checking environment.
+Environment is up to date.
+Starting Django development server...
+[05/Jun/2018 22:24:06] "GET / HTTP/1.1" 200 2232
+[05/Jun/2018 22:24:06] "GET /static/fogbow/js/fogbow.js HTTP/1.1" 200 40
+[05/Jun/2018 22:24:06] "GET /static/fogbow/js/jquery-2.1.3.min.js HTTP/1.1" 200 84320
+[05/Jun/2018 22:24:06] "GET /static/dashboard/css/8ba46137890c.css HTTP/1.1" 200 137522
+[05/Jun/2018 22:24:07] "GET /static/dashboard/fonts/ApercuLight.woff?a7399525991a HTTP/1.1" 200 34724
+[05/Jun/2018 22:24:07] "GET /static/dashboard/img/logo_fogbow_test_final_versao2.png HTTP/1.1" 200 21640
+Federation Token : eyJsb2duaW4iOiJjaGljb2ciLCJuYW1lIjoiRnJhbmNpc2NvIEdlcm1hbm8gZGUgQXJhdWpvIE5ldG8iLCJleHBpcmF0aW9uRGF0ZSI6MTU1OTc3MzQ1ODQzOH0hIyFmcUtOKzlqajJ3eStmWDhHVndrdFlnU3FPNXgxQ3ZoVVNlZGtjUTNSNEQ2TjE1M0xkRGo4N2JMT3ZTdTU2VGg5WGtXRXErUEhvNldhRTFNOFJSanNCUzVrd0RjYVFIczU3R3ZBUHVHcmtrTzFKZWZENHVWdlZlbUhPYStQWU11RFMrUVlZTjRneDIzWkhKRmtiTnJHSmRoRGtsamg2cDdLdHBkMDlldjE1OWZkSmJ0RWxaQ2p2RUNnMC9nWnBPWTVWU2RLS1R0T2VIRnJxU1ZqZ1VIQ0kzNzFWK21aaEZDWFNmanlaQXZQV1hDY1JXUlVBVFFDaURaT0NNR1pjVVAwZXQ5K2ZkL3p0YVY0Zlc4bVJoaG4wckxWRG1JZ1M0S3NJQTB3TmdPQml5U21lamRjYythMXJzcXZnSU52V28rdkFaUGFVYmFjVk01ZWxlTmJJeW9Sanc9PQ==
+Get Token info Response:Francisco Germano de Araujo Neto,chicog
+Checking user authenticated...
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /-/ HTTP/1.1" 200 6938
+Validating models...
+
+0 errors found
+June 05, 2018 - 22:23:01
+Django version 1.5.12, using settings 'openstack_dashboard.settings'
+Development server is running at http://0.0.0.0:9111/
+Quit the server with CONTROL-C.
+not enough arguments for format string
+Validatin token on: http://10.11.5.3:8182/-/
+Response: 
+Category: fogbow_public_key; scheme="http://schemas.fogbowcloud/credentials#"; class="mixin"; location="http://localhost:8182/fogbow_public_key/"; attributes="org.fogbowcloud.credentials.publickey.data"
+Category: order; scheme="http://schemas.fogbowcloud.org/order#"; class="kind"; title="Order new Instances"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/order/"; attributes="org.fogbowcloud.order.instance-count org.fogbowcloud.order.type org.fogbowcloud.order.valid-until org.fogbowcloud.order.valid-from org.fogbowcloud.order.state org.fogbowcloud.order.instance-id org.fogbowcloud.credentials.publickey.data org.fogbowcloud.order.user-data org.fogbowcloud.order.extra-user-data org.fogbowcloud.order.extra-user-data-content-type org.fogbowcloud.order.requirements org.fogbowcloud.order.batch-id org.fogbowcloud.order.requesting-member org.fogbowcloud.order.providing-member org.fogbowcloud.order.resource-kind org.fogbowcloud.order.federated-network-id org.fogbowcloud.order.federated-network-label org.fogbowcloud.order.federated-network-cidr-notation org.fogbowcloud.order.federated-network-members org.fogbowcloud.order.storage-size org.fogbowcloud.order.network-id"
+Category: storagelink; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="A link to a storage resource"; rel="http://schemas.ogf.org/occi/core#link"; location="http://localhost:8182/storage/link/"; attributes="occi.storagelink.state{immutable} occi.storagelink.mountpoint occi.storagelink.deviceid"
+Category: storage; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Storage Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/storage/"; attributes="occi.storage.state{immutable} occi.storage.size"; actions="http://schemas.ogf.org/occi/infrastructure/storage/action#online http://schemas.ogf.org/occi/infrastructure/storage/action#offline http://schemas.ogf.org/occi/infrastructure/storage/action#backup http://schemas.ogf.org/occi/infrastructure/storage/action#snapshot http://schemas.ogf.org/occi/infrastructure/storage/action#resize"
+Category: compute; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Compute Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/compute/"; attributes="occi.compute.architecture occi.compute.state{immutable} occi.compute.speed occi.compute.memory occi.compute.cores occi.compute.hostname"; actions="http://schemas.ogf.org/occi/infrastructure/compute/action#start http://schemas.ogf.org/occi/infrastructure/compute/action#stop http://schemas.ogf.org/occi/infrastructure/compute/action#restart http://schemas.ogf.org/occi/infrastructure/compute/action#suspend"
+Category: fogbow_userdata; scheme="http://schemas.fogbowcloud.org/order#"; class="mixin"; location="http://localhost:8182/fogbow_userdata/"
+Category: network; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Network Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/network/"; attributes="occi.network.vlan occi.network.label occi.network.state occi.network.address occi.network.gateway occi.network.allocation"; actions="http://schemas.ogf.org/occi/infrastructure/network/action#up http://schemas.ogf.org/occi/infrastructure/network/action#down http://schemas.ogf.org/occi/infrastructure/federated_network/action#up http://schemas.ogf.org/occi/infrastructure/federated_network/action#down"
+Category: federatedNetwork; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Federated Network Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/label/"
+Category: resource; scheme="http://schemaSuccessful login
+[05/Jun/2018 22:24:24] "POST /fogbow/auth/ HTTP/1.1" 302 0
+[05/Jun/2018 22:24:24] "GET / HTTP/1.1" 302 0
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+[05/Jun/2018 22:24:24] "GET /fogbow/ HTTP/1.1" 200 25396
+[05/Jun/2018 22:24:25] "GET /static/dashboard/js/588884c5a22a.js HTTP/1.1" 200 789
+[05/Jun/2018 22:24:25] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 22:24:25] "GET /static/dashboard/js/jquery-1.12.0.min.js HTTP/1.1" 200 97362
+[05/Jun/2018 22:24:25] "GET /static/dashboard/img/fogbow-logo.png HTTP/1.1" 200 3198
+[05/Jun/2018 22:24:25] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 200 525283
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member/atm-prod.lsd.ufcg.edu.br/quota HTTP/1.1" 200 306
+[05/Jun/2018 22:24:26] "GET /fogbow/atm-prod.lsd.ufcg.edu.br/quota HTTP/1.1" 200 100
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /order?verbose=true HTTP/1.1" 200 21
+[05/Jun/2018 22:24:41] "GET /fogbow/request/ HTTP/1.1" 200 7766
+[05/Jun/2018 22:24:41] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 22:24:41] "GET /static/dashboard/img/search.png HTTP/1.1" 200 431
+[05/Jun/2018 22:24:41] "GET /static/bootstrap/img/glyphicons-halflings.png HTTP/1.1" 200 4352
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 22:24:43] "GET /fogbow/instance/ HTTP/1.1" 200 7506
+[05/Jun/2018 22:24:43] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/ HTTP/1.1" 200 24
+[05/Jun/2018 22:24:44] "GET /fogbow/storage/ HTTP/1.1" 200 7488
+[05/Jun/2018 22:24:44] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /network/ HTTP/1.1" 200 24
+[05/Jun/2018 22:24:44] "GET /fogbow/network/ HTTP/1.1" 200 7494
+[05/Jun/2018 22:24:45] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 22:24:46] "GET /fogbow/instance/ HTTP/1.1" 200 7506
+[05/Jun/2018 22:24:46] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/ HTTP/1.1" 200 24
+[05/Jun/2018 22:24:47] "GET /fogbow/storage/ HTTP/1.1" 200 7488
+[05/Jun/2018 22:24:47] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /network/ HTTP/1.1" 200 24
+[05/Jun/2018 22:24:49] "GET /fogbow/network/ HTTP/1.1" 200 7494
+[05/Jun/2018 22:24:49] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 22:24:51] "GET /fogbow/instance/ HTTP/1.1" 200 7506
+[05/Jun/2018 22:24:51] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /-/ HTTP/1.1" 200 6938
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /network/ HTTP/1.1" 200 24
+[05/Jun/2018 22:24:52] "GET /fogbow/instance/create/ HTTP/1.1" 200 6962
+Not Found: /dashboards/fogbow/static/fogbow/css/fogbow.css
+[05/Jun/2018 22:24:52] "GET /dashboards/fogbow/static/fogbow/css/fogbow.css HTTP/1.1" 404 3979
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+[05/Jun/2018 22:28:24] "GET /fogbow/ HTTP/1.1" 200 25396
+[05/Jun/2018 22:28:24] "GET /static/dashboard/css/8ba46137890c.css HTTP/1.1" 304 0
+[05/Jun/2018 22:28:24] "GET /static/dashboard/js/588884c5a22a.js HTTP/1.1" 304 0
+[05/Jun/2018 22:28:24] "GET /static/dashboard/js/jquery-1.12.0.min.js HTTP/1.1" 304 0
+[05/Jun/2018 22:28:25] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 22:28:25] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 304 0
+[05/Jun/2018 22:28:25] "GET /static/dashboard/img/fogbow-logo.png HTTP/1.1" 304 0
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member/atm-prod.lsd.ufcg.edu.br/quota HTTP/1.1" 200 306
+[05/Jun/2018 22:28:35] "GET /fogbow/atm-prod.lsd.ufcg.edu.br/quota HTTP/1.1" 200 100
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member/atm-prod.lsd.ufcg.edu.br/quota HTTP/1.1" 200 306
+[05/Jun/2018 22:28:37] "GET /fogbow/atm-prod.lsd.ufcg.edu.br/quota HTTP/1.1" 200 100
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+[05/Jun/2018 22:30:09] "GET /fogbow/ HTTP/1.1" 200 25396
+[05/Jun/2018 22:30:10] "GET /static/dashboard/css/8ba46137890c.css HTTP/1.1" 304 0
+[05/Jun/2018 22:30:10] "GET /static/dashboard/js/588884c5a22a.js HTTP/1.1" 304 0
+[05/Jun/2018 22:30:10] "GET /static/dashboard/js/jquery-1.12.0.min.js HTTP/1.1" 304 0
+[05/Jun/2018 22:30:10] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 22:30:10] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 304 0
+[05/Jun/2018 22:30:10] "GET /static/dashboard/img/fogbow-logo.png HTTP/1.1" 304 0
+[05/Jun/2018 22:30:10] "GET /static/dashboard/img/logo_fogbow_test_final_versao2.png HTTP/1.1" 200 21640
+s.ogf.org/occi/core#"; class="kind"; title="Resource"; rel="http://schemas.ogf.org/occi/core#entity"; location="http://localhost:8182/resource/"
+Category: entity; scheme="http://schemas.ogf.org/occi/core#"; class="kind"; title="Entity"; location="http://localhost:8182/entity/"; attributes="occi.core.id occi.core.title"
+Category: link; scheme="http://schemas.ogf.org/occi/core#"; class="kind"; title="Link"; rel="http://schemas.ogf.org/occi/core#entity"; location="http://localhost:8182/link/"; attributes="occi.core.source occi.core.target"
+Category: resource_tpl; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="mixin"; location="http://localhost:8182/resource_tpl/"
+Category: os_tpl; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="mixin"; location="http://localhost:8182/os_tpl/"
+Category: fogbow-ubuntu-default; scheme="http://schemas.fogbowcloud.org/template/os#"; class="mixin"; title="fogbow-ubuntu-default image"; rel="http://schemas.ogf.org/occi/infrastructure#os_tpl"; location="http://localhost:8182/fogbow-ubuntu-default/"
+Category: fogbow-sebal-image-v4-test; scheme="http://schemas.fogbowcloud.org/template/os#"; class="mixin"; title="fogbow-sebal-image-v4-test image"; rel="http://schemas.ogf.org/occi/infrastructure#os_tpl"; location="http://localhost:8182/fogbow-sebal-image-v4-test/"
+Category: fogbow-ubuntu-no-apt-daily.service; scheme="http://schemas.fogbowcloud.org/template/os#"; class="mixin"; title="fogbow-ubuntu-no-apt-daily.service image"; rel="http://schemas.ogf.org/occi/infrastructure#os_tpl"; location="http://localhost:8182/fogbow-ubuntu-no-apt-daily.service/"
+Category: fogbow-ubuntu-sgx; scheme="http://schemas.fogbowcloud.org/template/os#"; class="mixin"; title="fogbow-ubuntu-sgx image"; rel="http://schemas.ogf.org/occi/infrastructure#os_tpl"; location="http://localhost:8182/fogbow-ubuntu-sgx/"
+Category: fogbow-sebal-image-v4-DEMO-SAPS; scheme="http://schemas.fogbowcloud.org/template/os#"; class="mixin"; title="fogbow-sebal-image-v4-DEMO-SAPS image"; rel="http://schemas.ogf.org/occi/infrastructure#os_tpl"; location="http://localhost:8182/fogbow-sebal-image-v4-DEMO-SAPS/"
+Category: fogbow-sebal-crawler-DEMO-SAPS; scheme="http://schemas.fogbowcloud.org/template/os#"; class="mixin"; title="fogbow-sebal-crawler-DEMO-SAPS image"; rel="http://schemas.ogf.org/occi/infrastructure#os_tpl"; location="http://localhost:8182/fogbow-sebal-crawler-DEMO-SAPS/"
+Category: fogbow-ubuntu-16.04; scheme="http://schemas.fogbowcloud.org/template/os#"; class="mixin"; title="fogbow-ubuntu-16.04 image"; rel="http://schemas.ogf.org/occi/infrastructure#os_tpl"; location="http://localhost:8182/fogbow-ubuntu-16.04/"
+Category: fogbow-ubuntu; scheme="http://schemas.fogbowcloud.org/template/os#"; class="mixin"; title="fogbow-ubuntu image"; rel="http://schemas.ogf.org/occi/infrastructure#os_tpl"; location="http://localhost:8182/fogbow-ubuntu/"
+Category: fogbow-ubuntu-DEMO-SAPS; scheme="http://schemas.fogbowcloud.org/template/os#"; class="mixin"; title="fogbow-ubuntu-DEMO-SAPS image"; rel="http://schemas.ogf.org/occi/infrastructure#os_tpl"; location="http://localhost:8182/fogbow-ubuntu-DEMO-SAPS/"
+atm-prod.lsd.ufcg.edu.br
+
+
+
+
+
+
+
+
+
+
+There are not orders.
+atm-prod.lsd.ufcg.edu.br
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+atm-prod.lsd.ufcg.edu.br
+
+[05/Jun/2018 22:48:05] "GET /fogbow/ HTTP/1.1" 302 0
+[05/Jun/2018 22:48:16] "GET /?next=/fogbow/ HTTP/1.1" 200 2232
+[05/Jun/2018 22:48:16] "GET /static/fogbow/js/jquery-2.1.3.min.js HTTP/1.1" 304 0
+[05/Jun/2018 22:48:16] "GET /static/dashboard/css/8ba46137890c.css HTTP/1.1" 304 0
+[05/Jun/2018 22:48:16] "GET /static/fogbow/js/fogbow.js HTTP/1.1" 304 0
+[05/Jun/2018 22:48:16] "GET /static/dashboard/img/logo_fogbow_test_final_versao2.png HTTP/1.1" 304 0
+Federation Token : eyJsb2duaW4iOiJjaGljb2ciLCJuYW1lIjoiRnJhbmNpc2NvIEdlcm1hbm8gZGUgQXJhdWpvIE5ldG8iLCJleHBpcmF0aW9uRGF0ZSI6MTU1OTc3NDkxMDgxMH0hIyFoTUNwZmZPbHJwM2FDVzU4aUZhNnlzalYvYVF1R0Z6ZjNwWFBoUnhwelNjYU1Gd3huTEd3ZjYyQUpqeUNGcnpQbWNwOUt6bjEvR3pBM1ZMUTNHTVo2Z0t2OTFwUVo3WmVaWFlrcSs2enVnSUFIK2thVHBGYTNtN1VQL0Nia1E5YmdCakgxVHJEZkkyb1RJQ1l6OGE0cm5jdklITDE0dnhwNlRSemM4RUoxNjg4MDlMaDZkT09zYjdtclNxSHRyUUNJR0d3cmxzb21QMmxVbU5sRG50TS9hMmpzalpxcmswZ09rR1hsZGV1OHlWZC93WndCSDFoclRyQkRPdmNtNGhIWE5wMDJ2RHNDTG0vWnhKd2Jydk0xcWxNWWlLT3owSVZOQjNoWVJKQUxrY2hjYTlKY012amZtb2lsRmFiYU1iYjVsR0czZHdiTXlZOHJOWDJVV0JmUlE9PQ==
+Get Token info Response:Francisco Germano de Araujo Neto,chicog
+Checking user authenticated...
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /-/ HTTP/1.1" 200 6938
+Validating models...
+
+0 errors found
+June 05, 2018 - 22:47:24
+Django version 1.5.12, using settings 'openstack_dashboard.settings'
+Development server is running at http://0.0.0.0:9111/
+Quit the server with CONTROL-C.
+not enough arguments for format string
+Validatin token on: http://10.11.5.3:8182/-/
+Response: 
+Category: fogbow_public_key; scheme="http://schemas.fogbowcloud/credentials#"; class="mixin"; location="http://localhost:8182/fogbow_public_key/"; attributes="org.fogbowcloud.credentials.publickey.data"
+Category: order; scheme="http://schemas.fogbowcloud.org/order#"; class="kind"; title="Order new Instances"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/order/"; attributes="org.fogbowcloud.order.instance-count org.fogbowcloud.order.type org.fogbowcloud.order.valid-until org.fogbowcloud.order.valid-from org.fogbowcloud.order.state org.fogbowcloud.order.instance-id org.fogbowcloud.credentials.publickey.data org.fogbowcloud.order.user-data org.fogbowcloud.order.extra-user-data org.fogbowcloud.order.extra-user-data-content-type org.fogbowcloud.order.requirements org.fogbowcloud.order.batch-id org.fogbowcloud.order.requesting-member org.fogbowcloud.order.providing-member org.fogbowcloud.order.resource-kind org.fogbowcloud.order.federated-network-id org.fogbowcloud.order.federated-network-label org.fogbowcloud.order.federated-network-cidr-notation org.fogbowcloud.order.federated-network-members org.fogbowcloud.order.storage-size org.fogbowcloud.order.network-id"
+Category: storagelink; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="A link to a storage resource"; rel="http://schemas.ogf.org/occi/core#link"; location="http://localhost:8182/storage/link/"; attributes="occi.storagelink.state{immutable} occi.storagelink.mountpoint occi.storagelink.deviceid"
+Category: storage; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Storage Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/storage/"; attributes="occi.storage.state{immutable} occi.storage.size"; actions="http://schemas.ogf.org/occi/infrastructure/storage/action#online http://schemas.ogf.org/occi/infrastructure/storage/action#offline http://schemas.ogf.org/occi/infrastructure/storage/action#backup http://schemas.ogf.org/occi/infrastructure/storage/action#snapshot http://schemas.ogf.org/occi/infrastructure/storage/action#resize"
+Category: compute; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Compute Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/compute/"; attributes="occi.compute.architecture occi.compute.state{immutable} occi.compute.speed occi.compute.memory occi.compute.cores occi.compute.hostname"; actions="http://schemas.ogf.org/occi/infrastructure/compute/action#start http://schemas.ogf.org/occi/infrastructure/compute/action#stop http://schemas.ogf.org/occi/infrastructure/compute/action#restart http://schemas.ogf.org/occi/infrastructure/compute/action#suspend"
+Category: fogbow_userdata; scheme="http://schemas.fogbowcloud.org/order#"; class="mixin"; location="http://localhost:8182/fogbow_userdata/"
+Category: network; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Network Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/network/"; attributes="occi.network.vlan occi.network.label occi.network.state occi.network.address occi.network.gateway occi.network.allocation"; actions="http://schemas.ogf.org/occi/infrastructure/network/action#up http://schemas.ogf.org/occi/infrastructure/network/action#down http://schemas.ogf.org/occi/infrastructure/federated_network/action#up http://schemas.ogf.org/occi/infrastructure/federated_network/action#down"
+Category: federatedNetwork; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Federated Network Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/label/"
+Category: resource; scheme="http://schemaSuccessful login
+[05/Jun/2018 22:48:36] "POST /fogbow/auth/ HTTP/1.1" 302 0
+[05/Jun/2018 22:48:36] "GET / HTTP/1.1" 302 0
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+[05/Jun/2018 22:48:36] "GET /fogbow/ HTTP/1.1" 200 25292
+[05/Jun/2018 22:48:36] "GET /static/dashboard/js/588884c5a22a.js HTTP/1.1" 304 0
+[05/Jun/2018 22:48:36] "GET /static/dashboard/js/jquery-1.12.0.min.js HTTP/1.1" 304 0
+[05/Jun/2018 22:48:36] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 22:48:37] "GET /static/dashboard/img/fogbow-logo.png HTTP/1.1" 304 0
+[05/Jun/2018 22:48:37] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 200 525283
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 22:48:59] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 22:48:59] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/ HTTP/1.1" 200 24
+[05/Jun/2018 22:49:03] "GET /fogbow/storage/ HTTP/1.1" 200 7384
+[05/Jun/2018 22:49:03] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /network/ HTTP/1.1" 200 24
+[05/Jun/2018 22:49:04] "GET /fogbow/network/ HTTP/1.1" 200 7390
+[05/Jun/2018 22:49:05] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/link/?verbose=true HTTP/1.1" 200 28
+[05/Jun/2018 22:49:05] "GET /fogbow/attachment/ HTTP/1.1" 200 7562
+[05/Jun/2018 22:49:05] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /network/ HTTP/1.1" 200 24
+[05/Jun/2018 22:49:08] "GET /fogbow/network/ HTTP/1.1" 200 7390
+[05/Jun/2018 22:49:08] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+[05/Jun/2018 22:49:08] "GET /fogbow/ HTTP/1.1" 200 25292
+[05/Jun/2018 22:49:09] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 22:49:09] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 22:49:09] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 22:55:53] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 22:55:53] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 22:55:53] "GET /static/dashboard/css/8ba46137890c.css HTTP/1.1" 304 0
+[05/Jun/2018 22:55:53] "GET /static/dashboard/js/588884c5a22a.js HTTP/1.1" 304 0
+[05/Jun/2018 22:55:53] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 304 0
+[05/Jun/2018 22:55:53] "GET /static/dashboard/img/fogbow-logo.png HTTP/1.1" 304 0
+[05/Jun/2018 22:55:54] "GET /static/dashboard/img/logo_fogbow_test_final_versao2.png HTTP/1.1" 200 21640
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 22:55:56] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 22:55:56] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 22:55:56] "GET /static/dashboard/img/logo_fogbow_test_final_versao2.png HTTP/1.1" 200 21640
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 22:55:57] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 22:55:57] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 22:55:57] "GET /static/dashboard/img/logo_fogbow_test_final_versao2.png HTTP/1.1" 200 21640
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 22:55:58] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 22:55:58] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 23:22:57] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 23:22:57] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 23:22:57] "GET /static/dashboard/css/8ba46137890c.css HTTP/1.1" 304 0
+[05/Jun/2018 23:22:57] "GET /static/dashboard/js/588884c5a22a.js HTTP/1.1" 304 0
+[05/Jun/2018 23:22:57] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 304 0
+[05/Jun/2018 23:22:58] "GET /static/dashboard/img/fogbow-logo.png HTTP/1.1" 304 0
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+[05/Jun/2018 23:23:02] "GET /fogbow/ HTTP/1.1" 200 25292
+[05/Jun/2018 23:23:02] "GET /static/dashboard/js/jquery-1.12.0.min.js HTTP/1.1" 304 0
+[05/Jun/2018 23:23:02] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 23:23:04] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 23:23:04] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/ HTTP/1.1" 200 24
+[05/Jun/2018 23:23:05] "GET /fogbow/storage/ HTTP/1.1" 200 7384
+[05/Jun/2018 23:23:05] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/link/?verbose=true HTTP/1.1" 200 28
+[05/Jun/2018 23:23:06] "GET /fogbow/attachment/ HTTP/1.1" 200 7562
+[05/Jun/2018 23:23:06] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /network/ HTTP/1.1" 200 24
+[05/Jun/2018 23:23:07] "GET /fogbow/network/ HTTP/1.1" 200 7390
+[05/Jun/2018 23:23:07] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/ HTTP/1.1" 200 24
+[05/Jun/2018 23:23:08] "GET /fogbow/storage/ HTTP/1.1" 200 7384
+[05/Jun/2018 23:23:08] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 23:23:09] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 23:23:09] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+Checking environment.
+Your environment appears to be out of date. Update? (Y/n) ./run_tests.sh: line 197: read: read error: 0: Bad file descriptor
+Checking environment.
+Environment is up to date.
+Starting Django development server...
+[05/Jun/2018 23:40:39] "GET /fogbow/instance/ HTTP/1.1" 302 0
+[05/Jun/2018 23:40:51] "GET /?next=/fogbow/instance/ HTTP/1.1" 200 2232
+[05/Jun/2018 23:40:51] "GET /static/fogbow/js/jquery-2.1.3.min.js HTTP/1.1" 200 84320
+[05/Jun/2018 23:40:51] "GET /static/fogbow/js/fogbow.js HTTP/1.1" 200 40
+[05/Jun/2018 23:40:51] "GET /static/dashboard/css/8ba46137890c.css HTTP/1.1" 200 137522
+[05/Jun/2018 23:40:52] "GET /static/dashboard/img/logo_fogbow_test_final_versao2.png HTTP/1.1" 200 21640
+[05/Jun/2018 23:40:52] "GET /static/dashboard/fonts/ApercuLight.woff?a7399525991a HTTP/1.1" 200 34724
+Federation Token : eyJsb2duaW4iOiJjaGljb2ciLCJuYW1lIjoiRnJhbmNpc2NvIEdlcm1hbm8gZGUgQXJhdWpvIE5ldG8iLCJleHBpcmF0aW9uRGF0ZSI6MTU1OTc3ODA2NjA5M30hIyFuNDZNRHhkVE9PWUd5eGpxV3liVmFWb2swRHA3TjBibDFKVVpKV043QzNmRXJXNE9NVGlIdzhZcGhYNElQN2ZhUEtETURreCtJZVJBekRVWEE4bzVQdEM5MjhrRFFVRTFuU3pUelE3TFVmeDNoQ2J5NUpSY254V2w0VWp2WUp6aGJQTmFid2hIVWxMaEZsVk81RVRlR2hGYkY2NXIyK0JsVGdKektlMTFZOVpDT1FQNzFkN1ZoTUxLbjhuekRtNW0zNjljL051aEkwKzJibmZDNlEzUFlWb3pYWnYxRzA2MzZEZlUrMDRzZ0wrMWpUangwbnd3YlNQaG40ZXRrbzBxUTJqVGV3L0RRSVk3K21qUU1qUExMSkZ5dFF6SmUvOFR5a3FUUmw0eXJkTUJiNWZZQ1Z3cE9TMjRGbTY0NlNEOXJaYVVMRlQ0SHdUNkp1aVBleFpyd1E9PQ==
+Get Token info Response:Francisco Germano de Araujo Neto,chicog
+Checking user authenticated...
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /-/ HTTP/1.1" 200 6938
+Validating models...
+
+0 errors found
+June 05, 2018 - 23:40:31
+Django version 1.5.12, using settings 'openstack_dashboard.settings'
+Development server is running at http://0.0.0.0:9111/
+Quit the server with CONTROL-C.
+not enough arguments for format string
+Validatin token on: http://10.11.5.3:8182/-/
+Response: 
+Category: fogbow_public_key; scheme="http://schemas.fogbowcloud/credentials#"; class="mixin"; location="http://localhost:8182/fogbow_public_key/"; attributes="org.fogbowcloud.credentials.publickey.data"
+Category: order; scheme="http://schemas.fogbowcloud.org/order#"; class="kind"; title="Order new Instances"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/order/"; attributes="org.fogbowcloud.order.instance-count org.fogbowcloud.order.type org.fogbowcloud.order.valid-until org.fogbowcloud.order.valid-from org.fogbowcloud.order.state org.fogbowcloud.order.instance-id org.fogbowcloud.credentials.publickey.data org.fogbowcloud.order.user-data org.fogbowcloud.order.extra-user-data org.fogbowcloud.order.extra-user-data-content-type org.fogbowcloud.order.requirements org.fogbowcloud.order.batch-id org.fogbowcloud.order.requesting-member org.fogbowcloud.order.providing-member org.fogbowcloud.order.resource-kind org.fogbowcloud.order.federated-network-id org.fogbowcloud.order.federated-network-label org.fogbowcloud.order.federated-network-cidr-notation org.fogbowcloud.order.federated-network-members org.fogbowcloud.order.storage-size org.fogbowcloud.order.network-id"
+Category: storagelink; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="A link to a storage resource"; rel="http://schemas.ogf.org/occi/core#link"; location="http://localhost:8182/storage/link/"; attributes="occi.storagelink.state{immutable} occi.storagelink.mountpoint occi.storagelink.deviceid"
+Category: storage; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Storage Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/storage/"; attributes="occi.storage.state{immutable} occi.storage.size"; actions="http://schemas.ogf.org/occi/infrastructure/storage/action#online http://schemas.ogf.org/occi/infrastructure/storage/action#offline http://schemas.ogf.org/occi/infrastructure/storage/action#backup http://schemas.ogf.org/occi/infrastructure/storage/action#snapshot http://schemas.ogf.org/occi/infrastructure/storage/action#resize"
+Category: compute; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Compute Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/compute/"; attributes="occi.compute.architecture occi.compute.state{immutable} occi.compute.speed occi.compute.memory occi.compute.cores occi.compute.hostname"; actions="http://schemas.ogf.org/occi/infrastructure/compute/action#start http://schemas.ogf.org/occi/infrastructure/compute/action#stop http://schemas.ogf.org/occi/infrastructure/compute/action#restart http://schemas.ogf.org/occi/infrastructure/compute/action#suspend"
+Category: fogbow_userdata; scheme="http://schemas.fogbowcloud.org/order#"; class="mixin"; location="http://localhost:8182/fogbow_userdata/"
+Category: network; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Network Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/network/"; attributes="occi.network.vlan occi.network.label occi.network.state occi.network.address occi.network.gateway occi.network.allocation"; actions="http://schemas.ogf.org/occi/infrastructure/network/action#up http://schemas.ogf.org/occi/infrastructure/network/action#down http://schemas.ogf.org/occi/infrastructure/federated_network/action#up http://schemas.ogf.org/occi/infrastructure/federated_network/action#down"
+Category: federatedNetwork; scheme="http://schemas.ogf.org/occi/infrastructure#"; class="kind"; title="Federated Network Resource"; rel="http://schemas.ogf.org/occi/core#resource"; location="http://localhost:8182/label/"
+Category: resource; scheme="http://schemaSuccessful login
+[05/Jun/2018 23:41:13] "POST /fogbow/auth/ HTTP/1.1" 302 0
+[05/Jun/2018 23:41:13] "GET / HTTP/1.1" 302 0
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+[05/Jun/2018 23:41:14] "GET /fogbow/ HTTP/1.1" 200 25292
+[05/Jun/2018 23:41:14] "GET /static/dashboard/css/8ba46137890c.css HTTP/1.1" 304 0
+[05/Jun/2018 23:41:14] "GET /static/dashboard/js/588884c5a22a.js HTTP/1.1" 200 789
+[05/Jun/2018 23:41:14] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 23:41:14] "GET /static/dashboard/img/fogbow-logo.png HTTP/1.1" 200 3198
+[05/Jun/2018 23:41:14] "GET /static/dashboard/img/logo_fogbow_test_final_versao2.png HTTP/1.1" 304 0
+[05/Jun/2018 23:41:14] "GET /static/dashboard/fonts/ApercuLight.woff?a7399525991a HTTP/1.1" 304 0
+[05/Jun/2018 23:41:14] "GET /static/dashboard/js/jquery-1.12.0.min.js HTTP/1.1" 200 97362
+[05/Jun/2018 23:41:16] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 200 525283
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 23:41:16] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 23:41:16] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 23:41:16] "GET /static/dashboard/img/search.png HTTP/1.1" 200 431
+[05/Jun/2018 23:41:16] "GET /static/bootstrap/img/glyphicons-halflings.png HTTP/1.1" 200 4352
+[05/Jun/2018 23:41:17] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 200 364751
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/wsgiref/handlers.py", line 86, in run
+    self.finish_response()
+  File "/usr/lib/python2.7/wsgiref/handlers.py", line 128, in finish_response
+    self.write(data)
+  File "/usr/lib/python2.7/wsgiref/handlers.py", line 217, in write
+    self._write(data)
+  File "/usr/lib/python2.7/socket.py", line 328, in write
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+    self.flush()
+  File "/usr/lib/python2.7/socket.py", line 307, in flush
+    self._sock.sendall(view[write_offset:write_offset+buffer_size])
+error: [Errno 32] Broken pipe
+[05/Jun/2018 23:41:17] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 500 59
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/SocketServer.py", line 596, in process_request_thread
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/ HTTP/1.1" 200 24
+    self.finish_request(request, client_address)
+  File "/usr/lib/python2.7/SocketServer.py", line 331, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/home/ubuntu/fogbow-components/fogbow-dashboard-atm-prod/.venv/local/lib/python2.7/site-packages/django/core/servers/basehttp.py", line 143, in __init__
+    super(WSGIRequestHandler, self).__init__(*args, **kwargs)
+  File "/usr/lib/python2.7/SocketServer.py", line 654, in __init__
+    self.finish()
+  File "/usr/lib/python2.7/SocketServer.py", line 713, in finish
+    self.wfile.close()
+  File "/usr/lib/python2.7/socket.py", line 283, in close
+    self.flush()
+  File "/usr/lib/python2.7/socket.py", line 307, in flush
+    self._sock.sendall(view[write_offset:write_offset+buffer_size])
+error: [Errno 32] Broken pipe
+[05/Jun/2018 23:41:17] "GET /fogbow/storage/ HTTP/1.1" 200 7384
+[05/Jun/2018 23:41:17] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+[05/Jun/2018 23:41:18] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 200 364751
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/wsgiref/handlers.py", line 86, in run
+    self.finish_response()
+  File "/usr/lib/python2.7/wsgiref/handlers.py", line 128, in finish_response
+    self.write(data)
+  File "/usr/lib/python2.7/wsgiref/handlers.py", line 217, in write
+    self._write(data)
+  File "/usr/lib/python2.7/socket.py", line 328, in write
+    self.flush()
+  File "/usr/lib/python2.7/socket.py", line 307, in flush
+    self._sock.sendall(view[write_offset:write_offset+buffer_size])
+error: [Errno 32] Broken pipe
+[05/Jun/2018 23:41:18] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 500 59
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/SocketServer.py", line 596, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib/python2.7/SocketServer.py", line 331, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/home/ubuntu/fogbow-components/fogbow-dashboard-atm-prod/.venv/local/lib/python2.7/site-packages/django/core/servers/basehttp.py", line 143, in __init__
+    super(WSGIRequestHandler, self).__init__(*args, **kwargs)
+  File "/usr/lib/python2.7/SocketServer.py", line 654, in __init__
+    self.finish()
+  File "/usr/lib/python2.7/SocketServer.py", line 713, in finish
+    self.wfile.close()
+  File "/usr/lib/python2.7/socket.py", line 283, in close
+    self.flush()
+  File "/usr/lib/python2.7/socket.py", line 307, in flush
+    self._sock.sendall(view[write_offset:write_offset+buffer_size])
+error: [Errno 32] Broken pipe
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 23:41:18] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 23:41:19] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 23:41:19] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 200 364751
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/wsgiref/handlers.py", line 86, in run
+    self.finish_response()
+  File "/usr/lib/python2.7/wsgiref/handlers.py", line 128, in finish_response
+    self.write(data)
+  File "/usr/lib/python2.7/wsgiref/handlers.py", line 217, in write
+    self._write(data)
+  File "/usr/lib/python2.7/socket.py", line 328, in write
+    self.flush()
+  File "/usr/lib/python2.7/socket.py", line 307, in flush
+    self._sock.sendall(view[write_offset:write_offset+buffer_size])
+error: [Errno 32] Broken pipe
+[05/Jun/2018 23:41:19] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 500 59
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/SocketServer.py", line 596, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib/python2.7/SocketServer.py", line 331, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/home/ubuntu/fogbow-components/fogbow-dashboard-atm-prod/.venv/local/lib/python2.7/site-packages/django/core/servers/basehttp.py", line 143, in __init__
+    super(WSGIRequestHandler, self).__init__(*args, **kwargs)
+  File "/usr/lib/python2.7/SocketServer.py", line 654, in __init__
+    self.finish()
+  File "/usr/lib/python2.7/SocketServer.py", line 713, in finish
+    self.wfile.close()
+  File "/usr/lib/python2.7/socket.py", line 283, in close
+    self.flush()
+  File "/usr/lib/python2.7/socket.py", line 307, in flush
+    self._sock.sendall(view[write_offset:write_offset+buffer_size])
+error: [Errno 32] Broken pipe
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /-/ HTTP/1.1" 200 6938
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /network/ HTTP/1.1" 200 24
+[05/Jun/2018 23:41:20] "GET /fogbow/instance/create/ HTTP/1.1" 200 12700
+Not Found: /dashboards/fogbow/static/fogbow/css/fogbow.css
+[05/Jun/2018 23:41:20] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+[05/Jun/2018 23:41:20] "GET /dashboards/fogbow/static/fogbow/css/fogbow.css HTTP/1.1" 404 3979
+[05/Jun/2018 23:41:21] "GET /static/dashboard/js/dd58d0e579f0.js HTTP/1.1" 200 525283
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/ HTTP/1.1" 200 24
+[05/Jun/2018 23:41:22] "GET /fogbow/storage/ HTTP/1.1" 200 7384
+[05/Jun/2018 23:41:22] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /-/ HTTP/1.1" 200 6938
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+[05/Jun/2018 23:41:23] "GET /fogbow/storage/create/ HTTP/1.1" 200 3643
+Not Found: /dashboards/fogbow/static/fogbow/css/fogbow.css
+[05/Jun/2018 23:41:24] "GET /dashboards/fogbow/static/fogbow/css/fogbow.css HTTP/1.1" 404 3979
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+[05/Jun/2018 23:41:26] "GET /fogbow/instance/ HTTP/1.1" 200 7402
+[05/Jun/2018 23:41:26] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /-/ HTTP/1.1" 200 6938
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /network/ HTTP/1.1" 200 24
+[05/Jun/2018 23:41:27] "GET /fogbow/instance/create/ HTTP/1.1" 200 6962
+Not Found: /dashboards/fogbow/static/fogbow/css/fogbow.css
+[05/Jun/2018 23:41:27] "GET /dashboards/fogbow/static/fogbow/css/fogbow.css HTTP/1.1" 404 3979
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/link/?verbose=true HTTP/1.1" 200 28
+[05/Jun/2018 23:41:29] "GET /fogbow/attachment/ HTTP/1.1" 200 7562
+[05/Jun/2018 23:41:29] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /compute/ HTTP/1.1" 200 24
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /storage/ HTTP/1.1" 200 24
+[05/Jun/2018 23:41:31] "GET /fogbow/attachment/create/ HTTP/1.1" 200 2170
+Not Found: /dashboards/fogbow/static/fogbow/css/fogbow.css
+[05/Jun/2018 23:41:31] "GET /dashboards/fogbow/static/fogbow/css/fogbow.css HTTP/1.1" 404 3979
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /network/ HTTP/1.1" 200 24
+[05/Jun/2018 23:41:33] "GET /fogbow/network/ HTTP/1.1" 200 7390
+[05/Jun/2018 23:41:33] "GET /i18n/js/horizon/ HTTP/1.1" 200 2203
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /-/ HTTP/1.1" 200 6938
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /member HTTP/1.1" 200 25
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): 10.11.5.3
+DEBUG:urllib3.connectionpool:http://10.11.5.3:8182 "GET /network/ HTTP/1.1" 200 24
+[05/Jun/2018 23:41:34] "GET /fogbow/network/create/ HTTP/1.1" 200 4307
+Not Found: /dashboards/fogbow/static/fogbow/css/fogbow.css
+[05/Jun/2018 23:41:35] "GET /dashboards/fogbow/static/fogbow/css/fogbow.css HTTP/1.1" 404 3979

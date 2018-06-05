@@ -1,0 +1,29 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block form_id %}create_security_group_form{% endblock %}
+{% block form_action %}{% url 'horizon:fogbow:attachment:create' %}{% endblock %}
+
+{% block modal-header %}
+	{% trans "Create attachments" %}
+	<link rel="stylesheet" type="text/css" href="/dashboards/fogbow/static/fogbow/css/fogbow.css">
+{% endblock %}
+{% block modal_id %}create_security_group_modal{% endblock %}
+
+{% block modal-body %}
+<div class="left">
+    <fieldset>
+    {% include "horizon/common/fogbow_form_fields_create_attachment.html" %}
+    </fieldset>
+</div>
+<div class="right">
+    <h3>{% trans "Description" %}:</h3>
+    <p>{% trans "Create attachment" %}</p>
+</div>
+{% endblock %}
+
+{% block modal-footer %}
+  <input class="btn btn-primary pull-right" type="submit" value="{% trans "Create attachment" %}" />
+  <a href="{% url 'horizon:fogbow:attachment:index' %}" class="btn secondary cancel close">{% trans "Cancel" %}</a>
+{% endblock %}

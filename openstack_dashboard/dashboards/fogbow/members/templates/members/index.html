@@ -1,0 +1,12 @@
+{% extends 'fogbow/base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Quota" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Quota") %}
+{% endblock page_header %}
+
+{% block fogbow_main %}	
+	{% include "horizon/common/fogbow_limit_summary.html" %}
+	{{ table.render }}
+{% endblock %}

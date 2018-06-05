@@ -1,0 +1,13 @@
+{% extends 'fogbow/base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Compute" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Compute") %}
+{% endblock page_header %}
+
+{% block fogbow_main %}
+	{{ table.render }}
+{% endblock %}
+
+

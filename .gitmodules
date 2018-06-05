@@ -1,0 +1,3 @@
+[submodule "horizon/static/themes/naf-theme"]
+	path = horizon/static/themes/naf-theme
+	url = https://github.com/jeffersonrpn/naf-theme.git

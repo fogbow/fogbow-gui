@@ -1,0 +1,12 @@
+{% extends 'fogbow/base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Usage" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Usage") %}
+{% endblock page_header %}
+
+{% block fogbow_main %}	
+	{% include "horizon/common/fogbow_usage_summary.html" %}
+	{{ table.render }}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% load i18n sizeformat parse_date %}
+{% load url from future %}
+
+<div class="info row-fluid detail">
+  <h3>{% trans "Information" %}</h3>
+  <hr class="header_rule">
+  <dl>
+    <dt>{% trans "Network ID" %}</dt>
+    {{ instance.instanceId }}
+  </dl>
+  <dl>
+    <dt>{% trans "Vlan" %}</dt>
+    {{ instance.vlan }}
+  </dl>
+  <dl>
+    <dt>{% trans "State" %}</dt>
+    {{ instance.state }}
+  </dl>                
+  <dl>
+    <dt>{% trans "Address" %}</dt>
+    {{ instance.address }}
+  </dl>                  
+  <dl>
+    <dt>{% trans "Gateway" %}</dt>
+    {{ instance.gateway }}
+  </dl>                
+  <dl>
+    <dt>{% trans "Allocation" %}</dt>
+    {{ instance.allocation }}
+  </dl>                                         
+</div>
+
+</div>
