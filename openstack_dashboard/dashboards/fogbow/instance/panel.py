@@ -1,6 +1,5 @@
-from django.utils.translation import ugettext_lazy as _
-
 import horizon
+from django.utils.translation import ugettext_lazy as _
 
 from openstack_dashboard.dashboards.fogbow import dashboard
 

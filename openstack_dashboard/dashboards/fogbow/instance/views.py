@@ -1,67 +1,46 @@
+from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse_lazy 
 from horizon import views
-from django.utils.translation import ugettext_lazy as _  # noqa
 from horizon import tables
 from horizon import tabs
 from horizon import forms
 
 from openstack_dashboard.dashboards.fogbow.instance.forms import CreateInstance
-from django.core.urlresolvers import reverse_lazy 
-
 from openstack_dashboard.dashboards.fogbow.instance \
     import tabs as project_tabs
 from openstack_dashboard.dashboards.fogbow.instance \
     import tables as project_tables
-from openstack_dashboard.dashboards.fogbow.instance \
-    import models as project_models    
+from openstack_dashboard.dashboards.fogbow.instance.models import Compute    
 import openstack_dashboard.models as fogbow_models
-
-THERE_ARE_NOT_INSTANCE = 'There are not instances'
-X_OCCI_LOCATION = 'X-OCCI-Location: '
-COMPUTE_TERM = fogbow_models.FogbowConstants.COMPUTE_TERM
 
 class IndexView(tables.DataTableView):
     table_class = project_tables.InstancesTable
     template_name = 'fogbow/instance/index.html'
 
+    _more=False
+
     def has_more_data(self, table):
         return self._more
 
     def get_data(self):
-        response = fogbow_models.doRequest('get', COMPUTE_TERM, None, self.request)        
         
-        instances = []
-        self._more = False
-        if response == None:
-            return instances
+        computes = []
         
-        responseStr = response.text        
-        instances = self.getInstances(responseStr)        
+        # TODO get json response of thw new fogbow manager. Get computes 
+#        response = fogbow_models.doRequest('get', COMPUTE_TERM, None, self.request)        
+        response_str = '' 
+        computes = self.get_instances_from_json(response_str)        
         
-        return instances
+        return computes
     
-    def normalizeAttribute(self, propertie):
-        return propertie.replace(X_OCCI_LOCATION, '')
+    def get_instances_from_json(self, response_json):
+        computes = []
 
-    def getInstances(self, responseStr):
-        instances = []
-        try:            
-            if fogbow_models.isResponseOk(responseStr):                         
-                properties =  memberProperties = responseStr.split('\n')
-                for propertie in properties:
-                    idInstance = self.normalizeAttribute(propertie)
-                    instance = {'id': idInstance, 'instanceId': idInstance}
-                    if areThereInstance(responseStr):
-                        instances.append(project_models.Instance(instance))                                
-        except Exception:
-            instances = []
+        computes.append(Compute({'id': 'id_1', 'compute_id': 'id_1', 'state': 'OPEN'}))
+        computes.append(Compute({'id': 'id_2', 'compute_id': 'id_1', 'state': 'FULL'}))
             
-        return instances
-        
-def areThereInstance(responseStr):
-    if THERE_ARE_NOT_INSTANCE in responseStr:
-        return False
-    return True 
-
+        return computes
+    
 class CreateView(forms.ModalFormView):
     form_class = CreateInstance
     template_name = 'fogbow/instance/create.html'

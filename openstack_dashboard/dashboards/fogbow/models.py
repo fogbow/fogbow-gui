@@ -1,13 +1,9 @@
-"""
-Stub file to work around django bug: https://code.djangoproject.com/ticket/7198
-"""
-
 from django.conf import settings
 import requests
 
+# TODO check if is necessary
 def doRequest(method, endpoint, additionalHeaders):
-    token = settings.MY_TOKEN
-    print additionalHeaders
+    token = settings.MY_TOKEN    
     headers = {'content-type': 'text/occi', 'X-Auth-Token' : token}
     if additionalHeaders is not None:
         headers.update(additionalHeaders)    
