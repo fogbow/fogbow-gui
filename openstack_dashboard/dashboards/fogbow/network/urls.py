@@ -1,5 +1,5 @@
-from django.conf.urls.defaults import patterns  # noqa
-from django.conf.urls.defaults import url  # noqa
+from django.conf.urls.defaults import patterns
+from django.conf.urls.defaults import url
 
 from openstack_dashboard.dashboards.fogbow.network import views
 

@@ -11,57 +11,40 @@ from openstack_dashboard.dashboards.fogbow.network \
     import tabs as project_tabs
 from openstack_dashboard.dashboards.fogbow.network \
     import tables as project_tables
-from openstack_dashboard.dashboards.fogbow.network \
-    import models as project_models    
+from openstack_dashboard.dashboards.fogbow.network.models import Network
 import openstack_dashboard.models as fogbow_models
-
-THERE_ARE_NOT_INSTANCE = 'There are not instances'
-X_OCCI_LOCATION = 'X-OCCI-Location: '
-NETWORK_TERM = fogbow_models.FogbowConstants.NETWORK_TERM
 
 class IndexView(tables.DataTableView):
     table_class = project_tables.InstancesTable
     template_name = 'fogbow/network/index.html'
 
+    _more = False
+
     def has_more_data(self, table):
         return self._more
 
     def get_data(self):
-        response = fogbow_models.doRequest('get', NETWORK_TERM, None, self.request)        
+#         response = fogbow_models.doRequest('get', NETWORK_TERM, None, self.request)        
         
-        instances = []
-        self._more = False
-        if response == None:
-            return instances
+        networks = []
         
-        responseStr = response.text        
-        instances = self.getInstances(responseStr)        
+#         if response == None:
+#             return instances
         
-        return instances
+#         responseStr = response.text
+        response_json = None
+        networks = self.get_networks_from_json(response_json)        
+        
+        return networks
     
-    def normalizeAttribute(self, propertie):
-        return propertie.replace(X_OCCI_LOCATION, '')
-
-    def getInstances(self, responseStr):
-        instances = []
-        try:            
-            if fogbow_models.isResponseOk(responseStr):                         
-                properties =  memberProperties = responseStr.split('\n')
-                for propertie in properties:
-                    idInstance = self.normalizeAttribute(propertie)
-                    instance = {'id': idInstance, 'instanceId': idInstance}
-                    if areThereInstance(responseStr):
-                        instances.append(project_models.Instance(instance))                                
-        except Exception:
-            instances = []
+    def get_networks_from_json(self, response_json):
+        networks = []
             
-        return instances
+        networks.append(Network({'id': 'id_1', 'network_id': 'id_1', 'state': 'OPEN'}))
+        networks.append(Network({'id': 'id_2', 'network_id': 'id_1', 'state': 'FULL'}))
+            
+        return networks
         
-def areThereInstance(responseStr):
-    if THERE_ARE_NOT_INSTANCE in responseStr:
-        return False
-    return True 
-
 class CreateView(forms.ModalFormView):
     form_class = CreateNetwork
     template_name = 'fogbow/network/create.html'
@@ -69,5 +52,4 @@ class CreateView(forms.ModalFormView):
 
 class DetailViewInstance(tabs.TabView):
     tab_group_class = project_tabs.InstanceDetailTabGroupInstancePanel
-    template_name = 'fogbow/network/detail.html'     
-        
+    template_name = 'fogbow/network/detail.html'
