@@ -59,6 +59,6 @@ class InstancesTable(tables.DataTable):
     class Meta:
         name = "volumes"
         verbose_name = _("Volumes")        
-        table_actions = (TerminateInstance, InstancesFilterAction, CreateVolume)
+        table_actions = (CreateVolume, TerminateInstance, InstancesFilterAction, )
         row_actions = (TerminateInstance, )
         
