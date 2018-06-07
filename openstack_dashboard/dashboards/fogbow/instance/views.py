@@ -1,3 +1,6 @@
+import json
+
+from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy 
 from horizon import views
@@ -28,7 +31,7 @@ class IndexView(tables.DataTableView):
         
         # TODO get json response of thw new fogbow manager. Get computes 
 #        response = fogbow_models.doRequest('get', COMPUTE_TERM, None, self.request)        
-        response_str = '' 
+        response_str = ''
         computes = self.get_instances_from_json(response_str)        
         
         return computes
@@ -50,3 +53,10 @@ class DetailViewInstance(tabs.TabView):
     tab_group_class = project_tabs.InstanceDetailTabGroupInstancePanel
     template_name = 'fogbow/instance/detail.html'     
         
+# TODO change local Method
+def getImages(request, member_id):
+    # TODO ask to fogbow manager core for images information
+    
+    # TODO remove this. Fake data 
+    response_json = '{"id_image_one": "name_image_one", "id_image_two": "name_image_two"}'
+    return HttpResponse(response_json)

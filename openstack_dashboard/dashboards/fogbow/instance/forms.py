@@ -35,10 +35,7 @@ class CreateInstance(forms.SelfHandlingForm):
     
     members = forms.ChoiceField(label=_('Members'), help_text=_('Members'), required=False)
         
-    image = forms.CharField(label=_('Image'), required=False, initial='fogbow-ubuntu',
-                           error_messages={
-                               'invalid': _('The string may only contain'
-                                            ' ASCII characters and numbers.')})
+    image = forms.ChoiceField(label=_('Image'), required=False, help_text=_('Image'))
     
     network_id = forms.ChoiceField(label=_('Network id'), help_text=_('Network id'), required=False)    
     
@@ -57,10 +54,12 @@ class CreateInstance(forms.SelfHandlingForm):
 
     def __init__(self, request, *args, **kwargs):
         super(CreateInstance, self).__init__(request, *args, **kwargs)
+        LOG.debug("Initializing compute form")
         
         members_choices = []
         federation_token_value = request.user.token.id
-        members_choices = MemberUtil.get_members(federation_token_value)
+        members_choices.append(('', ''))
+        members_choices.extend(MemberUtil.get_members(federation_token_value))
         self.fields['members'].choices = members_choices
         
         dataUserTypeChoices = []

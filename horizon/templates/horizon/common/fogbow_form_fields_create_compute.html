@@ -32,46 +32,36 @@
   </div>
 {% endfor %}
 
+<script src="../static/dashboard/js/jquery-1.12.0.min.js"></script> 
 <script type="text/javascript">
 (function() {
 
-	$(document).ready(function() {
-		$("#id_advanced_requirements").val("Glue2vCPU >= " + $('#id_cpu').val() + " && Glue2RAM >= " + $('#id_mem').val());
-		showComputeFields('');
-	});
-
-	function showComputeFields(transition) {
-		$(".control-group:has([for='id_cpu'])").show(transition);
-		$(".control-group:has([for='id_mem'])").show(transition);
-		$(".control-group:has([for='id_image'])").show(transition);
-		$(".control-group:has([for='id_data_user'])").show(transition);	
-		$(".control-group:has([for='id_data_user_type'])").show(transition);			
-		$(".control-group:has([for='id_publicKey'])").show(transition);		
-		$(".control-group:has([for='id_network_id'])").show(transition);
-	}
+	var TIMEOUT_DEFAULT = 10000;
+	var IMAGE_ENDPOINT_SUFIX = '/images';
 	
-	function setValueOnRequiremetns() {
-		var vCpu = $('#id_cpu').val();
-		var ram = $('#id_mem').val();
-		originalString = "Glue2vCPU >= " + vCpu +" && Glue2RAM >= " + ram;						
-		
-		var member = $('#id_members').val();
-		if (member != '') {
-			if (originalString != null && originalString != '') {
-				originalString += ' && '
-			}
-			originalString = originalString + "Glue2CloudComputeManagerID==\"" + member + "\""; 
-		}
-		
-		$("#id_advanced_requirements").val(originalString);
+	$(document).ready(function() {});
+
+	function setValueOnImages() {
+		var member = "member"
+		var map = getImagesMap(member)
 	};
 	
-	$('#id_mem, #id_cpu').keyup(function() {
-		setValueOnRequiremetns();
-	});	
+	function getImagesMap(member) {
+    	$.ajax({
+    	    url: window.location.href + member + IMAGE_ENDPOINT_SUFIX,
+    	    type: "GET",
+    	    timeout: TIMEOUT_DEFAULT,
+    	    success: function(data) {       
+	    	    new Map(JSON.parse(data);
+    	    },
+    	    error: function() {
+    	    	console.log("Debug: ");
+    	    },
+    	});		
+	}
 	
 	$('#id_members').change(function() {
-		setValueOnRequiremetns();
+		setValueOnImages();
 	});		
 	
 	$('#id_data_user').change(function() {
