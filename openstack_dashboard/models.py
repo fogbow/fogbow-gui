@@ -25,12 +25,12 @@ import base64
 
 LOG = logging.getLogger(__name__)
 
-# to refactor
+# TODO to refactor this class. To move everything that is inconsistent in reference to the models
 
-# remove OCCI
+# TODO remove OCCI
 class FogbowConstants():
     # new fogbow
-    
+    FEDERATION_TOKEN_VALUE = 'federation_token_value'
     
     # old fogbow
     NETWORK_TERM = '/network/'    
@@ -84,6 +84,20 @@ class FogbowConstants():
     NETWORK_GATEWAY = "occi.network.gateway=";
     NETWORK_ALLOCATION = "occi.network.allocation=";
     NETWORK_ID = "org.fogbowcloud.order.network-id";  
+
+class DashboardConstants():
+    DEFAULT_GET_TIMEOUT = 60
+    DEFAULT_DELETE_TIMEOUT = 15
+    DEFAULT_POST_TIMEOUT = 15
+
+class RequestConstants():
+    CONTENT_TYPE_HEADER = 'Content-Type'
+    JSON_APPLIVATION_VALUE_HEADER = 'json/application'
+    ACCEPT_HEADER = 'Accept'
+    
+    GET_METHOD = 'get'
+    POST_METHOD = 'post'
+    DELETE_METHOD = 'delete'
 
 class IdentityPluginConstants():
     AUTH_RAW_KEYSTONE = 'raw_keystone'
@@ -190,11 +204,8 @@ def checkUserAuthenticated(token):
     if 'Unauthorized' in responseStr or 'Bad Request' in responseStr or 'Authentication required.' in responseStr:
         return False    
     return True
-
-# TODO implement
-def doRequestMembership(method_request, action_enpoint, federation_token_value):
-    pass
-
+        
+# TODO remove old method
 def doRequest(method, endpoint, additionalHeaders, request, hiddenMessage=None):    
     federationToken = request.user.token.id
     
