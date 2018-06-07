@@ -15,9 +15,9 @@
 		</tr>
 		<tr>
 			<td>Shared Quota</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
+			<td style="padding: 0px 76px;" id="shared_compute">Fake</td>
+			<td style="padding: 0px 76px;" id="shared_cpu">Fake</td>
+			<td style="padding: 0px 76px;" id="shared_ram">Fake</td>
 			<td style="padding: 0px 76px;">Fake</td>
 			<td style="padding: 0px 76px;">Fake</td>
 			<td style="padding: 0px 76px;">Fake</td>
@@ -26,9 +26,9 @@
 
 		<tr>
 			<td>Available Quota</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
+			<td style="padding: 0px 76px;" id="free_compute">Fake</td>
+			<td style="padding: 0px 76px;" id="free_cpu">Fake</td>
+			<td style="padding: 0px 76px;" id="free_ram">Fake</td>
 			<td style="padding: 0px 76px;">Fake</td>
 			<td style="padding: 0px 76px;">Fake</td>
 			<td style="padding: 0px 76px;">Fake</td>
@@ -37,18 +37,49 @@
 
 		<tr>
 			<td>Quota Used by me</td>
-			<td style="padding: 0px 76px;" id="totalInstanceInUseByUserResponse">Fake</td>
-			<td style="padding: 0px 76px;" id="totalVCPUInUseByUserResponse"></td>
-			<td style="padding: 0px 76px;" id="totalRAMInUseByUserResponse">Fake</td>
+			<td style="padding: 0px 76px;" id="my_compute">Fake</td>
+			<td style="padding: 0px 76px;" id="my_cpu"></td>
+			<td style="padding: 0px 76px;" id="my_ram">Fake</td>
 			<td style="padding: 0px 76px;">Fake</td>
 			<td style="padding: 0px 76px;">Fake</td>
 			<td style="padding: 0px 76px;">Fake</td>
 			<td style="padding: 0px 76px;">Fake</td>
 		</tr>
-	</table>	
+	</table>
+	
+	<div class="table_wrapper">
+		<h3 class="table_title">{% trans "Aggregated" %}</h3>
+		  <br>
+		  <div>
+        <h4 class="same-line">Using &nbsp</h4> 
+        <b><div id="totalVCPUInUseByUserResponse" class="same-line red"></div></b>
+        <h4 class="same-line">&nbsp vCPU of &nbsp</h4>
+        <b><div id="totalVCPUAvailableResponse" class="same-line red"></div></b>
+        <h4 class="same-line">&nbsp available</h4>
+      </div> 
+      <br>
+      <div>
+        <h4 class="same-line">Using &nbsp </h4> 
+        <b><div class="same-line red" id="totalRAMInUseByUserResponse"></div></b>
+        <h4 class="same-line">&nbsp GB of RAM of &nbsp</h4>
+        <b><div class="same-line red" id="totalRamAvailableResponse"></div></b>
+        <h4 class="same-line">&nbsp available</h4>
+      </div>
+      <br>
+      <div>
+        <h4 class="same-line">Using &nbsp </h4> 
+        <b><div class="same-line red" id="totalInstanceInUseByUserResponse"></div></b>
+        <h4 class="same-line">&nbsp instance(s) of &nbsp</h4>
+        <b><div class="same-line red" id="totalInstanceAvailableResponse"></div></b>
+        <h4>&nbsp available</h4>
+      </div>   	 
+      <br>
+	  
+	  </div>
 
-	<select>
+	<select id="member">
 		<option value="">Members</option>
+		<option value="">fedcloud.lsd.ufcg.edu.br</option>
 	</select>
 	<table style="margin-bottom: 40px; font-size: 18px;">
 		<tr>
@@ -61,9 +92,9 @@
 			<th style="padding: 0px 85px;">Networks</th>
 		</tr>
 		<tr>
-			<td style="padding: 0px 85px;">Fake</td>
-			<td style="padding: 0px 85px;">Fake</td>
-			<td style="padding: 0px 85px;">Fake</td>
+			<td style="padding: 0px 85px;" id="member_compute">Fake</td>
+			<td style="padding: 0px 85px;" id="member_cpu">Fake</td>
+			<td style="padding: 0px 85px;" id="member_ram">Fake</td>
 			<td style="padding: 0px 85px;">Fake</td>
 			<td style="padding: 0px 85px;">Fake</td>
 			<td style="padding: 0px 85px;">Fake</td>
@@ -73,36 +104,6 @@
 </div>
 
 
-
-<div class="table_wrapper">
-  <h3 class="table_title">{% trans "Summary of resources" %}</h3>
-  	<br>
-  	<div>
-  		<h4 class="same-line">Using &nbsp</h4> 
-  		<b><div id="totalVCPUInUseByUserResponse" class="same-line red"></div></b>
-  		<h4 class="same-line">&nbsp vCPU of &nbsp</h4>
-  		<b><div id="totalVCPUAvailableResponse" class="same-line red"></div></b>
-  		<h4 class="same-line">&nbsp available</h4>
-  	</div> 
-  	<br>
-  	<div>
-  		<h4 class="same-line">Using &nbsp </h4> 
-  		<b><div class="same-line red" id="totalRAMInUseByUserResponse"></div></b>
-  		<h4 class="same-line">&nbsp GB of RAM of &nbsp</h4>
-  		<b><div class="same-line red" id="totalRamAvailableResponse"></div></b>
-  		<h4 class="same-line">&nbsp available</h4>
-  	</div>
-  	<br>
-  	<div>
-  		<h4 class="same-line">Using &nbsp </h4> 
-  		<b><div class="same-line red" id="totalInstanceInUseByUserResponse"></div></b>
-  		<h4 class="same-line">&nbsp instance(s) of &nbsp</h4>
-  		<b><div class="same-line red" id="totalInstanceAvailableResponse"></div></b>
-  		<h4>&nbsp available</h4>
-  	</div>   	 
-  <br>
-
-</div>
 	<button class="button button-shadow " id="button_populate">Refresh</button>
 	<!-- <button class="button button-shadow " id="button_abort">Abort</button>  --> 	
 	<br>
@@ -473,11 +474,73 @@
 		}			
 		
 		populateMemberLine(nameMember, JSON.parse(localStorageSplit[indexReference]), "purple");		
-	} 
+	}
+  function getSharedQuota() {
+    fetch(window.location.origin.concat('/fogbow/2/shared'), { method: 'GET', credentials: 'include'})
+      .then(res => {
+        res.json().then(body => {
+          $("#shared_compute").text(body.instances);
+          $("#shared_cpu").text(body.vCPU);
+          $("#shared_ram").text(body.ram);
+        })
+        
+      })
+  }
+
+  function getFreeQuota() {
+    fetch(window.location.origin.concat('/fogbow/2/free'), { method: 'GET', credentials: 'include'})
+      .then(res => {
+        res.json().then(body => {
+          $("#free_compute").text(body.instances);
+          $("#free_cpu").text(body.vCPU);
+          $("#free_ram").text(body.ram);
+        })
+        
+      })
+  }
+
+  function getUsedByMeQuota() {
+    fetch(window.location.origin.concat('/fogbow/2/my'), { method: 'GET', credentials: 'include'})
+      .then(res => {
+        res.json().then(body => {
+          $("#my_compute").text(body.instances);
+          $("#my_cpu").text(body.vCPU);
+          $("#my_ram").text(body.ram);
+        })
+        
+      })
+  }
+
+  function log_members() {
+	$( "select" )
+	.change(function () {
+		var str = "";
+		$( "select option:selected" ).each(function() {
+			str += $( this ).text();
+		});
+		
+
+		if(str !== "Members") {
+			fetch(window.location.origin.concat('/fogbow/'.concat(str, '/quota')), { method: 'GET', credentials: 'include'})
+			.then(res => {
+				res.json().then(body => {
+					$("#member_compute").text(body.instances);
+					$("#member_cpu").text(body.vCPU);
+					$("#member_ram").text(body.ram);
+				})
+			})
+		}
+	})
+	.change();
+  }
 	
 	$(document).ready(function() {
 		var localStorageMembers = localStorage.getItem("members");
 		updateMembers(localStorageMembers);
+    getSharedQuota();
+    getFreeQuota();
+    getUsedByMeQuota();
+	log_members();
 		if (localStorageMembers == null) {
 			refreshTable();			
 		} else {									
