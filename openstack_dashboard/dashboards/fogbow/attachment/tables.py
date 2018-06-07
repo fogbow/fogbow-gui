@@ -1,17 +1,13 @@
-from django.utils.translation import ugettext_lazy as _
-
-from django.core.urlresolvers import reverse_lazy  # noqa
-from django.core.urlresolvers import reverse  # noqa
-
-from django.conf import settings
 import requests
+
+from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse 
+from django.conf import settings
 from horizon import tables
 from horizon import messages
 
 import openstack_dashboard.models as fogbow_models
-
-STORAGE_TERM = fogbow_models.FogbowConstants.STORAGE_TERM
-LINK_TERM = fogbow_models.FogbowConstants.LINK_TERM
 
 class TerminateAttachment(tables.BatchAction):
     name = "terminate"
@@ -26,14 +22,16 @@ class TerminateAttachment(tables.BatchAction):
         return True
 
     def action(self, request, obj_id):
-        self.current_past_action = 0
-        response = fogbow_models.doRequest('delete', STORAGE_TERM + LINK_TERM + obj_id, None, request)
-        if response == None or fogbow_models.isResponseOk(response.text) == False:
-            messages.error(request, _('Is was not possible to delete : %s') % obj_id)          
+        pass
+#         self.current_past_action = 0
+#         response = fogbow_models.doRequest('delete', STORAGE_TERM + LINK_TERM + obj_id, None, request)
+#         if response == None or fogbow_models.isResponseOk(response.text) == False:
+#             messages.error(request, _('Is was not possible to delete : %s') % obj_id)          
 
 def get_attachment_id(request):
-    if 'null' not in request.attachmentId:
-        return request.attachmentId 
+    null_value = 'null'
+    if null_value not in request.attachment_id:
+        return request.attachment_id 
     else:
         return '-'
 
@@ -51,9 +49,10 @@ class AttachmentFilterAction(tables.FilterAction):
                 if q in attachment.name.lower()]
 
 class InstancesTable(tables.DataTable):
+    
     attachmentId = tables.Column(get_attachment_id, link=("horizon:fogbow:attachment:detail"), verbose_name=_("Attachment id"))
-    target = tables.Column('target', verbose_name=_('Volume'))
-    source = tables.Column('source', verbose_name=_('Instance'))
+    
+    state = tables.Column('state', verbose_name=_('State'))
 
     class Meta:
         name = "attachment"
