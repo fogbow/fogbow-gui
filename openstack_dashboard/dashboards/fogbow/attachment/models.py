@@ -1,17 +1,4 @@
-"""
-Stub file to work around django bug: https://code.djangoproject.com/ticket/7198
-"""
-
 class APIDictWrapper(object):
-    """ Simple wrapper for api dictionaries
-
-        Some api calls return dictionaries.  This class provides identical
-        behavior as APIResourceWrapper, except that it will also behave as a
-        dictionary, in addition to attribute accesses.
-
-        Attribute access is the preferred method of access, to be
-        consistent with api resource objects from novaclient.
-    """
     def __init__(self, apidict):
         self._apidict = apidict
 
@@ -40,4 +27,4 @@ class APIDictWrapper(object):
         return "<%s: %s>" % (self.__class__.__name__, self._apidict)
 
 class Attachment(APIDictWrapper):
-    _attrs = ['id', 'attachmentId', 'target', 'source', 'deviceId', 'provadingMemberId']
+    _attrs = ['id', 'attachment_id', 'state']
