@@ -2,6 +2,7 @@ import netaddr
 import requests
 import openstack_dashboard.models as fogbow_models
 import base64
+import logging
 
 from django.core.validators import RegexValidator
 from django.core.urlresolvers import reverse 
@@ -15,8 +16,11 @@ from horizon.utils import fields
 from horizon import messages
 from django import shortcuts
 
+from openstack_dashboard.dashboards.fogbow.models import MemberUtil
 from openstack_dashboard.dashboards.fogbow.members.views import IndexView as member_views
 from openstack_dashboard.dashboards.fogbow.network.views import IndexView as network_views
+
+LOG = logging.getLogger(__name__)
 
 # TODO change to volume
 class CreateStorage(forms.SelfHandlingForm):
@@ -30,20 +34,12 @@ class CreateStorage(forms.SelfHandlingForm):
         
     def __init__(self, request, *args, **kwargs):
         super(CreateStorage, self).__init__(request, *args, **kwargs)
-        
-#         response = fogbow_models.doRequest('get', RESOURCE_TERM, None, request)
+        LOG.debug("Initializing volume form")
         
         members_choices = []
-#         membersChoices.append(('', 'Try first local, then any'))
-#         try:
-#             membersResponseStr = fogbow_models.doRequest('get', MEMBER_TERM, None, request).text
-#             members = member_views().getMembersList(fogbow_models.doRequest('get', MEMBER_TERM, None, request).text)
-#             for m in members:
-#                 membersChoices.append((m.get('idMember'), m.get('idMember')))
-#         except Exception as error: 
-#             pass        
-
-        self.fields['members'].choices = members_choices
+        federation_token_value = request.user.token.id
+        members_choices = MemberUtil.get_members(federation_token_value)
+        self.fields['members'].choices = members_choices 
         
     def handle(self, request, data):
         try:

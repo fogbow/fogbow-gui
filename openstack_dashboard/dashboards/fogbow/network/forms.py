@@ -16,6 +16,7 @@ from horizon import messages
 from horizon.utils import fields
 from horizon import messages
 
+from openstack_dashboard.dashboards.fogbow.models import MemberUtil
 from openstack_dashboard.dashboards.fogbow.members.views import IndexView as member_views
 
 LOG = logging.getLogger(__name__)
@@ -36,21 +37,13 @@ class CreateNetwork(forms.SelfHandlingForm):
 
     def __init__(self, request, *args, **kwargs):
         super(CreateNetwork, self).__init__(request, *args, **kwargs)
-        
-#         response = fogbow_models.doRequest('get', RESOURCE_TERM, None, request)
+        LOG.debug("Initializing network form")
         
         members_choices = []
-#         membersChoices.append(('', 'Try first local, then any'))
-#         try:
-#             membersResponseStr = fogbow_models.doRequest('get', MEMBER_TERM, None, request).text
-#             members = member_views().getMembersList(fogbow_models.doRequest('get', MEMBER_TERM, None, request).text)
-#             for m in members:
-#                 membersChoices.append((m.get('idMember'), m.get('idMember')))
-#         except Exception as error: 
-#             pass        
+        federation_token_value = request.user.token.id
+        members_choices = MemberUtil.get_members(federation_token_value)
+        self.fields['members'].choices = members_choices 
 
-        self.fields['members'].choices = members_choices
-        
         dataAllocation = []
         dataAllocation.append(('dynamic', 'Dynamic'))
         dataAllocation.append(('static', 'Static'))

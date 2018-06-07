@@ -25,8 +25,14 @@ import base64
 
 LOG = logging.getLogger(__name__)
 
+# to refactor
+
+# remove OCCI
 class FogbowConstants():
+    # new fogbow
     
+    
+    # old fogbow
     NETWORK_TERM = '/network/'    
     COMPUTE_TERM = '/compute/'
     STORAGE_TERM = '/storage/'
@@ -174,19 +180,20 @@ def getErrorMessage(typeToken):
 
 def checkUserAuthenticated(token):    
     
-    print 'Validatin token on: '+settings.FOGBOW_MANAGER_ENDPOINT+FogbowConstants.RESOURCE_TERM
-    
+    # TODO use contants
     headers = {'content-type': 'text/occi', 'X-Auth-Token' : token.id}
     response = requests.get('%s%s' % (settings.FOGBOW_MANAGER_ENDPOINT, FogbowConstants.RESOURCE_TERM) ,
                                    headers=headers, timeout=10)    
     
     responseStr = response.text
 
-    print 'Response: '+responseStr
-
     if 'Unauthorized' in responseStr or 'Bad Request' in responseStr or 'Authentication required.' in responseStr:
         return False    
     return True
+
+# TODO implement
+def doRequestMembership(method_request, action_enpoint, federation_token_value):
+    pass
 
 def doRequest(method, endpoint, additionalHeaders, request, hiddenMessage=None):    
     federationToken = request.user.token.id
