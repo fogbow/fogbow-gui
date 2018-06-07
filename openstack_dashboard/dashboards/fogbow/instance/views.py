@@ -30,7 +30,8 @@ class IndexView(tables.DataTableView):
         computes = []
         
         # TODO get json response of thw new fogbow manager. Get computes 
-        # response = fogbow_models.doRequest('get', COMPUTE_TERM, None, self.request)        
+        # response = fogbow_models.doRequest('get', COMPUTE_TERM, None, self.request)
+        # response = response.json()        
         response = [{"id": "id", "hostName": "hostName", "vCPU": 10, "memory": 10, 
         "state": "state", "localIpAddress": "localIpAddress"}, 
         {"id": "id", "hostName": "hostName", "vCPU": 10, "memory": 10, 
@@ -43,8 +44,8 @@ class IndexView(tables.DataTableView):
         computes = []
 
         for compute_json in response_json:
-            computes.append(Compute({'id': compute_json['id'], 
-            'compute_id': compute_json['id'], 'state': compute_json['state']}))
+            computes.append(Compute({'id': compute_json.get('id'), 
+            'compute_id': compute_json.get('id'), 'state': compute_json.get('state')}))
 
         return computes
     

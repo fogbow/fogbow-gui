@@ -18,6 +18,7 @@ from django import shortcuts
 from openstack_dashboard.dashboards.fogbow.members.views import IndexView as member_views
 from openstack_dashboard.dashboards.fogbow.network.views import IndexView as network_views
 from openstack_dashboard.dashboards.fogbow.models import MemberUtil
+from openstack_dashboard.dashboards.fogbow.models import NetworkUtil
 import openstack_dashboard.models as fogbow_models
 
 LOG = logging.getLogger(__name__)
@@ -72,16 +73,10 @@ class CreateInstance(forms.SelfHandlingForm):
         dataUserTypeChoices.append(('text/cloud-boothook', 'text/cloud-boothook'))
         self.fields['data_user_type'].choices = dataUserTypeChoices
         
-        networksChoices = []
-#        networksChoices.append(('', 'Network default'))
-#        try:
-#            networks = network_views().getInstances(fogbow_models.doRequest('get', NETWORK_TERM, None, instance).text)
-#            for network in networks:
-#                networksChoices.append((network.get('id'), network.get('id')))
-#        except Exception as error: 
-#            pass
-        
-        self.fields['network_id'].choices = networksChoices
+        networks_choices = []
+        networks_choices.append(('', ''))
+        networks_choices.extend(NetworkUtil.get_networks())
+        self.fields['network_id'].choices = networks_choices
         
     def normalize_user_data(self, value):
         try:

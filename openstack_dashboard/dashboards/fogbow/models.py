@@ -28,12 +28,30 @@ class MemberUtil:
             members.append((member, member))
             
         return members
+
+class NetworkUtil:
+     
+    @staticmethod
+    def get_networks():
+        # TODO ask to server
+        # response_json = fogbow_models.doRequest('get', NETWORK_TERM, None, instance).json
+        response_json = [{"id": "id1", "state": "state"}, {"id": "id2", "state": "state"}]
+        return NetworkUtil.get_network_ids_from_json(response_json)
+        
+    @staticmethod
+    def get_network_ids_from_json(response_json):
+        network_ids = []
+
+        for network in response_json:
+            network_ids.append((network.get('id'), network.get('id')))
+
+        return network_ids
         
 class RequestUtil:
     
     @staticmethod
     def do_request_membership(method_request, action_enpoint):
-        timeout_get = settings.TIMEOUT_POST;
+        timeout_get = settings.TIMEOUT_POST
     
         try:
             if method_request == RequestConstants.GET_METHOD:
@@ -46,21 +64,18 @@ class RequestUtil:
     
     @staticmethod
     def do_request_manager(method_request, action_enpoint, federation_token_value):
-        timeout_post = settings.TIMEOUT_POST;
+        timeout_post = settings.TIMEOUT_POST
         if timeout_post is None or not timeout_post:
             timeout_post = DashboardConstants.DEFAULT_POST_TIMEOUT
-        timeout_delete = settings.TIMEOUT_DELETE;
+        timeout_delete = settings.TIMEOUT_DELETE
         if timeout_delete is None or not timeout_delete:
             timeout_delete = DashboardConstants.DEFAULT_DELETE_TIMEOUT    
-        timeout_get = settings.TIMEOUT_GET;
+        timeout_get = settings.TIMEOUT_GET
         if timeout_get is None or not timeout_get:
             timeout_get = DashboardConstants.DEFAULT_GET_TIMEOUT
     
         headers = {RequestConstants.CONTENT_TYPE_HEADER: RequestConstants.JSON_APPLIVATION_VALUE_HEADER,
                     FogbowConstants.FEDERATION_TOKEN_VALUE : federation_token_value}    
-        if additionalHeaders is not None:
-            headers.update(additionalHeaders)    
-            
         try:
             if method_request == RequestConstants.GET_METHOD:
                 response = requests.get(settings.FOGBOW_MANAGER_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_get)
