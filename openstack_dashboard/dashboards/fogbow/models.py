@@ -16,8 +16,8 @@ class MemberUtil:
     def get_members(federation_token_value):
         LOG.debug("Gettings members.")
         response = RequestUtil.do_request_membership(RequestConstants.GET_METHOD, FogbowConstants.MEMBERS_ACTION_REQUEST_MERBERSHIP)
+        # TODO use check_success_request in the RequestUtil class
         if response == None or response.status_code != RequestConstants.OK_STATUS_CODE:
-            # TODO check response null
             LOG.error("Status code is {code}".format(code=response.status_code))
             raise Exception("Is not possible get members")
         
@@ -36,23 +36,35 @@ class MemberUtil:
 class NetworkUtil:
      
     @staticmethod
-    def get_networks():
-        # TODO ask to server
-        # response_json = fogbow_models.doRequest('get', NETWORK_TERM, None, instance).json
-        response_json = [{"id": "id1", "state": "state"}, {"id": "id2", "state": "state"}]
+    def get_networks(federation_token_value):
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text
+        LOG.info(response_json)
         return NetworkUtil.get_network_ids_from_json(response_json)
         
     @staticmethod
     def get_network_ids_from_json(response_json):
         network_ids = []
 
-        for network in response_json:
+        data = json.loads(response_json)
+        for network in data:
             network_ids.append((network.get('id'), network.get('id')))
 
         return network_ids
         
 class RequestUtil:
     
+    @staticmethod
+    def check_success_request(response):
+        if response == None:
+            raise Exception("Response is null")
+
+        status_code = response.status_code
+        if status_code != RequestConstants.OK_STATUS_CODE and status_code != RequestConstants.CREATED_STATUS_CODE:
+            raise Exception("Response is not ok. Status code is {code}".format(code=response.status_code))
+
     @staticmethod
     def do_request_membership(method_request, action_enpoint):
         timeout_get = settings.TIMEOUT_POST
@@ -91,12 +103,13 @@ class RequestUtil:
             elif method_request == RequestConstants.POST_METHOD:
                 response = requests.post(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_post)
         except Exception as e:
-            # TODO implement
-            raise Exception('')
+            msg = "Error while requesting membership: {error}".format(error=str(e))
+            LOG.error(msg)
+            raise Exception(msg)
             
         return response    
-        
-# TODO check if is necessary
+           
+# TODO check if is necessary. Old code
 def doRequest(method, endpoint, additionalHeaders):
     token = settings.MY_TOKEN    
     headers = {'content-type': 'text/occi', 'X-Auth-Token' : token}
