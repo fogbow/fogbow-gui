@@ -30,18 +30,23 @@ class IndexView(tables.DataTableView):
         computes = []
         
         # TODO get json response of thw new fogbow manager. Get computes 
-#        response = fogbow_models.doRequest('get', COMPUTE_TERM, None, self.request)        
-        response_str = ''
-        computes = self.get_instances_from_json(response_str)        
+        # response = fogbow_models.doRequest('get', COMPUTE_TERM, None, self.request)
+        # response = response.json()        
+        response = [{"id": "id", "hostName": "hostName", "vCPU": 10, "memory": 10, 
+        "state": "state", "localIpAddress": "localIpAddress"}, 
+        {"id": "id", "hostName": "hostName", "vCPU": 10, "memory": 10, 
+        "state": "state", "localIpAddress": "localIpAddress"}]
+        computes = self.get_instances_from_json(response)        
         
         return computes
     
     def get_instances_from_json(self, response_json):
         computes = []
 
-        computes.append(Compute({'id': 'id_1', 'compute_id': 'id_1', 'state': 'OPEN'}))
-        computes.append(Compute({'id': 'id_2', 'compute_id': 'id_1', 'state': 'FULL'}))
-            
+        for compute_json in response_json:
+            computes.append(Compute({'id': compute_json.get('id'), 
+            'compute_id': compute_json.get('id'), 'state': compute_json.get('state')}))
+
         return computes
     
 class CreateView(forms.ModalFormView):

@@ -12,23 +12,14 @@ class InstanceDetailTabInstancePanel(tabs.Tab):
     template_name = ("fogbow/instance/_detail_instance.html")
 
     def get_context_data(self, request):
-        instanceId = self.tab_group.kwargs['instance_id']
-        response = None
-#        response = fogbow_models.doRequest('get', COMPUTE_TERM  + instanceId,
-#                                             None, request)
+        # instanceId = self.tab_group.kwargs['instance_id']
+        # response = fogbow_models.doRequest('get', COMPUTE_TERM  + instanceId, None, request)
 
-        instance = None
-#         try:
-#             instance = get_compute_from_json(response)
-#         except Exception:
-#             instance = {'instanceId': '-' , 'state': '-', 'sshPublic': '-',
-#              'extra' : '-', 'memory' : '-', 'cores' : '-',
-#             'image' : '-', 'extraPorts': '-'}
+        # TODO: here we must use the request response
+        response =  {"id": "id", "hostName": "hostName", "vCPU": 10, "memory": 10, 
+        "state": "state", "localIpAddress": "localIpAddress"}
 
-        return {'instance' : instance}
-    
-def get_compute_from_json(response_json):
-    pass
+        return {'instance' : response}
     
 class InstanceDetailTabGroupInstancePanel(tabs.TabGroup):
     slug = "compute_details"
