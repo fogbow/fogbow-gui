@@ -86,11 +86,7 @@
 		$(".control-group:has([for='id_publicKey'])").hide(transition);
 		$(".control-group:has([for='id_network_id'])").hide(transition);
 	}
-	
-	function showStorageFields(transition) {
-		$(".control-group:has([id='id_sizeStorage'])").show(transition);
-		$(".control-group:has([id='id_members'])").show(transition);		
-	}
+
 	
 	function hideStorageFields(transition) {
 		$(".control-group:has([id^='id_sizeStorage'])").hide(transition);
@@ -105,36 +101,12 @@
 		$(".control-group:has([for='id_publicKey'])").show(transition);		
 		$(".control-group:has([for='id_network_id'])").show(transition);
 	}
-	
-	function setValueOnRequiremetns() {
-		resourceKind = $("#id_resourceKind").val().trim();
-		var originalString = '';
-		if (resourceKind != 'storage' && resourceKind != 'network') {
-			var vCpu = $('#id_cpu').val();
-			var ram = $('#id_mem').val();
-			originalString = "Glue2vCPU >= " + vCpu +" && Glue2RAM >= " + ram;						
-		}
 		
-		var member = $('#id_members').val();
-		if (member != '') {
-			if (originalString != null && originalString != '') {
-				originalString += ' && '
-			}
-			originalString = originalString + "Glue2CloudComputeManagerID==\"" + member + "\""; 
-		}
-		
-		$("#id_advanced_requirements").val(originalString);
-	};
-	
 	$("#id_resourceKind").change(function() {
 		hideFields($(this).val().trim(), 'slow');
 	});
 	
 	$('#id_mem, #id_cpu').keyup(function() {
-		setValueOnRequiremetns();
-	});	
-	
-	$('#id_members').change(function() {
 		setValueOnRequiremetns();
 	});		
 	
