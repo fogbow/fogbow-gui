@@ -36,7 +36,7 @@ def rest_call_json(url, payload=None, with_payload_method='PUT'):
     return json.loads(response)
 
 def get_computes(handler):
-    print "Getting compute..."
+    print "Getting computes..."
     return {}
 
 def get_compute(handler):
@@ -59,6 +59,34 @@ def delete_compute(handler):
     print "Deleting compute..."
     return {}
 
+def get_networks(handler):
+    print "Getting networks..."
+    return [{"id": "id1", "state": "state"}, {"id": "id2", "state": "state"}]
+
+def get_network(handler):
+    print "Getting network..."
+    key = urllib.unquote(handler.path[10:])
+    if key is "0":
+        print "Bad Request"
+        bad_request_status = 400
+        handler.set_response_status_code(bad_request_status)
+        return {}
+    return {}
+
+def create_network(handler):
+    print "Creating network..."
+    payload = handler.get_payload()
+    print payload
+    return {}
+
+def delete_network(handler):
+    print "Deleting network..."
+    return {}
+
+def get_members(handler):
+    print "Getting members..."
+    return ["Member Fake 1", "Member Fake 2", "Member Fake 3"]
+
 class MethodRequest(urllib2.Request):
     def __init__(self, *args, **kwargs):
         if 'method' in kwargs:
@@ -77,6 +105,10 @@ class RESTRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             r'^/computes$': {'GET': get_computes, 'POST': create_compute, 'DELETE': delete_compute,'media_type': 'application/json'},
             r'^/computes/': {'GET': get_compute, 'media_type': 'application/json'},
 
+            r'^/networks$': {'GET': get_networks, 'POST': create_network, 'DELETE': delete_network,'media_type': 'application/json'},
+            r'^/networks/': {'GET': get_network, 'media_type': 'application/json'},
+
+	    r'^/membership/members': {'GET': get_members, 'media_type': 'application/json'},
 
             r'^/$': {'file': 'web/index.html', 'media_type': 'text/html'},
             r'^/records$': {'GET': get_records, 'media_type': 'application/json'},
@@ -181,7 +213,7 @@ def rest_server(port):
     http_server.server_close()
 
 def main(argv):
-    rest_server(8080)
+    rest_server(8185)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
