@@ -1,4 +1,5 @@
 import requests
+import logging
 import json
 from django.conf import settings
 
@@ -7,21 +8,24 @@ from openstack_dashboard.models import FogbowConstants
 from openstack_dashboard.models import RequestConstants
 from openstack_dashboard.models import DashboardConstants
 
+LOG = logging.getLogger(__name__)
+
 class MemberUtil:
      
     @staticmethod
     def get_members(federation_token_value):
-        # TODO ask to server
-        # fogbow_models.doRequestMembership().. # Complete 
+        LOG.debug("Gettings members.")
+        response = RequestUtil.do_request_membership(RequestConstants.GET_METHOD, FogbowConstants.MEMBERS_ACTION_REQUEST_MERBERSHIP)
+        if response == None or response.status_code != RequestConstants.OK_STATUS_CODE:
+            # TODO check response null
+            LOG.error("Status code is {code}".format(code=response.status_code))
+            raise Exception("Is not possible get members")
         
-        response_json = None
+        response_json = response.text
         return MemberUtil.get_members_from_json(response_json)
         
     @staticmethod
     def get_members_from_json(response_json):
-        # TODO fake information
-        response_json = '["Member Fake 1", "Member Fake 2", "Member Fake 3"]'
-        
         members = []
         json_data = json.loads(response_json)
         for member in json_data:
@@ -53,12 +57,15 @@ class RequestUtil:
     def do_request_membership(method_request, action_enpoint):
         timeout_get = settings.TIMEOUT_POST
     
+        endpoint = settings.FOGBOW_MEMBERSHIP_ENDPOINT + action_enpoint
+        LOG.debug("Requisting to membership in the endpoint: {endpoint}".format(endpoint=endpoint))
         try:
             if method_request == RequestConstants.GET_METHOD:
-                response = requests.get(settings.FOGBOW_MEMBERSHIP_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_get)
+                response = requests.get(endpoint, timeout=timeout_get)
         except Exception as e:
-            # TODO implement
-            raise Exception('')
+            msg = "Error while requesting membership: {error}".format(error=str(e))
+            LOG.error(msg)
+            raise Exception(msg)
             
         return response
     
@@ -78,11 +85,11 @@ class RequestUtil:
                     FogbowConstants.FEDERATION_TOKEN_VALUE : federation_token_value}    
         try:
             if method_request == RequestConstants.GET_METHOD:
-                response = requests.get(settings.FOGBOW_MANAGER_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_get)
+                response = requests.get(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_get)
             elif method_request == RequestConstants.DELETE_METHOD:
-                response = requests.delete(settings.FOGBOW_MANAGER_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_delete)
+                response = requests.delete(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_delete)
             elif method_request == RequestConstants.POST_METHOD:
-                response = requests.post(settings.FOGBOW_MANAGER_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_post)
+                response = requests.post(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_post)
         except Exception as e:
             # TODO implement
             raise Exception('')

@@ -32,6 +32,9 @@ class FogbowConstants():
     # new fogbow
     FEDERATION_TOKEN_VALUE = 'federation_token_value'
     
+    # membership 
+    MEMBERS_ACTION_REQUEST_MERBERSHIP = '/members'
+
     # old fogbow
     NETWORK_TERM = '/network/'    
     COMPUTE_TERM = '/compute/'
@@ -98,6 +101,10 @@ class RequestConstants():
     GET_METHOD = 'get'
     POST_METHOD = 'post'
     DELETE_METHOD = 'delete'
+
+    OK_STATUS_CODE = 200
+    CREATED_STATUS_CODE = 201
+    BAD_REQUEST_STATUS_CODE = 200
 
 class IdentityPluginConstants():
     AUTH_RAW_KEYSTONE = 'raw_keystone'
