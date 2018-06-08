@@ -44,6 +44,10 @@ class NetworkUtil:
         LOG.info(response_json)
         return NetworkUtil.get_network_ids_from_json(response_json)
         
+    def delete_network(federation_token_value):
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
+        RequestUtil.check_success_request(response)
+
     @staticmethod
     def get_network_ids_from_json(response_json):
         network_ids = []
