@@ -75,25 +75,20 @@ class IndexView(tables.DataTableView):
             members.append(Member(member));  
         
         return members
-        
+
+def get_shared_quota(request, member_id):
+    # TODO remove this. Fake data 
+    response_json = '{"vCPU": "2", "ram": "3000", "instances": "1"}'
+    return HttpResponse(response_json)
+
+def get_available_quota(request, member_id):
+    response_json = '{"vCPU": "16", "ram": "48000", "instances": "8"}'
+    return HttpResponse(response_json)
+
+def get_used_by_me_quota(request, member_id):
+    response_json = '{"vCPU": "10", "ram": "20000", "instances": "5"}'
+    return HttpResponse(response_json)
+
 def getSpecificMemberQuota(request, member_id):
-    response = fogbow_models.doRequest('get', MEMBER_TERM + '/' + member_id + '/quota', None, request, False)
-    responseStr = response.text
-    if fogbow_models.isResponseOk(responseStr) == True:
-        data = {}
-        cont = 0
-        valuesList = responseStr.split('\n')
-        for value in valuesList:
-            
-            try:
-                if '' in value:
-                    print ''
-            except:
-                pass
-                
-            cont = cont + 1;
-            if len(value.split('=')) > 1:
-                data[cont] = value.split('=')[1]                   
-                
-        return HttpResponse(json.dumps(data))
-    return HttpResponse('error')
+    response_json = '{"vCPU": "14", "ram": "28000", "instances": "7"}'
+    return HttpResponse(response_json)
