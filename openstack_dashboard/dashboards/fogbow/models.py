@@ -8,13 +8,15 @@ from openstack_dashboard.models import FogbowConstants
 from openstack_dashboard.models import RequestConstants
 from openstack_dashboard.models import DashboardConstants
 
+from openstack_dashboard.dashboards.fogbow.storage.models import Volume
+
 LOG = logging.getLogger(__name__)
 
 class MemberUtil:
      
     @staticmethod
     def get_members(federation_token_value):
-        LOG.debug("Gettings members.")
+        LOG.debug("Gettings members")
         response = RequestUtil.do_request_membership(RequestConstants.GET_METHOD, FogbowConstants.MEMBERS_ACTION_REQUEST_MERBERSHIP)
         # TODO use check_success_request in the RequestUtil class
         if response == None or response.status_code != RequestConstants.OK_STATUS_CODE:
@@ -41,7 +43,6 @@ class NetworkUtil:
         RequestUtil.check_success_request(response)
 
         response_json = response.text
-        LOG.info(response_json)
         return NetworkUtil.get_network_ids_from_json(response_json)
         
     def delete_network(federation_token_value):
@@ -58,6 +59,38 @@ class NetworkUtil:
 
         return network_ids
         
+class VolumeUtil:
+
+    @staticmethod
+    def get_volumes(federation_token_value):
+        LOG.debug("Gettings volumes")
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text
+        LOG.info(response_json)
+        return VolumeUtil.get_network_ids_from_json(response_json)
+
+    @staticmethod
+    def delete_volume(volume_id):
+        endpoint = "{action_request_manager}/{volume_id}".format(FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, volume_id)
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def get_network_ids_from_json(response_json):
+        volumes = []
+
+        data = json.loads(response_json)
+        for volume in data:
+            id = volume['id']
+            state = volume['state']
+            name = volume['name']
+            size = volume['size']
+            volumes.append(Volume({"id" :id, "volume_id": id, "state": state, "name": name, "size": size}))
+
+        return volumes        
+
 class RequestUtil:
     
     @staticmethod

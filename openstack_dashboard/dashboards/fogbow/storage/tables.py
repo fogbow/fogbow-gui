@@ -10,6 +10,7 @@ from horizon import messages
 
 import openstack_dashboard.models as fogbow_models
 import openstack_dashboard.dashboards.fogbow.instance.tables as tableInstanceDashboard
+from openstack_dashboard.dashboards.fogbow.models import VolumeUtil
 
 class TerminateInstance(tables.BatchAction):
     name = "terminate"
@@ -24,11 +25,11 @@ class TerminateInstance(tables.BatchAction):
         return True
 
     def action(self, request, obj_id):
-        self.current_past_action = 0        
-#         response = fogbow_models.doRequest('delete', STORAGE_TERM + obj_id, None, request)
-#         if response == None or fogbow_models.isResponseOk(response.text) == False:
-#             messages.error(request, _('Is was not possible to delete : %s') % obj_id)          
-#             tableInstanceDashboard.checkAttachmentAssociateError(request, response.text)
+        self.current_past_action = 0  
+        try:
+            VolumeUtil.delete_volume(obj_id)
+        except Exception:
+            messages.error(request, _('Is was not possible to delete : %s') % obj_id)
 
 class CreateVolume(tables.LinkAction):
     name = 'create'

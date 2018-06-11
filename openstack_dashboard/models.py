@@ -34,6 +34,7 @@ class FogbowConstants():
     
     # manager core
     NETWORKS_ACTION_REQUEST_MANAGER = '/networks'
+    VOLUMES_ACTION_REQUEST_MANAGER = '/volumes'
 
     # membership 
     MEMBERS_ACTION_REQUEST_MERBERSHIP = '/members'

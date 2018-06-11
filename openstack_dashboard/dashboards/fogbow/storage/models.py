@@ -26,4 +26,4 @@ class APIDictWrapper(object):
         return "<%s: %s>" % (self.__class__.__name__, self._apidict)
 
 class Volume(APIDictWrapper):
-    _attrs = ['id', 'volume_id', 'state']
+    _attrs = ['id', 'volume_id', 'state', 'name', 'size']
