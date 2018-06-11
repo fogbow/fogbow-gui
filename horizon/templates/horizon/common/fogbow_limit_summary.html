@@ -46,40 +46,52 @@
 			<td style="padding: 0px 76px;">Fake</td>
 		</tr>
 	</table>
-	
-	<div class="table_wrapper">
-		<h3 class="table_title">{% trans "Aggregated" %}</h3>
-		  <br>
-		  <div>
-        <h4 class="same-line">Using &nbsp</h4> 
-        <b><div id="totalVCPUInUseByUserResponse" class="same-line red"></div></b>
-        <h4 class="same-line">&nbsp vCPU of &nbsp</h4>
-        <b><div id="totalVCPUAvailableResponse" class="same-line red"></div></b>
-        <h4 class="same-line">&nbsp available</h4>
-      </div> 
-      <br>
-      <div>
-        <h4 class="same-line">Using &nbsp </h4> 
-        <b><div class="same-line red" id="totalRAMInUseByUserResponse"></div></b>
-        <h4 class="same-line">&nbsp GB of RAM of &nbsp</h4>
-        <b><div class="same-line red" id="totalRamAvailableResponse"></div></b>
-        <h4 class="same-line">&nbsp available</h4>
-      </div>
-      <br>
-      <div>
-        <h4 class="same-line">Using &nbsp </h4> 
-        <b><div class="same-line red" id="totalInstanceInUseByUserResponse"></div></b>
-        <h4 class="same-line">&nbsp instance(s) of &nbsp</h4>
-        <b><div class="same-line red" id="totalInstanceAvailableResponse"></div></b>
-        <h4>&nbsp available</h4>
-      </div>   	 
-      <br>
-	  
-	  </div>
+
+	<table style="margin-bottom: 40px; font-size: 18px;">
+		<tr>
+			<th style="padding: 0px 76px;">Resource</th>
+			<th style="padding: 0px 76px;">Using</th>
+			<th style="padding: 0px 76px;">Total</th>
+		</tr>
+		<tr>
+			<td>Compute</td>
+			<td style="padding: 0px 76px;" id="using_compute">Fake</td>
+			<td style="padding: 0px 76px;" id="available_compute">Fake</td>
+		</tr>
+		<tr>
+			<td>vCPU</td>
+			<td style="padding: 0px 76px;" id="using_vCPU">Fake</td>
+			<td style="padding: 0px 76px;" id="available_vCPU">Fake</td>
+		</tr>
+		<tr>
+			<td>RAM</td>
+			<td style="padding: 0px 76px;" id="using_ram">Fake</td>
+			<td style="padding: 0px 76px;" id="available_ram">Fake</td>
+		</tr>
+		<tr>
+			<td>Volume</td>
+			<td style="padding: 0px 76px;" id="using_volume">Fake</td>
+			<td style="padding: 0px 76px;" id="available_volume">Fake</td>
+		</tr>
+		<tr>
+			<td>Storage</td>
+			<td style="padding: 0px 76px;" id="using_storage">Fake</td>
+			<td style="padding: 0px 76px;" id="available_storage">Fake</td>
+		</tr>
+		<tr>
+			<td>FIPs</td>
+			<td style="padding: 0px 76px;" id="using_fIPs">Fake</td>
+			<td style="padding: 0px 76px;" id="available_fIPs">Fake</td>
+		</tr>
+		<tr>
+			<td>Networks</td>
+			<td style="padding: 0px 76px;" id="using_networks">Fake</td>
+			<td style="padding: 0px 76px;" id="available_networks">Fake</td>
+		</tr>
+</table>
 
 	<select id="member">
 		<option value="">Members</option>
-		<option value="">fedcloud.lsd.ufcg.edu.br</option>
 	</select>
 	<table style="margin-bottom: 40px; font-size: 18px;">
 		<tr>
@@ -102,11 +114,6 @@
 		</tr>
 	</table>
 </div>
-
-
-	<button class="button button-shadow " id="button_populate">Refresh</button>
-	<!-- <button class="button button-shadow " id="button_abort">Abort</button>  --> 	
-	<br>
 	
 <style>
 .same-line {
@@ -511,9 +518,38 @@
       })
   }
 
+    function getMembers() {
+		fetch(window.location.origin.concat('/fogbow/members'), { method: 'GET', credentials: 'include'})
+		.then(res => {
+			res.json().then(body => {
+				body.forEach(element => {
+					$('select').append($('<option>', {
+						text: element
+					}));
+				});
+				log_members();
+			})
+			
+		})
+	}
+
+	function getAggregated() {
+		fetch(window.location.origin.concat('/fogbow/aggregated'), { method: 'GET', credentials: 'include'})
+		.then(res => {
+			res.json().then(body => {
+				fields = ['compute', 'vCPU', 'ram', 'volume', 'storage', 'fIPs', 'networks']
+				for(let key in body) {
+					$("#using_" + key).text(body[key].using);
+					$("#available_" + key).text(body[key].total);
+				}
+			})
+			
+		})
+	}
+
   function log_members() {
 	$( "select" )
-	.change(function () {
+	.change(() => {
 		var str = "";
 		$( "select option:selected" ).each(function() {
 			str += $( this ).text();
@@ -540,7 +576,8 @@
     getSharedQuota();
     getFreeQuota();
     getUsedByMeQuota();
-	log_members();
+	getMembers();
+	getAggregated();
 		if (localStorageMembers == null) {
 			refreshTable();			
 		} else {									
