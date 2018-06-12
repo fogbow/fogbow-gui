@@ -61,7 +61,7 @@ def delete_compute(handler):
 
 def get_networks(handler):
     print "Getting networks..."
-    return [{"id": "id1", "state": "state"}, {"id": "id2", "state": "state"}]
+    return '[{"id": "id1", "state": "state"}, {"id": "id2", "state": "state"}]'
 
 def get_network(handler):
     print "Getting network..."
@@ -87,6 +87,71 @@ def get_members(handler):
     print "Getting members..."
     return ["Member Fake 1", "Member Fake 2", "Member Fake 3"]
 
+def get_volumes(handler):
+    print "Getting volume..."
+    return [{"id": "v1", "state": "READY", "name": "name1", "size": "20"}, {"id": "v2", "state": "READY", "name": "name2", "size": "200"}]
+
+def get_volume(handler):
+    print "Getting volume..."
+    key = urllib.unquote(handler.path[10:])
+    if key is "0":
+        print "Bad Request"
+        bad_request_status = 400
+        handler.set_response_status_code(bad_request_status)
+        return {}
+    return {"id": "v1", "state": "READY", "name": "name1", "size": "20"}
+
+def create_volume(handler):
+    print "Creating volume..."
+    payload = handler.get_payload()
+    print payload
+    return {}
+
+def delete_volume(handler):
+    key = urllib.unquote(handler.path[9:])
+    print "Deleting volume({key})... ".format(key=key)
+    return {}
+
+def get_attachments(handler):
+    print "Getting attachment..."
+    return [{"id": "v1", "state": "READY", "serverId": "serverId", "volumeId": "volumeId", "device": "devide"}, {"id": "v2", "state": "READY", "serverId": "serverId", "volumeId": "volumeId", "device": "devide"}] 
+
+def get_attachment(handler):
+    print "Getting attachment..."
+    key = urllib.unquote(handler.path[9:])
+    if key is "0":
+        print "Bad Request"
+        bad_request_status = 400
+        handler.set_response_status_code(bad_request_status)
+        return {}
+    return {"id": "v1", "state": "READY", "serverId": "serverId", "volumeId": "volumeId", "device": "devide"}
+
+def create_attachment(handler):
+    print "Creating attachment..."
+    payload = handler.get_payload()
+    print payload
+    return {}
+
+def delete_attachment(handler):
+    key = urllib.unquote(handler.path[9:])
+    print "Deleting attachment({key})... ".format(key=key)
+    return {}
+
+def get_quota_shared(handler):
+    return {"vCPU": "2", "ram": "3000", "instances": "1"}
+
+def get_quota_available(handler):
+    return {"vCPU": "16", "ram": "48000", "instances": "8"}
+
+def get_quota_me(handler):
+    return {"vCPU": "10", "ram": "20000", "instances": "5"}
+
+def get_quota_member(handler):
+    return {"vCPU": "14", "ram": "28000", "instances": "7"}
+
+def get_quota_aggregated(handler):
+    return { compute: {using: 8, total: 40}, vCPU: {using: 8, total: 40}, ram: {using: 8, total: 40}, volume: {using: 8, total: 40}, storage: {using: 8, total: 40}, fIPs: {using: 8, total: 40}, networks: {using: 8,total: 40} }
+
 class MethodRequest(urllib2.Request):
     def __init__(self, *args, **kwargs):
         if 'method' in kwargs:
@@ -107,6 +172,18 @@ class RESTRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
             r'^/networks$': {'GET': get_networks, 'POST': create_network, 'DELETE': delete_network,'media_type': 'application/json'},
             r'^/networks/': {'GET': get_network, 'media_type': 'application/json'},
+
+            r'^/volumes$': {'GET': get_volumes, 'POST': create_volume, 'media_type': 'application/json'},
+            r'^/volumes/': {'GET': get_volume, 'DELETE': delete_volume,'media_type': 'application/json'},
+
+            r'^/attachments$': {'GET': get_attachments, 'POST': create_attachment, 'media_type': 'application/json'},
+            r'^/attachments/': {'GET': get_attachment, 'DELETE': delete_attachment,'media_type': 'application/json'},
+
+	    r'^/quota/shared$': {'GET': get_quota_shared, 'media_type': 'application/json'},
+            r'^/quota/available$': {'GET': get_quota_available, 'media_type': 'application/json'},
+            r'^/quota/me$': {'GET': get_quota_me, 'media_type': 'application/json'},
+            r'^/quota/member/': {'GET': get_quota_member, 'media_type': 'application/json'},
+            r'^/quota/aggregated$': {'GET': get_quota_aggregated, 'media_type': 'application/json'},
 
 	    r'^/membership/members': {'GET': get_members, 'media_type': 'application/json'},
 
