@@ -8,10 +8,13 @@ from openstack_dashboard.models import FogbowConstants
 from openstack_dashboard.models import RequestConstants
 from openstack_dashboard.models import DashboardConstants
 
+from openstack_dashboard.dashboards.fogbow.network.models import Network
+
 LOG = logging.getLogger(__name__)
 
 class MemberUtil:
      
+    #FIXME: remove federation_token_value in parameters
     @staticmethod
     def get_members(federation_token_value):
         LOG.debug("Gettings members.")
@@ -34,29 +37,34 @@ class MemberUtil:
         return members
 
 class NetworkUtil:
-     
+
     @staticmethod
     def get_networks(federation_token_value):
+        LOG.debug("Gettings networks.")
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
-        RequestUtil.check_success_request(response)
 
-        response_json = response.text
-        LOG.info(response_json)
-        return NetworkUtil.get_network_ids_from_json(response_json)
+        RequestUtil.check_success_request(response)
         
+        response_json = response.json()
+
+        return NetworkUtil.get_networks_from_json(response_json)
+     
+    @staticmethod 
     def delete_network(federation_token_value):
         response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
         RequestUtil.check_success_request(response)
 
     @staticmethod
-    def get_network_ids_from_json(response_json):
-        network_ids = []
+    def get_networks_from_json(response_json):
+        networks = []
 
         data = json.loads(response_json)
-        for network in data:
-            network_ids.append((network.get('id'), network.get('id')))
 
-        return network_ids
+        for network in data:
+            networks.append(Network({'id': network.get('id'), 
+            'network_id': network.get('id'), 'state': network.get('state')}))
+
+        return networks
         
 class RequestUtil:
     
