@@ -19,6 +19,8 @@ MEMBER_TERM = fogbow_models.FogbowConstants.MEMBER_TERM
 QUOTA_TERM = fogbow_models.FogbowConstants.QUOTA_TERM
 MAX_VALUE = 2000000000
 
+fowbow_endpoint = 'http://localhost:8080'
+
 class IndexView(tables.DataTableView):
     table_class = project_tables.MembersTable
     template_name = 'fogbow/members/index.html'
@@ -76,19 +78,34 @@ class IndexView(tables.DataTableView):
         
         return members
 
+
+
 def get_shared_quota(request, member_id):
-    # TODO remove this. Fake data 
-    response_json = '{"vCPU": "2", "ram": "3000", "instances": "1"}'
-    return HttpResponse(response_json)
+    response = requests.get(fowbow_endpoint + '/quota/shared')
+    r = response.text.encode('ascii')
+    return HttpResponse(r)
 
 def get_available_quota(request, member_id):
-    response_json = '{"vCPU": "16", "ram": "48000", "instances": "8"}'
-    return HttpResponse(response_json)
+    response = requests.get(fowbow_endpoint + '/quota/available')
+    r = response.text.encode('ascii')
+    return HttpResponse(r)
 
 def get_used_by_me_quota(request, member_id):
-    response_json = '{"vCPU": "10", "ram": "20000", "instances": "5"}'
-    return HttpResponse(response_json)
+    response = requests.get(fowbow_endpoint + '/quota/me')
+    r = response.text.encode('ascii')
+    return HttpResponse(r)
 
 def getSpecificMemberQuota(request, member_id):
-    response_json = '{"vCPU": "14", "ram": "28000", "instances": "7"}'
-    return HttpResponse(response_json)
+    response = requests.get(fowbow_endpoint + '/quota/member/2')
+    r = response.text.encode('ascii')
+    return HttpResponse(r)
+
+def get_members(request):
+    response = requests.get(fowbow_endpoint + '/members')
+    r = response.text.encode('ascii')
+    return HttpResponse(r)
+
+def get_aggregated(request):
+    response = requests.get(fowbow_endpoint + '/quota/aggregated')
+    r = response.text.encode('ascii')
+    return HttpResponse(r)
