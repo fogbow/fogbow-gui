@@ -1,4 +1,5 @@
 import requests
+import logging
 
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
@@ -8,6 +9,9 @@ from horizon import tables
 from horizon import messages
 
 import openstack_dashboard.models as fogbow_models
+from openstack_dashboard.dashboards.fogbow.models import AttachmentUtil
+
+LOG = logging.getLogger(__name__)
 
 class TerminateAttachment(tables.BatchAction):
     name = "terminate"
@@ -22,11 +26,15 @@ class TerminateAttachment(tables.BatchAction):
         return True
 
     def action(self, request, obj_id):
-        pass
-#         self.current_past_action = 0
-#         response = fogbow_models.doRequest('delete', STORAGE_TERM + LINK_TERM + obj_id, None, request)
-#         if response == None or fogbow_models.isResponseOk(response.text) == False:
-#             messages.error(request, _('Is was not possible to delete : %s') % obj_id)          
+        self.current_past_action = 0  
+        attachment_id = obj_id
+        LOG.info("Trying to delete the attachment: {attachment_id}".format(attachment_id=attachment_id))
+        federation_token_value = request.user.token.id  
+        try:
+            AttachmentUtil.delete_attachment(attachment_id, federation_token_value)
+        except Exception as e:
+            LOG.error("Is not possible delete the attachment. Message exception is {error_msg}:".format(error_msg=str(e)))
+            messages.error(request, _('Is was not possible to delete : %s') % attachment_id)      
 
 def get_attachment_id(request):
     null_value = 'null'

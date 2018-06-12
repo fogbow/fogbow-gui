@@ -1,4 +1,5 @@
 import requests
+import logging
 import json
 from django.conf import settings
 
@@ -7,21 +8,27 @@ from openstack_dashboard.models import FogbowConstants
 from openstack_dashboard.models import RequestConstants
 from openstack_dashboard.models import DashboardConstants
 
+from openstack_dashboard.dashboards.fogbow.storage.models import Volume
+from openstack_dashboard.dashboards.fogbow.attachment.models import Attachment
+
+LOG = logging.getLogger(__name__)
+
 class MemberUtil:
      
     @staticmethod
     def get_members(federation_token_value):
-        # TODO ask to server
-        # fogbow_models.doRequestMembership().. # Complete 
+        LOG.debug("Gettings members")
+        response = RequestUtil.do_request_membership(RequestConstants.GET_METHOD, FogbowConstants.MEMBERS_ACTION_REQUEST_MERBERSHIP)
+        # TODO use check_success_request in the RequestUtil class
+        if response == None or response.status_code != RequestConstants.OK_STATUS_CODE:
+            LOG.error("Status code is {code}".format(code=response.status_code))
+            raise Exception("Is not possible get members")
         
-        response_json = None
+        response_json = response.text
         return MemberUtil.get_members_from_json(response_json)
         
     @staticmethod
     def get_members_from_json(response_json):
-        # TODO fake information
-        response_json = '["Member Fake 1", "Member Fake 2", "Member Fake 3"]'
-        
         members = []
         json_data = json.loads(response_json)
         for member in json_data:
@@ -32,38 +39,203 @@ class MemberUtil:
 class NetworkUtil:
      
     @staticmethod
-    def get_networks():
-        # TODO ask to server
-        # response_json = fogbow_models.doRequest('get', NETWORK_TERM, None, instance).json
-        response_json = [{"id": "id1", "state": "state"}, {"id": "id2", "state": "state"}]
+    def get_networks(federation_token_value):
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text
         return NetworkUtil.get_network_ids_from_json(response_json)
         
+    def delete_network(federation_token_value):
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
+        RequestUtil.check_success_request(response)
+
     @staticmethod
     def get_network_ids_from_json(response_json):
         network_ids = []
 
-        for network in response_json:
+        data = json.loads(response_json)
+        for network in data:
             network_ids.append((network.get('id'), network.get('id')))
 
         return network_ids
         
+class VolumeUtil:
+
+    @staticmethod
+    def get_volumes(federation_token_value):
+        LOG.debug("Gettings volumes")
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text        
+        return VolumeUtil.__get_volumes_from_json(response_json)
+
+    @staticmethod
+    def delete_volume(volume_id, federation_token_value):
+        LOG.debug("Trying to delete volume: {volume_id}".format(volume_id=volume_id))
+        endpoint = "{action_request_manager}/{volume_id}".format(action_request_manager=FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, volume_id=volume_id)
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def create_volume(size, member, federation_token_value):
+        LOG.debug("Trying to create volume")
+
+        data = {}
+        data[FogbowConstants.SIZE_ORDER_VOLUME_KEY] = size
+        data[FogbowConstants.PROVIDING_MEMBER_ORDER_KEY] = member
+        json_data = json.dumps(data)
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def get_volume(volume_id, federation_token_value):
+        LOG.debug("Getting volume: {volume_id}".format(volume_id=volume_id))
+        endpoint = "{action_request_manager}/{volume_id}".format(action_request_manager=FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, volume_id=volume_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)      
+
+        response_json = response.text
+        LOG.info(response_json)
+
+        return VolumeUtil.__get_volume_from_json(response_json)
+
+    # TODO reuse this method
+    @staticmethod
+    def __get_volume_from_json(response_json):
+        volume = json.loads(response_json)
+
+        # TODO to use contants
+        id = volume['id']
+        state = volume['state']
+        name = volume['name']
+        size = volume['size']
+
+        # TODO to use contants
+        return {"id" :id, "volume_id": id, "state": state, "name": name, "size": size}
+
+    @staticmethod
+    def __get_volumes_from_json(response_json):
+        volumes = []
+
+        data = json.loads(response_json)
+        for volume in data:
+            # TODO to use contants
+            id = volume['id']
+            state = volume['state']
+            name = volume['name']
+            size = volume['size']
+            # TODO to use contants
+            volumes.append(Volume({"id" :id, "volume_id": id, "state": state, "name": name, "size": size}))
+
+        return volumes
+
+class AttachmentUtil:
+
+    @staticmethod
+    def get_attachments(federation_token_value):
+        LOG.debug("Gettings attachments")
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text        
+        return AttachmentUtil.__get_attachments_from_json(response_json)
+
+    @staticmethod
+    def delete_attachment(attachment_id, federation_token_value):
+        LOG.debug("Trying to delete attachment: {attachment_id}".format(attachment_id=attachment_id))
+        endpoint = "{action_request_manager}/{attachment_id}".format(action_request_manager=FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, attachment_id=attachment_id)
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def create_attachment(target, source, federation_token_value):
+        LOG.debug("Trying to create attachment")
+
+        data = {}
+        data[FogbowConstants.DEVICE_ORDER_ATTACHMENT] = ""
+        data[FogbowConstants.TARGET_ORDER_ATTACHMENT] = target
+        data[FogbowConstants.SOURCE_ORDER_ATTACHMENT] = source
+        json_data = json.dumps(data)
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def get_attachment(attachment_id, federation_token_value):
+        LOG.debug("Getting attachment: {attachment_id}".format(attachment_id=attachment_id))
+        endpoint = "{action_request_manager}/{attachment_id}".format(action_request_manager=FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, attachment_id=attachment_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)      
+
+        response_json = response.text
+        LOG.info(response_json)
+
+        return AttachmentUtil.__get_attachment_from_json(response_json)        
+
+    @staticmethod
+    def __get_attachments_from_json(response_json):
+        attachments = []
+
+        data = json.loads(response_json)
+        for attachment in data:
+            # TODO to use contants
+            id = attachment['id']
+            state = attachment['state']
+            device = attachment['device']
+            server_id = attachment['serverId']
+            volume_id = attachment['volumeId']
+            # TODO to use contants
+            attachments.append(Attachment({"id" :id, "attachment_id": id, "state": state, "device": device, "server_id": server_id, "volume_id": volume_id}))
+
+        return attachments    
+
+    # TODO reuse this method
+    @staticmethod
+    def __get_attachment_from_json(response_json):
+        volume = json.loads(response_json)
+
+        # TODO to use contants
+        id = volume['id']
+        state = volume['state']
+        device = volume['device']
+        volume_id = volume['volumeId']
+        server_id = volume['serverId']
+
+        # TODO to use contants
+        return {"id" :id, "attachment_id": id, "state": state, "volume_id": volume_id, "server_id": server_id, "device": device}
+
 class RequestUtil:
     
+    @staticmethod
+    def check_success_request(response):
+        if response == None:
+            raise Exception("Response is null")
+
+        status_code = response.status_code
+        if status_code != RequestConstants.OK_STATUS_CODE and status_code != RequestConstants.CREATED_STATUS_CODE:
+            raise Exception("Response is not ok. Status code is {code}".format(code=response.status_code))
+
     @staticmethod
     def do_request_membership(method_request, action_enpoint):
         timeout_get = settings.TIMEOUT_POST
     
+        endpoint = settings.FOGBOW_MEMBERSHIP_ENDPOINT + action_enpoint
+        LOG.debug("Requisting to membership in the endpoint: {endpoint}".format(endpoint=endpoint))
         try:
             if method_request == RequestConstants.GET_METHOD:
-                response = requests.get(settings.FOGBOW_MEMBERSHIP_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_get)
+                response = requests.get(endpoint, timeout=timeout_get)
         except Exception as e:
-            # TODO implement
-            raise Exception('')
+            msg = "Error while requesting membership: {error}".format(error=str(e))
+            LOG.error(msg)
+            raise Exception(msg)
             
         return response
     
     @staticmethod
-    def do_request_manager(method_request, action_enpoint, federation_token_value):
+    def do_request_manager(method_request, action_enpoint, federation_token_value, json_data=None):
         timeout_post = settings.TIMEOUT_POST
         if timeout_post is None or not timeout_post:
             timeout_post = DashboardConstants.DEFAULT_POST_TIMEOUT
@@ -78,18 +250,19 @@ class RequestUtil:
                     FogbowConstants.FEDERATION_TOKEN_VALUE : federation_token_value}    
         try:
             if method_request == RequestConstants.GET_METHOD:
-                response = requests.get(settings.FOGBOW_MANAGER_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_get)
+                response = requests.get(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_get)
             elif method_request == RequestConstants.DELETE_METHOD:
-                response = requests.delete(settings.FOGBOW_MANAGER_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_delete)
+                response = requests.delete(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_delete)
             elif method_request == RequestConstants.POST_METHOD:
-                response = requests.post(settings.FOGBOW_MANAGER_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_post)
+                response = requests.post(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_post, data=json_data)
         except Exception as e:
-            # TODO implement
-            raise Exception('')
+            msg = "Error while requesting membership: {error}".format(error=str(e))
+            LOG.error(msg)
+            raise Exception(msg)
             
         return response    
-        
-# TODO check if is necessary
+           
+# TODO check if is necessary. Old code
 def doRequest(method, endpoint, additionalHeaders):
     token = settings.MY_TOKEN    
     headers = {'content-type': 'text/occi', 'X-Auth-Token' : token}

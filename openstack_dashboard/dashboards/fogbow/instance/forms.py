@@ -56,9 +56,10 @@ class CreateInstance(forms.SelfHandlingForm):
     def __init__(self, request, *args, **kwargs):
         super(CreateInstance, self).__init__(request, *args, **kwargs)
         LOG.debug("Initializing compute form")
+
+        federation_token_value = request.user.token.id
         
         members_choices = []
-        federation_token_value = request.user.token.id
         members_choices.append(('', ''))
         members_choices.extend(MemberUtil.get_members(federation_token_value))
         self.fields['members'].choices = members_choices
@@ -75,7 +76,7 @@ class CreateInstance(forms.SelfHandlingForm):
         
         networks_choices = []
         networks_choices.append(('', ''))
-        networks_choices.extend(NetworkUtil.get_networks())
+        networks_choices.extend(NetworkUtil.get_networks(federation_token_value))
         self.fields['network_id'].choices = networks_choices
         
     def normalize_user_data(self, value):

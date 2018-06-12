@@ -29,10 +29,28 @@ LOG = logging.getLogger(__name__)
 
 # TODO remove OCCI
 class FogbowConstants():
-    # new fogbow
+    ## new fogbow
     FEDERATION_TOKEN_VALUE = 'federation_token_value'
     
-    # old fogbow
+    # manager core
+    NETWORKS_ACTION_REQUEST_MANAGER = '/networks'
+    VOLUMES_ACTION_REQUEST_MANAGER = '/volumes'
+
+    ATTACHMENTS_ACTION_REQUEST_MANAGER= '/attachments'
+
+    # attrs
+    PROVIDING_MEMBER_ORDER_KEY = 'providingMember'
+
+    SIZE_ORDER_VOLUME_KEY = 'volumeSize'
+
+    DEVICE_ORDER_ATTACHMENT = 'device'
+    TARGET_ORDER_ATTACHMENT = 'target'
+    SOURCE_ORDER_ATTACHMENT = 'source'
+
+    # membership 
+    MEMBERS_ACTION_REQUEST_MERBERSHIP = '/members'
+
+    ## old fogbow
     NETWORK_TERM = '/network/'    
     COMPUTE_TERM = '/compute/'
     STORAGE_TERM = '/storage/'
@@ -98,6 +116,10 @@ class RequestConstants():
     GET_METHOD = 'get'
     POST_METHOD = 'post'
     DELETE_METHOD = 'delete'
+
+    OK_STATUS_CODE = 200
+    CREATED_STATUS_CODE = 201
+    BAD_REQUEST_STATUS_CODE = 400
 
 class IdentityPluginConstants():
     AUTH_RAW_KEYSTONE = 'raw_keystone'

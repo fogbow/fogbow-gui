@@ -10,4 +10,6 @@ urlpatterns = patterns('',
     url(r'^(?P<member_id>.*)/shared$', views.get_shared_quota, name='shared'),
     url(r'^(?P<member_id>.*)/free$', views.get_available_quota, name='free'),
     url(r'^(?P<member_id>.*)/my$', views.get_used_by_me_quota, name='my'),
+    url(r'^members/$', views.get_members, name='members'),
+    url(r'^aggregated/$', views.get_aggregated, name='members'),
 )

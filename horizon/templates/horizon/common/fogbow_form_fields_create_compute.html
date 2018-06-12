@@ -40,25 +40,24 @@
 	var IMAGE_ENDPOINT_SUFIX = '/images';
 	
 	$(document).ready(function() {});
-
-	function setValueOnImages() {
-		var member = "member"
-		var map = getImagesMap(member)
-	};
 	
-	function getImagesMap(member) {
-    	$.ajax({
-    	    url: window.location.href + member + IMAGE_ENDPOINT_SUFIX,
-    	    type: "GET",
-    	    timeout: TIMEOUT_DEFAULT,
-    	    success: function(data) {       
-	    	    new JSON.parse(data);
-    	    },
-    	    error: function() {
-    	    	console.log("Debug: ");
-    	    },
-    	});		
-	}
+	function setValueOnImages() {		
+		fetch(window.location.origin.concat('/fogbow/instance/member/images'), { method: 'GET', credentials: 'include'})
+      .then(res => {
+        res.json().then(body => {
+					$('#id_image')
+						.find('option')
+						.remove();
+
+					for(let key in body) {
+						$("#id_image").append($('<option>', {
+								text: body[key]
+						}));					
+					}
+        })
+        
+      })
+	};
 	
 	$('#id_members').change(function() {
 		setValueOnImages();

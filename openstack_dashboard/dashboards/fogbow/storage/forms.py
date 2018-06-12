@@ -19,6 +19,7 @@ from django import shortcuts
 from openstack_dashboard.dashboards.fogbow.models import MemberUtil
 from openstack_dashboard.dashboards.fogbow.members.views import IndexView as member_views
 from openstack_dashboard.dashboards.fogbow.network.views import IndexView as network_views
+from openstack_dashboard.dashboards.fogbow.models import VolumeUtil
 
 LOG = logging.getLogger(__name__)
 
@@ -26,7 +27,7 @@ LOG = logging.getLogger(__name__)
 class CreateStorage(forms.SelfHandlingForm):
     success_url = reverse_lazy("horizon:fogbow:storage:index")
     
-    size_storage = forms.CharField(label=_('Volume size (in GB)'), initial=1,
+    size = forms.CharField(label=_('Volume size (in GB)'), initial=1,
                           widget=forms.TextInput(),
                           required=False)
     
@@ -42,8 +43,15 @@ class CreateStorage(forms.SelfHandlingForm):
         self.fields['members'].choices = members_choices 
         
     def handle(self, request, data):
+        federation_token_value = request.user.token.id
+
         try:
-            messages.success(request, _('Volume created'))            
+            size = data['size']
+            member = data['members']
+
+            VolumeUtil.create_volume(size, member, federation_token_value)
+
+            messages.success(request, _('Volume created'))
             return shortcuts.redirect(reverse("horizon:fogbow:storage:index"))    
         except Exception:
             redirect = reverse("horizon:fogbow:storage:index")

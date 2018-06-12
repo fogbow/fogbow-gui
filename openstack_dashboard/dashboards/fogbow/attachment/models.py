@@ -27,4 +27,4 @@ class APIDictWrapper(object):
         return "<%s: %s>" % (self.__class__.__name__, self._apidict)
 
 class Attachment(APIDictWrapper):
-    _attrs = ['id', 'attachment_id', 'state']
+    _attrs = ['id', 'attachment_id', 'state', 'server_id', 'volume_id', 'device']
