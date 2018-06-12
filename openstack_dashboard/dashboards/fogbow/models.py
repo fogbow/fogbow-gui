@@ -67,18 +67,54 @@ class VolumeUtil:
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, federation_token_value)
         RequestUtil.check_success_request(response)
 
-        response_json = response.text
-        LOG.info(response_json)
-        return VolumeUtil.get_network_ids_from_json(response_json)
+        response_json = response.text        
+        return VolumeUtil.__get_volumes_from_json(response_json)
 
     @staticmethod
-    def delete_volume(volume_id):
-        endpoint = "{action_request_manager}/{volume_id}".format(FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, volume_id)
+    def delete_volume(volume_id, federation_token_value):
+        LOG.debug("Trying to delete volume: {volume_id}".format(volume_id=volume_id))
+        endpoint = "{action_request_manager}/{volume_id}".format(action_request_manager=FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, volume_id=volume_id)
         response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
     @staticmethod
-    def get_network_ids_from_json(response_json):
+    def create_volume(size, member, federation_token_value):
+        LOG.debug("Trying to create volume")
+
+        data = {}
+        data[FogbowConstants.SIZE_ORDER_VOLUME_KEY] = size
+        data[FogbowConstants.PROVIDING_MEMBER_ORDER_KEY] = member
+        json_data = json.dumps(data)
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def get_volume(volume_id, federation_token_value):
+        LOG.debug("Getting volume: {volume_id}".format(volume_id=volume_id))
+        endpoint = "{action_request_manager}/{volume_id}".format(action_request_manager=FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, volume_id=volume_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)      
+
+        response_json = response.text
+        LOG.info(response_json)
+
+        return VolumeUtil.__get_volume_from_json(response_json)
+
+    # TODO reuse this method
+    @staticmethod
+    def __get_volume_from_json(response_json):
+        volume = json.loads(response_json)
+
+        id = volume['id']
+        state = volume['state']
+        name = volume['name']
+        size = volume['size']
+
+        return {"id" :id, "volume_id": id, "state": state, "name": name, "size": size}
+
+    @staticmethod
+    def __get_volumes_from_json(response_json):
         volumes = []
 
         data = json.loads(response_json)
@@ -89,7 +125,8 @@ class VolumeUtil:
             size = volume['size']
             volumes.append(Volume({"id" :id, "volume_id": id, "state": state, "name": name, "size": size}))
 
-        return volumes        
+        return volumes
+
 
 class RequestUtil:
     
@@ -119,7 +156,7 @@ class RequestUtil:
         return response
     
     @staticmethod
-    def do_request_manager(method_request, action_enpoint, federation_token_value):
+    def do_request_manager(method_request, action_enpoint, federation_token_value, json_data=None):
         timeout_post = settings.TIMEOUT_POST
         if timeout_post is None or not timeout_post:
             timeout_post = DashboardConstants.DEFAULT_POST_TIMEOUT
@@ -138,7 +175,7 @@ class RequestUtil:
             elif method_request == RequestConstants.DELETE_METHOD:
                 response = requests.delete(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_delete)
             elif method_request == RequestConstants.POST_METHOD:
-                response = requests.post(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_post)
+                response = requests.post(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_post, data=json_data)
         except Exception as e:
             msg = "Error while requesting membership: {error}".format(error=str(e))
             LOG.error(msg)

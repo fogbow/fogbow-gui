@@ -36,6 +36,11 @@ class FogbowConstants():
     NETWORKS_ACTION_REQUEST_MANAGER = '/networks'
     VOLUMES_ACTION_REQUEST_MANAGER = '/volumes'
 
+    # attrs
+    PROVIDING_MEMBER_ORDER_KEY = 'providingMember'
+
+    SIZE_ORDER_VOLUME_KEY = 'volumeSize'
+
     # membership 
     MEMBERS_ACTION_REQUEST_MERBERSHIP = '/members'
 

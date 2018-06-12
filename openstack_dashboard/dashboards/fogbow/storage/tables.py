@@ -1,4 +1,5 @@
 import requests
+import logging
 
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
@@ -12,13 +13,15 @@ import openstack_dashboard.models as fogbow_models
 import openstack_dashboard.dashboards.fogbow.instance.tables as tableInstanceDashboard
 from openstack_dashboard.dashboards.fogbow.models import VolumeUtil
 
+LOG = logging.getLogger(__name__)
+
 class TerminateInstance(tables.BatchAction):
     name = "terminate"
     action_present = _("Terminate")
     action_past = _("Terminated")
     data_type_singular = _("volume")
     data_type_plural = _("volumes")
-    classes = ('btn-danger', 'btn-terminate')
+    classes = ("btn-danger", "btn-terminate")
     success_url = reverse_lazy("horizon:fogbow:storage:index")
 
     def allowed(self, request, instance=None):
@@ -26,9 +29,12 @@ class TerminateInstance(tables.BatchAction):
 
     def action(self, request, obj_id):
         self.current_past_action = 0  
+        LOG.info("Trying to delete the volume: {volume_id}".format(volume_id=obj_id))
+        federation_token_value = request.user.token.id  
         try:
-            VolumeUtil.delete_volume(obj_id)
-        except Exception:
+            VolumeUtil.delete_volume(obj_id, federation_token_value)
+        except Exception as e:
+            LOG.error("Is not possible delete the volume. Message exception is {error_msg}:".format(error_msg=str(e)))
             messages.error(request, _('Is was not possible to delete : %s') % obj_id)
 
 class CreateVolume(tables.LinkAction):
