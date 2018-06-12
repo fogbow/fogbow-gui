@@ -9,6 +9,7 @@ from openstack_dashboard.models import RequestConstants
 from openstack_dashboard.models import DashboardConstants
 
 from openstack_dashboard.dashboards.fogbow.storage.models import Volume
+from openstack_dashboard.dashboards.fogbow.attachment.models import Attachment
 
 LOG = logging.getLogger(__name__)
 
@@ -106,11 +107,13 @@ class VolumeUtil:
     def __get_volume_from_json(response_json):
         volume = json.loads(response_json)
 
+        # TODO to use contants
         id = volume['id']
         state = volume['state']
         name = volume['name']
         size = volume['size']
 
+        # TODO to use contants
         return {"id" :id, "volume_id": id, "state": state, "name": name, "size": size}
 
     @staticmethod
@@ -119,14 +122,90 @@ class VolumeUtil:
 
         data = json.loads(response_json)
         for volume in data:
+            # TODO to use contants
             id = volume['id']
             state = volume['state']
             name = volume['name']
             size = volume['size']
+            # TODO to use contants
             volumes.append(Volume({"id" :id, "volume_id": id, "state": state, "name": name, "size": size}))
 
         return volumes
 
+class AttachmentUtil:
+
+    @staticmethod
+    def get_attachments(federation_token_value):
+        LOG.debug("Gettings attachments")
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text        
+        return AttachmentUtil.__get_attachments_from_json(response_json)
+
+    @staticmethod
+    def delete_attachment(attachment_id, federation_token_value):
+        LOG.debug("Trying to delete attachment: {attachment_id}".format(attachment_id=attachment_id))
+        endpoint = "{action_request_manager}/{attachment_id}".format(action_request_manager=FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, attachment_id=attachment_id)
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def create_attachment(target, source, federation_token_value):
+        LOG.debug("Trying to create attachment")
+
+        data = {}
+        data[FogbowConstants.DEVICE_ORDER_ATTACHMENT] = ""
+        data[FogbowConstants.TARGET_ORDER_ATTACHMENT] = target
+        data[FogbowConstants.SOURCE_ORDER_ATTACHMENT] = source
+        json_data = json.dumps(data)
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def get_attachment(attachment_id, federation_token_value):
+        LOG.debug("Getting attachment: {attachment_id}".format(attachment_id=attachment_id))
+        endpoint = "{action_request_manager}/{attachment_id}".format(action_request_manager=FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, attachment_id=attachment_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)      
+
+        response_json = response.text
+        LOG.info(response_json)
+
+        return AttachmentUtil.__get_attachment_from_json(response_json)        
+
+    @staticmethod
+    def __get_attachments_from_json(response_json):
+        attachments = []
+
+        data = json.loads(response_json)
+        for attachment in data:
+            # TODO to use contants
+            id = attachment['id']
+            state = attachment['state']
+            device = attachment['device']
+            server_id = attachment['serverId']
+            volume_id = attachment['volumeId']
+            # TODO to use contants
+            attachments.append(Attachment({"id" :id, "attachment_id": id, "state": state, "device": device, "server_id": server_id, "volume_id": volume_id}))
+
+        return attachments    
+
+    # TODO reuse this method
+    @staticmethod
+    def __get_attachment_from_json(response_json):
+        volume = json.loads(response_json)
+
+        # TODO to use contants
+        id = volume['id']
+        state = volume['state']
+        device = volume['device']
+        volume_id = volume['volumeId']
+        server_id = volume['serverId']
+
+        # TODO to use contants
+        return {"id" :id, "attachment_id": id, "state": state, "volume_id": volume_id, "server_id": server_id, "device": device}
 
 class RequestUtil:
     

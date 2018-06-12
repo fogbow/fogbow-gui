@@ -23,8 +23,13 @@ class IndexView(tables.DataTableView):
         return self._more
 
     def get_data(self):
-        federation_token_value = self.request.user.token.id            
-        return VolumeUtil.get_volumes(federation_token_value)
+        federation_token_value = self.request.user.token.id
+        # TODO check what happen in exception case
+        try:
+            return VolumeUtil.get_volumes(federation_token_value)
+        except Exception as e:
+            LOG.error("Is not possible to get volumes. Error message: {error_msg}".format(error_msg=str(e)))
+            return {}        
         
 class CreateView(forms.ModalFormView):
     form_class = CreateStorage
