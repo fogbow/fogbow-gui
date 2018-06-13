@@ -49,6 +49,11 @@ def get_compute(handler):
         return {}
     return {"id": "v2", "hostName": "hostName", "vCPU": 10, "memory": 10, "state": "READY", "localIpAddress": "localIpAddress", "sshTunnelConnectionData": {"sshPublicAddress": "10.10.0.120", "sshUserName": "fogbesdras", "sshExtraPorts": "80"}}
 
+def get_images(handler):
+    print "Creating images..."
+    return {"id_image_one": "name_image_one", "id_image_two": "name_image_two"}
+
+
 def create_compute(handler):
     print "Creating compute..."
     payload = handler.get_payload()
@@ -170,6 +175,7 @@ class RESTRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.routes = {
             r'^/computes$': {'GET': get_computes, 'POST': create_compute, 'media_type': 'application/json'},
             r'^/computes/': {'GET': get_compute, 'DELETE': delete_compute, 'media_type': 'application/json'},
+            r'^/(?P<member_id>.*)/images$': {'GET': get_images, 'media_type': 'application/json'},
 
             r'^/networks$': {'GET': get_networks, 'POST': create_network, 'media_type': 'application/json'},
             r'^/networks/': {'GET': get_network, 'DELETE': delete_network, 'media_type': 'application/json'},
