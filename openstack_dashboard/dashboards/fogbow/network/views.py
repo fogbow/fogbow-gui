@@ -12,7 +12,7 @@ from openstack_dashboard.dashboards.fogbow.network \
 from openstack_dashboard.dashboards.fogbow.network \
     import tables as project_tables
 from openstack_dashboard.dashboards.fogbow.network.models import Network
-import openstack_dashboard.models as fogbow_models
+from openstack_dashboard.dashboards.fogbow.models import NetworkUtil
 
 class IndexView(tables.DataTableView):
     table_class = project_tables.InstancesTable
@@ -24,27 +24,10 @@ class IndexView(tables.DataTableView):
         return self._more
 
     def get_data(self):
-#         response = fogbow_models.doRequest('get', NETWORK_TERM, None, self.request)        
+        response = NetworkUtil.get_networks(self.request.user.token.id)        
         
-        networks = []
-        
-#         if response == None:
-#             return instances
-        
-#         responseStr = response.text
-        response_json = None
-        networks = self.get_networks_from_json(response_json)        
-        
-        return networks
-    
-    def get_networks_from_json(self, response_json):
-        networks = []
-            
-        networks.append(Network({'id': 'id_1', 'network_id': 'id_1', 'state': 'OPEN'}))
-        networks.append(Network({'id': 'id_2', 'network_id': 'id_1', 'state': 'FULL'}))
-            
-        return networks
-        
+        return response
+
 class CreateView(forms.ModalFormView):
     form_class = CreateNetwork
     template_name = 'fogbow/network/create.html'
