@@ -37,7 +37,7 @@ def rest_call_json(url, payload=None, with_payload_method='PUT'):
 
 def get_computes(handler):
     print "Getting computes..."
-    return {}
+    return [{"id": "v1", "hostName": "hostName", "vCPU": 10, "memory": 10, "state": "READY", "localIpAddress": "localIpAddress", "sshTunnelConnectionData": {"sshPublicAddress": "10.10.0.120", "sshUserName": "fogbesdras", "sshExtraPorts": "80"}} , {"id": "v2", "hostName": "hostName", "vCPU": 10, "memory": 10, "state": "READY", "localIpAddress": "localIpAddress", "sshTunnelConnectionData": {"sshPublicAddress": "10.10.0.120", "sshUserName": "fogbesdras", "sshExtraPorts": "80"}}]
 
 def get_compute(handler):
     print "Getting compute..."
@@ -47,7 +47,7 @@ def get_compute(handler):
         bad_request_status = 400
         handler.set_response_status_code(bad_request_status)
         return {}
-    return {}
+    return {"id": "v2", "hostName": "hostName", "vCPU": 10, "memory": 10, "state": "READY", "localIpAddress": "localIpAddress", "sshTunnelConnectionData": {"sshPublicAddress": "10.10.0.120", "sshUserName": "fogbesdras", "sshExtraPorts": "80"}}
 
 def create_compute(handler):
     print "Creating compute..."
@@ -61,7 +61,8 @@ def delete_compute(handler):
 
 def get_networks(handler):
     print "Getting networks..."
-    return '[{"id": "id1", "state": "state"}, {"id": "id2", "state": "state"}]'
+    return [{"id": "v1", "state": "state","address": "10.11.12.14", "label": "label", "gateway": "gateway", "networkInterface": "networkInterface", "MACInterface": "MACInterface"}, {"id": "v2", "state": "state","address": "10.11.12.14", "label": "label", "gateway": "gateway", "networkInterface": "networkInterface", "MACInterface": "MACInterface"}]
+
 
 def get_network(handler):
     print "Getting network..."
@@ -71,7 +72,7 @@ def get_network(handler):
         bad_request_status = 400
         handler.set_response_status_code(bad_request_status)
         return {}
-    return {}
+    return {"id": "v1", "state": "state", "address": "10.11.12.14","label": "label", "gateway": "gateway", "networkInterface": "networkInterface", "MACInterface": "MACInterface"}
 
 def create_network(handler):
     print "Creating network..."
@@ -167,11 +168,11 @@ class MethodRequest(urllib2.Request):
 class RESTRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         self.routes = {
-            r'^/computes$': {'GET': get_computes, 'POST': create_compute, 'DELETE': delete_compute,'media_type': 'application/json'},
-            r'^/computes/': {'GET': get_compute, 'media_type': 'application/json'},
+            r'^/computes$': {'GET': get_computes, 'POST': create_compute, 'media_type': 'application/json'},
+            r'^/computes/': {'GET': get_compute, 'DELETE': delete_compute, 'media_type': 'application/json'},
 
-            r'^/networks$': {'GET': get_networks, 'POST': create_network, 'DELETE': delete_network,'media_type': 'application/json'},
-            r'^/networks/': {'GET': get_network, 'media_type': 'application/json'},
+            r'^/networks$': {'GET': get_networks, 'POST': create_network, 'media_type': 'application/json'},
+            r'^/networks/': {'GET': get_network, 'DELETE': delete_network, 'media_type': 'application/json'},
 
             r'^/volumes$': {'GET': get_volumes, 'POST': create_volume, 'media_type': 'application/json'},
             r'^/volumes/': {'GET': get_volume, 'DELETE': delete_volume,'media_type': 'application/json'},
