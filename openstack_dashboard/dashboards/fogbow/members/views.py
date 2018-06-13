@@ -96,12 +96,12 @@ def get_used_by_me_quota(request, member_id):
     return HttpResponse(r)
 
 def getSpecificMemberQuota(request, member_id):
-    response = requests.get(fowbow_endpoint + '/quota/member/2')
+    response = requests.get(fowbow_endpoint + '/quota/member')
     r = response.text.encode('ascii')
     return HttpResponse(r)
 
 def get_members(request):
-    response = requests.get(fowbow_endpoint + '/members')
+    response = requests.get(fowbow_endpoint + '/membership/members')
     r = response.text.encode('ascii')
     return HttpResponse(r)
 
