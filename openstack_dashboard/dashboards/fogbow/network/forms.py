@@ -18,6 +18,7 @@ from horizon import messages
 
 from openstack_dashboard.dashboards.fogbow.models import MemberUtil
 from openstack_dashboard.dashboards.fogbow.members.views import IndexView as member_views
+from openstack_dashboard.dashboards.fogbow.models import NetworkUtil
 
 LOG = logging.getLogger(__name__)
 
@@ -50,11 +51,19 @@ class CreateNetwork(forms.SelfHandlingForm):
         self.fields['allocation'].choices = dataAllocation
 
     def handle(self, request, data):
+        LOG.debug("Try create compute")
+        federation_token_value = request.user.token.id
+        
         try:
-            messages.success(request, _('Network created'))            
+            address = data['cird']
+            gateway = data['gateway']
+            allocation = data['allocation']
+            member = data['members']
+
+            NetworkUtil.create_network(address, gateway, allocation, member, federation_token_value)
+            
+            messages.success(request, _('Network created'))
             return shortcuts.redirect(reverse("horizon:fogbow:network:index"))    
         except Exception:
             redirect = reverse("horizon:fogbow:network:index")
-            exceptions.handle(request,
-                              _('Unable to create network.'),
-                              redirect=redirect)            
+            exceptions.handle(request, _('Unable to create network.'), redirect=redirect)            

@@ -6,28 +6,28 @@
   <hr class="header_rule">
   <dl>
     <dt>{% trans "Network ID" %}</dt>
-    {{ instance.instanceId }}
+    {{ network.network_id }}
   </dl>
   <dl>
-    <dt>{% trans "Vlan" %}</dt>
-    {{ instance.vlan }}
+    <dt>{% trans "Label" %}</dt>
+    {{ network.label }}
   </dl>
   <dl>
-    <dt>{% trans "State" %}</dt>
-    {{ instance.state }}
+    <dt>{% trans "address" %}</dt>
+    {{ network.address }}
   </dl>                
-  <dl>
-    <dt>{% trans "Address" %}</dt>
-    {{ instance.address }}
-  </dl>                  
   <dl>
     <dt>{% trans "Gateway" %}</dt>
-    {{ instance.gateway }}
-  </dl>                
+    {{ network.gateway }}
+  </dl>                           
   <dl>
-    <dt>{% trans "Allocation" %}</dt>
-    {{ instance.allocation }}
-  </dl>                                         
+    <dt>{% trans "Network Interface" %}</dt>
+    {{ network.network_interface }}
+  </dl>                       
+  <dl>
+    <dt>{% trans "MAC Interface" %}</dt>
+    {{ network.mac_interface }}
+  </dl>                         
 </div>
 
 </div>

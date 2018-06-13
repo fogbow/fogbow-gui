@@ -26,4 +26,4 @@ class APIDictWrapper(object):
         return "<%s: %s>" % (self.__class__.__name__, self._apidict)
 
 class Network(APIDictWrapper):
-    _attrs = ['id', 'network_id', 'state']
+    _attrs = ['id', 'network_id', 'state', 'label', 'gateway', 'network_interface', 'mac_inferface']

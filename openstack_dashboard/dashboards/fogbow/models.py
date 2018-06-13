@@ -17,7 +17,7 @@ LOG = logging.getLogger(__name__)
 
 class MemberUtil:
      
-    #FIXME: remove federation_token_value in parameters
+    # FIXME: remove federation_token_value in parameters
     @staticmethod
     def get_members(federation_token_value):
         LOG.debug("Gettings members")
@@ -43,24 +43,66 @@ class NetworkUtil:
 
     @staticmethod
     def get_networks(federation_token_value):
-        LOG.debug("Gettings networks.")
+        LOG.debug("Gettings networks")
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
-
         RequestUtil.check_success_request(response)
-        response_json = response.text
-        return NetworkUtil.get_network_ids_from_json(response_json)
-        
-        response_json = response.json()
 
-        return NetworkUtil.get_networks_from_json(response_json)
+        response_json = response.text
+        return NetworkUtil.__get_networks_from_json(response_json)
      
     @staticmethod 
-    def delete_network(federation_token_value):
-        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
+    def delete_network(network_id, federation_token_value):
+        LOG.debug("Trying to delete network: {network_id}".format(network_id=network_id))
+        endpoint = "{action_request_manager}/{network_id}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, network_id=network_id)
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+    # TODO use object in attrs
+    @staticmethod
+    def create_network(gateway, address, allocation, member, federation_token_value):
+        LOG.debug("Trying to create network")
+
+        data = {}
+        data[FogbowConstants.GATEWAY_ORDER_NETWORK_KEY] = gateway
+        data[FogbowConstants.ADDRESS_ORDER_COMPUTE_KEY] = address
+        data[FogbowConstants.ALLOCATION_ID_ORDER_COMPUTE_KEY] = allocation
+        data[FogbowConstants.PROVIDING_MEMBER_ORDER_KEY] = member
+
+        json_data = json.dumps(data)
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
         RequestUtil.check_success_request(response)
 
     @staticmethod
-    def get_networks_from_json(response_json):
+    def get_network(network_id, federation_token_value):
+        LOG.debug("Getting network: {network_id}".format(network_id=network_id))
+        endpoint = "{action_request_manager}/{network_id}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, network_id=network_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text        
+        return NetworkUtil.__get_network_from_json(response_json) 
+
+    # TODO reuse this method in __get_networks_from_json
+    @staticmethod
+    def __get_network_from_json(response_json):
+        network = json.loads(response_json)
+
+        # TODO to use contants
+        id = network['id']
+        state = network['state']
+        label = network['label']
+        address = network['address']
+        gateway = network['gateway']
+        network_interface = network['networkInterface']
+        mac_inferface = network['MACInterface']
+
+        # TODO to use contants
+        return {"id" :id, "network_id": id, "state": state, "label": label, "address": address, "gateway": gateway, \
+                    "network_interface": network_interface, "mac_inferface": mac_inferface}
+
+    @staticmethod
+    def __get_networks_from_json(response_json):
         networks = []
 
         data = json.loads(response_json)

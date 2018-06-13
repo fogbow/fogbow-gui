@@ -78,7 +78,10 @@ class CreateInstance(forms.SelfHandlingForm):
         
         networks_choices = []
         networks_choices.append(('', ''))
-        # networks_choices.extend(NetworkUtil.get_networks(federation_token_value))
+        networks = NetworkUtil.get_networks(federation_token_value)
+        for network in networks:
+            networks_choices.append((network.id, network.id))
+        
         self.fields['network_id'].choices = networks_choices
         
     def normalize_user_data(self, value):
