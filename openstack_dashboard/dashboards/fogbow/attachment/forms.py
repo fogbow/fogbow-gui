@@ -21,6 +21,7 @@ from openstack_dashboard.dashboards.fogbow.instance.views import IndexView as in
 from openstack_dashboard.dashboards.fogbow.storage.views import IndexView as storage_views
 from openstack_dashboard.dashboards.fogbow.models import AttachmentUtil
 from openstack_dashboard.dashboards.fogbow.models import VolumeUtil
+from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
 
 LOG = logging.getLogger(__name__)
 
@@ -49,7 +50,9 @@ class CreateAttachment(forms.SelfHandlingForm):
         self.fields['volume'].choices = volumes_choices
         
         computes_choices = []
-        computes_choices.append(("fake", "fake"))
+        computes = ComputeUtil.get_computes(federation_token_value)
+        for compute in computes:
+            computes_choices.append((compute.id, compute.id))
         self.fields['compute'].choices = computes_choices
 
     def handle(self, request, data):

@@ -28,11 +28,14 @@ class TerminateInstance(tables.BatchAction):
 
     def action(self, request, obj_id):
         self.current_past_action = 0        
-        federation_token_value = request.user.token.id
+        network_id = obj_id
+        LOG.info("Trying to delete the network: {network_id}".format(network_id=network_id))
+        federation_token_value = request.user.token.id  
         try:
-            NetworkUtil.delete_network(federation_token_value)
+            NetworkUtil.delete_network(network_id, federation_token_value)
         except Exception as e:
-            messages.error(request, _('Is was not possible to delete : %s') % obj_id)
+            LOG.error("Is not possible delete the network. Message exception is {error_msg}:".format(error_msg=str(e)))
+            messages.error(request, _('Is was not possible to delete : %s') % compute_id)     
 
 class CreateNetwork(tables.LinkAction):
     name = 'create'

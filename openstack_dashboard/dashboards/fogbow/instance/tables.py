@@ -10,8 +10,10 @@ from django import shortcuts
 from horizon import tables
 from horizon import messages
 from horizon import exceptions
+from horizon import messages
 
 import openstack_dashboard.models as fogbow_models
+from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
 
 LOG = logging.getLogger(__name__)
 
@@ -32,14 +34,14 @@ class TerminateInstance(tables.BatchAction):
 
     def action(self, request, obj_id):
         self.current_past_action = 0     
-        LOG.debug("Deleting compute by {id}".format(id=obj_id))   
-        # TODO request to new fogbow manager
-#        response = fogbow_models.doRequest('delete',COMPUTE_TERM + obj_id, None, request)
-
-#         if response == None or fogbow_models.isResponseOk(response.text) == False:
-#             messages.error(request, _('Is was not possible to delete : %s') % obj_id)
-#             checkAttachmentAssociateError(request, response.text)
-#             return shortcuts.redirect(reverse("horizon:fogbow:instance:index"))
+        compute_id = obj_id
+        LOG.info("Trying to delete the compute: {compute_id}".format(compute_id=compute_id))
+        federation_token_value = request.user.token.id  
+        try:
+            ComputeUtil.delete_compute(compute_id, federation_token_value)
+        except Exception as e:
+            LOG.error("Is not possible delete the compute. Message exception is {error_msg}:".format(error_msg=str(e)))
+            messages.error(request, _('Is was not possible to delete : %s') % compute_id)     
             
 class CreateInstance(tables.LinkAction):
     name = 'create'

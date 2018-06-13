@@ -28,4 +28,4 @@ class APIDictWrapper(object):
         return "<%s: %s>" % (self.__class__.__name__, self._apidict)
 
 class Compute(APIDictWrapper):
-    _attrs = ['id', 'compute_id', 'state']
+    _attrs = ['id', 'compute_id', 'state', 'host_name', 'v_cpu', 'memory', 'local_ip_address', 'ssh_public_address', 'ssh_user_name', 'ssh_extra_ports']

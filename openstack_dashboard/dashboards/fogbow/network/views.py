@@ -1,8 +1,11 @@
+import logging
+
 from horizon import views
 from django.utils.translation import ugettext_lazy as _  # noqa
 from horizon import tables
 from horizon import tabs
 from horizon import forms
+from horizon import messages
 
 from openstack_dashboard.dashboards.fogbow.network.forms import CreateNetwork
 from django.core.urlresolvers import reverse_lazy 
@@ -12,7 +15,9 @@ from openstack_dashboard.dashboards.fogbow.network \
 from openstack_dashboard.dashboards.fogbow.network \
     import tables as project_tables
 from openstack_dashboard.dashboards.fogbow.network.models import Network
-import openstack_dashboard.models as fogbow_models
+from openstack_dashboard.dashboards.fogbow.models import NetworkUtil
+
+LOG = logging.getLogger(__name__)
 
 class IndexView(tables.DataTableView):
     table_class = project_tables.InstancesTable
@@ -24,27 +29,16 @@ class IndexView(tables.DataTableView):
         return self._more
 
     def get_data(self):
-#         response = fogbow_models.doRequest('get', NETWORK_TERM, None, self.request)        
-        
-        networks = []
-        
-#         if response == None:
-#             return instances
-        
-#         responseStr = response.text
-        response_json = None
-        networks = self.get_networks_from_json(response_json)        
-        
-        return networks
-    
-    def get_networks_from_json(self, response_json):
-        networks = []
-            
-        networks.append(Network({'id': 'id_1', 'network_id': 'id_1', 'state': 'OPEN'}))
-        networks.append(Network({'id': 'id_2', 'network_id': 'id_1', 'state': 'FULL'}))
-            
-        return networks
-        
+        federation_token_value = self.request.user.token.id
+        try:
+            return NetworkUtil.get_networks(federation_token_value)
+        except Exception as e:
+            error_msg = "Is not possible to get computes"
+            error_msg_detail = "Error message: {error_msg}".format(error_msg=str(e))
+            LOG.error("{error_msg}{error_msg_detail}".format(error_msg=error_msg, error_msg_detail=error_msg_detail))
+            messages.error(self.request, error_msg)
+            return {}        
+
 class CreateView(forms.ModalFormView):
     form_class = CreateNetwork
     template_name = 'fogbow/network/create.html'

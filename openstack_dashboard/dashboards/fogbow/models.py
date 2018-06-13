@@ -8,13 +8,16 @@ from openstack_dashboard.models import FogbowConstants
 from openstack_dashboard.models import RequestConstants
 from openstack_dashboard.models import DashboardConstants
 
+from openstack_dashboard.dashboards.fogbow.network.models import Network
 from openstack_dashboard.dashboards.fogbow.storage.models import Volume
+from openstack_dashboard.dashboards.fogbow.instance.models import Compute
 from openstack_dashboard.dashboards.fogbow.attachment.models import Attachment
 
 LOG = logging.getLogger(__name__)
 
 class MemberUtil:
      
+    # FIXME: remove federation_token_value in parameters
     @staticmethod
     def get_members(federation_token_value):
         LOG.debug("Gettings members")
@@ -37,29 +40,177 @@ class MemberUtil:
         return members
 
 class NetworkUtil:
-     
+
     @staticmethod
     def get_networks(federation_token_value):
+        LOG.debug("Gettings networks")
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
         RequestUtil.check_success_request(response)
 
         response_json = response.text
-        return NetworkUtil.get_network_ids_from_json(response_json)
-        
-    def delete_network(federation_token_value):
-        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
+        return NetworkUtil.__get_networks_from_json(response_json)
+     
+    @staticmethod 
+    def delete_network(network_id, federation_token_value):
+        LOG.debug("Trying to delete network: {network_id}".format(network_id=network_id))
+        endpoint = "{action_request_manager}/{network_id}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, network_id=network_id)
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+    # TODO use object in attrs
+    @staticmethod
+    def create_network(gateway, address, allocation, member, federation_token_value):
+        LOG.debug("Trying to create network")
+
+        data = {}
+        data[FogbowConstants.GATEWAY_ORDER_NETWORK_KEY] = gateway
+        data[FogbowConstants.ADDRESS_ORDER_COMPUTE_KEY] = address
+        data[FogbowConstants.ALLOCATION_ID_ORDER_COMPUTE_KEY] = allocation
+        data[FogbowConstants.PROVIDING_MEMBER_ORDER_KEY] = member
+
+        json_data = json.dumps(data)
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
         RequestUtil.check_success_request(response)
 
     @staticmethod
-    def get_network_ids_from_json(response_json):
-        network_ids = []
+    def get_network(network_id, federation_token_value):
+        LOG.debug("Getting network: {network_id}".format(network_id=network_id))
+        endpoint = "{action_request_manager}/{network_id}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, network_id=network_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text        
+        return NetworkUtil.__get_network_from_json(response_json) 
+
+    # TODO reuse this method in __get_networks_from_json
+    @staticmethod
+    def __get_network_from_json(response_json):
+        network = json.loads(response_json)
+
+        # TODO to use contants
+        id = network['id']
+        state = network['state']
+        label = network['label']
+        address = network['address']
+        gateway = network['gateway']
+        network_interface = network['networkInterface']
+        mac_inferface = network['MACInterface']
+
+        # TODO to use contants
+        return {"id" :id, "network_id": id, "state": state, "label": label, "address": address, "gateway": gateway, \
+                    "network_interface": network_interface, "mac_inferface": mac_inferface}
+
+    @staticmethod
+    def __get_networks_from_json(response_json):
+        networks = []
 
         data = json.loads(response_json)
-        for network in data:
-            network_ids.append((network.get('id'), network.get('id')))
 
-        return network_ids
+        for network in data:
+            networks.append(Network({'id': network.get('id'), 
+            'network_id': network.get('id'), 'state': network.get('state')}))
+
+        return networks
         
+class ComputeUtil:
+
+    @staticmethod
+    def get_computes(federation_token_value):
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text
+        return ComputeUtil.__get_compute_ids_from_json(response_json)
+
+    @staticmethod
+    def delete_compute(compute_id, federation_token_value):
+        LOG.debug("Trying to delete compute: {compute_id}".format(compute_id=compute_id))
+        endpoint = "{action_request_manager}/{compute_id}".format(action_request_manager=FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, compute_id=compute_id)
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+    # TODO use object in attrs
+    @staticmethod
+    def create_compute(vcpu, memory, member, image_id, network_id, extra_user_data, extra_user_data_type, public_key, federation_token_value):
+        LOG.debug("Trying to create compute")
+
+        data = {}
+        data[FogbowConstants.VCPU_ORDER_COMPUTE_KEY] = vcpu
+        data[FogbowConstants.MEMORY_ORDER_COMPUTE_KEY] = memory
+        data[FogbowConstants.NETWORK_ID_ORDER_COMPUTE_KEY] = network_id
+        data[FogbowConstants.PUBLIC_KEY_ORDER_COMPUTE_KEY] = public_key
+        data[FogbowConstants.IMAGE_ID_ORDER_COMPUTE_KEY] = image_id
+        data[FogbowConstants.PROVIDING_MEMBER_ORDER_KEY] = member
+
+        data_userdata = {}
+        data_userdata[FogbowConstants.EXTRA_USER_DATA_CONTENT_ORDER_COMPUTE_KEY] = extra_user_data
+        data_userdata[FogbowConstants.EXTRA_USER_DATA_TYPE_ORDER_COMPUTE_KEY] = extra_user_data_type
+
+        data[FogbowConstants.EXTRA_USER_DATA_ORDER_COMPUTE_KEY] = data_userdata
+
+        json_data = json.dumps(data)
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def get_compute(compute_id, federation_token_value):
+        LOG.debug("Getting compute: {compute_id}".format(compute_id=compute_id))
+        endpoint = "{action_request_manager}/{compute_id}".format(action_request_manager=FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, compute_id=compute_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text
+        LOG.info(response_json)
+
+        return ComputeUtil.__get_compute_from_json(response_json)    
+
+    # TODO reuse this method in __get_compute_ids_from_json
+    @staticmethod
+    def __get_compute_from_json(response_json):
+        compute = json.loads(response_json)
+
+        # TODO to use contants
+        id = compute['id']
+        state = compute['state']
+        host_name = compute['hostName']
+        ssh_public_address = compute['sshTunnelConnectionData']['sshPublicAddress']
+        ssh_user_name = compute['sshTunnelConnectionData']['sshUserName']
+        ssh_extra_ports = compute['sshTunnelConnectionData']['sshExtraPorts']
+        v_cpu = compute['vCPU']
+        memory = compute['memory']
+        local_ip_address = compute['localIpAddress']
+
+        # TODO to use contants
+        return {"id" :id, "volume_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
+                    "memory": memory, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
+                    "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports }
+
+    @staticmethod
+    def __get_compute_ids_from_json(response_json):    
+        computes = []
+
+        data = json.loads(response_json)
+        for compute in data:
+            # TODO to use contants
+            id = compute['id']
+            state = compute['state']
+            host_name = compute['hostName']
+            ssh_public_address = compute['sshTunnelConnectionData']['sshPublicAddress']
+            ssh_user_name = compute['sshTunnelConnectionData']['sshUserName']
+            ssh_extra_ports = compute['sshTunnelConnectionData']['sshExtraPorts']
+            v_cpu = compute['vCPU']
+            memory = compute['memory']
+            local_ip_address = compute['localIpAddress']
+
+            # TODO to use contants
+            computes.append(Compute({"id" :id, "compute_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
+                       "memory": memory, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
+                       "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports }))
+        return computes        
+
+
 class VolumeUtil:
 
     @staticmethod
@@ -78,6 +229,7 @@ class VolumeUtil:
         response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
+    # TODO use object in attrs
     @staticmethod
     def create_volume(size, member, federation_token_value):
         LOG.debug("Trying to create volume")
@@ -98,11 +250,10 @@ class VolumeUtil:
         RequestUtil.check_success_request(response)      
 
         response_json = response.text
-        LOG.info(response_json)
 
         return VolumeUtil.__get_volume_from_json(response_json)
 
-    # TODO reuse this method
+    # TODO reuse this method in __get_volumes_from_json
     @staticmethod
     def __get_volume_from_json(response_json):
         volume = json.loads(response_json)
@@ -150,6 +301,7 @@ class AttachmentUtil:
         response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
+    # TODO use object in attrs
     @staticmethod
     def create_attachment(target, source, federation_token_value):
         LOG.debug("Trying to create attachment")
@@ -192,7 +344,7 @@ class AttachmentUtil:
 
         return attachments    
 
-    # TODO reuse this method
+    # TODO reuse this method in __get_attachments_from_json
     @staticmethod
     def __get_attachment_from_json(response_json):
         volume = json.loads(response_json)
