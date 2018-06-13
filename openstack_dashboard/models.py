@@ -35,11 +35,20 @@ class FogbowConstants():
     # manager core
     NETWORKS_ACTION_REQUEST_MANAGER = '/networks'
     VOLUMES_ACTION_REQUEST_MANAGER = '/volumes'
-
+    COMPUTES_ACTION_REQUEST_MANAGER = '/computes'
     ATTACHMENTS_ACTION_REQUEST_MANAGER= '/attachments'
 
     # attrs
     PROVIDING_MEMBER_ORDER_KEY = 'providingMember'
+
+    VCPU_ORDER_COMPUTE_KEY = 'vCPU'
+    MEMORY_ORDER_COMPUTE_KEY = 'memory'
+    NETWORK_ID_ORDER_COMPUTE_KEY = 'networkId'
+    IMAGE_ID_ORDER_COMPUTE_KEY = 'imageId'
+    EXTRA_USER_DATA_ORDER_COMPUTE_KEY = 'userData'
+    EXTRA_USER_DATA_CONTENT_ORDER_COMPUTE_KEY = 'extraUserDataFileContent'
+    EXTRA_USER_DATA_TYPE_ORDER_COMPUTE_KEY = 'extraUserDataFileType'
+    PUBLIC_KEY_ORDER_COMPUTE_KEY = 'publicKey'
 
     SIZE_ORDER_VOLUME_KEY = 'volumeSize'
 

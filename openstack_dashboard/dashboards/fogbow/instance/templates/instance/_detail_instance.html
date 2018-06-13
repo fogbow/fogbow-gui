@@ -6,18 +6,38 @@
   <hr class="header_rule">
   <dl>
     <dt>{% trans "Instance ID" %}</dt>
-    {{ instance.id }}
+    {{ compute.id }}
   </dl>
   <dl>
     <dt>{% trans "State" %}</dt>
-    {{ instance.state }}
+    {{ compute.state }}
   </dl>
   <dl>
     <dt>{% trans "vCPU" %}</dt>
-    {{ instance.vCPU }}
+    {{ compute.v_cpu }}
   </dl>
   <dl>
     <dt>{% trans "Memory" %}</dt>
-    {{ instance.memory }}
+    {{ compute.memory }}
+  </dl>
+  <dl>
+    <dt>{% trans "Local id address" %}</dt>
+    {{ compute.local_ip_address }}
+  </dl>
+  <dl>
+    <dt>{% trans "SHH public address" %}</dt>
+    {{ compute.ssh_public_address }}
+  </dl>
+  <dl>
+    <dt>{% trans "SHH user name" %}</dt>
+    {{ compute.ssh_user_name }}
+  </dl>
+  <dl>
+    <dt>{% trans "SHH extra ports" %}</dt>
+    {{ compute.ssh_extra_ports }}
+  </dl>
+  <dl>
+    <dt>{% trans "Memory" %}</dt>
+    {{ compute.memory }}
   </dl>
 </div>
