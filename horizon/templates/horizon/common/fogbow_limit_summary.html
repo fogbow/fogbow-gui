@@ -1,89 +1,102 @@
 {% load i18n horizon humanize sizeformat %}
 
 <div>
-	<h3 style="font-size: 30px;">Local</h3>
-	<table style="margin-bottom: 40px; font-size: 18px;">
-		<tr>
-			<th style="padding: 0px 76px;">Local</th>
-			<th style="padding: 0px 76px;">Compute</th>
-			<th style="padding: 0px 76px;">vCPU</th>
-			<th style="padding: 0px 76px;">RAM</th>
-			<th style="padding: 0px 76px;">Volume</th>
-			<th style="padding: 0px 76px;">Storage</th>
-			<th style="padding: 0px 76px;">FIPs</th>
-			<th style="padding: 0px 76px;">Networks</th>
-		</tr>
+	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
+		<thead>
+			<tr>
+				<th style="padding: 5px 76px;">Local</th>
+				<th style="padding: 5px 76px;">Instance</th>
+				<th style="padding: 5px 76px;">vCPU</th>
+				<th style="padding: 5px 76px;">RAM</th>
+				<th style="padding: 5px 76px;">Volume</th>
+				<th style="padding: 5px 76px;">Storage</th>
+				<th style="padding: 5px 76px;">FIPs</th>
+				<th style="padding: 5px 76px;">Networks</th>
+			</tr>
+		</thead>
 		<tr>
 			<td>Shared Quota</td>
-			<td style="padding: 0px 76px;" id="shared_compute">Fake</td>
-			<td style="padding: 0px 76px;" id="shared_cpu">Fake</td>
-			<td style="padding: 0px 76px;" id="shared_ram">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
+			<td style="padding: 5px 76px;" id="shared_compute">Fake</td>
+			<td style="padding: 5px 76px;" id="shared_cpu">Fake</td>
+			<td style="padding: 5px 76px;" id="shared_ram">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
 		</tr>
-
+		
 		<tr>
 			<td>Available Quota</td>
-			<td style="padding: 0px 76px;" id="free_compute">Fake</td>
-			<td style="padding: 0px 76px;" id="free_cpu">Fake</td>
-			<td style="padding: 0px 76px;" id="free_ram">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
+			<td style="padding: 5px 76px;" id="free_compute">Fake</td>
+			<td style="padding: 5px 76px;" id="free_cpu">Fake</td>
+			<td style="padding: 5px 76px;" id="free_ram">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
 		</tr>
-
+		
 		<tr>
 			<td>Quota Used by me</td>
-			<td style="padding: 0px 76px;" id="my_compute">Fake</td>
-			<td style="padding: 0px 76px;" id="my_cpu"></td>
-			<td style="padding: 0px 76px;" id="my_ram">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
-			<td style="padding: 0px 76px;">Fake</td>
+			<td style="padding: 5px 76px;" id="my_compute">Fake</td>
+			<td style="padding: 5px 76px;" id="my_cpu"></td>
+			<td style="padding: 5px 76px;" id="my_ram">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
+			<td style="padding: 5px 76px;">Fake</td>
 		</tr>
 	</table>
 	
-	<div class="table_wrapper">
-		<h3 class="table_title">{% trans "Aggregated" %}</h3>
-		  <br>
-		  <div>
-        <h4 class="same-line">Using &nbsp</h4> 
-        <b><div id="totalVCPUInUseByUserResponse" class="same-line red"></div></b>
-        <h4 class="same-line">&nbsp vCPU of &nbsp</h4>
-        <b><div id="totalVCPUAvailableResponse" class="same-line red"></div></b>
-        <h4 class="same-line">&nbsp available</h4>
-      </div> 
-      <br>
-      <div>
-        <h4 class="same-line">Using &nbsp </h4> 
-        <b><div class="same-line red" id="totalRAMInUseByUserResponse"></div></b>
-        <h4 class="same-line">&nbsp GB of RAM of &nbsp</h4>
-        <b><div class="same-line red" id="totalRamAvailableResponse"></div></b>
-        <h4 class="same-line">&nbsp available</h4>
-      </div>
-      <br>
-      <div>
-        <h4 class="same-line">Using &nbsp </h4> 
-        <b><div class="same-line red" id="totalInstanceInUseByUserResponse"></div></b>
-        <h4 class="same-line">&nbsp instance(s) of &nbsp</h4>
-        <b><div class="same-line red" id="totalInstanceAvailableResponse"></div></b>
-        <h4>&nbsp available</h4>
-      </div>   	 
-      <br>
-	  
-	  </div>
-
+	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
+		<tr>
+			<th style="padding: 5px 76px;">Resource</th>
+			<th style="padding: 5px 76px;">Using</th>
+			<th style="padding: 5px 76px;">Total</th>
+		</tr>
+		<tr>
+			<td>Instance</td>
+			<td style="padding: 5px 76px;" id="using_compute">Fake</td>
+			<td style="padding: 5px 76px;" id="available_compute">Fake</td>
+		</tr>
+		<tr>
+			<td>vCPU</td>
+			<td style="padding: 5px 76px;" id="using_vCPU">Fake</td>
+			<td style="padding: 5px 76px;" id="available_vCPU">Fake</td>
+		</tr>
+		<tr>
+			<td>RAM</td>
+			<td style="padding: 5px 76px;" id="using_ram">Fake</td>
+			<td style="padding: 5px 76px;" id="available_ram">Fake</td>
+		</tr>
+		<tr>
+			<td>Volume</td>
+			<td style="padding: 5px 76px;" id="using_volume">Fake</td>
+			<td style="padding: 5px 76px;" id="available_volume">Fake</td>
+		</tr>
+		<tr>
+			<td>Storage</td>
+			<td style="padding: 5px 76px;" id="using_storage">Fake</td>
+			<td style="padding: 5px 76px;" id="available_storage">Fake</td>
+		</tr>
+		<tr>
+			<td>FIPs</td>
+			<td style="padding: 5px 76px;" id="using_fIPs">Fake</td>
+			<td style="padding: 5px 76px;" id="available_fIPs">Fake</td>
+		</tr>
+		<tr>
+			<td>Networks</td>
+			<td style="padding: 5px 76px;" id="using_networks">Fake</td>
+			<td style="padding: 5px 76px;" id="available_networks">Fake</td>
+		</tr>
+	</table>
+	
 	<select id="member">
 		<option value="">Members</option>
-		<option value="">fedcloud.lsd.ufcg.edu.br</option>
 	</select>
-	<table style="margin-bottom: 40px; font-size: 18px;">
+	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
 		<tr>
-			<th style="padding: 0px 85px;">Compute</th>
+			<th style="padding: 0px 85px;">Instance</th>
 			<th style="padding: 0px 85px;">vCPU</th>
 			<th style="padding: 0px 85px;">RAM</th>
 			<th style="padding: 0px 85px;">Volume</th>
@@ -103,494 +116,519 @@
 	</table>
 </div>
 
-
-	<button class="button button-shadow " id="button_populate">Refresh</button>
-	<!-- <button class="button button-shadow " id="button_abort">Abort</button>  --> 	
-	<br>
-	
 <style>
-.same-line {
-	float: left;
-}
-
-.red {
-	color: red;
-}
-
-.button {
-    background-color: #474747; 
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-}
-
-.button-shadow {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
-
+	.same-line {
+		float: left;
+	}
+	
+	.red {
+		color: red;
+	}
+	
+	.button {
+		background-color: #474747; 
+		border: none;
+		color: white;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		cursor: pointer;
+		-webkit-transition-duration: 0.4s; /* Safari */
+		transition-duration: 0.4s;
+	}
+	
+	.button-shadow {
+		box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	}
+	
 </style>
 
 <script src="../static/dashboard/js/jquery-1.12.0.min.js"></script> 
 <script type="text/javascript">
-
-// TODO needs a refactor
-(function(){	
-	var continueRefresh = true
 	
-	$(document).find("a").click(function() {
-		console.log('clicked');
-		continueRefresh = false;
-	});
-	
-	var members = [];
-	var totalRamAvailable = 0;
-	var totalRam = 0;
-	var totalVCPUAvailable = 0;
-	var totalVCPU = 0;
-	var totalRAMInUseByUser = 0;
-	var totalVCPUInUseByUser = 0;
-	var totalInstanceAvailable = 0;
-	var totalInstance = 0;	
-	var totalInstanceInUseByUser = 0;
-	
-	function updateMembers(memberLocalStorage) {
-		console.log("Updating members...");
-		var cont = 0;
-		$('#members').find('tr').each(function(indice) {
-		    $(this).find('td').each(function(indice) {
-		        if (indice == 0) {
-		        	var text = $(this).text();
-		        	
-		        	if (text.indexOf("Displaying") !== -1) {
-		        		return;
-		        	}
-		        	
-		        	var columnAndLine = "#members__row__" + text.replace(/\./g, '\\.') + " td:eq(10)"
-		        	
-		        	if (memberLocalStorage == null ) {
-			        	$(columnAndLine).text("Loading");
-						$(columnAndLine).css('color', 'black');		
-		        	} else {
-			        	$(columnAndLine).text("Not updated");
-						$(columnAndLine).css('color', 'purple');		        		
-		        	}
-		        	
-		        	members[cont] = text;    	
-		        	cont++;
-		        }
-		    });
-		});		
-	}	
-    
-	var tokenToReplace = '#TokenReplace#';
-	
-    function updateLocalStorage(numberMember, newMemberData) {
-    	var localStorageMembers = localStorage.getItem("members");
-    	if (localStorageMembers == null || localStorageMembers == 'undefined') {
-    		localStorageMembers = newMemberData;
-    		localStorage.setItem("members", localStorageMembers);
-    		return;
-    	}
-    	localStorageMembers = localStorageMembers + tokenToReplace + newMemberData;
-    	localStorage.setItem("members", localStorageMembers);    		
-    }
-    
-    function getMemberDataLocalStorage(numberMember) {
-    	var localStorageMembers = localStorage.getItem("members");
-    	if (localStorageMembers == null || localStorageMembers == 'undefined') {
-    		return null;
-    	}
-    	
-    	return localStorageMembers;
-    }
-
-    function populateMemberLine(member, jsonData, color) {    	
-		try {			
-			for (var key in jsonData) {
-				if (jsonData.hasOwnProperty(key)) {
-					if (jsonData[key].length < 9 || key == 10) {
-					 	$("#members__row__" + member + " td:eq(" + key + ")").text(jsonData[key]);
-					 	
-					 	if (key == 1) {
-					 		try {
-					 			totalVCPUAvailable = totalVCPUAvailable + parseFloat(jsonData[key]);					 			
-					 		}
-					 		catch(err) {}
-					 	} else if (key == 2) {
-					 		try {			 											 			
-					 			totalVCPU = totalVCPU + parseFloat(jsonData[key]);
-					 		}
-					 		catch(err) {}
-					 	} else if (key == 4) {
-					 		try {	 			
-					 			totalRamAvailable = totalRamAvailable + parseFloat(jsonData[key]);					 			
-					 		}
-					 		catch(err) {}						 		
-					 	} else if (key == 5) {					 	
-					 		try {			 			
-					 			totalRam = totalRam + parseFloat(jsonData[key]);
-					 		}
-					 		catch(err) {}					 		
-					 	} else if (key == 3) {
-					 		try {			 
-					 			
-					 			totalVCPUInUseByUser = totalVCPUInUseByUser + parseFloat(jsonData[key]);
-					 			$('#totalVCPUInUseByUserResponse').text(totalVCPUInUseByUser);
-					 			
-					 			var calculation = totalVCPUAvailable - totalVCPU + totalVCPUInUseByUser;
-					 			if (isNaN(calculation)) {
-					 				calculation = 'no limit';
-					 			}
-					 			$('#totalVCPUAvailableResponse').text(calculation);
-					 		}
-					 		catch(err) {}
-					 	} else if (key == 6) {
-					 		try {			
-					 			totalRAMInUseByUser = totalRAMInUseByUser + parseFloat(jsonData[key]);
-					 			$('#totalRAMInUseByUserResponse').text(totalRAMInUseByUser / 1024);					 			
-					 			
-					 			var calculation = ((totalRamAvailable - totalRam + totalRAMInUseByUser) / 1024)
-					 			if (isNaN(calculation)) {
-					 				calculation = 'no limit';
-					 				$('#totalRamAvailableResponse').text(calculation);
-					 			}					 			
-					 			$('#totalRamAvailableResponse').text(calculation.toFixed(1));
-					 		}
-					 		catch(err) {}
-					 		
-					 	} else if (key == 7) {
-					 		try {		 			
-					 			totalInstanceAvailable = totalInstanceAvailable + parseFloat(jsonData[key]);					 			
-					 		}
-					 		catch(err) {}						 		
-					 	} else if (key == 8) {					 	
-					 		try {			 			
-					 			totalInstance = totalInstance + parseFloat(jsonData[key]);
-					 		}
-					 		catch(err) {}					 		
-					 	} else if (key == 9) {
-					 		try {			
-					 			totalInstanceInUseByUser = totalInstanceInUseByUser + parseFloat(jsonData[key]);
-					 			$('#totalInstanceInUseByUserResponse').text(totalInstanceInUseByUser);
-					 			
-					 			var calculation = ((totalInstanceAvailable - totalInstance + totalInstanceInUseByUser))
-					 			if (isNaN(calculation)) {
-					 				calculation = 'no limit';
-					 				$('#totalInstanceAvailableResponse').text(calculation);
-					 			}					 			 			
-					 			$('#totalInstanceAvailableResponse').text(calculation.toFixed(1));
-					 		}
-					 		catch(err) {}
-					 	}
-					 	
-					} else {
-						
-				   		$("#members__row__" + member + " td:eq(" + key + ")").text('No Limit');
-				   		
-					 	if (key == 1) {
-					 		totalVCPUAvailable = 'No Limit';
-					 		$('#totalVCPUAvailableResponse').text(totalVCPUAvailable);
-					 	} else if (key == 4) {
-					 		totalRamAvailable = 'No Limit';
-					 		$('#totalRamAvailableResponse').text(totalRamAvailable);
-					 	} else if (key == 7) {
-					 		totalInstanceAvailable = 'No Limit';
-					 		$('#totalInstanceAvailableResponse').text(totalInstanceAvailable);
-					 	}
-				   		
-				  	}
-			  	}
-			}
-			
-			if (color == "undefined" || color == null) {
-				color = "blue";
-			}
-			columnEl.css('color', color);			
-			
-		} catch(err) {}
-    }
-    
-    var contTimes = 1;
-    var contTryTimesDefault = 3;  
-    
-    // @Deprecated
-	function refreshLine(numberMember) {				
-		var text = members[numberMember];			
-		console.log("Trying first time in " + text);
-	 	if (text == null || text == 'undefined') {
-	 		return;
-	 	}
-		var cont = numberMember;
+	// TODO needs a refactor
+	(function(){	
+		var continueRefresh = true
 		
-    	$.ajax({
-    	    url: window.location.href + text + '/quota',
-    	    type: "GET",
-    	    timeout: 20000,    	    
-    	    success: function(data) {       
-    	    	console.log('Response ok in ' + text);
-    			text = text.replace(/\./g, '\\.');
-    			columnEl = $("#members__row__" + text + " td:eq(10)");
-				if (data == 'error') {
+		$(document).find("a").click(function() {
+			console.log('clicked');
+			continueRefresh = false;
+		});
+		
+		var members = [];
+		var totalRamAvailable = 0;
+		var totalRam = 0;
+		var totalVCPUAvailable = 0;
+		var totalVCPU = 0;
+		var totalRAMInUseByUser = 0;
+		var totalVCPUInUseByUser = 0;
+		var totalInstanceAvailable = 0;
+		var totalInstance = 0;	
+		var totalInstanceInUseByUser = 0;
+		
+		function updateMembers(memberLocalStorage) {
+			console.log("Updating members...");
+			var cont = 0;
+			$('#members').find('tr').each(function(indice) {
+				$(this).find('td').each(function(indice) {
+					if (indice == 0) {
+						var text = $(this).text();
+						
+						if (text.indexOf("Displaying") !== -1) {
+							return;
+						}
+						
+						var columnAndLine = "#members__row__" + text.replace(/\./g, '\\.') + " td:eq(10)"
+						
+						if (memberLocalStorage == null ) {
+							$(columnAndLine).text("Loading");
+							$(columnAndLine).css('color', 'black');		
+						} else {
+							$(columnAndLine).text("Not updated");
+							$(columnAndLine).css('color', 'purple');		        		
+						}
+						
+						members[cont] = text;    	
+						cont++;
+					}
+				});
+			});		
+		}	
+		
+		var tokenToReplace = '#TokenReplace#';
+		
+		function updateLocalStorage(numberMember, newMemberData) {
+			var localStorageMembers = localStorage.getItem("members");
+			if (localStorageMembers == null || localStorageMembers == 'undefined') {
+				localStorageMembers = newMemberData;
+				localStorage.setItem("members", localStorageMembers);
+				return;
+			}
+			localStorageMembers = localStorageMembers + tokenToReplace + newMemberData;
+			localStorage.setItem("members", localStorageMembers);    		
+		}
+		
+		function getMemberDataLocalStorage(numberMember) {
+			var localStorageMembers = localStorage.getItem("members");
+			if (localStorageMembers == null || localStorageMembers == 'undefined') {
+				return null;
+			}
+			
+			return localStorageMembers;
+		}
+		
+		function populateMemberLine(member, jsonData, color) {    	
+			try {			
+				for (var key in jsonData) {
+					if (jsonData.hasOwnProperty(key)) {
+						if (jsonData[key].length < 9 || key == 10) {
+							$("#members__row__" + member + " td:eq(" + key + ")").text(jsonData[key]);
+							
+							if (key == 1) {
+								try {
+									totalVCPUAvailable = totalVCPUAvailable + parseFloat(jsonData[key]);					 			
+								}
+								catch(err) {}
+							} else if (key == 2) {
+								try {			 											 			
+									totalVCPU = totalVCPU + parseFloat(jsonData[key]);
+								}
+								catch(err) {}
+							} else if (key == 4) {
+								try {	 			
+									totalRamAvailable = totalRamAvailable + parseFloat(jsonData[key]);					 			
+								}
+								catch(err) {}						 		
+							} else if (key == 5) {					 	
+								try {			 			
+									totalRam = totalRam + parseFloat(jsonData[key]);
+								}
+								catch(err) {}					 		
+							} else if (key == 3) {
+								try {			 
+									
+									totalVCPUInUseByUser = totalVCPUInUseByUser + parseFloat(jsonData[key]);
+									$('#totalVCPUInUseByUserResponse').text(totalVCPUInUseByUser);
+									
+									var calculation = totalVCPUAvailable - totalVCPU + totalVCPUInUseByUser;
+									if (isNaN(calculation)) {
+										calculation = 'no limit';
+									}
+									$('#totalVCPUAvailableResponse').text(calculation);
+								}
+								catch(err) {}
+							} else if (key == 6) {
+								try {			
+									totalRAMInUseByUser = totalRAMInUseByUser + parseFloat(jsonData[key]);
+									$('#totalRAMInUseByUserResponse').text(totalRAMInUseByUser / 1024);					 			
+									
+									var calculation = ((totalRamAvailable - totalRam + totalRAMInUseByUser) / 1024)
+									if (isNaN(calculation)) {
+										calculation = 'no limit';
+										$('#totalRamAvailableResponse').text(calculation);
+									}					 			
+									$('#totalRamAvailableResponse').text(calculation.toFixed(1));
+								}
+								catch(err) {}
+								
+							} else if (key == 7) {
+								try {		 			
+									totalInstanceAvailable = totalInstanceAvailable + parseFloat(jsonData[key]);					 			
+								}
+								catch(err) {}						 		
+							} else if (key == 8) {					 	
+								try {			 			
+									totalInstance = totalInstance + parseFloat(jsonData[key]);
+								}
+								catch(err) {}					 		
+							} else if (key == 9) {
+								try {			
+									totalInstanceInUseByUser = totalInstanceInUseByUser + parseFloat(jsonData[key]);
+									$('#totalInstanceInUseByUserResponse').text(totalInstanceInUseByUser);
+									
+									var calculation = ((totalInstanceAvailable - totalInstance + totalInstanceInUseByUser))
+									if (isNaN(calculation)) {
+										calculation = 'no limit';
+										$('#totalInstanceAvailableResponse').text(calculation);
+									}					 			 			
+									$('#totalInstanceAvailableResponse').text(calculation.toFixed(1));
+								}
+								catch(err) {}
+							}
+							
+						} else {
+							
+							$("#members__row__" + member + " td:eq(" + key + ")").text('No Limit');
+							
+							if (key == 1) {
+								totalVCPUAvailable = 'No Limit';
+								$('#totalVCPUAvailableResponse').text(totalVCPUAvailable);
+							} else if (key == 4) {
+								totalRamAvailable = 'No Limit';
+								$('#totalRamAvailableResponse').text(totalRamAvailable);
+							} else if (key == 7) {
+								totalInstanceAvailable = 'No Limit';
+								$('#totalInstanceAvailableResponse').text(totalInstanceAvailable);
+							}
+							
+						}
+					}
+				}
+				
+				if (color == "undefined" || color == null) {
+					color = "blue";
+				}
+				columnEl.css('color', color);			
+				
+			} catch(err) {}
+		}
+		
+		var contTimes = 1;
+		var contTryTimesDefault = 3;  
+		
+		// @Deprecated
+		function refreshLine(numberMember) {				
+			var text = members[numberMember];			
+			console.log("Trying first time in " + text);
+			if (text == null || text == 'undefined') {
+				return;
+			}
+			var cont = numberMember;
+			
+			$.ajax({
+				url: window.location.href + text + '/quota',
+				type: "GET",
+				timeout: 20000,    	    
+				success: function(data) {       
+					console.log('Response ok in ' + text);
+					text = text.replace(/\./g, '\\.');
+					columnEl = $("#members__row__" + text + " td:eq(10)");
+					if (data == 'error') {
+						columnEl.text('Error');
+						columnEl.css('color', 'red');
+						
+						if (continueRefresh) {
+							if (contTimes < contTryTimesDefault) {						
+								contTimes ++;
+								console.log('try ' + contTimes + ' times in ' + text + '.');							
+								refreshLine(cont);
+							} 
+						} 										
+					} else {
+						var jsonData = JSON.parse(data);
+						var date = new Date();
+						jsonData["name"] = text;		
+						jsonData["10"] = date.toLocaleDateString("en-US") + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();					
+						populateMemberLine(text, jsonData);
+						updateLocalStorage(cont, JSON.stringify(jsonData));						
+					}
+					
+				},
+				error: function() {
+					console.log('Timeout in ' + text);
+					columnEl = $("#members__row__" + text + " td:eq(10)"); 
 					columnEl.text('Error');
 					columnEl.css('color', 'red');
 					
 					if (continueRefresh) {
 						if (contTimes < contTryTimesDefault) {						
 							contTimes ++;
-							console.log('try ' + contTimes + ' times in ' + text + '.');							
+							console.log('try ' + contTimes + ' times in ' + text + '.');
 							refreshLine(cont);
-						} 
-					} 										
-				} else {
-	    	    	var jsonData = JSON.parse(data);
-	    	    	var date = new Date();
-	    	    	jsonData["name"] = text;		
-	    	    	jsonData["10"] = date.toLocaleDateString("en-US") + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();					
-					populateMemberLine(text, jsonData);
-					updateLocalStorage(cont, JSON.stringify(jsonData));						
-				}
-				
-    	    },
-    	    error: function() {
-    	    	console.log('Timeout in ' + text);
-    			columnEl = $("#members__row__" + text + " td:eq(10)"); 
-    			columnEl.text('Error');
-    			columnEl.css('color', 'red');
-    			
-				if (continueRefresh) {
-					if (contTimes < contTryTimesDefault) {						
-						contTimes ++;
-						console.log('try ' + contTimes + ' times in ' + text + '.');
-						refreshLine(cont);
-					} else {
-						console.log('next after ' + text + '.');
-						contTimes = 0;
-					}					
-				}    			
-    	    },
-    	});				
-	}
-	
-	
-	function fillTableFields(localStorageMembers, cont, text, data) {
-		columnEl = $("#members__row__" + text + " td:eq(10)");
-		if (data == 'error' || data.startsWith("error")) {
-			columnEl.text('Not updated');
-			columnEl.css('color', 'gray');
-			var member = text;
-			populateMemberLineWithBD(localStorageMembers, member);
-		} else {
-	    	var jsonData = JSON.parse(data);
-	    	var date = new Date();
-	    	jsonData["name"] = text;		
-	    	jsonData["10"] = date.toLocaleDateString("en-US") + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();					
-			populateMemberLine(text, jsonData);
-			updateLocalStorage(cont, JSON.stringify(jsonData));			
-		}		
-	}
-	
-	function getInlineJS() {
-	    var js = document.querySelector('[type="javascript/worker"]').textContent;
-	    var blob = new Blob([js], {"type": "text\/plain"});
-	    return URL.createObjectURL(blob);
-	}
-	
-	var localStorageMembersGlobal;
-	
-	function refreshTable() {		
-		console.log("Refreshing table ...");			
-		if (typeof(Worker) !== "undefined") {
-			var workerJsStr = getInlineJS();
-			var workers = [];	
-			for (i = 0; i < members.length; i++) {	
-				var member = members[i];								
-				var index = i;
-				workers.push(new Worker(workerJsStr));		
-				workersSelected = workers[i];
-				
-				workersSelected.onmessage = function(e) {					
-					var response = e.data.response;
-					var member = e.data.member;					
-					console.log("Message of (" + member + ") : " + response);
-					if (response.startsWith("error")) {
-						if (continueRefresh && contTimes < contTryTimesDefault) {
-							contTimes ++;
-							console.log('Try ' + contTimes + ' with ' + member);
-							workersSelected.postMessage({url: window.location.href + member + '/quota', name : "worker" + i, member: member});		
-							return;
-						}  
-					}
-					
-					member = member.replace(/\./g, '\\.');
-					fillTableFields(localStorageMembersGlobal, index, member, response);
-				};						
-				
-				console.log("Starting member " + member);	
-				workersSelected.postMessage({url: window.location.href + member + '/quota', name : "worker" + i, member: member}); 							
-			}
-		} else {
-		    console.log("Sorry! No Web Worker support..")
-		    setTimeout(function(){
-				for (i = 0; i < members.length; i++) {			
+						} else {
+							console.log('next after ' + text + '.');
+							contTimes = 0;
+						}					
+					}    			
+				},
+			});				
+		}
+		
+		
+		function fillTableFields(localStorageMembers, cont, text, data) {
+			columnEl = $("#members__row__" + text + " td:eq(10)");
+			if (data == 'error' || data.startsWith("error")) {
+				columnEl.text('Not updated');
+				columnEl.css('color', 'gray');
+				var member = text;
+				populateMemberLineWithBD(localStorageMembers, member);
+			} else {
+				var jsonData = JSON.parse(data);
+				var date = new Date();
+				jsonData["name"] = text;		
+				jsonData["10"] = date.toLocaleDateString("en-US") + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();					
+				populateMemberLine(text, jsonData);
+				updateLocalStorage(cont, JSON.stringify(jsonData));			
+			}		
+		}
+		
+		function getInlineJS() {
+			var js = document.querySelector('[type="javascript/worker"]').textContent;
+			var blob = new Blob([js], {"type": "text\/plain"});
+			return URL.createObjectURL(blob);
+		}
+		
+		var localStorageMembersGlobal;
+		
+		function refreshTable() {		
+			console.log("Refreshing table ...");			
+			if (typeof(Worker) !== "undefined") {
+				var workerJsStr = getInlineJS();
+				var workers = [];	
+				for (i = 0; i < members.length; i++) {	
+					var member = members[i];								
 					var index = i;
-					refreshLine(index); 
-				}		    		    
-		    }, 0);
-		}		
-	}
-	
-	function populateMemberLineWithBD(localStorageMembers, nameMember) {
-		var populate = false;
-		memberData = null;
-		indexReference = 0;
-		
-		if (localStorageMembers == "undefined" || localStorageMembers == null) {
-			var localStorageMembers = localStorage.getItem("members");
-		}
-		localStorageSplit = String(localStorageMembers).split(tokenToReplace);
-		
-		for (j = 0; j < localStorageSplit.length; j++) {
-			try {
-				memberData = localStorageSplit[j];
-				var name = JSON.parse(memberData)["name"];
-				if (name == nameMember) {
-					indexReference = j;
-					populate = true;
-					break;
+					workers.push(new Worker(workerJsStr));		
+					workersSelected = workers[i];
+					
+					workersSelected.onmessage = function(e) {					
+						var response = e.data.response;
+						var member = e.data.member;					
+						console.log("Message of (" + member + ") : " + response);
+						if (response.startsWith("error")) {
+							if (continueRefresh && contTimes < contTryTimesDefault) {
+								contTimes ++;
+								console.log('Try ' + contTimes + ' with ' + member);
+								workersSelected.postMessage({url: window.location.href + member + '/quota', name : "worker" + i, member: member});		
+								return;
+							}  
+						}
+						
+						member = member.replace(/\./g, '\\.');
+						fillTableFields(localStorageMembersGlobal, index, member, response);
+					};						
+					
+					console.log("Starting member " + member);	
+					workersSelected.postMessage({url: window.location.href + member + '/quota', name : "worker" + i, member: member}); 							
 				}
-			} catch (err) {}		
+			} else {
+				console.log("Sorry! No Web Worker support..")
+				setTimeout(function(){
+					for (i = 0; i < members.length; i++) {			
+						var index = i;
+						refreshLine(index); 
+					}		    		    
+				}, 0);
+			}		
 		}
 		
-		if (populate == false || memberData == null) {
-			return;
-		}			
-		
-		populateMemberLine(nameMember, JSON.parse(localStorageSplit[indexReference]), "purple");		
-	}
-  function getSharedQuota() {
-    fetch(window.location.origin.concat('/fogbow/2/shared'), { method: 'GET', credentials: 'include'})
-      .then(res => {
-        res.json().then(body => {
-          $("#shared_compute").text(body.instances);
-          $("#shared_cpu").text(body.vCPU);
-          $("#shared_ram").text(body.ram);
-        })
-        
-      })
-  }
-
-  function getFreeQuota() {
-    fetch(window.location.origin.concat('/fogbow/2/free'), { method: 'GET', credentials: 'include'})
-      .then(res => {
-        res.json().then(body => {
-          $("#free_compute").text(body.instances);
-          $("#free_cpu").text(body.vCPU);
-          $("#free_ram").text(body.ram);
-        })
-        
-      })
-  }
-
-  function getUsedByMeQuota() {
-    fetch(window.location.origin.concat('/fogbow/2/my'), { method: 'GET', credentials: 'include'})
-      .then(res => {
-        res.json().then(body => {
-          $("#my_compute").text(body.instances);
-          $("#my_cpu").text(body.vCPU);
-          $("#my_ram").text(body.ram);
-        })
-        
-      })
-  }
-
-  function log_members() {
-	$( "select" )
-	.change(function () {
-		var str = "";
-		$( "select option:selected" ).each(function() {
-			str += $( this ).text();
-		});
-		
-
-		if(str !== "Members") {
-			fetch(window.location.origin.concat('/fogbow/'.concat(str, '/quota')), { method: 'GET', credentials: 'include'})
+		function populateMemberLineWithBD(localStorageMembers, nameMember) {
+			var populate = false;
+			memberData = null;
+			indexReference = 0;
+			
+			if (localStorageMembers == "undefined" || localStorageMembers == null) {
+				var localStorageMembers = localStorage.getItem("members");
+			}
+			localStorageSplit = String(localStorageMembers).split(tokenToReplace);
+			
+			for (j = 0; j < localStorageSplit.length; j++) {
+				try {
+					memberData = localStorageSplit[j];
+					var name = JSON.parse(memberData)["name"];
+					if (name == nameMember) {
+						indexReference = j;
+						populate = true;
+						break;
+					}
+				} catch (err) {}		
+			}
+			
+			if (populate == false || memberData == null) {
+				return;
+			}			
+			
+			populateMemberLine(nameMember, JSON.parse(localStorageSplit[indexReference]), "purple");		
+		}
+		function getSharedQuota() {
+			fetch(window.location.origin.concat('/fogbow/2/shared'), { method: 'GET', credentials: 'include'})
 			.then(res => {
 				res.json().then(body => {
-					$("#member_compute").text(body.instances);
-					$("#member_cpu").text(body.vCPU);
-					$("#member_ram").text(body.ram);
+					$("#shared_compute").text(body.instances);
+					$("#shared_cpu").text(body.vCPU);
+					$("#shared_ram").text(body.ram);
 				})
+				
 			})
 		}
-	})
-	.change();
-  }
-	
-	$(document).ready(function() {
-		var localStorageMembers = localStorage.getItem("members");
-		updateMembers(localStorageMembers);
-    getSharedQuota();
-    getFreeQuota();
-    getUsedByMeQuota();
-	log_members();
-		if (localStorageMembers == null) {
-			refreshTable();			
-		} else {									
-			for (i = 0; i < members.length; i++) { 		
-				var nameMember = members[i].replace(/\./g, '\\.');
+		
+		function getFreeQuota() {
+			fetch(window.location.origin.concat('/fogbow/2/free'), { method: 'GET', credentials: 'include'})
+			.then(res => {
+				res.json().then(body => {
+					$("#free_compute").text(body.instances);
+					$("#free_cpu").text(body.vCPU);
+					$("#free_ram").text(body.ram);
+				})
 				
-				populateMemberLineWithBD(localStorageMembers, nameMember);
-			}
+			})
 		}
-	});	
-	
-	$("#button_populate").click(function() {
-    	totalRamAvailable = 0;
-    	totalRam = 0;
-    	totalVCPUAvailable = 0;
-    	totalVCPU = 0;
-    	totalRAMInUseByUser = 0;
-    	totalVCPUInUseByUser = 0;    	
-    	totalInstanceAvailable = 0;
-    	totalInstance = 0;	
-    	totalInstanceInUseByUser = 0;    	
 		
-		$('#totalVCPUResponse').text("0");
-		$('#totalRamResponse').text("0");
-		$('#totalVCPUAvailableResponse').text("0");
-		$('#totalRamAvailableResponse').text("0");
-		$('#totalInstanceResponse').text("0");
-		$('#totalInstanceAvailableResponse').text("0");		
+		function getUsedByMeQuota() {
+			fetch(window.location.origin.concat('/fogbow/2/my'), { method: 'GET', credentials: 'include'})
+			.then(res => {
+				res.json().then(body => {
+					$("#my_compute").text(body.instances);
+					$("#my_cpu").text(body.vCPU);
+					$("#my_ram").text(body.ram);
+				})
+				
+			})
+		}
 		
-		totalRamAvailableResponse
+		function getMembers() {
+			fetch(window.location.origin.concat('/fogbow/members'), { method: 'GET', credentials: 'include'})
+			.then(res => {
+				res.json().then(body => {
+					body.forEach(element => {
+						$('select').append($('<option>', {
+							text: element
+						}));
+					});
+					log_members();
+				})
+				
+			})
+		}
 		
-		$("#button_populate").prop("disabled", true);
-		localStorageMembersGlobal = localStorage.getItem("members");
-		checkAndClearLocalStorageFull();
-		updateMembers();
-		refreshTable();
-		$("#button_populate").prop("disabled", false);
-	});
-	
-	function checkAndClearLocalStorageFull() {
-		var localStorageMembers = localStorage.getItem("members");
-		var localStorageMembersStr = String(localStorageMembers);		
-		var max = 100; // kbs
-		var size = (localStorageMembersStr.length*16)/(8*1024);
-		if (localStorageMembersStr != null && size > max) {		
-			localStorage.clear();
-		}	
-	}
-	
-})();
+		function getAggregated() {
+			fetch(window.location.origin.concat('/fogbow/aggregated'), { method: 'GET', credentials: 'include'})
+			.then(res => {
+				res.json().then(body => {
+					fields = ['compute', 'vCPU', 'ram', 'volume', 'storage', 'fIPs', 'networks']
+					for(let key in body) {
+						$("#using_" + key).text(body[key].using);
+						$("#available_" + key).text(body[key].total);
+					}
+				})
+				
+			})
+		}
+		
+		function log_members() {
+			$( "select" )
+			.change(() => {
+				var str = "";
+				$( "select option:selected" ).each(function() {
+					str += $( this ).text();
+				});
+				
+				
+				if(str !== "Members") {
+					fetch(window.location.origin.concat('/fogbow/'.concat(str, '/quota')), { method: 'GET', credentials: 'include'})
+					.then(res => {
+						res.json().then(body => {
+							$("#member_compute").text(body.instances);
+							$("#member_cpu").text(body.vCPU);
+							$("#member_ram").text(body.ram);
+						})
+					})
+				}
+			})
+			.change();
+		}
+		
+		$(document).ready(function() {
+			var localStorageMembers = localStorage.getItem("members");
+			updateMembers(localStorageMembers);
+			getSharedQuota();
+			getFreeQuota();
+			getUsedByMeQuota();
+			getMembers();
+			getAggregated();
+			if (localStorageMembers == null) {
+				refreshTable();			
+			} else {									
+				for (i = 0; i < members.length; i++) { 		
+					var nameMember = members[i].replace(/\./g, '\\.');
+					
+					populateMemberLineWithBD(localStorageMembers, nameMember);
+				}
+			}
+		});	
+		
+		$("#button_populate").click(function() {
+			totalRamAvailable = 0;
+			totalRam = 0;
+			totalVCPUAvailable = 0;
+			totalVCPU = 0;
+			totalRAMInUseByUser = 0;
+			totalVCPUInUseByUser = 0;    	
+			totalInstanceAvailable = 0;
+			totalInstance = 0;	
+			totalInstanceInUseByUser = 0;    	
+			
+			$('#totalVCPUResponse').text("0");
+			$('#totalRamResponse').text("0");
+			$('#totalVCPUAvailableResponse').text("0");
+			$('#totalRamAvailableResponse').text("0");
+			$('#totalInstanceResponse').text("0");
+			$('#totalInstanceAvailableResponse').text("0");		
+			
+			totalRamAvailableResponse
+			
+			$("#button_populate").prop("disabled", true);
+			localStorageMembersGlobal = localStorage.getItem("members");
+			checkAndClearLocalStorageFull();
+			updateMembers();
+			refreshTable();
+			$("#button_populate").prop("disabled", false);
+		});
+		
+		function checkAndClearLocalStorageFull() {
+			var localStorageMembers = localStorage.getItem("members");
+			var localStorageMembersStr = String(localStorageMembers);		
+			var max = 100; // kbs
+			var size = (localStorageMembersStr.length*16)/(8*1024);
+			if (localStorageMembersStr != null && size > max) {		
+				localStorage.clear();
+			}	
+		}
+		
+	})();
 </script>
 
 <script id="worker" type="javascript/worker">
@@ -599,24 +637,24 @@
 		var member = e.data.member;
 		var url = e.data.url;
 		var that = self;
-
+		
 		xhr.open('GET', e.data.url, false);
-	    xhr.timeout = 60000; // 60 seconds
+		xhr.timeout = 60000; // 60 seconds
 		xhr.overrideMimeType('text/plain; charset=x-user-defined');		
 		xhr.onreadystatechange = function(e) {
 			var responseStr = ""
 			if (this.readyState == 4 && this.status == 200) {
-	    		responseStr = this.responseText;
-		  	} else {				
+				responseStr = this.responseText;
+			} else {				
 				responseStr = "error";
 			}
 			that.postMessage({response: responseStr, member: member});
 		};
-
+		
 		xhr.ontimeout = function (e) {
-  			that.postMessage({response: "error", member: member});
+			that.postMessage({response: "error", member: member});
 		};
-
+		
 		xhr.send();	
 	};
 </script> 	

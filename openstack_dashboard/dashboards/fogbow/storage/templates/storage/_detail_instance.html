@@ -6,16 +6,18 @@
   <hr class="header_rule">
   <dl>
     <dt>{% trans "Volume ID" %}</dt>
-    {{ instance.instanceId }}
+    {{ volume.volume_id }}
   </dl>
   <dl>
     <dt>{% trans "Volume size (in GB)" %}</dt>
-    {{ instance.size }}
+    {{ volume.size }}
   </dl>
   <dl>
-    <dt>{% trans "Status" %}</dt>
-    {{ instance.status }}
-  </dl>                   
-</div>
-
+    <dt>{% trans "Name" %}</dt>
+    {{ volume.name }}
+  </dl>  
+  <dl>
+    <dt>{% trans "State" %}</dt>
+    {{ volume.state }}
+  </dl> 
 </div>

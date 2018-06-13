@@ -1,7 +1,12 @@
+import logging
+
 from django.utils.translation import ugettext_lazy as _
 from horizon import tabs
 
 import openstack_dashboard.models as fogbow_models
+from openstack_dashboard.dashboards.fogbow.models import AttachmentUtil
+
+LOG = logging.getLogger(__name__)
                 
 class AttachmentDetailTabInstancePanel(tabs.Tab):
     name = _("Attachment details")
@@ -10,14 +15,14 @@ class AttachmentDetailTabInstancePanel(tabs.Tab):
 
     def get_context_data(self, request):
         attachment_id = self.tab_group.kwargs['attachment_id']
-        # TODO ask to fogbow-manager-core
-#         response = fogbow_models.doRequest('get', STORAGE_TERM + LINK_TERM + attachmentId, None, request)
-        attachment = None
+        LOG.info("Trying to get the attachment: {attachment_id}".format(attachment_id=attachment_id))
+
+        federation_token_value = request.user.token.id  
         try:
-            attachment = get_attachment_per_response(response_json)
-        except Exception:
-            attachment = {'attachmentId': '-' , 'target': '-', 'source': '-',
-             'deviceId' : '-', 'provadingMemberId' : '-'}
+            attachment = AttachmentUtil.get_attachment(attachment_id, federation_token_value)
+        except Exception as e:
+            LOG.info("Is not possible get the attachment. Message exception is {error_msg}:".format(error_msg=str(e)))
+            attachment = None
 
         return {'attachment' : attachment}
     

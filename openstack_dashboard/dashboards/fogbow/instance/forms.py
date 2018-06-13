@@ -19,6 +19,7 @@ from openstack_dashboard.dashboards.fogbow.members.views import IndexView as mem
 from openstack_dashboard.dashboards.fogbow.network.views import IndexView as network_views
 from openstack_dashboard.dashboards.fogbow.models import MemberUtil
 from openstack_dashboard.dashboards.fogbow.models import NetworkUtil
+from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
 import openstack_dashboard.models as fogbow_models
 
 LOG = logging.getLogger(__name__)
@@ -46,7 +47,7 @@ class CreateInstance(forms.SelfHandlingForm):
                            help_text=_('Data user type'),
                            required=False)
     
-    publicKey = forms.CharField(label=_('Public key'),
+    publi_key = forms.CharField(label=_('Public key'),
                            error_messages={'invalid': _('The string may only contain'
                                             ' ASCII characters and numbers.')},
                            required=False, widget=forms.Textarea)
@@ -64,6 +65,7 @@ class CreateInstance(forms.SelfHandlingForm):
         members_choices.extend(MemberUtil.get_members(federation_token_value))
         self.fields['members'].choices = members_choices
         
+        
         dataUserTypeChoices = []
         dataUserTypeChoices.append(('text/x-shellscript', 'text/x-shellscript'))
         dataUserTypeChoices.append(('text/x-include-once-url', 'text/x-include-once-url'))
@@ -76,7 +78,7 @@ class CreateInstance(forms.SelfHandlingForm):
         
         networks_choices = []
         networks_choices.append(('', ''))
-        networks_choices.extend(NetworkUtil.get_networks(federation_token_value))
+        # networks_choices.extend(NetworkUtil.get_networks(federation_token_value))
         self.fields['network_id'].choices = networks_choices
         
     def normalize_user_data(self, value):
@@ -86,12 +88,28 @@ class CreateInstance(forms.SelfHandlingForm):
             return ''
 
     def handle(self, request, data):
-        LOG.debug("Try create compute.")
+        LOG.debug("Try create compute")
+        federation_token_value = request.user.token.id
+        
         try:
+            vcpu = data['cpu']
+            memory = data['mem']
+            member = data['members']
+            image_id = data['image']
+            network_id = data['network_id']
+            data_user_file = data['data_user_file']
+            extra_user_data = None
+            extra_user_data_type = None
+            if data_user_file != None and not data_user_file:
+                extra_user_data = self.normalize_user_data(data['data_user'])
+                extra_user_data_type = data['data_user_type']
+            public_key = data['publi_key']
+
+            ComputeUtil.create_compute(vcpu, memory, member, image_id, network_id, extra_user_data, extra_user_data_type, public_key, federation_token_value)
+
             messages.success(request, _('Orders created'))            
-            return shortcuts.redirect(reverse("horizon:fogbow:request:index"))         
-        except Exception:
+            return shortcuts.redirect(reverse("horizon:fogbow:instance:index"))         
+        except Exception as e:
+            LOG.error(str(e))
             redirect = reverse("horizon:fogbow:instance:index")
-            exceptions.handle(request,
-                              _('Unable to create orders.'),
-                              redirect=redirect)         
+            exceptions.handle(request, _('Unable to create orders.'), redirect=redirect)         

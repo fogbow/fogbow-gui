@@ -2,6 +2,7 @@ import netaddr
 import requests
 import openstack_dashboard.models as fogbow_models
 import base64
+import logging
 
 from django.core.validators import RegexValidator
 from django.core.urlresolvers import reverse 
@@ -18,6 +19,10 @@ from horizon import messages
 from openstack_dashboard.dashboards.fogbow.members.views import IndexView as member_views
 from openstack_dashboard.dashboards.fogbow.instance.views import IndexView as instance_views
 from openstack_dashboard.dashboards.fogbow.storage.views import IndexView as storage_views
+from openstack_dashboard.dashboards.fogbow.models import AttachmentUtil
+from openstack_dashboard.dashboards.fogbow.models import VolumeUtil
+
+LOG = logging.getLogger(__name__)
 
 class CreateAttachment(forms.SelfHandlingForm):
     
@@ -34,44 +39,31 @@ class CreateAttachment(forms.SelfHandlingForm):
 
     def __init__(self, request, *args, **kwargs):
         super(CreateAttachment, self).__init__(request, *args, **kwargs)
-        
-#         responseCompute = fogbow_models.doRequest('get', COMPUTE_TERM, None, request)            
-#         responseStorage = fogbow_models.doRequest('get', STORAGE_TERM, None, request)
+        federation_token_value = request.user.token.id
 
         volumes_choices = []
-#         try:
-#             storages = storage_views().getInstances(responseStorage.text)
-#             storagesChoices.append(('', ''))
-#             for stor in storages:
-#                 storagesChoices.append((stor.get('id'), stor.get('id')))
-#                 
-#             if storages == []:
-#                 pass        
-#         except Exception as error: 
-#             pass        
+        volumes = VolumeUtil.get_volumes(federation_token_value)
+        for volume in volumes:
+            volumes_choices.append((volume.id, volume.id))
  
         self.fields['volume'].choices = volumes_choices
         
-        instances_choices = []
-#         try:
-#             instances = instance_views().getInstances(responseCompute.text)
-#             instancesChoices.append(('', ''))
-#             for inst in instances:
-#                 instancesChoices.append((inst.get('id'), inst.get('id')))
-#  
-#             if instances == []:
-#                 pass
-#         except Exception as error: 
-#             pass        
- 
-        self.fields['compute'].choices = instances_choices
+        computes_choices = []
+        computes_choices.append(("fake", "fake"))
+        self.fields['compute'].choices = computes_choices
 
     def handle(self, request, data):
+        federation_token_value = request.user.token.id
+
         try:
+            target = data['compute']
+            source = data['volume']
+
+            AttachmentUtil.create_attachment(target, source, federation_token_value)
+            
             messages.success(request, _('Attachment created'))            
             return shortcuts.redirect(reverse("horizon:fogbow:attachment:index"))    
-        except Exception:
-            pass
+        except Exception as e:
             redirect = reverse("horizon:fogbow:attachment:index")
             exceptions.handle(request, _('Unable to create attachments.'),
                               redirect=redirect)             
