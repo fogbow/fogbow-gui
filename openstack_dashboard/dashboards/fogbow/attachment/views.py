@@ -38,7 +38,7 @@ class IndexView(tables.DataTableView):
         except Exception as e:
             error_msg = "Is not possible to get attachments. Error message: {error_msg}".format(error_msg=str(e))
             LOG.error(error_msg)
-            messages.error(error_msg)
+            messages.error(self.request, error_msg)
             return {}        
 
 class DetailViewAttachment(tabs.TabView):
