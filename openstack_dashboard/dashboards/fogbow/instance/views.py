@@ -52,8 +52,6 @@ class DetailViewInstance(tabs.TabView):
         
 # TODO change local Method
 def getImages(request, member_id):
-    # TODO ask to fogbow manager core for images information
-    
-    # TODO remove this. Fake data 
-    response_json = '{"id_image_one": "name_image_one", "id_image_two": "name_image_two"}'
-    return HttpResponse(response_json)
+    response = requests.get(fowbow_endpoint + '/2/images')
+    r = response.text.encode('ascii')
+    return HttpResponse(r)
