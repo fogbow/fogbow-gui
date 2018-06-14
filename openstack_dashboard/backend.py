@@ -2,6 +2,7 @@ import logging
 import commands
 import uuid
 import json
+import authentication
 
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -61,7 +62,7 @@ class FogbowBackend(object):
     
         try:            
             LOG.info('Checking user authenticated...')
-            if checkUserAuthenticated(federationToken, settings.FOGBOW_FEDERATION_AUTH_TYPE) == False:
+            if authentication.checkUserAuthenticated(federationToken, settings.FOGBOW_FEDERATION_AUTH_TYPE) == False:
                 LOG.error('Federation Token is Invalid')
                 user.errors = True
                 user.typeError = fogbow_models.getErrorMessage(settings.FOGBOW_FEDERATION_AUTH_TYPE)   

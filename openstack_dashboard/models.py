@@ -4,6 +4,7 @@ import logging
 import requests
 import horizon
 import models as fogbow_models
+import authentication
 
 from django.conf import settings
 from django.contrib.auth import models
@@ -239,26 +240,13 @@ def getErrorMessage(typeToken):
         errorStr = _('User credentials are invalid')     
     return errorStr 
 
-# TODO: How to implement this method properly?
-def checkUserAuthenticated(token):    
-    # compute_id_fake = ""
-    # try: 
-        # ComputeUtil.get_compute(compute_id_fake, token.id)
-        # return True
-    # except Exception:
-        # return False
-
-    # TODO use contants
-    headers = {'content-type': 'text/occi', 'X-Auth-Token' : token.id}
-    response = requests.get('%s%s' % (settings.FOGBOW_MANAGER_ENDPOINT, FogbowConstants.RESOURCE_TERM) ,
-                                   headers=headers, timeout=10)    
-    
-    responseStr = response.text
+def checkUserAuthenticated(token):
+    response = authentication.checkUserAuthenticated(token, settings.FOGBOW_FEDERATION_AUTH_TYPE)
 
     # TODO remove
-    LOG.info(responseStr)
+    LOG.info(response)
 
-    if 'Unauthorized' in responseStr or 'Bad Request' in responseStr or 'Authentication required.' in responseStr:
+    if 'Unauthorized' in response:
         return False    
     return True
         
