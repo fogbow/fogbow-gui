@@ -23,6 +23,8 @@ from base64 import b64encode, b64decode
 import hashlib
 import base64
 
+# from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
+
 LOG = logging.getLogger(__name__)
 
 # TODO to refactor this class. To move everything that is inconsistent in reference to the models
@@ -237,7 +239,13 @@ def getErrorMessage(typeToken):
     return errorStr 
 
 def checkUserAuthenticated(token):    
-    
+    # compute_id_fake = ""
+    # try:
+        # ComputeUtil.get_compute(compute_id_fake, token.id)
+        # return True
+    # except Exception:
+        # return False
+
     # TODO use contants
     headers = {'content-type': 'text/occi', 'X-Auth-Token' : token.id}
     response = requests.get('%s%s' % (settings.FOGBOW_MANAGER_ENDPOINT, FogbowConstants.RESOURCE_TERM) ,
