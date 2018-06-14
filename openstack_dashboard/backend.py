@@ -43,10 +43,14 @@ class FogbowBackend(object):
     def authenticate(self, request, federationCredentials=None, federationEndpoint=None):
         tokenStr = ''                              
         tokenStr = getCorrectToken(settings.FOGBOW_FEDERATION_AUTH_TYPE, federationCredentials, federationEndpoint)              
+
+        # TODO check token
+
         LOG.info('Federation Token : %s' % tokenStr)
         federatioToken = Token(tokenStr)   
         username = '...'
-        userId = '...'
+        userId = '...'        
+
         try:            
             tokenInfo = json.loads(getTokenInfoUser(federatioToken, settings.FOGBOW_FEDERATION_AUTH_TYPE, federationEndpoint))
             username = tokenInfo.get('attributes').get('user-name')
@@ -54,6 +58,8 @@ class FogbowBackend(object):
             LOG.info('%s : %s ' % username, userId)
         except Exception, e: 
 	        LOG.error(str(e))
+            user.errors = True
+            user.typeError = 'Manager connection failed.'        
         
         user = User(username, federatioToken, userId, username, {})        
     
@@ -83,11 +89,11 @@ def getToken(endpoint, credentials, type):
     password = '-Dpassword=%s' % (credentials['password'])
 
     command = '%s token --create --conf-path %s %s %s --type %s' % (
-        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, username, password, type) 	
-
+        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, username, password, type)
+ 
     responseStr = commands.getoutput(command)
   
-    if fogbow_models.isResponseOk(responseStr) == False:        
+    if fogbow_models.isResponseOk(responseStr) == False:
         return 'None'
       
     return responseStr

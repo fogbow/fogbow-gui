@@ -21,7 +21,8 @@ FOGBOW_FEDERATION_AUTH_ENDPOINT = '' # Mandatory
 # types : keystone, opennebula, voms, raw_opennebula, raw_keystone, shibboleth, naf, ldap
 FOGBOW_FEDERATION_AUTH_TYPE = '' # Mandatory
 
-FOGBOW_AUTHENTICATION_CONF_PATH = '$path_to/auth_type.pem'
+# ps: Read the fogbow-cli documentation. URL...
+FOGBOW_AUTHENTICATION_CONF_PATH = '$path_to_config'
 
 # for naf federation auth
 ## dashboard private key path

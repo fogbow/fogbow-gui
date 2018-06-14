@@ -241,7 +241,7 @@ def getErrorMessage(typeToken):
 
 def checkUserAuthenticated(token):    
     # compute_id_fake = ""
-    # try:
+    # try: 
         # ComputeUtil.get_compute(compute_id_fake, token.id)
         # return True
     # except Exception:
@@ -253,6 +253,9 @@ def checkUserAuthenticated(token):
                                    headers=headers, timeout=10)    
     
     responseStr = response.text
+
+    # TODO remove
+    LOG.info(responseStr)
 
     if 'Unauthorized' in responseStr or 'Bad Request' in responseStr or 'Authentication required.' in responseStr:
         return False    
