@@ -98,7 +98,7 @@ def get_used_by_me_quota(request, member_id):
     r = response.text.encode('ascii')
     return HttpResponse(r)
 
-def getSpecificMemberQuota(request, member_id):
+def getSpecificMemberQuota(request):
     response = requests.get(fowbow_endpoint + '/quota/member')
     r = response.text.encode('ascii')
     return HttpResponse(r)

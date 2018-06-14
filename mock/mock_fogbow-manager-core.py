@@ -156,7 +156,7 @@ def get_quota_member(handler):
     return {"vCPU": "14", "ram": "28000", "instances": "7"}
 
 def get_quota_aggregated(handler):
-    return { compute: {using: 8, total: 40}, vCPU: {using: 8, total: 40}, ram: {using: 8, total: 40}, volume: {using: 8, total: 40}, storage: {using: 8, total: 40}, fIPs: {using: 8, total: 40}, networks: {using: 8,total: 40} }
+    return {"compute": {"using": "8", "total": "40"}, "vCPU": {"using": "8", "total": "40"}, "ram": {"using": "8", "total": "40"}, "volume": {"using": "8", "total": "40"}, "storage": {"using": "8", "total": "40"}, "fIPs": {"using": "8", "total": "40"}, "networks": {"using": "8","total": "40"}}
 
 class MethodRequest(urllib2.Request):
     def __init__(self, *args, **kwargs):
@@ -189,8 +189,8 @@ class RESTRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 	    r'^/quota/shared$': {'GET': get_quota_shared, 'media_type': 'application/json'},
             r'^/quota/available$': {'GET': get_quota_available, 'media_type': 'application/json'},
             r'^/quota/me$': {'GET': get_quota_me, 'media_type': 'application/json'},
-            r'^/quota/member/': {'GET': get_quota_member, 'media_type': 'application/json'},
-            r'^/quota/aggregated$': {'GET': get_quota_aggregated, 'media_type': 'application/json'},
+            r'^/quota/member$': {'GET': get_quota_member, 'media_type': 'application/json'},
+            r'^/quota/aggregated': {'GET': get_quota_aggregated, 'media_type': 'application/json'},
 
 	    r'^/membership/members': {'GET': get_members, 'media_type': 'application/json'},
 
