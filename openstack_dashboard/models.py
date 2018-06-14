@@ -239,6 +239,7 @@ def getErrorMessage(typeToken):
         errorStr = _('User credentials are invalid')     
     return errorStr 
 
+# TODO: How to implement this method properly?
 def checkUserAuthenticated(token):    
     # compute_id_fake = ""
     # try: 
