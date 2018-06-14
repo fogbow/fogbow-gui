@@ -1,5 +1,6 @@
 import json
 import logging
+import requests
 
 from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
@@ -18,6 +19,7 @@ from openstack_dashboard.dashboards.fogbow.instance \
 from openstack_dashboard.dashboards.fogbow.instance.models import Compute
 import openstack_dashboard.models as fogbow_models
 from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
+from openstack_dashboard.dashboards.fogbow.models import ImageUtil
 
 LOG = logging.getLogger(__name__)
 
@@ -50,8 +52,8 @@ class DetailViewInstance(tabs.TabView):
     tab_group_class = project_tabs.InstanceDetailTabGroupInstancePanel
     template_name = 'fogbow/instance/detail.html'     
         
-# TODO change local Method
+# TODO change the local of the Method
 def getImages(request, member_id):
-    response = requests.get(fowbow_endpoint + '/2/images')
-    r = response.text.encode('ascii')
-    return HttpResponse(r)
+    federation_token_value = request.user.token.id
+    response = ImageUtil.get_images_response(member_id, federation_token_value)
+    return HttpResponse(response.text.encode('ascii'))

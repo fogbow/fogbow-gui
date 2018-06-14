@@ -36,7 +36,7 @@ class FogbowBackend(object):
             username = self.request.session['username']
             userId = self.request.session['userId']
         except Exception, e:
-            pass
+            LOG.error(str(e))
         
         return User(username, federationToken, userId, username, {})
   
@@ -53,19 +53,9 @@ class FogbowBackend(object):
             userId = tokenInfo.get('id')
             LOG.info('%s : %s ' % username, userId)
         except Exception, e: 
-	        print e
+	        LOG.error(str(e))
+        
         user = User(username, federatioToken, userId, username, {})        
-        # try:            
-        #     LOG.info('Checking user authenticated...')
-        #     if fogbow_models.checkUserAuthenticated(federatioToken) == False:
-        #         LOG.error('Federation Token is Invalid')
-        #         user.errors = True
-        #         user.typeError = fogbow_models.getErrorMessage(settings.FOGBOW_FEDERATION_AUTH_TYPE)   
-        #         if fogbow_models.IdentityPluginConstants.AUTH_NAF == settings.FOGBOW_FEDERATION_AUTH_TYPE:
-        #             return HttpResponse('Unauthorized', status=401)
-        # except Exception, e: 
-        #     user.errors = True
-        #     user.typeError = 'Manager connection failed.'        
     
         request.user = user
         federation_token_id = uuid.uuid4()         
@@ -93,26 +83,14 @@ def getToken(endpoint, credentials, type):
     password = '-Dpassword=%s' % (credentials['password'])
 
     command = '%s token --create --conf-path %s %s %s --type %s' % (
-        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, username, password, type) 
-	
+        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, username, password, type) 	
+
     responseStr = commands.getoutput(command)
   
     if fogbow_models.isResponseOk(responseStr) == False:        
         return 'None'
       
     return responseStr
-
-# def checkUserAuthenticated(token, type, endpoint):
-#     type = getCorrectType(type)
-    
-#     command = '%s token --check -DauthUrl=%s --type %s --token %s' % (FOGBOW_CLI_JAVA_COMMAND,
-#                                  endpoint, type, token.id)
-    
-#     responseStr = commands.getoutput(command) 
- 
-#     if 'Unauthorized' in responseStr:
-#         return False    
-#     return True
 
 def getTokenInfoUser(token, type, endpoint):
     command = '%s user --get-user --conf-path %s --type %s --federation-token-value %s' % (

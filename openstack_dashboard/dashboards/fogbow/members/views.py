@@ -1,25 +1,25 @@
+import base64
+import json
 import horizon
 import requests
 import decimal
-import openstack_dashboard.models as fogbow_models
 
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+from django.http import HttpResponse
 from horizon import tables
 from horizon import messages
+
+import openstack_dashboard.models as fogbow_models
 from openstack_dashboard.dashboards.fogbow.members.models import Member
 from openstack_dashboard.dashboards.fogbow.members \
     import tables as project_tables
 from openstack_dashboard.dashboards.fogbow.members \
     import models as project_models
-from django.http import HttpResponse
-import base64
-import json
 
 MEMBER_TERM = fogbow_models.FogbowConstants.MEMBER_TERM
 QUOTA_TERM = fogbow_models.FogbowConstants.QUOTA_TERM
 MAX_VALUE = 2000000000
-
-fowbow_endpoint = 'http://localhost:8080'
 
 class IndexView(tables.DataTableView):
     table_class = project_tables.MembersTable
@@ -78,8 +78,11 @@ class IndexView(tables.DataTableView):
         
         return members
 
+fowbow_endpoint = settings.FOGBOW_MANAGER_CORE_ENDPOINT
 
-
+# TODO move to intance/compute path
+# TODO use openstack_dashboard.dashboards.fogbow.models.RequestUtil for make requests
+# TODO use constants
 def get_shared_quota(request, member_id):
     response = requests.get(fowbow_endpoint + '/quota/shared')
     r = response.text.encode('ascii')

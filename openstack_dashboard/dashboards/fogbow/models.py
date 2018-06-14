@@ -359,6 +359,16 @@ class AttachmentUtil:
         # TODO to use contants
         return {"id" :id, "attachment_id": id, "state": state, "volume_id": volume_id, "server_id": server_id, "device": device}
 
+class ImageUtil:
+
+    @staticmethod
+    def get_images_response(member_id, federation_token_value):
+        endpoint = "{action_request_manager}/{member_id}".format(action_request_manager=FogbowConstants.IMAGES_ACTION_REQUEST_MANAGER, member_id=member_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        return response
+
 class RequestUtil:
     
     @staticmethod
