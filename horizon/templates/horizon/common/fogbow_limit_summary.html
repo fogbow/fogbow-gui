@@ -558,7 +558,7 @@
 				
 				
 				if(str !== "Members") {
-					fetch(window.location.origin.concat('/fogbow/'.concat(str, '/quota')), { method: 'GET', credentials: 'include'})
+					fetch(window.location.origin.concat('/fogbow/quota'), { method: 'GET', credentials: 'include'})
 					.then(res => {
 						res.json().then(body => {
 							$("#member_compute").text(body.instances);
@@ -580,7 +580,7 @@
 			getMembers();
 			getAggregated();
 			if (localStorageMembers == null) {
-				refreshTable();			
+				// refreshTable();			
 			} else {									
 				for (i = 0; i < members.length; i++) { 		
 					var nameMember = members[i].replace(/\./g, '\\.');
