@@ -51,7 +51,7 @@
 	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
 		<thead>
 			<tr>
-				<th style="padding: 5px 76px; padding-left:  5px;">Local</th>
+				<th style="padding: 5px 76px; padding-left:  5px;">Aggregated</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Instance</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">vCPU</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">RAM</th>
@@ -85,21 +85,21 @@
 		
 		<tr>
 			<td>Quota Used by me</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_compute">-</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_cpu"></td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_ram">-</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_compute">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_vCPU"></td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_volume">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_storage">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_fIPs">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_networks">-</td>
 		</tr>
 	</table>
 	
 	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
 		<thead>
 			<tr>
-				<th style="padding: 5px 36px;">
-					<select id="member">
+				<th>
+					<select id="member" style="width: 100%">
 						<option value="">Members</option>
 					</select>
 				</th>
@@ -114,9 +114,9 @@
 		</thead>
 		<tr>
 			<td>Shared Quota</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_compute">-</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_cpu">-</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_shared_instances">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_shared_vCPU">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_shared_ram">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
@@ -125,9 +125,9 @@
 		
 		<tr>
 			<td>Available Quota</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="free_compute">-</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="free_cpu">-</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="free_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_total_instances">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_total_vCPU">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_total_ram">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
@@ -136,9 +136,9 @@
 		
 		<tr>
 			<td>Quota Used by me</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_compute">-</td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_cpu"></td>
-			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_his_instances">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_his_vCPU"></td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_his_ram">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
@@ -573,6 +573,7 @@
 					for(let key in body) {
 						$("#using_" + key).text(body[key].using);
 						$("#available_" + key).text(body[key].total);
+						$("#shared_agg_" + key).text(body[key].shared);
 					}
 				})
 				
@@ -591,10 +592,13 @@
 				if(str !== "Members") {
 					fetch(window.location.origin.concat('/fogbow/quota'), { method: 'GET', credentials: 'include'})
 					.then(res => {
+						let fields = {shared: "member_shared_", available: "member_total_", me: "member_his_"};
 						res.json().then(body => {
-							$("#member_compute").text(body.instances);
-							$("#member_cpu").text(body.vCPU);
-							$("#member_ram").text(body.ram);
+							for(let key in body) {
+								for(let subkey in body[key]) {
+									$("#"+fields[key]+ subkey).text(body[key][subkey]);
+								}
+							}
 						})
 					})
 				}
