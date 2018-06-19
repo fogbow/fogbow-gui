@@ -89,13 +89,13 @@ class NetworkUtil:
         network = json.loads(response_json)
 
         # TODO to use contants
-        id = network['id']
-        state = network['state']
-        label = network['label']
-        address = network['address']
-        gateway = network['gateway']
-        network_interface = network['networkInterface']
-        mac_inferface = network['MACInterface']
+        id = network.get('id', '-')
+        state = network.get('state', '-')
+        label = network.get('label', '-')
+        address = network.get('address', '-')
+        gateway = network.get('gateway', '-')
+        network_interface = network.get('networkInterface', '-')
+        mac_inferface = network.get('MACInterface', '-')
 
         # TODO to use contants
         return {"id" :id, "network_id": id, "state": state, "label": label, "address": address, "gateway": gateway, \
@@ -172,15 +172,15 @@ class ComputeUtil:
         compute = json.loads(response_json)
 
         # TODO to use contants
-        id = compute['id']
-        state = compute['state']
-        host_name = compute['hostName']
-        ssh_public_address = compute['sshTunnelConnectionData']['sshPublicAddress']
-        ssh_user_name = compute['sshTunnelConnectionData']['sshUserName']
-        ssh_extra_ports = compute['sshTunnelConnectionData']['sshExtraPorts']
-        v_cpu = compute['vCPU']
-        memory = compute['memory']
-        local_ip_address = compute['localIpAddress']
+        id = compute.get('id', '-')
+        state = compute.get('state', '-')
+        host_name = compute.get('hostName', '-')
+        ssh_public_address = compute.get('sshTunnelConnectionData', '-').get('sshPublicAddress', '-')
+        ssh_user_name = compute.get('sshTunnelConnectionData', '-').get('sshUserName', '-')
+        ssh_extra_ports = compute.get('sshTunnelConnectionData', '-').get('sshExtraPorts', '-')
+        v_cpu = compute.get('vCPU', '-')
+        memory = compute.get('memory', '-')
+        local_ip_address = compute.get('localIpAddress', '-')
 
         # TODO to use contants
         return {"id" :id, "volume_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
@@ -194,15 +194,15 @@ class ComputeUtil:
         data = json.loads(response_json)
         for compute in data:
             # TODO to use contants
-            id = compute['id']
-            state = compute['state']
-            host_name = compute['hostName']
-            ssh_public_address = compute['sshTunnelConnectionData']['sshPublicAddress']
-            ssh_user_name = compute['sshTunnelConnectionData']['sshUserName']
-            ssh_extra_ports = compute['sshTunnelConnectionData']['sshExtraPorts']
-            v_cpu = compute['vCPU']
-            memory = compute['memory']
-            local_ip_address = compute['localIpAddress']
+            id = compute.get('id', '-')
+            state = compute.get('state', '-')
+            host_name = compute.get('hostName', '-')
+            ssh_public_address = compute.get('sshTunnelConnectionData', '-').get('sshPublicAddress', '-')
+            ssh_user_name = compute.get('sshTunnelConnectionData', '-').get('sshUserName', '-')
+            ssh_extra_ports = compute.get('sshTunnelConnectionData', '-').get('sshExtraPorts', '-')
+            v_cpu = compute.get('vCPU', '-')
+            memory = compute.get('memory', '-')
+            local_ip_address = compute.get('localIpAddress', '-')
 
             # TODO to use contants
             computes.append(Compute({"id" :id, "compute_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
@@ -259,10 +259,10 @@ class VolumeUtil:
         volume = json.loads(response_json)
 
         # TODO to use contants
-        id = volume['id']
-        state = volume['state']
-        name = volume['name']
-        size = volume['size']
+        id = volume.get('id', '-')
+        state = volume.get('state', '-')
+        name = volume.get('name', '-')
+        size = volume.get('size', '-')
 
         # TODO to use contants
         return {"id" :id, "volume_id": id, "state": state, "name": name, "size": size}
@@ -274,10 +274,10 @@ class VolumeUtil:
         data = json.loads(response_json)
         for volume in data:
             # TODO to use contants
-            id = volume['id']
-            state = volume['state']
-            name = volume['name']
-            size = volume['size']
+            id = volume.get('id', '-')
+            state = volume.get('state', '-')
+            name = volume.get('name', '-')
+            size = volume.get('size', '-')
             # TODO to use contants
             volumes.append(Volume({"id" :id, "volume_id": id, "state": state, "name": name, "size": size}))
 
@@ -334,11 +334,11 @@ class AttachmentUtil:
         data = json.loads(response_json)
         for attachment in data:
             # TODO to use contants
-            id = attachment['id']
-            state = attachment['state']
-            device = attachment['device']
-            server_id = attachment['serverId']
-            volume_id = attachment['volumeId']
+            id = attachment.get('id', '-')
+            state = attachment.get('state', '-')
+            device = attachment.get('device', '-')
+            server_id = attachment.get('serverId', '-')
+            volume_id = attachment.get('volumeId', '-')
             # TODO to use contants
             attachments.append(Attachment({"id" :id, "attachment_id": id, "state": state, "device": device, "server_id": server_id, "volume_id": volume_id}))
 
@@ -350,11 +350,11 @@ class AttachmentUtil:
         volume = json.loads(response_json)
 
         # TODO to use contants
-        id = volume['id']
-        state = volume['state']
-        device = volume['device']
-        volume_id = volume['volumeId']
-        server_id = volume['serverId']
+        id = volume.get('id', '-')
+        state = volume.get('state', '-')
+        device = volume.get('device', '-')
+        volume_id = volume.get('volumeId', '-')
+        server_id = volume.get('serverId', '-')
 
         # TODO to use contants
         return {"id" :id, "attachment_id": id, "state": state, "volume_id": volume_id, "server_id": server_id, "device": device}
