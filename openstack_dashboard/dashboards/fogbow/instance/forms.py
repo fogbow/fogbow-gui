@@ -37,6 +37,7 @@ class CreateInstance(forms.SelfHandlingForm):
     
     members = forms.ChoiceField(label=_('Members'), help_text=_('Members'), required=False)
         
+    # Verificar aqui.
     image = forms.ChoiceField(label=_('Image'), required=False, help_text=_('Image'))
     
     network_id = forms.ChoiceField(label=_('Network id'), help_text=_('Network id'), required=False)    

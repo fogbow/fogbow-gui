@@ -41,8 +41,9 @@
 	
 	$(document).ready(function() {});
 	
-	function setValueOnImages() {		
-		fetch(window.location.origin.concat('/fogbow/instance/member/images'), { method: 'GET', credentials: 'include'})
+	function setValueOnImages() {
+    var member_id = $("#id_members").val();
+		fetch(window.location.origin.concat('/fogbow/instance/'+  member_id + '/images'), { method: 'GET', credentials: 'include'})
       .then(res => {
         res.json().then(body => {
 					$('#id_image')

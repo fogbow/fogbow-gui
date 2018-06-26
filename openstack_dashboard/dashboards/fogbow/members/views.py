@@ -84,22 +84,23 @@ fowbow_endpoint = settings.FOGBOW_MANAGER_CORE_ENDPOINT
 # TODO use openstack_dashboard.dashboards.fogbow.models.RequestUtil for make requests
 # TODO use constants
 def get_shared_quota(request, member_id):
-    response = requests.get(fowbow_endpoint + '/quota/shared')
+    print('opa')
+    response = requests.get(fowbow_endpoint + '/compute/quota/shared')
     r = response.text.encode('ascii')
     return HttpResponse(r)
 
 def get_available_quota(request, member_id):
-    response = requests.get(fowbow_endpoint + '/quota/available')
+    response = requests.get(fowbow_endpoint + '/compute/quota/available')
     r = response.text.encode('ascii')
     return HttpResponse(r)
 
 def get_used_by_me_quota(request, member_id):
-    response = requests.get(fowbow_endpoint + '/quota/me')
+    response = requests.get(fowbow_endpoint + '/compute/quota/me')
     r = response.text.encode('ascii')
     return HttpResponse(r)
 
 def getSpecificMemberQuota(request):
-    response = requests.get(fowbow_endpoint + '/quota/member')
+    response = requests.get(fowbow_endpoint + '/compute/quota/member')
     r = response.text.encode('ascii')
     return HttpResponse(r)
 
@@ -109,6 +110,6 @@ def get_members(request):
     return HttpResponse(r)
 
 def get_aggregated(request):
-    response = requests.get(fowbow_endpoint + '/quota/aggregated')
+    response = requests.get(fowbow_endpoint + '/compute/quota/aggregated')
     r = response.text.encode('ascii')
     return HttpResponse(r)

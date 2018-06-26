@@ -363,8 +363,8 @@ class ImageUtil:
 
     @staticmethod
     def get_images_response(member_id, federation_token_value):
-        endpoint = "{action_request_manager}/{member_id}".format(action_request_manager=FogbowConstants.IMAGES_ACTION_REQUEST_MANAGER, member_id=member_id)
-        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        extra_headers = {"memberId": member_id}
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.IMAGES_ACTION_REQUEST_MANAGER, federation_token_value, extra_headers=extra_headers)
         RequestUtil.check_success_request(response)
 
         return response
@@ -397,7 +397,7 @@ class RequestUtil:
         return response
     
     @staticmethod
-    def do_request_manager(method_request, action_enpoint, federation_token_value, json_data=None):
+    def do_request_manager(method_request, action_enpoint, federation_token_value, json_data=None, extra_headers=None):
         timeout_post = settings.TIMEOUT_POST
         if timeout_post is None or not timeout_post:
             timeout_post = DashboardConstants.DEFAULT_POST_TIMEOUT
@@ -410,6 +410,11 @@ class RequestUtil:
     
         headers = {RequestConstants.CONTENT_TYPE_HEADER: RequestConstants.JSON_APPLIVATION_VALUE_HEADER,
                     FogbowConstants.FEDERATION_TOKEN_VALUE : federation_token_value}    
+
+        if extra_headers:
+            for key, value in extra_headers.items():
+                headers[key] = value
+
         try:
             if method_request == RequestConstants.GET_METHOD:
                 response = requests.get(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_get)

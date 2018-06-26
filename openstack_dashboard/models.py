@@ -42,7 +42,7 @@ class FogbowConstants():
     VOLUMES_ACTION_REQUEST_MANAGER = '/volumes'
     COMPUTES_ACTION_REQUEST_MANAGER = '/computes'
     ATTACHMENTS_ACTION_REQUEST_MANAGER= '/attachments'
-    IMAGES_ACTION_REQUEST_MANAGER= '/attachments'
+    IMAGES_ACTION_REQUEST_MANAGER= '/images'
 
     ## attrs
     PROVIDING_MEMBER_ORDER_KEY = 'providingMember'
