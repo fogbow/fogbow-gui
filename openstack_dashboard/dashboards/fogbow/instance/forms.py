@@ -66,6 +66,9 @@ class CreateInstance(forms.SelfHandlingForm):
         members_choices.extend(MemberUtil.get_members(federation_token_value))
         self.fields['members'].choices = members_choices
         
+        images_choices = []
+        images_choices.append(('40bfc6dd-f817-4661-824c-d58874a90360', 'default'))
+        self.fields['image'].choices = images_choices
         
         dataUserTypeChoices = []
         dataUserTypeChoices.append(('text/x-shellscript', 'text/x-shellscript'))
@@ -78,7 +81,7 @@ class CreateInstance(forms.SelfHandlingForm):
         self.fields['data_user_type'].choices = dataUserTypeChoices
         
         networks_choices = []
-        networks_choices.append(('', ''))
+        networks_choices.append(('', ''))        
         networks = NetworkUtil.get_networks(federation_token_value)
         for network in networks:
             networks_choices.append((network.id, network.id))

@@ -138,20 +138,29 @@ class ComputeUtil:
         data = {}
         data[FogbowConstants.VCPU_ORDER_COMPUTE_KEY] = vcpu
         data[FogbowConstants.MEMORY_ORDER_COMPUTE_KEY] = memory
-        data[FogbowConstants.NETWORK_ID_ORDER_COMPUTE_KEY] = network_id
         data[FogbowConstants.PUBLIC_KEY_ORDER_COMPUTE_KEY] = public_key
         data[FogbowConstants.IMAGE_ID_ORDER_COMPUTE_KEY] = image_id
         data[FogbowConstants.PROVIDING_MEMBER_ORDER_KEY] = member
 
-        data_userdata = {}
-        data_userdata[FogbowConstants.EXTRA_USER_DATA_CONTENT_ORDER_COMPUTE_KEY] = extra_user_data
-        data_userdata[FogbowConstants.EXTRA_USER_DATA_TYPE_ORDER_COMPUTE_KEY] = extra_user_data_type
+        if network_id:
+            data[FogbowConstants.NETWORK_ID_ORDER_COMPUTE_KEY] = [ network_id ]
 
-        data[FogbowConstants.EXTRA_USER_DATA_ORDER_COMPUTE_KEY] = data_userdata
+        if extra_user_data:
+            data_userdata = {}
+            data_userdata[FogbowConstants.EXTRA_USER_DATA_CONTENT_ORDER_COMPUTE_KEY] = extra_user_data
+            data_userdata[FogbowConstants.EXTRA_USER_DATA_TYPE_ORDER_COMPUTE_KEY] = extra_user_data_type
+
+            data[FogbowConstants.EXTRA_USER_DATA_ORDER_COMPUTE_KEY] = data_userdata
 
         json_data = json.dumps(data)
 
-        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
+        LOG.info("json: {json}".format(json=json_data))
+
+        # TODO to use contants
+        extra_headers = {"Content-Type": "application/json"}
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, \
+                     federation_token_value, json_data=json_data, extra_headers=extra_headers)
         RequestUtil.check_success_request(response)
 
     @staticmethod
@@ -170,21 +179,24 @@ class ComputeUtil:
     @staticmethod
     def __get_compute_from_json(response_json):
         compute = json.loads(response_json)
-
+        
         # TODO to use contants
         id = compute.get('id', '-')
         state = compute.get('state', '-')
         host_name = compute.get('hostName', '-')
-        ssh_public_address = compute.get('sshTunnelConnectionData', '-').get('sshPublicAddress', '-')
-        ssh_user_name = compute.get('sshTunnelConnectionData', '-').get('sshUserName', '-')
-        ssh_extra_ports = compute.get('sshTunnelConnectionData', '-').get('sshExtraPorts', '-')
+        ssh_tunnel_con_data = compute.get('sshTunnelConnectionData', '-')
+        ssh_public_address, ssh_user_name, ssh_extra_ports = '-', '-', '-'
+        if ssh_tunnel_con_data != '-' and ssh_tunnel_con_data is not None:
+            ssh_public_address = ssh_tunnel_con_data.get('sshPublicAddress', '-')
+            ssh_user_name = ssh_tunnel_con_data.get('sshUserName', '-')
+            ssh_extra_ports = ssh_tunnel_con_data.get('sshExtraPorts', '-')
         v_cpu = compute.get('vCPU', '-')
-        memory = compute.get('memory', '-')
+        ram = compute.get('ram', '-')
         local_ip_address = compute.get('localIpAddress', '-')
 
         # TODO to use contants
         return {"id" :id, "volume_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
-                    "memory": memory, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
+                    "ram": ram, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
                     "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports }
 
     @staticmethod
@@ -197,16 +209,24 @@ class ComputeUtil:
             id = compute.get('id', '-')
             state = compute.get('state', '-')
             host_name = compute.get('hostName', '-')
-            ssh_public_address = compute.get('sshTunnelConnectionData', '-').get('sshPublicAddress', '-')
-            ssh_user_name = compute.get('sshTunnelConnectionData', '-').get('sshUserName', '-')
-            ssh_extra_ports = compute.get('sshTunnelConnectionData', '-').get('sshExtraPorts', '-')
+            ssh_tunnel_con_data = compute.get('sshTunnelConnectionData', '-')
+            LOG.info(ssh_tunnel_con_data)
+            LOG.info(type(ssh_tunnel_con_data))
+            LOG.info(str(ssh_tunnel_con_data))
+            ssh_public_address, ssh_user_name, ssh_extra_ports = '-', '-', '-'
+            if ssh_tunnel_con_data != '-' and ssh_tunnel_con_data is not None: 
+                LOG.info(">>>")
+                pass
+                # ssh_public_address = ssh_tunnel_con_data.get('sshPublicAddress', '-')
+                # ssh_user_name = ssh_tunnel_con_data.get('sshUserName', '-')
+                # ssh_extra_ports = ssh_tunnel_con_data.get('sshExtraPorts', '-')
             v_cpu = compute.get('vCPU', '-')
-            memory = compute.get('memory', '-')
+            ram = compute.get('ram', '-')
             local_ip_address = compute.get('localIpAddress', '-')
 
             # TODO to use contants
             computes.append(Compute({"id" :id, "compute_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
-                       "memory": memory, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
+                       "ram": ram, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
                        "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports }))
         return computes        
 
@@ -363,6 +383,7 @@ class ImageUtil:
 
     @staticmethod
     def get_images_response(member_id, federation_token_value):
+        # TODO: Use contansts
         extra_headers = {"memberId": member_id}
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.IMAGES_ACTION_REQUEST_MANAGER, federation_token_value, extra_headers=extra_headers)
         RequestUtil.check_success_request(response)
@@ -377,7 +398,7 @@ class RequestUtil:
             raise Exception("Response is null")
 
         status_code = response.status_code
-        if status_code != RequestConstants.OK_STATUS_CODE and status_code != RequestConstants.CREATED_STATUS_CODE:
+        if status_code != RequestConstants.OK_STATUS_CODE and status_code != RequestConstants.CREATED_STATUS_CODE and status_code != RequestConstants.OK_NO_CONTENT_STATUS_CODE:
             raise Exception("Response is not ok. Status code is {code}".format(code=response.status_code))
 
     @staticmethod

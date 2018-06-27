@@ -24,8 +24,6 @@ from base64 import b64encode, b64decode
 import hashlib
 import base64
 
-# from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
-
 LOG = logging.getLogger(__name__)
 
 # TODO to refactor this class. To move everything that is inconsistent in reference to the models
@@ -50,7 +48,7 @@ class FogbowConstants():
     # compute
     VCPU_ORDER_COMPUTE_KEY = 'vCPU'
     MEMORY_ORDER_COMPUTE_KEY = 'memory'
-    NETWORK_ID_ORDER_COMPUTE_KEY = 'networkId'
+    NETWORK_ID_ORDER_COMPUTE_KEY = 'networksId'
     IMAGE_ID_ORDER_COMPUTE_KEY = 'imageId'
     EXTRA_USER_DATA_ORDER_COMPUTE_KEY = 'userData'
     EXTRA_USER_DATA_CONTENT_ORDER_COMPUTE_KEY = 'extraUserDataFileContent'
@@ -136,7 +134,7 @@ class DashboardConstants():
 
 class RequestConstants():
     CONTENT_TYPE_HEADER = 'Content-Type'
-    JSON_APPLIVATION_VALUE_HEADER = 'json/application'
+    JSON_APPLIVATION_VALUE_HEADER = 'application/json'
     ACCEPT_HEADER = 'Accept'
     
     GET_METHOD = 'get'
@@ -145,6 +143,7 @@ class RequestConstants():
 
     OK_STATUS_CODE = 200
     CREATED_STATUS_CODE = 201
+    OK_NO_CONTENT_STATUS_CODE = 204
     BAD_REQUEST_STATUS_CODE = 400
 
 class IdentityPluginConstants():
