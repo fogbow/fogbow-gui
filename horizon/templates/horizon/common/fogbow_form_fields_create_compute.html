@@ -38,31 +38,58 @@
 
 	var TIMEOUT_DEFAULT = 10000;
 	var IMAGE_ENDPOINT_SUFIX = '/images';
+
+  // FIXME: find another method. This value is used because the server; the server need to receive the value default. 
+  var DEFAULT_VALUE = 'default';
 	
-	$(document).ready(function() {});
+	$(document).ready(function() {
+    setValueOnImages();
+  });
 	
 	function setValueOnImages() {
-    var member_id = $("#id_members").val();
-		fetch(window.location.origin.concat('/fogbow/instance/'+  member_id + '/images'), { method: 'GET', credentials: 'include'})
+    var memberId = $("#id_members").val();
+    var imageIdEl = $('#id_image');
+		fetch(window.location.origin.concat('/fogbow/instance/'+  memberId + '/images'), { method: 'GET', credentials: 'include'})
       .then(res => {
-        res.json().then(body => {
-					$('#id_image')
-						.find('option')
-						.remove();
+        try {
+          if (!res.ok) {
+            throw Error(response.statusText);
+          }
 
-					for(let key in body) {
-						$("#id_image").append($('<option>', {
-								text: body[key]
-						}));					
-					}
-        })
+          res.json().then(body => {          
+            imageIdEl.find('option').remove();
+
+            imageIdEl.append($('<option>', { text: "Choose an image" , value: DEFAULT_VALUE, name: "" }));            
+            for(let key in body) {              
+              imageIdEl.append($('<option>', { text: body[key] , value: DEFAULT_VALUE, name: key }));            
+            }
+          })
+        } catch(err) {
+          console.error('There has been a problem with fill images: ' + error.message);
+          imageIdEl.find('option').remove();
+        }
         
       })
+      .catch(function(error) {
+        alert("Is not possible get images referring of the member: " + memberId);
+        imageIdEl.find('option').remove();
+        console.error('There has been a problem with your fetch operation: ' + error.message);
+      });
 	};
 	
 	$('#id_members').change(function() {
-		// setValueOnImages();
-	});		
+		setValueOnImages();
+	});
+
+  $('#id_image').change(function() {
+    // FIXME The option select contains the image id, because the server fogbow-dashboard-core that needs the default value in value of the id_image elemente.
+    let image_id = $('#id_image option:selected').attr('name')
+    setImageId(image_id);    
+	});  
+
+  function setImageId(imageId) {
+    $('#id_image_id').val(imageId);
+  }
 	
 	$('#id_data_user').change(function() {
 		var file = document.getElementById("id_data_user").files[0];		

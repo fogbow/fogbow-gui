@@ -195,7 +195,7 @@ class ComputeUtil:
         local_ip_address = compute.get('localIpAddress', '-')
 
         # TODO to use contants
-        return {"id" :id, "volume_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
+        return {"id" :id, "compute_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
                     "ram": ram, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
                     "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports }
 
@@ -215,11 +215,9 @@ class ComputeUtil:
             LOG.info(str(ssh_tunnel_con_data))
             ssh_public_address, ssh_user_name, ssh_extra_ports = '-', '-', '-'
             if ssh_tunnel_con_data != '-' and ssh_tunnel_con_data is not None: 
-                LOG.info(">>>")
-                pass
-                # ssh_public_address = ssh_tunnel_con_data.get('sshPublicAddress', '-')
-                # ssh_user_name = ssh_tunnel_con_data.get('sshUserName', '-')
-                # ssh_extra_ports = ssh_tunnel_con_data.get('sshExtraPorts', '-')
+                ssh_public_address = ssh_tunnel_con_data.get('sshPublicAddress', '-')
+                ssh_user_name = ssh_tunnel_con_data.get('sshUserName', '-')
+                ssh_extra_ports = ssh_tunnel_con_data.get('sshExtraPorts', '-')
             v_cpu = compute.get('vCPU', '-')
             ram = compute.get('ram', '-')
             local_ip_address = compute.get('localIpAddress', '-')
@@ -385,6 +383,7 @@ class ImageUtil:
     def get_images_response(member_id, federation_token_value):
         # TODO: Use contansts
         extra_headers = {"memberId": member_id}
+        
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.IMAGES_ACTION_REQUEST_MANAGER, federation_token_value, extra_headers=extra_headers)
         RequestUtil.check_success_request(response)
 

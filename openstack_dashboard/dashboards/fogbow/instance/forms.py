@@ -37,8 +37,10 @@ class CreateInstance(forms.SelfHandlingForm):
     
     members = forms.ChoiceField(label=_('Members'), help_text=_('Members'), required=False)
         
-    # Verificar aqui.
+    # FIXME.
     image = forms.ChoiceField(label=_('Image'), required=False, help_text=_('Image'))
+
+    image_id = forms.CharField(label=_('hidden'),  widget=forms.TextInput(), required=False) 
     
     network_id = forms.ChoiceField(label=_('Network id'), help_text=_('Network id'), required=False)    
     
@@ -62,14 +64,13 @@ class CreateInstance(forms.SelfHandlingForm):
         federation_token_value = request.user.token.id
         
         members_choices = []
-        members_choices.append(('', ''))
         members_choices.extend(MemberUtil.get_members(federation_token_value))
         self.fields['members'].choices = members_choices
         
         images_choices = []
-        images_choices.append(('40bfc6dd-f817-4661-824c-d58874a90360', 'default'))
-        self.fields['image'].choices = images_choices
-        
+        images_choices.append(('default', ''))
+        self.fields['image'].choices = images_choices        
+
         dataUserTypeChoices = []
         dataUserTypeChoices.append(('text/x-shellscript', 'text/x-shellscript'))
         dataUserTypeChoices.append(('text/x-include-once-url', 'text/x-include-once-url'))
@@ -81,7 +82,7 @@ class CreateInstance(forms.SelfHandlingForm):
         self.fields['data_user_type'].choices = dataUserTypeChoices
         
         networks_choices = []
-        networks_choices.append(('', ''))        
+        networks_choices.append(('', 'Default'))        
         networks = NetworkUtil.get_networks(federation_token_value)
         for network in networks:
             networks_choices.append((network.id, network.id))
@@ -102,7 +103,7 @@ class CreateInstance(forms.SelfHandlingForm):
             vcpu = data['cpu']
             memory = data['mem']
             member = data['members']
-            image_id = data['image']
+            image_id = data['image_id']
             network_id = data['network_id']
             data_user_file = data['data_user_file']
             extra_user_data = None

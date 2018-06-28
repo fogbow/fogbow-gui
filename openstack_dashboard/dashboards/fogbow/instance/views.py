@@ -37,7 +37,6 @@ class IndexView(tables.DataTableView):
         try:
             return ComputeUtil.get_computes(federation_token_value)
         except Exception as e:
-            raise e
             error_msg = "Is not possible to get computes"
             error_msg_detail = "Error message: {error_msg}".format(error_msg=str(e))
             LOG.error("{error_msg}{error_msg_detail}".format(error_msg=error_msg, error_msg_detail=error_msg_detail))

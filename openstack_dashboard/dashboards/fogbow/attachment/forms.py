@@ -45,16 +45,16 @@ class CreateAttachment(forms.SelfHandlingForm):
         volumes_choices = []
         volumes = VolumeUtil.get_volumes(federation_token_value)
         for volume in volumes:
-            if volume.state is 'READY':
-                volumes_choices.append((volume.instanceId, volume.id))
+            if volume.state == 'READY':
+                volumes_choices.append((volume.id, volume.id))
  
         self.fields['volume'].choices = volumes_choices
         
         computes_choices = []
         computes = ComputeUtil.get_computes(federation_token_value)
         for compute in computes:
-            if compute.state is 'READY':
-                computes_choices.append((compute.instanceId, compute.id))
+            if compute.state == 'READY':
+                computes_choices.append((compute.id, compute.id))
         self.fields['compute'].choices = computes_choices
 
     def handle(self, request, data):
