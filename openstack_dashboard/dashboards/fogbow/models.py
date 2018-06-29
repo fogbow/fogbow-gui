@@ -39,6 +39,27 @@ class MemberUtil:
             
         return members
 
+class QuotaUtil:
+    
+    @staticmethod
+    def get_compute_quota_response(member_id, federation_token_value):
+        LOG.debug("Gettings compute quota")
+        endpoint = '{compute_endpoint}/{member_id}'.format(compute_endpoint=FogbowConstants.COMPUTE_QUOTA_ACTION_REQUEST_MANAGER, member_id=member_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response) 
+        
+        return response.text
+
+    @staticmethod
+    def get_compute_allocation_response(member_id, federation_token_value):
+        LOG.debug("Gettings compute allocation")
+        endpoint = '{compute_endpoint}/{member_id}'.format(compute_endpoint=FogbowConstants.COMPUTE_ALLOCATION_ACTION_REQUEST_MANAGER, member_id=member_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+        
+        return response.text
+    
+
 class NetworkUtil:
 
     @staticmethod
