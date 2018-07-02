@@ -6,9 +6,9 @@
       {% if heading %}<h4>{{ heading }}</h4>{% endif %}
       <ul class="main_nav">
         {% for panel in filtered_panels %}
-          <li>
-            <a href="{{ panel.get_absolute_url }}" {% if current == panel.slug %}class="active"{% endif %} tabindex='1'>{{ panel.name }}</a>
-          </li>
+            <li>
+              <a href="{{ panel.get_absolute_url }}" {% if current == panel.slug %}class="active"{% endif %} tabindex='1'>{{ panel.name }}</a>
+            </li>
         {% endfor %}
       </ul>
     {% endif %}

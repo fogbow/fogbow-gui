@@ -5,7 +5,7 @@ import horizon
 class MainPanel(horizon.PanelGroup):
     slug = "fogbow-group"
     name = _("User panel")
-    panels = ('members', 'instance', 'storage', 'network', 'attachment')       
+    panels = ('members', 'federatednetwork', 'instance', 'storage', 'network', 'attachment')       
 
 class Fogbow(horizon.Dashboard):
     name = _("Federation")
