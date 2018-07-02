@@ -79,6 +79,7 @@ class FogbowBackend(object):
         request.session['token'] = federation_token_id
         request.session['username'] = user.username
         request.session['userId'] = user.userId
+        request.session['managerXmppJid']  = settings.FOGBOW_MANAGER_CORE_XMPP_JID
         self._cached_tokens[federation_token_id] = federationToken
         self._cached_tokens[user.id] = user
         return user

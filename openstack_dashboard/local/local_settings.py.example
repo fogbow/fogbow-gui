@@ -9,11 +9,12 @@ from openstack_dashboard import exceptions
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-# Endpoint Manager
+# Endpoint Manager (Deprecated)
 FOGBOW_MANAGER_ENDPOINT = 'http://localhost:8182' # Mandatory
 
-# Endpoint Membership
+# Endpoint Manager
 FOGBOW_MANAGER_CORE_ENDPOINT = 'http://localhost:8181' # Mandatory
+FOGBOW_MANAGER_CORE_XMPP_JID= 'manager.lsd.ufcg.br' Mandatory
 # Endpoint Membership
 FOGBOW_MEMBERSHIP_ENDPOINT = 'http://localhost:8180' # Mandatory
 
