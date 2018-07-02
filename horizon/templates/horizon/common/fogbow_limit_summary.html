@@ -99,7 +99,9 @@
 		<thead>
 			<tr>
 				<th>
-					<select id="member" style="width: 100%"></select>
+					<select id="member" style="width: 100%">
+						<option value="">Members</option>
+					</select>
 				</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Instance</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">vCPU</th>
@@ -427,7 +429,19 @@
 
 		$('#member').change(function(){
 			let memberId = $('#member').val();
-			fillMemberTable(memberId);
+			if (!memberId){
+				$('#member_shared_instances').text('-');
+				$('#member_shared_vCPU').text('-');
+				$('#member_shared_ram').text('-');
+				$('#member_total_instances').text('-');
+				$('#member_total_vCPU').text('-');
+				$('#member_total_ram').text('-');
+				$('#member_his_instances').text('-');
+				$('#member_his_vCPU').text('-');
+				$('#member_his_ram').text('-');
+			}else {
+				fillMemberTable(memberId);
+			}
 		});
 		
 	})();
