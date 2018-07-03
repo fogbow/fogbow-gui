@@ -9,11 +9,19 @@
     {{ federatednetwork.id }}
   </dl>
   <dl>
-    <dt>{% trans "State" %}</dt>
-    {{ federatednetwork.state }}
+    <dt>{% trans "Label" %}</dt>
+    {{ federatednetwork.label }}
   </dl>
   <dl>
-    <dt>{% trans "vCPU" %}</dt>
-    {{ federatednetwork.v_cpu }}
+    <dt>{% trans "CIRD" %}</dt>
+    {{ federatednetwork.cird }}
+  </dl>
+  <dl>
+    <dt>{% trans "State" %}</dt>
+    {{ federatednetwork.state }}
+  </dl>  
+  <dl>
+    <dt>{% trans "Allowed Members" %}</dt>
+    {{ federatednetwork.allowed_members }}
   </dl>
 </div>

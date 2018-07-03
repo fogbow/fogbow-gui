@@ -32,6 +32,8 @@
   </div>
 {% endfor %}
 
+<div id="federation-network-extension" style="visibility: hidden">{{ request.session.federatedNetworkExtension }}</div>
+
 <script src="../static/dashboard/js/jquery-1.12.0.min.js"></script> 
 <script type="text/javascript">
 (function() {
@@ -44,10 +46,15 @@
 	
 	$(document).ready(function() {
     setValueOnImages();
+
+    let federatedNetworkExtension = $('#federation-network-extension').text()
+    if (federatedNetworkExtension == 'False') {
+      $(".control-group:has([for='federated_network_id'])").hide();
+    }
   });
 	
 	function setValueOnImages() {
-    var memberId = $("#id_members").val();
+    var memberId = $('#id_members').val();
     var imageIdEl = $('#id_image');
 		fetch(window.location.origin.concat('/fogbow/instance/'+  memberId + '/images'), { method: 'GET', credentials: 'include'})
       .then(res => {

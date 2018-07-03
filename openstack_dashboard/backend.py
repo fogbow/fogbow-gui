@@ -61,7 +61,7 @@ class FogbowBackend(object):
         user = User(username, federationToken, userId, username, {})        
     
         try:            
-            LOG.info('Checking user authenticated...')
+            LOG.info('Checking user authenticated')
             if authentication.checkUserAuthenticated(federationToken, settings.FOGBOW_FEDERATION_AUTH_TYPE) == False:
                 LOG.error('Federation Token is Invalid')
                 user.errors = True
@@ -70,7 +70,7 @@ class FogbowBackend(object):
                     return HttpResponse('Unauthorized', status=401)
         except Exception, e: 
             user.errors = True
-            user.typeError = 'Manager connection failed.'
+            user.typeError = 'Manager connection failed'
 
         LOG.error('Valid federation token value') 
 
@@ -80,7 +80,7 @@ class FogbowBackend(object):
         request.session['username'] = user.username
         request.session['userId'] = user.userId
         request.session['managerXmppJid']  = settings.FOGBOW_MANAGER_CORE_XMPP_JID
-        request.session['federatedNetworkExtension']  = settings.FEDERATED_NETWORK_EXTENSION
+        request.session['federatedNetworkExtension']  = settings.FEDERATED_NETWORK_EXTENSION 
         self._cached_tokens[federation_token_id] = federationToken
         self._cached_tokens[user.id] = user
         return user

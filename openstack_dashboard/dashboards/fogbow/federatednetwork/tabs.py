@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from horizon import tabs
 import openstack_dashboard.models as fogbow_models
                 
-from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
+from openstack_dashboard.dashboards.fogbow.models import FederatedNetworkUtil
 
 LOG = logging.getLogger(__name__)
 
@@ -15,8 +15,19 @@ class InstanceDetailTabInstancePanel(tabs.Tab):
 
     def get_context_data(self, request):
         federatednetwork_id = self.tab_group.kwargs['federatednetwork_id']
+        LOG.info("Trying to get the federated network: {federatednetwork_id}".format(federatednetwork_id=federatednetwork_id))
 
-        return {'federatednetwork' : None}
+        federation_token_value = request.user.token.id
+        try:
+            federated_network = FederatedNetworkUtil.get_compute(federatednetwork_id, federation_token_value)
+        except Exception as e:
+            LOG.info("Is not possible get the compute. Message exception is {error_msg}:".format(error_msg=str(e)))
+            federated_network = None
+
+        # fake  
+        federated_network = {"id" : "id", "state": "state", "label": "fake", "cird": "10.10.10.fake", "allowed_members": "{}" }
+
+        return {'federatednetwork' : federated_network}
     
 class InstanceDetailTabGroupInstancePanel(tabs.TabGroup):
     slug = "federatednetwork_details"

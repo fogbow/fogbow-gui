@@ -14,10 +14,9 @@ from horizon import messages
 from openstack_dashboard.dashboards.fogbow.federatednetwork.forms import CreateInstance
 from openstack_dashboard.dashboards.fogbow.federatednetwork import tabs as project_tabs
 from openstack_dashboard.dashboards.fogbow.federatednetwork import tables as project_tables
-from openstack_dashboard.dashboards.fogbow.federatednetwork.models import Compute
 import openstack_dashboard.models as fogbow_models
-from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
-from openstack_dashboard.dashboards.fogbow.models import ImageUtil
+from openstack_dashboard.dashboards.fogbow.models import FederatedNetworkUtil
+from openstack_dashboard.dashboards.fogbow.federatednetwork.models import FederatedNetwork
 
 LOG = logging.getLogger(__name__)
 
@@ -32,8 +31,18 @@ class IndexView(tables.DataTableView):
 
     def get_data(self):
         federation_token_value = self.request.user.token.id
-        
-        return {}
+        try:
+            return FederatedNetworkUtil.get_federated_networks(federation_token_value)
+        except Exception as e:
+            error_msg = "Is not possible to get federated networks"
+            error_msg_detail = "Error message: {error_msg}".format(error_msg=str(e))
+            LOG.error("{error_msg}{error_msg_detail}".format(error_msg=error_msg, error_msg_detail=error_msg_detail))
+            messages.error(self.request, error_msg)
+            # return {}
+
+            #fake 
+            return [FederatedNetwork({'id': 'fake_id_one', 'federatednetwork_id': 'fake_id', 'state': 'fake_status'}), \
+                    FederatedNetwork({'id': 'fake_id_two', 'federatednetwork_id': 'fake_id', 'state': 'fake_status'})]
     
 class CreateView(forms.ModalFormView):
     form_class = CreateInstance

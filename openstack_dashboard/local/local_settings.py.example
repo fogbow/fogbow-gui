@@ -18,6 +18,9 @@ FOGBOW_MANAGER_CORE_XMPP_JID= 'manager.lsd.ufcg.br' Mandatory
 # Endpoint Membership
 FOGBOW_MEMBERSHIP_ENDPOINT = 'http://localhost:8180' # Mandatory
 
+# extensions
+FEDERATED_NETWORK_EXTENSION = False # Mandatory
+
 FOGBOW_FEDERATION_AUTH_ENDPOINT = '' # Mandatory
 # types : keystone, opennebula, voms, raw_opennebula, raw_keystone, shibboleth, naf, ldap
 FOGBOW_FEDERATION_AUTH_TYPE = '' # Mandatory

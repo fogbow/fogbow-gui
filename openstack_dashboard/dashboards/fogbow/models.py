@@ -8,6 +8,7 @@ from openstack_dashboard.models import FogbowConstants
 from openstack_dashboard.models import RequestConstants
 from openstack_dashboard.models import DashboardConstants
 
+from openstack_dashboard.dashboards.fogbow.federatednetwork.models import FederatedNetwork
 from openstack_dashboard.dashboards.fogbow.network.models import Network
 from openstack_dashboard.dashboards.fogbow.storage.models import Volume
 from openstack_dashboard.dashboards.fogbow.instance.models import Compute
@@ -17,15 +18,11 @@ LOG = logging.getLogger(__name__)
 
 class MemberUtil:
      
-    # FIXME: remove federation_token_value in parameters
     @staticmethod
     def get_members(federation_token_value):
         LOG.debug("Gettings members")
         response = RequestUtil.do_request_membership(RequestConstants.GET_METHOD, FogbowConstants.MEMBERS_ACTION_REQUEST_MERBERSHIP)
-        # TODO use check_success_request in the RequestUtil class
-        if response == None or response.status_code != RequestConstants.OK_STATUS_CODE:
-            LOG.error("Status code is {code}".format(code=response.status_code))
-            raise Exception("Is not possible get members")
+        RequestUtil.check_success_request(response) 
         
         response_json = response.text
         return MemberUtil.get_members_from_json(response_json)
@@ -58,7 +55,75 @@ class QuotaUtil:
         RequestUtil.check_success_request(response)
         
         return response.text
-    
+
+class FederatedNetworkUtil:
+
+    @staticmethod
+    def get_federated_networks(federation_token_value):
+        LOG.debug("Gettings  federated networks")
+        endpoint = "{action_request_manager}/{federated_network_id}".format(action_request_manager=FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, federated_network_id=federated_network_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text
+        return FederatedNetworkUtil.__get_federated_networks_from_json(response_json)
+
+    @staticmethod
+    def create_federated_network(label, cird, allowed_members, federation_token_value):
+        LOG.debug("Trying to create federated network")
+
+        data = {}
+        data[FogbowConstants.LABEL_ORDER_FEDERATED_NETWORK_KEY] = label
+        data[FogbowConstants.CIRD_ORDER_FEDERATED_NETWORK_KEY] = cird
+        data[FogbowConstants.ALLOWED_MEMBERS_FEDERATED_NETWORK_KEY] = allowed_members
+
+        json_data = json.dumps(data)
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod 
+    def delete_federated_network(federated_network_id, federation_token_value):
+        LOG.debug("Trying to delete fedareted network: {federated_network_id}".format(federated_network_id=federated_network_id))
+        endpoint = "{action_request_manager}/{federated_network_id}".format(action_request_manager=FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, federated_network_id=federated_network_id)
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def get_federated_network(federated_network_id, federation_token_value):
+        LOG.debug("Getting federated network: {federated_network_id}".format(federated_network_id=federated_network_id))
+        endpoint = "{action_request_manager}/{federated_network_id}".format(action_request_manager=FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, federated_network_id=federated_network_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text        
+        return FederatedNetworkUtil.__get_federated_network_from_json(response_json) 
+
+    @staticmethod
+    def __get_federated_networks_from_json(response_json):
+        federated_networks = []
+
+        data = json.loads(response_json)
+
+        for federated_network in data:
+            federated_networks.append(FederatedNetwork({'id': federated_network.get('id'), 
+            'federatednetwork_id': federated_network.get('id'), 'state': federated_network.get('state')}))
+
+        return federated_networks
+
+    def __get_federated_network_from_json(response_json):
+        network = json.loads(response_json)
+
+        # TODO to use contants
+        id = network.get('id', '-')
+        cird = network.get('cidrNotation', '-')
+        label = network.get('label', '-')
+        allowed_members = network.get('allowedMembers', '-')
+        state = network.get('state', '-')
+
+        # TODO to use contants
+        return {"id" :id, "state": state, "label": label, "cird": cird, "allowed_members": allowed_members }
+
 
 class NetworkUtil:
 
@@ -214,11 +279,12 @@ class ComputeUtil:
         v_cpu = compute.get('vCPU', '-')
         ram = compute.get('ram', '-')
         local_ip_address = compute.get('localIpAddress', '-')
+        federated_ip = compute.get('federatedIp', '-')
 
         # TODO to use contants
         return {"id" :id, "compute_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
                     "ram": ram, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
-                    "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports }
+                    "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports, "federated_ip": federated_ip }
 
     @staticmethod
     def __get_compute_ids_from_json(response_json):    

@@ -42,7 +42,9 @@ class CreateInstance(forms.SelfHandlingForm):
 
     image_id = forms.CharField(label=_('hidden'),  widget=forms.TextInput(), required=False) 
     
-    network_id = forms.ChoiceField(label=_('Network id'), help_text=_('Network id'), required=False)    
+    network_id = forms.ChoiceField(label=_('Network id'), help_text=_('Network id'), required=False)
+
+    federated_network_id = forms.ChoiceField(label=_('Federated network id'), help_text=_('Federated network id'), required=False)
     
     data_user = forms.FileField(label=_('Extra user data file'), required=False)
     

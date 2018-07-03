@@ -27,7 +27,6 @@ import base64
 LOG = logging.getLogger(__name__)
 
 # TODO to refactor this class. To move everything that is inconsistent in reference to the models
-
 # TODO remove OCCI
 class FogbowConstants():
     ##
@@ -36,6 +35,7 @@ class FogbowConstants():
     FEDERATION_TOKEN_VALUE = 'federation_token_value'
     
     ## manager core
+    FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER = '/federatedNetworks'
     NETWORKS_ACTION_REQUEST_MANAGER = '/networks'
     VOLUMES_ACTION_REQUEST_MANAGER = '/volumes'
     COMPUTES_ACTION_REQUEST_MANAGER = '/computes'
@@ -57,10 +57,15 @@ class FogbowConstants():
     EXTRA_USER_DATA_TYPE_ORDER_COMPUTE_KEY = 'extraUserDataFileType'
     PUBLIC_KEY_ORDER_COMPUTE_KEY = 'publicKey'
 
-    #network
+    # network
     GATEWAY_ORDER_NETWORK_KEY = 'gateway'
     ADDRESS_ORDER_COMPUTE_KEY = 'address'
     ALLOCATION_ID_ORDER_COMPUTE_KEY = 'allocation'   
+
+    # federated network
+    LABEL_ORDER_FEDERATED_NETWORK_KEY = "label"
+    CIRD_ORDER_FEDERATED_NETWORK_KEY = "cidrNotation"
+    ALLOWED_MEMBERS_FEDERATED_NETWORK_KEY = "allowedMembers"    
 
     # volume
     SIZE_ORDER_VOLUME_KEY = 'volumeSize'
@@ -74,6 +79,7 @@ class FogbowConstants():
     # membership 
     MEMBERS_ACTION_REQUEST_MERBERSHIP = '/members'
 
+    # TODO remove
     ##
     ## old fogbow
     ##

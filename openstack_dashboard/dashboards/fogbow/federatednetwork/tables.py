@@ -13,7 +13,7 @@ from horizon import exceptions
 from horizon import messages
 
 import openstack_dashboard.models as fogbow_models
-from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
+from openstack_dashboard.dashboards.fogbow.models import FederatedNetworkUtil
 
 LOG = logging.getLogger(__name__)
 
@@ -31,6 +31,14 @@ class TerminateInstance(tables.BatchAction):
 
     def action(self, request, obj_id):
         self.current_past_action = 0     
+        federated_network_id = obj_id
+        LOG.info("Trying to delete the federated network: {federated_network_id}".format(federated_network_id=federated_network_id))
+        federation_token_value = request.user.token.id  
+        try:
+            FederatedNetworkUtil.delete_federated_network(federated_network_id, federation_token_value)
+        except Exception as e:
+            LOG.error("Is not possible delete the federated network. Message exception is {error_msg}:".format(error_msg=str(e)))
+            messages.error(request, _('Is was not possible to delete : %s') % federated_network_id)             
             
 class CreateInstance(tables.LinkAction):
     name = 'create'
