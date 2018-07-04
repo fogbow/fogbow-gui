@@ -21,9 +21,9 @@ FOGBOW_MEMBERSHIP_ENDPOINT = 'http://localhost:8180' # Mandatory
 # Extensions (True or False)
 FEDERATED_NETWORK_EXTENSION = False # Mandatory
 
-FOGBOW_FEDERATION_AUTH_ENDPOINT = '' # Mandatory
-# Types : keystone, opennebula, voms, raw_opennebula, raw_keystone, shibboleth, naf, ldap
+# Types : ldap
 FOGBOW_FEDERATION_AUTH_TYPE = '' # Mandatory
+FOGBOW_FEDERATION_AUTH_ENDPOINT = ''
 # ps: Read the fogbow-cli documentation.
 FOGBOW_AUTHENTICATION_CONF_PATH = '$path_to_config'
 

@@ -100,7 +100,7 @@
 			<tr>
 				<th>
 					<select id="member" style="width: 100%">
-						<option value="">Members</option>
+						<option value="">Choose member</option>
 					</select>
 				</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Instance</th>
@@ -421,8 +421,7 @@
 		function fillAgreegateTable() {
 			for (i = 0; i < members.length; i++) { 
 				let member = members[i];
-				console.log(member);	
-				fillAggreegateTable(member);			
+				fillAggreegateTable(member);	
 			}
 
 		}

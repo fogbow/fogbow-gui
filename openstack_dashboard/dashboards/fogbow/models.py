@@ -130,7 +130,9 @@ class NetworkUtil:
     @staticmethod
     def get_networks(federation_token_value):
         LOG.debug("Gettings networks")
-        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
+        endpoint = "{action_request_manager}/{status_sufix}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, \
+                     status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
         response_json = response.text
@@ -145,7 +147,7 @@ class NetworkUtil:
 
     # TODO use object in attrs
     @staticmethod
-    def create_network(gateway, address, allocation, member, federation_token_value):
+    def create_network(address ,gateway, allocation, member, federation_token_value):
         LOG.debug("Trying to create network")
 
         data = {}
@@ -194,8 +196,8 @@ class NetworkUtil:
         data = json.loads(response_json)
 
         for network in data:
-            networks.append(Network({'id': network.get('id'), 
-            'network_id': network.get('id'), 'state': network.get('state')}))
+            networks.append(Network({'id': network.get('instanceId', '-'), 
+            'network_id': network.get('instanceId', '-'), 'state': network.get('state', '-')}))
 
         return networks
         
@@ -203,7 +205,8 @@ class ComputeUtil:
 
     @staticmethod
     def get_computes(federation_token_value):
-        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, federation_token_value)
+        endpoint = "{action_request_manager}/{status_sufix}".format(action_request_manager=FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
         response_json = response.text
@@ -293,26 +296,11 @@ class ComputeUtil:
         data = json.loads(response_json)
         for compute in data:
             # TODO to use contants
-            id = compute.get('id', '-')
+            id = compute.get('instanceId', '-')
             state = compute.get('state', '-')
-            host_name = compute.get('hostName', '-')
-            ssh_tunnel_con_data = compute.get('sshTunnelConnectionData', '-')
-            LOG.info(ssh_tunnel_con_data)
-            LOG.info(type(ssh_tunnel_con_data))
-            LOG.info(str(ssh_tunnel_con_data))
-            ssh_public_address, ssh_user_name, ssh_extra_ports = '-', '-', '-'
-            if ssh_tunnel_con_data != '-' and ssh_tunnel_con_data is not None: 
-                ssh_public_address = ssh_tunnel_con_data.get('sshPublicAddress', '-')
-                ssh_user_name = ssh_tunnel_con_data.get('sshUserName', '-')
-                ssh_extra_ports = ssh_tunnel_con_data.get('sshExtraPorts', '-')
-            v_cpu = compute.get('vCPU', '-')
-            ram = compute.get('ram', '-')
-            local_ip_address = compute.get('localIpAddress', '-')
 
             # TODO to use contants
-            computes.append(Compute({"id" :id, "compute_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
-                       "ram": ram, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
-                       "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports }))
+            computes.append(Compute({"id" :id, "compute_id": id, "state": state }))
         return computes        
 
 
@@ -321,7 +309,9 @@ class VolumeUtil:
     @staticmethod
     def get_volumes(federation_token_value):
         LOG.debug("Gettings volumes")
-        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, federation_token_value)
+        endpoint = "{action_request_manager}/{status_sufix}".format(action_request_manager=FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, \
+                     status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
         response_json = response.text        
@@ -379,12 +369,11 @@ class VolumeUtil:
         data = json.loads(response_json)
         for volume in data:
             # TODO to use contants
-            id = volume.get('id', '-')
+            id = volume.get('instanceId', '-')
             state = volume.get('state', '-')
-            name = volume.get('name', '-')
-            size = volume.get('size', '-')
+
             # TODO to use contants
-            volumes.append(Volume({"id" :id, "volume_id": id, "state": state, "name": name, "size": size}))
+            volumes.append(Volume({"id" :id, "volume_id": id, "state": state}))
 
         return volumes
 
@@ -393,7 +382,9 @@ class AttachmentUtil:
     @staticmethod
     def get_attachments(federation_token_value):
         LOG.debug("Gettings attachments")
-        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, federation_token_value)
+        endpoint = "{action_request_manager}/{status_sufix}".format(action_request_manager=FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, \
+                     status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)        
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
         response_json = response.text        
@@ -455,14 +446,11 @@ class AttachmentUtil:
         volume = json.loads(response_json)
 
         # TODO to use contants
-        id = volume.get('id', '-')
+        id = volume.get('instanceId', '-')
         state = volume.get('state', '-')
-        device = volume.get('device', '-')
-        volume_id = volume.get('volumeId', '-')
-        server_id = volume.get('serverId', '-')
 
         # TODO to use contants
-        return {"id" :id, "attachment_id": id, "state": state, "volume_id": volume_id, "server_id": server_id, "device": device}
+        return {"id" :id, "attachment_id": id, "state": state}
 
 class ImageUtil:
 
