@@ -14,11 +14,13 @@ from horizon.utils import fields
 from django.core.urlresolvers import reverse_lazy
 from horizon import messages
 from django import shortcuts
+from django.conf import settings
 
 from openstack_dashboard.dashboards.fogbow.members.views import IndexView as member_views
 from openstack_dashboard.dashboards.fogbow.network.views import IndexView as network_views
 from openstack_dashboard.dashboards.fogbow.models import MemberUtil
 from openstack_dashboard.dashboards.fogbow.models import NetworkUtil
+from openstack_dashboard.dashboards.fogbow.models import FederatedNetworkUtil
 from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
 import openstack_dashboard.models as fogbow_models
 
@@ -90,6 +92,18 @@ class CreateInstance(forms.SelfHandlingForm):
             networks_choices.append((network.id, network.id))
         
         self.fields['network_id'].choices = networks_choices
+
+        if settings.FEDERATED_NETWORK_EXTENSION:
+            LOG.debug("Filling federated network field")
+            federated_networks_choices = []            
+            try:
+                federated_networks = FederatedNetworkUtil.get_federated_networks(federation_token_value)
+                for federated_network in federated_networks:
+                    federated_networks_choices.append((federated_network.id, federated_network.id))
+            except Exception:
+                federated_networks_choices.append(('fake', 'fake'))
+
+            self.fields['federated_network_id'].choices = federated_networks_choices
         
     def normalize_user_data(self, value):
         try:

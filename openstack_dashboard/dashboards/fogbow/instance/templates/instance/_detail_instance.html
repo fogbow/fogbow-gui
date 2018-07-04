@@ -28,7 +28,7 @@
     <dt>{% trans "SHH public address" %}</dt>
     {{ compute.ssh_public_address }}
   </dl>
-  {% if request.session.federatedNetworkExtension == True %}
+  {% if session.federatedNetworkExtension == True %}
     <dl>
       <dt>{% trans "Federated ID" %}</dt>
       {{ compute.federated_ip }}

@@ -48,8 +48,9 @@
     setValueOnImages();
 
     let federatedNetworkExtension = $('#federation-network-extension').text()
+    console.log(federatedNetworkExtension);
     if (federatedNetworkExtension == 'False') {
-      $(".control-group:has([for='federated_network_id'])").hide();
+      $(".control-group:has([for='id_federated_network_id'])").hide();
     }
   });
 	
