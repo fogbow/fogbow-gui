@@ -104,8 +104,6 @@ def getToken(endpoint, credentials, type):
 
     command = '%s token --create --conf-path %s %s --type %s' % (
         FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, credentialsStr, type)
- 
-    LOG.info('command:' + command)
 
     responseStr = commands.getoutput(command)
   
