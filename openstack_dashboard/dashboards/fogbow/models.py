@@ -430,27 +430,26 @@ class AttachmentUtil:
         data = json.loads(response_json)
         for attachment in data:
             # TODO to use contants
-            id = attachment.get('id', '-')
+            id = attachment.get('instanceId', '-')
             state = attachment.get('state', '-')
-            device = attachment.get('device', '-')
-            server_id = attachment.get('serverId', '-')
-            volume_id = attachment.get('volumeId', '-')
             # TODO to use contants
-            attachments.append(Attachment({"id" :id, "attachment_id": id, "state": state, "device": device, "server_id": server_id, "volume_id": volume_id}))
+            attachments.append(Attachment({"id" :id, "attachment_id": id, "state": state}))
 
         return attachments    
 
-    # TODO reuse this method in __get_attachments_from_json
     @staticmethod
     def __get_attachment_from_json(response_json):
-        volume = json.loads(response_json)
+        attachment = json.loads(response_json)
 
         # TODO to use contants
-        id = volume.get('instanceId', '-')
-        state = volume.get('state', '-')
+        id = attachment.get('id', '-')
+        state = attachment.get('state', '-')
+        device = attachment.get('device', '-')
+        server_id = attachment.get('serverId', '-')
+        volume_id = attachment.get('volumeId', '-')
 
         # TODO to use contants
-        return {"id" :id, "attachment_id": id, "state": state}
+        return {"id" :id, "attachment_id": id, "state": state, "device": device, "server_id": server_id, "volume_id": volume_id}
 
 class ImageUtil:
 

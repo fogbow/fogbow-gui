@@ -61,8 +61,8 @@ class CreateAttachment(forms.SelfHandlingForm):
         federation_token_value = request.user.token.id
 
         try:
-            target = data['compute']
-            source = data['volume']
+            target = data['volume']
+            source = data['compute']
 
             AttachmentUtil.create_attachment(target, source, federation_token_value)
             
