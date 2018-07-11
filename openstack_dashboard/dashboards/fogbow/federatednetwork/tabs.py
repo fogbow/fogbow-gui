@@ -19,13 +19,10 @@ class InstanceDetailTabInstancePanel(tabs.Tab):
 
         federation_token_value = request.user.token.id
         try:
-            federated_network = FederatedNetworkUtil.get_compute(federatednetwork_id, federation_token_value)
+            federated_network = FederatedNetworkUtil.get_federated_network(federatednetwork_id, federation_token_value)
         except Exception as e:
-            LOG.info("Is not possible get the compute. Message exception is {error_msg}:".format(error_msg=str(e)))
+            LOG.info("Is not possible get the federated network. Message exception is {error_msg}:".format(error_msg=str(e)))
             federated_network = None
-
-        # fake  
-        federated_network = {"id" : "id", "state": "state", "label": "fake", "cird": "10.10.10.fake", "allowed_members": "{}" }
 
         return {'federatednetwork' : federated_network}
     

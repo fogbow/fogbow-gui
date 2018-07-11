@@ -32,7 +32,7 @@ class FogbowConstants():
     ##
     ## new fogbow
     ##
-    FEDERATION_TOKEN_VALUE = 'federation_token_value'
+    FEDERATION_TOKEN_VALUE = 'federationTokenValue'
     
     ## manager core
     FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER = '/federatedNetworks'
@@ -67,6 +67,8 @@ class FogbowConstants():
     LABEL_ORDER_FEDERATED_NETWORK_KEY = "label"
     CIRD_ORDER_FEDERATED_NETWORK_KEY = "cidrNotation"
     ALLOWED_MEMBERS_FEDERATED_NETWORK_KEY = "allowedMembers"    
+
+    FED_NET_ID_ORDER_COMPUTE_TO_FEDERATED_NETWORK_KEY = 'federatedNetworkId'
 
     # volume
     SIZE_ORDER_VOLUME_KEY = 'volumeSize'

@@ -38,11 +38,7 @@ class IndexView(tables.DataTableView):
             error_msg_detail = "Error message: {error_msg}".format(error_msg=str(e))
             LOG.error("{error_msg}{error_msg_detail}".format(error_msg=error_msg, error_msg_detail=error_msg_detail))
             messages.error(self.request, error_msg)
-            # return {}
-
-            #fake 
-            return [FederatedNetwork({'id': 'fake_id_one', 'federatednetwork_id': 'fake_id', 'state': 'fake_status'}), \
-                    FederatedNetwork({'id': 'fake_id_two', 'federatednetwork_id': 'fake_id', 'state': 'fake_status'})]
+            return {}
     
 class CreateView(forms.ModalFormView):
     form_class = CreateInstance

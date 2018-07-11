@@ -61,7 +61,7 @@ class FederatedNetworkUtil:
     @staticmethod
     def get_federated_networks(federation_token_value):
         LOG.debug("Gettings  federated networks")
-        endpoint = "{action_request_manager}/{federated_network_id}".format(action_request_manager=FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, federated_network_id=federated_network_id)
+        endpoint = "{action_request_manager}".format(action_request_manager=FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER)
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
@@ -78,6 +78,7 @@ class FederatedNetworkUtil:
         data[FogbowConstants.ALLOWED_MEMBERS_FEDERATED_NETWORK_KEY] = allowed_members
 
         json_data = json.dumps(data)
+        LOG.info("json: {json}".format(json=json_data))
 
         response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
         RequestUtil.check_success_request(response)
@@ -111,15 +112,16 @@ class FederatedNetworkUtil:
 
         return federated_networks
 
+    @staticmethod
     def __get_federated_network_from_json(response_json):
-        network = json.loads(response_json)
+        federated_network = json.loads(response_json)
 
         # TODO to use contants
-        id = network.get('id', '-')
-        cird = network.get('cidrNotation', '-')
-        label = network.get('label', '-')
-        allowed_members = network.get('allowedMembers', '-')
-        state = network.get('state', '-')
+        id = federated_network.get('id', '-')
+        cird = federated_network.get('cidrNotation', '-')
+        label = federated_network.get('label', '-')
+        allowed_members = federated_network.get('allowedMembers', '-')
+        state = federated_network.get('state', '-')
 
         # TODO to use contants
         return {"id" :id, "state": state, "label": label, "cird": cird, "allowed_members": allowed_members }
@@ -130,7 +132,7 @@ class NetworkUtil:
     @staticmethod
     def get_networks(federation_token_value):
         LOG.debug("Gettings networks")
-        endpoint = "{action_request_manager}/{status_sufix}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, \
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, \
                      status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
@@ -205,7 +207,7 @@ class ComputeUtil:
 
     @staticmethod
     def get_computes(federation_token_value):
-        endpoint = "{action_request_manager}/{status_sufix}".format(action_request_manager=FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
@@ -244,9 +246,7 @@ class ComputeUtil:
         if federated_network_id and settings.FEDERATED_NETWORK_EXTENSION:
             data[FogbowConstants.FED_NET_ID_ORDER_COMPUTE_TO_FEDERATED_NETWORK_KEY] = federated_network_id
 
-        json_data = json.dumps(data)
-
-        LOG.info("json: {json}".format(json=json_data))
+        json_data = json.dumps(data)        
 
         # TODO to use contants
         extra_headers = {"Content-Type": "application/json"}
@@ -262,8 +262,7 @@ class ComputeUtil:
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
-        response_json = response.text
-        LOG.info(response_json)
+        response_json = response.text        
 
         return ComputeUtil.__get_compute_from_json(response_json)    
 
@@ -312,11 +311,10 @@ class VolumeUtil:
     @staticmethod
     def get_volumes(federation_token_value):
         LOG.debug("Gettings volumes")
-        endpoint = "{action_request_manager}/{status_sufix}".format(action_request_manager=FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, \
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, \
                      status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
-
         response_json = response.text        
         return VolumeUtil.__get_volumes_from_json(response_json)
 
@@ -385,7 +383,7 @@ class AttachmentUtil:
     @staticmethod
     def get_attachments(federation_token_value):
         LOG.debug("Gettings attachments")
-        endpoint = "{action_request_manager}/{status_sufix}".format(action_request_manager=FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, \
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, \
                      status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)        
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
@@ -506,7 +504,7 @@ class RequestUtil:
             timeout_get = DashboardConstants.DEFAULT_GET_TIMEOUT
     
         headers = {RequestConstants.CONTENT_TYPE_HEADER: RequestConstants.JSON_APPLIVATION_VALUE_HEADER,
-                    FogbowConstants.FEDERATION_TOKEN_VALUE : federation_token_value}    
+                    FogbowConstants.FEDERATION_TOKEN_VALUE : federation_token_value}
 
         if extra_headers:
             for key, value in extra_headers.items():

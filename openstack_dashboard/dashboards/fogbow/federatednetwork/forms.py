@@ -56,7 +56,7 @@ class CreateInstance(forms.SelfHandlingForm):
             cird = data['cird']
             members = data['members']
 
-            FederatedNetworkUtil.create_federated_network(label, cird, members,federation_token_value)
+            FederatedNetworkUtil.create_federated_network(label, cird, members, federation_token_value)
 
             messages.success(request, _('Federated network created'))            
             return shortcuts.redirect(reverse("horizon:fogbow:federatednetwork:index"))         
