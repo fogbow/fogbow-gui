@@ -221,7 +221,7 @@ class ComputeUtil:
 
     # TODO use object in attrs
     @staticmethod
-    def create_compute(vcpu, memory, member, image_id, network_id, extra_user_data, extra_user_data_type, public_key, federation_token_value):
+    def create_compute(vcpu, memory, member, image_id, network_id, extra_user_data, extra_user_data_type, public_key, federated_network_id, federation_token_value):
         LOG.debug("Trying to create compute")
 
         data = {}
@@ -240,6 +240,9 @@ class ComputeUtil:
             data_userdata[FogbowConstants.EXTRA_USER_DATA_TYPE_ORDER_COMPUTE_KEY] = extra_user_data_type
 
             data[FogbowConstants.EXTRA_USER_DATA_ORDER_COMPUTE_KEY] = data_userdata
+
+        if federated_network_id and settings.FEDERATED_NETWORK_EXTENSION:
+            data[FogbowConstants.FED_NET_ID_ORDER_COMPUTE_TO_FEDERATED_NETWORK_KEY] = federated_network_id
 
         json_data = json.dumps(data)
 

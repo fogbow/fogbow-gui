@@ -100,7 +100,7 @@
   }
 	
 	$('#id_data_user').change(function() {
-		var file = document.getElementById("id_data_user").files[0];		
+		var file = document.getElementById("id_data_user").files[0];    
 		if (file) {
 		    var reader = new FileReader();
 		    reader.readAsText(file, "UTF-8");

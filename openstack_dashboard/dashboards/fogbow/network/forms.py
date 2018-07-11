@@ -51,7 +51,7 @@ class CreateNetwork(forms.SelfHandlingForm):
         self.fields['allocation'].choices = dataAllocation
 
     def handle(self, request, data):
-        LOG.debug("Try create compute")
+        LOG.debug("Try create network")
         federation_token_value = request.user.token.id
         
         try:

@@ -76,13 +76,11 @@ class CreateInstance(forms.SelfHandlingForm):
         self.fields['image'].choices = images_choices        
 
         dataUserTypeChoices = []
-        dataUserTypeChoices.append(('text/x-shellscript', 'text/x-shellscript'))
-        dataUserTypeChoices.append(('text/x-include-once-url', 'text/x-include-once-url'))
-        dataUserTypeChoices.append(('text/x-include-url', 'text/x-include-url'))
-        dataUserTypeChoices.append(('text/cloud-config-archive', 'text/cloud-config-archive'))
-        dataUserTypeChoices.append(('text/upstart-job', 'text/upstart-job'))
-        dataUserTypeChoices.append(('text/cloud-config', 'text/cloud-config'))        
-        dataUserTypeChoices.append(('text/cloud-boothook', 'text/cloud-boothook'))
+        dataUserTypeChoices.append(('SHELL_SCRIPT', 'text/x-shellscript'))
+        dataUserTypeChoices.append(('INCLUDE_URL', 'text/x-include-url'))
+        dataUserTypeChoices.append(('UPSTART_JOB', 'text/upstart-job'))
+        dataUserTypeChoices.append(('CLOUD_CONFIG', 'text/cloud-config'))        
+        dataUserTypeChoices.append(('CLOUD_BOOTHOOK', 'text/cloud-boothook'))
         self.fields['data_user_type'].choices = dataUserTypeChoices
         
         networks_choices = []
@@ -100,15 +98,16 @@ class CreateInstance(forms.SelfHandlingForm):
                 federated_networks = FederatedNetworkUtil.get_federated_networks(federation_token_value)
                 for federated_network in federated_networks:
                     federated_networks_choices.append((federated_network.id, federated_network.id))
-            except Exception:
-                federated_networks_choices.append(('fake', 'fake'))
+            except Exception as e:
+                LOG.error("Is not possible get federated networks. {error_msg}".format(error_msg=str(e)))
 
             self.fields['federated_network_id'].choices = federated_networks_choices
         
     def normalize_user_data(self, value):
         try:
             return base64.b64encode(value.replace('\n', '[[\\n]]').replace('\r', ''))
-        except Exception:
+        except Exception as e:
+            LOG.error("Is not possible normalize user data: {error_msg}".format(error_msg=str(e)))
             return ''
 
     def handle(self, request, data):
@@ -122,14 +121,14 @@ class CreateInstance(forms.SelfHandlingForm):
             image_id = data['image_id']
             network_id = data['network_id']
             data_user_file = data['data_user_file']
-            extra_user_data = None
-            extra_user_data_type = None
-            if data_user_file != None and not data_user_file:
-                extra_user_data = self.normalize_user_data(data['data_user'])
+            extra_user_data, extra_user_data_type = None, None
+            if data_user_file != None:
+                extra_user_data = self.normalize_user_data(data_user_file)
                 extra_user_data_type = data['data_user_type']
             public_key = data['publi_key']
+            federated_network_id = data['federated_network_id']
 
-            ComputeUtil.create_compute(vcpu, memory, member, image_id, network_id, extra_user_data, extra_user_data_type, public_key, federation_token_value)
+            ComputeUtil.create_compute(vcpu, memory, member, image_id, network_id, extra_user_data, extra_user_data_type, public_key, federated_network_id, federation_token_value)
 
             messages.success(request, _('Orders created'))            
             return shortcuts.redirect(reverse("horizon:fogbow:instance:index"))         
