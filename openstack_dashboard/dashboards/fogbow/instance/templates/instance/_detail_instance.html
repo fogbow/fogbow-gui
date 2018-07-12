@@ -21,7 +21,7 @@
     {{ compute.local_ip_address }}
   </dl>
   <dl>
-    <dt>{% trans "SHH public address" %}</dt>
+    <dt>{% trans "SSH public address" %}</dt>
     {{ compute.ssh_public_address }}
   </dl>
   {% if session.federatedNetworkExtension == True %}
@@ -31,11 +31,11 @@
     </dl>  
   {% endif %} 
   <dl>
-    <dt>{% trans "SHH user name" %}</dt>
+    <dt>{% trans "SSH user name" %}</dt>
     {{ compute.ssh_user_name }}
   </dl>
   <dl>
-    <dt>{% trans "SHH extra ports" %}</dt>
+    <dt>{% trans "SSH extra ports" %}</dt>
     {{ compute.ssh_extra_ports }}
   </dl>
   <dl>
