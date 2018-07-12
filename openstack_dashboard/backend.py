@@ -1,6 +1,8 @@
 import logging
 import commands
 import uuid
+import json
+import authentication
 
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -16,7 +18,7 @@ import openstack_dashboard.models as fogbow_models
 
 LOG = logging.getLogger(__name__)
 
-FOGBOW_CLI_JAVA_COMMAND = 'java -cp fogbow-cli-0.0.1-SNAPSHOT-jar-with-dependencies.jar org.fogbowcloud.cli.Main $@'
+FOGBOW_CLI_JAVA_COMMAND = 'java -cp fogbow-cli-core-0.0.1-SNAPSHOT-jar-with-dependencies.jar org.fogbowcloud.cli.Main $@'
     
 class FogbowBackend(object):
   
@@ -35,28 +37,32 @@ class FogbowBackend(object):
             username = self.request.session['username']
             userId = self.request.session['userId']
         except Exception, e:
-            pass
+            LOG.error(str(e))
         
         return User(username, federationToken, userId, username, {})
   
     def authenticate(self, request, federationCredentials=None, federationEndpoint=None):
         tokenStr = ''                              
         tokenStr = getCorrectToken(settings.FOGBOW_FEDERATION_AUTH_TYPE, federationCredentials, federationEndpoint)              
+
         LOG.info('Federation Token : %s' % tokenStr)
-        federatioToken = Token(tokenStr)   
-        username = '...'
-        userId = '...'
+        federationToken = Token(tokenStr)   
+        username = ''
+        userId = ''        
+
         try:            
-            tokenInfo = getTokenInfoUser(federatioToken, settings.FOGBOW_FEDERATION_AUTH_TYPE, federationEndpoint)
-            username = tokenInfo.split(',')[0]
-            userId = tokenInfo.split(',')[1]
+            tokenInfo = json.loads(getTokenInfoUser(federationToken, settings.FOGBOW_FEDERATION_AUTH_TYPE, federationEndpoint))
+            username = tokenInfo.get('attributes').get('user-name')
+            userId = tokenInfo.get('id')
             LOG.info('%s : %s ' % username, userId)
         except Exception, e: 
-	        print e;
-        user = User(username, federatioToken, userId, username, {})        
+	        LOG.error(str(e))
+        
+        user = User(username, federationToken, userId, username, {})        
+    
         try:            
-            LOG.info('Checking user authenticated...')
-            if fogbow_models.checkUserAuthenticated(federatioToken) == False:
+            LOG.info('Checking user authenticated')
+            if authentication.checkUserAuthenticated(federationToken, settings.FOGBOW_FEDERATION_AUTH_TYPE) == False:
                 LOG.error('Federation Token is Invalid')
                 user.errors = True
                 user.typeError = fogbow_models.getErrorMessage(settings.FOGBOW_FEDERATION_AUTH_TYPE)   
@@ -64,14 +70,18 @@ class FogbowBackend(object):
                     return HttpResponse('Unauthorized', status=401)
         except Exception, e: 
             user.errors = True
-            user.typeError = 'Manager connection failed.'        
-    
+            user.typeError = 'Manager connection failed'
+
+        LOG.error('Valid federation token value') 
+
         request.user = user
         federation_token_id = uuid.uuid4()         
         request.session['token'] = federation_token_id
         request.session['username'] = user.username
         request.session['userId'] = user.userId
-        self._cached_tokens[federation_token_id] = federatioToken
+        request.session['managerXmppJid']  = settings.FOGBOW_MANAGER_CORE_XMPP_JID
+        request.session['federatedNetworkExtension']  = settings.FEDERATED_NETWORK_EXTENSION 
+        self._cached_tokens[federation_token_id] = federationToken
         self._cached_tokens[user.id] = user
         return user
       
@@ -87,31 +97,24 @@ class FogbowBackend(object):
     def has_module_perms(self, user, app_label):
         return False
       
-def getToken(endpoint, credentials, type):            
+def getToken(endpoint, credentials, type):    
     credentialsStr = '' 
     for key in credentials.keys():
         credentialsStr += '-D%s=%s ' % (key, credentials[key])
-    
-    if endpoint:
-	endpoint = '-DauthUrl=%s' % (endpoint)	
-    else:
-	endpoint = ''
+
+    command = '%s token --create --conf-path %s %s --type %s' % (
+        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, credentialsStr, type)
+
+    responseStr = commands.getoutput(command)
   
-    command = '%s token --create %s %s --type %s' % (FOGBOW_CLI_JAVA_COMMAND, endpoint,
-                                                                credentialsStr, type) 
-	
-    reponseStr = commands.getoutput(command)
-  
-    if fogbow_models.isResponseOk(reponseStr) == False:        
+    if fogbow_models.isResponseOk(responseStr) == False:
         return 'None'
       
-    return reponseStr
+    return responseStr
 
-def checkUserAuthenticated(token, type, endpoint):
-    type = getCorrectType(type)
-    
-    command = '%s token --check -DauthUrl=%s --type %s --token %s' % (FOGBOW_CLI_JAVA_COMMAND,
-                                 endpoint, type, token.id)
+def checkUserAuthenticated(token, type):
+    command = '%s check-token --conf-path %s --type %s --federation-token-value %s ' % (
+        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, type, token.id)
     
     responseStr = commands.getoutput(command) 
  
@@ -120,18 +123,8 @@ def checkUserAuthenticated(token, type, endpoint):
     return True
 
 def getTokenInfoUser(token, type, endpoint):
-    type = getCorrectType(type)
-
-    credentials = ""
-    if settings.FOGBOW_FEDERATION_AUTH_TYPE == fogbow_models.IdentityPluginConstants.AUTH_NAF :
-        credentials = '%s"%s"' % ('-Dnaf_identity_public_key=' , settings.FOGBOW_NAF_DASHBOARD_PUBLIC_KEY_PATH)
-        token.id = token.id.replace(' ', '').replace('"', '\"')
-        
-    if settings.FOGBOW_FEDERATION_AUTH_TYPE == fogbow_models.IdentityPluginConstants.AUTH_LDAP :
-        credentials = '-Dprivate_key_path="%s" -Dpublic_key_path="%s"' % (settings.PRIVATE_KEY_PATH, settings.PUBLIC_KEY_PATH)
-      
-    command = '%s token --info -DauthUrl=%s --type %s --token "%s" %s --user --user-id ' % (FOGBOW_CLI_JAVA_COMMAND,
-                                 endpoint, type, token.id, credentials)
+    command = '%s user --get-user --conf-path %s --type %s --federation-token-value %s' % (
+        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, type, token.id)
     
     responseStr = commands.getoutput(command) 
     
@@ -160,11 +153,6 @@ def getCorrectToken(formAuthType, credentials, endpoint):
         elif formAuthType == fogbow_models.IdentityPluginConstants.AUTH_KEYSTONE:
             tokenStr = getToken(endpoint, credentials, 'openstack')
         elif formAuthType == fogbow_models.IdentityPluginConstants.AUTH_LDAP:
-            credentials[fogbow_models.IdentityPluginConstants.AUTH_LDAP_BASE] = settings.FOGBOW_LDAP_BASE
-            credentials[fogbow_models.IdentityPluginConstants.AUTH_LDAP_ENCRYPT] = settings.FOGBOW_LDAP_ENCRYPT 
-            credentials[fogbow_models.IdentityPluginConstants.AUTH_PRIVATE_KEY] = settings.PRIVATE_KEY_PATH
-            credentials[fogbow_models.IdentityPluginConstants.AUTH_PUBLIC_KEY] = settings.PUBLIC_KEY_PATH 
-
             tokenStr = getToken(endpoint, credentials, 'ldap')
     except:
         tokenStr = None

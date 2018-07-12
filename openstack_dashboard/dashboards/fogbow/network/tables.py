@@ -8,8 +8,9 @@ from django.conf import settings
 from horizon import tables
 from horizon import messages
 
-import openstack_dashboard.models as fogbow_models
 import openstack_dashboard.dashboards.fogbow.instance.tables as tableInstanceDashboard
+from openstack_dashboard.dashboards.fogbow.models import NetworkUtil
+import openstack_dashboard.models as fogbow_models
 
 LOG = logging.getLogger(__name__)
 
@@ -27,10 +28,14 @@ class TerminateInstance(tables.BatchAction):
 
     def action(self, request, obj_id):
         self.current_past_action = 0        
-#         response = fogbow_models.doRequest('delete', NETWORK_TERM + obj_id, None, request)
-#         if response == None or fogbow_models.isResponseOk(response.text) == False:
-#             messages.error(request, _('Is was not possible to delete : %s') % obj_id)          
-#             tableInstanceDashboard.checkAttachmentAssociateError(request, response.text)
+        network_id = obj_id
+        LOG.info("Trying to delete the network: {network_id}".format(network_id=network_id))
+        federation_token_value = request.user.token.id  
+        try:
+            NetworkUtil.delete_network(network_id, federation_token_value)
+        except Exception as e:
+            LOG.error("Is not possible delete the network. Message exception is {error_msg}:".format(error_msg=str(e)))
+            messages.error(request, _('Is was not possible to delete : %s') % compute_id)     
 
 class CreateNetwork(tables.LinkAction):
     name = 'create'

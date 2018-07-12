@@ -1,9 +1,12 @@
 import logging
+from django.conf import settings
 
 from django.utils.translation import ugettext_lazy as _
 from horizon import tabs
 import openstack_dashboard.models as fogbow_models
                 
+from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
+
 LOG = logging.getLogger(__name__)
 
 class InstanceDetailTabInstancePanel(tabs.Tab):
@@ -12,23 +15,19 @@ class InstanceDetailTabInstancePanel(tabs.Tab):
     template_name = ("fogbow/instance/_detail_instance.html")
 
     def get_context_data(self, request):
-        instanceId = self.tab_group.kwargs['instance_id']
-        response = None
-#        response = fogbow_models.doRequest('get', COMPUTE_TERM  + instanceId,
-#                                             None, request)
+        compute_id = self.tab_group.kwargs['instance_id']
+        LOG.info("Trying to get the compute: {compute_id}".format(compute_id=compute_id))
 
-        instance = None
-#         try:
-#             instance = get_compute_from_json(response)
-#         except Exception:
-#             instance = {'instanceId': '-' , 'state': '-', 'sshPublic': '-',
-#              'extra' : '-', 'memory' : '-', 'cores' : '-',
-#             'image' : '-', 'extraPorts': '-'}
+        federation_token_value = request.user.token.id
+        try:
+            compute = ComputeUtil.get_compute(compute_id, federation_token_value)
+        except Exception as e:
+            LOG.info("Is not possible get the compute. Message exception is {error_msg}:".format(error_msg=str(e)))
+            compute = None
 
-        return {'instance' : instance}
-    
-def get_compute_from_json(response_json):
-    pass
+        federated_network_extension  = settings.FEDERATED_NETWORK_EXTENSION 
+
+        return {'compute' : compute, 'session': {'federatedNetworkExtension': federated_network_extension }}
     
 class InstanceDetailTabGroupInstancePanel(tabs.TabGroup):
     slug = "compute_details"

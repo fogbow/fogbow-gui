@@ -7,12 +7,11 @@ from horizon import forms
 from openstack_dashboard.dashboards.fogbow.storage.forms import CreateStorage
 from django.core.urlresolvers import reverse_lazy 
 
-from openstack_dashboard.dashboards.fogbow.storage \
-    import tabs as project_tabs
-from openstack_dashboard.dashboards.fogbow.storage \
-    import tables as project_tables
+from openstack_dashboard.dashboards.fogbow.storage import tabs as project_tabs    
+from openstack_dashboard.dashboards.fogbow.storage import tables as project_tables
 from openstack_dashboard.dashboards.fogbow.storage.models import Volume  
 import openstack_dashboard.models as fogbow_models
+from openstack_dashboard.dashboards.fogbow.models import VolumeUtil
 
 class IndexView(tables.DataTableView):
     table_class = project_tables.InstancesTable
@@ -24,25 +23,12 @@ class IndexView(tables.DataTableView):
         return self._more
 
     def get_data(self):
-#         response = fogbow_models.doRequest('get', STORAGE_TERM, None, self.request)        
-        
-        volumes = []
-#         if response == None:
-#             return instances
-#         
-#         responseStr = response.text  
-        response_json = None      
-        volumes = self.get_volumes_from_json(response_json)        
-        
-        return volumes
-    
-    def get_volumes_from_json(self, response_json):
-        volumes = []
-
-        volumes.append(Volume({'id': 'id_1', 'volume_id': 'id_1', 'state': 'OPEN'}))
-        volumes.append(Volume({'id': 'id_2', 'volume_id': 'id_1', 'state': 'FULL'}))
-            
-        return volumes
+        federation_token_value = self.request.user.token.id
+        # TODO check what happen in exception case
+        try:
+            return VolumeUtil.get_volumes(federation_token_value)
+        except Exception as e:
+            return {}        
         
 class CreateView(forms.ModalFormView):
     form_class = CreateStorage

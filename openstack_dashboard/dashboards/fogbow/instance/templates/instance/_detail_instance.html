@@ -6,36 +6,40 @@
   <hr class="header_rule">
   <dl>
     <dt>{% trans "Instance ID" %}</dt>
-    {{ instance.instanceId }}
+    {{ compute.id }}
   </dl>
   <dl>
     <dt>{% trans "State" %}</dt>
-    {{ instance.state }}
+    {{ compute.state }}
   </dl>
   <dl>
-    <dt>{% trans "Public ssh address" %}</dt>
-    {{ instance.sshPublic }}
+    <dt>{% trans "vCPU" %}</dt>
+    {{ compute.v_cpu }}
   </dl>
-  <dl>
-    <dt>{% trans "Extra ports" %}</dt>
-    {{ instance.extraPorts }}
-  </dl>  
-    <dl>       
   <dl>
     <dt>{% trans "Memory" %}</dt>
-    {{ instance.memory }}
+    {{ compute.ram }}
   </dl>
+  <dl>
+    <dt>{% trans "Local id address" %}</dt>
+    {{ compute.local_ip_address }}
+  </dl>
+  <dl>
+    <dt>{% trans "SHH public address" %}</dt>
+    {{ compute.ssh_public_address }}
+  </dl>
+  {% if session.federatedNetworkExtension == True %}
     <dl>
+      <dt>{% trans "Federated ID" %}</dt>
+      {{ compute.federated_ip }}
+    </dl>  
+  {% endif %} 
   <dl>
-    <dt>{% trans "Cores" %}</dt>
-    {{ instance.cores }}
+    <dt>{% trans "SHH user name" %}</dt>
+    {{ compute.ssh_user_name }}
   </dl>
-    <dl>    
   <dl>
-    <dt>{% trans "Image" %}</dt>
-    {{ instance.image }}
+    <dt>{% trans "SHH extra ports" %}</dt>
+    {{ compute.ssh_extra_ports }}
   </dl>
-    <dl>                            
-</div>
-
 </div>

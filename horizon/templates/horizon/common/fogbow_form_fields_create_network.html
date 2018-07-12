@@ -46,29 +46,11 @@
 		$(".control-group:has([for='id_allocation'])").show(transition);
 	}
 	
-	function setValueOnRequiremetns() {
-		var vCpu = $('#id_cpu').val();
-		var ram = $('#id_mem').val();
-		originalString = "Glue2vCPU >= " + vCpu +" && Glue2RAM >= " + ram;						
-		
-		var member = $('#id_members').val();
-		if (member != '') {
-			if (originalString != null && originalString != '') {
-				originalString += ' && '
-			}
-			originalString = originalString + "Glue2CloudComputeManagerID==\"" + member + "\""; 
-		}
-		
-		$("#id_advanced_requirements").val(originalString);
-	};
 	
 	$('#id_mem, #id_cpu').keyup(function() {
 		setValueOnRequiremetns();
 	});	
-	
-	$('#id_members').change(function() {
-		setValueOnRequiremetns();
-	});		
+		
 	
 	$('#id_data_user').change(function() {
 		var file = document.getElementById("id_data_user").files[0];		

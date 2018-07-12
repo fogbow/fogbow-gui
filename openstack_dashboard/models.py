@@ -4,6 +4,7 @@ import logging
 import requests
 import horizon
 import models as fogbow_models
+import authentication
 
 from django.conf import settings
 from django.contrib.auth import models
@@ -26,13 +27,65 @@ import base64
 LOG = logging.getLogger(__name__)
 
 # TODO to refactor this class. To move everything that is inconsistent in reference to the models
-
 # TODO remove OCCI
 class FogbowConstants():
-    # new fogbow
-    FEDERATION_TOKEN_VALUE = 'federation_token_value'
+    ##
+    ## new fogbow
+    ##
+    FEDERATION_TOKEN_VALUE = 'federationTokenValue'
     
-    # old fogbow
+    ## manager core
+    FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER = '/federatedNetworks'
+    NETWORKS_ACTION_REQUEST_MANAGER = '/networks'
+    VOLUMES_ACTION_REQUEST_MANAGER = '/volumes'
+    COMPUTES_ACTION_REQUEST_MANAGER = '/computes'
+    STATUS_SUFIX_REQUEST_MANAGER = '/status'
+    COMPUTE_QUOTA_ACTION_REQUEST_MANAGER= '/computes/quota'
+    COMPUTE_ALLOCATION_ACTION_REQUEST_MANAGER= '/computes/allocation'
+    ATTACHMENTS_ACTION_REQUEST_MANAGER= '/attachments'
+    IMAGES_ACTION_REQUEST_MANAGER= '/images'
+
+    ## attrs
+    PROVIDING_MEMBER_ORDER_KEY = 'providingMember'
+
+    # compute
+    VCPU_ORDER_COMPUTE_KEY = 'vCPU'
+    MEMORY_ORDER_COMPUTE_KEY = 'memory'
+    NETWORK_ID_ORDER_COMPUTE_KEY = 'networksId'
+    IMAGE_ID_ORDER_COMPUTE_KEY = 'imageId'
+    EXTRA_USER_DATA_ORDER_COMPUTE_KEY = 'userData'
+    EXTRA_USER_DATA_CONTENT_ORDER_COMPUTE_KEY = 'extraUserDataFileContent'
+    EXTRA_USER_DATA_TYPE_ORDER_COMPUTE_KEY = 'extraUserDataFileType'
+    PUBLIC_KEY_ORDER_COMPUTE_KEY = 'publicKey'
+
+    # network
+    GATEWAY_ORDER_NETWORK_KEY = 'gateway'
+    ADDRESS_ORDER_COMPUTE_KEY = 'address'
+    ALLOCATION_ID_ORDER_COMPUTE_KEY = 'allocation'   
+
+    # federated network
+    LABEL_ORDER_FEDERATED_NETWORK_KEY = "label"
+    CIRD_ORDER_FEDERATED_NETWORK_KEY = "cidrNotation"
+    ALLOWED_MEMBERS_FEDERATED_NETWORK_KEY = "allowedMembers"    
+
+    FED_NET_ID_ORDER_COMPUTE_TO_FEDERATED_NETWORK_KEY = 'federatedNetworkId'
+
+    # volume
+    SIZE_ORDER_VOLUME_KEY = 'volumeSize'
+
+    # attachment 
+    # TODO put _KEY in the end of the constants
+    DEVICE_ORDER_ATTACHMENT = 'device'
+    TARGET_ORDER_ATTACHMENT = 'target'
+    SOURCE_ORDER_ATTACHMENT = 'source'
+
+    # membership 
+    MEMBERS_ACTION_REQUEST_MERBERSHIP = '/members'
+
+    # TODO remove
+    ##
+    ## old fogbow
+    ##
     NETWORK_TERM = '/network/'    
     COMPUTE_TERM = '/compute/'
     STORAGE_TERM = '/storage/'
@@ -92,12 +145,17 @@ class DashboardConstants():
 
 class RequestConstants():
     CONTENT_TYPE_HEADER = 'Content-Type'
-    JSON_APPLIVATION_VALUE_HEADER = 'json/application'
+    JSON_APPLIVATION_VALUE_HEADER = 'application/json'
     ACCEPT_HEADER = 'Accept'
     
     GET_METHOD = 'get'
     POST_METHOD = 'post'
     DELETE_METHOD = 'delete'
+
+    OK_STATUS_CODE = 200
+    CREATED_STATUS_CODE = 201
+    OK_NO_CONTENT_STATUS_CODE = 204
+    BAD_REQUEST_STATUS_CODE = 400
 
 class IdentityPluginConstants():
     AUTH_RAW_KEYSTONE = 'raw_keystone'
@@ -192,60 +250,19 @@ def getErrorMessage(typeToken):
         errorStr = _('User credentials are invalid')     
     return errorStr 
 
-def checkUserAuthenticated(token):    
-    
-    # TODO use contants
-    headers = {'content-type': 'text/occi', 'X-Auth-Token' : token.id}
-    response = requests.get('%s%s' % (settings.FOGBOW_MANAGER_ENDPOINT, FogbowConstants.RESOURCE_TERM) ,
-                                   headers=headers, timeout=10)    
-    
-    responseStr = response.text
+def checkUserAuthenticated(token):
+    response = authentication.checkUserAuthenticated(token, settings.FOGBOW_FEDERATION_AUTH_TYPE)
 
-    if 'Unauthorized' in responseStr or 'Bad Request' in responseStr or 'Authentication required.' in responseStr:
+    # TODO remove
+    LOG.info(response)
+
+    if 'Unauthorized' in response:
         return False    
     return True
         
 # TODO remove old method
 def doRequest(method, endpoint, additionalHeaders, request, hiddenMessage=None):    
-    federationToken = request.user.token.id
-    
-    timeoutPost = settings.TIMEOUT_POST;
-    if timeoutPost is not None:
-        timeoutPost = 15
-    timeoutDelete = settings.TIMEOUT_DELETE;
-    if timeoutDelete is not None:
-        timeoutDelete = 15    
-    timeoutGet = settings.TIMEOUT_GET;
-    if timeoutGet is not None:
-        timeoutGet = 60    
-    
-    headers = {'content-type': 'text/occi', 'X-Auth-Token' : federationToken}    
-    if additionalHeaders is not None:
-        headers.update(additionalHeaders)    
-        
-    responseStr, response = '', None
-    try:
-        if method == 'get':
-            response = requests.get(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers, timeout=timeoutGet)
-        elif method == 'delete':
-            response = requests.delete(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers, timeout=timeoutDelete)
-        elif method == 'post':   
-            response = requests.post(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers, timeout=timeoutPost)
-        responseStr = response.text
-    except Exception as e:
-        print e
-        if hiddenMessage == None:
-            messages.error(request, _('Problem communicating with the Fogbow Manager'))
-    
-    if 'Unauthorized' in responseStr or 'Authentication required.' in responseStr:
-        if hiddenMessage == None:
-            messages.error(request, _('Token unauthorized'))
-        LOG.error(responseStr)
-    elif 'Bad Request' in responseStr:
-        if hiddenMessage == None:
-            messages.error(request, _('Bad request'))
-        LOG.error(responseStr)
-    return response
+    pass
 
 def isResponseOk(responseStr):
     if 'Unauthorized' not in responseStr and 'Bad Request' not in responseStr and 'Authentication required.' not in responseStr and 'NullPointerException' not in responseStr:

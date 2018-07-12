@@ -57,7 +57,7 @@ class IndexView(tables.DataTableView):
             members.append(Member(member));  
         
         return members
-    
+
 def getSpecificMemberUsage(request, member_id):
     response = fogbow_models.doRequest('get', MEMBER_TERM + '/' + member_id + '/usage', None, request, False)
     responseStr = response.text

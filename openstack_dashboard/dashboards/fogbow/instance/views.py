@@ -1,4 +1,6 @@
 import json
+import logging
+import requests
 
 from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
@@ -7,14 +9,19 @@ from horizon import views
 from horizon import tables
 from horizon import tabs
 from horizon import forms
+from horizon import messages
 
 from openstack_dashboard.dashboards.fogbow.instance.forms import CreateInstance
 from openstack_dashboard.dashboards.fogbow.instance \
     import tabs as project_tabs
 from openstack_dashboard.dashboards.fogbow.instance \
     import tables as project_tables
-from openstack_dashboard.dashboards.fogbow.instance.models import Compute    
+from openstack_dashboard.dashboards.fogbow.instance.models import Compute
 import openstack_dashboard.models as fogbow_models
+from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
+from openstack_dashboard.dashboards.fogbow.models import ImageUtil
+
+LOG = logging.getLogger(__name__)
 
 class IndexView(tables.DataTableView):
     table_class = project_tables.InstancesTable
@@ -26,23 +33,15 @@ class IndexView(tables.DataTableView):
         return self._more
 
     def get_data(self):
-        
-        computes = []
-        
-        # TODO get json response of thw new fogbow manager. Get computes 
-#        response = fogbow_models.doRequest('get', COMPUTE_TERM, None, self.request)        
-        response_str = ''
-        computes = self.get_instances_from_json(response_str)        
-        
-        return computes
-    
-    def get_instances_from_json(self, response_json):
-        computes = []
-
-        computes.append(Compute({'id': 'id_1', 'compute_id': 'id_1', 'state': 'OPEN'}))
-        computes.append(Compute({'id': 'id_2', 'compute_id': 'id_1', 'state': 'FULL'}))
-            
-        return computes
+        federation_token_value = self.request.user.token.id
+        try:
+            return ComputeUtil.get_computes(federation_token_value)
+        except Exception as e:
+            error_msg = "Is not possible to get computes"
+            error_msg_detail = "Error message: {error_msg}".format(error_msg=str(e))
+            LOG.error("{error_msg}{error_msg_detail}".format(error_msg=error_msg, error_msg_detail=error_msg_detail))
+            messages.error(self.request, error_msg)
+            return {}
     
 class CreateView(forms.ModalFormView):
     form_class = CreateInstance
@@ -53,10 +52,8 @@ class DetailViewInstance(tabs.TabView):
     tab_group_class = project_tabs.InstanceDetailTabGroupInstancePanel
     template_name = 'fogbow/instance/detail.html'     
         
-# TODO change local Method
+# TODO change the local of the Method
 def getImages(request, member_id):
-    # TODO ask to fogbow manager core for images information
-    
-    # TODO remove this. Fake data 
-    response_json = '{"id_image_one": "name_image_one", "id_image_two": "name_image_two"}'
-    return HttpResponse(response_json)
+    federation_token_value = request.user.token.id
+    response = ImageUtil.get_images_response(member_id, federation_token_value)
+    return HttpResponse(response.text.encode('ascii'))
