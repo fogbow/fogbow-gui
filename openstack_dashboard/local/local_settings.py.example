@@ -20,7 +20,6 @@ FEDERATED_NETWORK_EXTENSION = False # Mandatory
 
 # Types : ldap
 FOGBOW_FEDERATION_AUTH_TYPE = '' # Mandatory
-FOGBOW_FEDERATION_AUTH_ENDPOINT = ''
 # Fogbow-cli configuration path  
 # PS: Read the fogbow-cli documentation. 
 FOGBOW_AUTHENTICATION_CONF_PATH = 
@@ -28,7 +27,7 @@ FOGBOW_AUTHENTICATION_CONF_PATH =
 
 # custom_theme 
 # customization of style
-CUSTOM_THEME = 'naf-theme'
+CUSTOM_THEME = ''
 
 # Communication between F_dashboard and F_manager
 # Default 15 | seconds 

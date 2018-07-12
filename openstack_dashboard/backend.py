@@ -41,9 +41,10 @@ class FogbowBackend(object):
         
         return User(username, federationToken, userId, username, {})
   
+    # TODO to refactor
     def authenticate(self, request, federationCredentials=None, federationEndpoint=None):
         tokenStr = ''                              
-        tokenStr = getCorrectToken(settings.FOGBOW_FEDERATION_AUTH_TYPE, federationCredentials, federationEndpoint)              
+        tokenStr = getCorrectToken(settings.FOGBOW_FEDERATION_AUTH_TYPE, federationCredentials)              
 
         LOG.info('Federation Token : %s' % tokenStr)
         federationToken = Token(tokenStr)   
@@ -99,13 +100,15 @@ class FogbowBackend(object):
     def has_module_perms(self, user, app_label):
         return False
       
-def getToken(endpoint, credentials, type):    
+def getToken(credentials, type):    
     credentialsStr = '' 
     for key in credentials.keys():
         credentialsStr += '-D%s=%s ' % (key, credentials[key])
 
     command = '%s token --create --conf-path %s %s --type %s' % (
         FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, credentialsStr, type)
+
+    LOG.info(command)
 
     responseStr = commands.getoutput(command)
   
@@ -143,19 +146,10 @@ def getCorrectType(type):
         return 'opennebula'
     return type
 
-def getCorrectToken(formAuthType, credentials, endpoint):
+def getCorrectToken(formAuthType, credentials):
     try:
-        if formAuthType == fogbow_models.IdentityPluginConstants.AUTH_TOKEN or formAuthType == fogbow_models.IdentityPluginConstants.AUTH_RAW_OPENNEBULA or formAuthType == fogbow_models.IdentityPluginConstants.AUTH_RAW_KEYSTONE or formAuthType == fogbow_models.IdentityPluginConstants.AUTH_VOMS or formAuthType == fogbow_models.IdentityPluginConstants.AUTH_SIMPLE_TOKEN or formAuthType == fogbow_models.IdentityPluginConstants.AUTH_NAF:
-            tokenStr = credentials[formAuthType]
-            auxList = {'token': tokenStr}
-            tokenStr = auxList['token'].replace('\r\n', '')
-   	
-        elif formAuthType == fogbow_models.IdentityPluginConstants.AUTH_OPENNEBULA or formAuthType == fogbow_models.IdentityPluginConstants.AUTH_SHIBBOLETH:
-            tokenStr = getToken(endpoint, credentials, formAuthType)
-        elif formAuthType == fogbow_models.IdentityPluginConstants.AUTH_KEYSTONE:
-            tokenStr = getToken(endpoint, credentials, 'openstack')
-        elif formAuthType == fogbow_models.IdentityPluginConstants.AUTH_LDAP:
-            tokenStr = getToken(endpoint, credentials, 'ldap')
+        if formAuthType == fogbow_models.IdentityPluginConstants.AUTH_LDAP:
+            tokenStr = getToken(credentials, 'ldap')
     except:
         tokenStr = None
     

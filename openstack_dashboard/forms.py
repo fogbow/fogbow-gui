@@ -25,7 +25,7 @@ class AllForm(django_auth_forms.AuthenticationForm):
         
         self.listFields = federationFields.getFields(True) 
         
-        listOr = [];
+        listOr = []
         listOr.extend(federationFields.getOrderFields())
         
         for key in self.listFields.keys():
@@ -39,13 +39,9 @@ class AllForm(django_auth_forms.AuthenticationForm):
          
         for key in self.listFields.keys():
             if FEDERATION_TYPE_FORM in key:
-                federationCrendentials[key.replace(FEDERATION_TYPE_FORM, '')] = self.cleaned_data.get(key)                                        
+                federationCrendentials[key.replace(FEDERATION_TYPE_FORM, '')] = self.cleaned_data.get(key)    
         
-        federationEndpoint = settings.FOGBOW_FEDERATION_AUTH_ENDPOINT    
-        
-        self.user_cache = authenticate(request=self.request,
-                                        federationCredentials=federationCrendentials,
-                                        federationEndpoint=federationEndpoint)        
+        self.user_cache = authenticate(request=self.request, federationCredentials=federationCrendentials)        
         
         if self.user_cache.errors == True:
             throwErrorMessage(self, _(self.user_cache.typeError))
