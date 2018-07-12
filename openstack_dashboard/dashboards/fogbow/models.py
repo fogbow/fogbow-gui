@@ -61,7 +61,8 @@ class FederatedNetworkUtil:
     @staticmethod
     def get_federated_networks(federation_token_value):
         LOG.debug("Gettings  federated networks")
-        endpoint = "{action_request_manager}".format(action_request_manager=FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER)
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, \
+                                                                        status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
@@ -78,7 +79,6 @@ class FederatedNetworkUtil:
         data[FogbowConstants.ALLOWED_MEMBERS_FEDERATED_NETWORK_KEY] = allowed_members
 
         json_data = json.dumps(data)
-        LOG.info("json: {json}".format(json=json_data))
 
         response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
         RequestUtil.check_success_request(response)
@@ -107,8 +107,8 @@ class FederatedNetworkUtil:
         data = json.loads(response_json)
 
         for federated_network in data:
-            federated_networks.append(FederatedNetwork({'id': federated_network.get('id'), 
-            'federatednetwork_id': federated_network.get('id'), 'state': federated_network.get('state')}))
+            federated_networks.append(FederatedNetwork({'id': federated_network.get('instanceId'), 
+            'federatednetwork_id': federated_network.get('instanceId'), 'state': federated_network.get('state')}))
 
         return federated_networks
 
@@ -247,7 +247,6 @@ class ComputeUtil:
             data[FogbowConstants.FED_NET_ID_ORDER_COMPUTE_TO_FEDERATED_NETWORK_KEY] = federated_network_id
 
         json_data = json.dumps(data)        
-        LOG.info(json_data)
 
         # TODO to use contants
         extra_headers = {"Content-Type": "application/json"}
