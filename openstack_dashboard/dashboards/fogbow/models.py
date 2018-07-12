@@ -8,6 +8,7 @@ from openstack_dashboard.models import FogbowConstants
 from openstack_dashboard.models import RequestConstants
 from openstack_dashboard.models import DashboardConstants
 
+from openstack_dashboard.dashboards.fogbow.federatednetwork.models import FederatedNetwork
 from openstack_dashboard.dashboards.fogbow.network.models import Network
 from openstack_dashboard.dashboards.fogbow.storage.models import Volume
 from openstack_dashboard.dashboards.fogbow.instance.models import Compute
@@ -17,15 +18,11 @@ LOG = logging.getLogger(__name__)
 
 class MemberUtil:
      
-    # FIXME: remove federation_token_value in parameters
     @staticmethod
     def get_members(federation_token_value):
         LOG.debug("Gettings members")
         response = RequestUtil.do_request_membership(RequestConstants.GET_METHOD, FogbowConstants.MEMBERS_ACTION_REQUEST_MERBERSHIP)
-        # TODO use check_success_request in the RequestUtil class
-        if response == None or response.status_code != RequestConstants.OK_STATUS_CODE:
-            LOG.error("Status code is {code}".format(code=response.status_code))
-            raise Exception("Is not possible get members")
+        RequestUtil.check_success_request(response) 
         
         response_json = response.text
         return MemberUtil.get_members_from_json(response_json)
@@ -39,12 +36,105 @@ class MemberUtil:
             
         return members
 
+class QuotaUtil:
+    
+    @staticmethod
+    def get_compute_quota_response(member_id, federation_token_value):
+        LOG.debug("Gettings compute quota")
+        endpoint = '{compute_endpoint}/{member_id}'.format(compute_endpoint=FogbowConstants.COMPUTE_QUOTA_ACTION_REQUEST_MANAGER, member_id=member_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response) 
+        
+        return response.text
+
+    @staticmethod
+    def get_compute_allocation_response(member_id, federation_token_value):
+        LOG.debug("Gettings compute allocation")
+        endpoint = '{compute_endpoint}/{member_id}'.format(compute_endpoint=FogbowConstants.COMPUTE_ALLOCATION_ACTION_REQUEST_MANAGER, member_id=member_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+        
+        return response.text
+
+class FederatedNetworkUtil:
+
+    @staticmethod
+    def get_federated_networks(federation_token_value):
+        LOG.debug("Gettings  federated networks")
+        endpoint = "{action_request_manager}".format(action_request_manager=FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text
+        return FederatedNetworkUtil.__get_federated_networks_from_json(response_json)
+
+    @staticmethod
+    def create_federated_network(label, cird, allowed_members, federation_token_value):
+        LOG.debug("Trying to create federated network")
+
+        data = {}
+        data[FogbowConstants.LABEL_ORDER_FEDERATED_NETWORK_KEY] = label
+        data[FogbowConstants.CIRD_ORDER_FEDERATED_NETWORK_KEY] = cird
+        data[FogbowConstants.ALLOWED_MEMBERS_FEDERATED_NETWORK_KEY] = allowed_members
+
+        json_data = json.dumps(data)
+        LOG.info("json: {json}".format(json=json_data))
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod 
+    def delete_federated_network(federated_network_id, federation_token_value):
+        LOG.debug("Trying to delete fedareted network: {federated_network_id}".format(federated_network_id=federated_network_id))
+        endpoint = "{action_request_manager}/{federated_network_id}".format(action_request_manager=FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, federated_network_id=federated_network_id)
+        response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+    @staticmethod
+    def get_federated_network(federated_network_id, federation_token_value):
+        LOG.debug("Getting federated network: {federated_network_id}".format(federated_network_id=federated_network_id))
+        endpoint = "{action_request_manager}/{federated_network_id}".format(action_request_manager=FogbowConstants.FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER, federated_network_id=federated_network_id)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        response_json = response.text        
+        return FederatedNetworkUtil.__get_federated_network_from_json(response_json) 
+
+    @staticmethod
+    def __get_federated_networks_from_json(response_json):
+        federated_networks = []
+
+        data = json.loads(response_json)
+
+        for federated_network in data:
+            federated_networks.append(FederatedNetwork({'id': federated_network.get('id'), 
+            'federatednetwork_id': federated_network.get('id'), 'state': federated_network.get('state')}))
+
+        return federated_networks
+
+    @staticmethod
+    def __get_federated_network_from_json(response_json):
+        federated_network = json.loads(response_json)
+
+        # TODO to use contants
+        id = federated_network.get('id', '-')
+        cird = federated_network.get('cidrNotation', '-')
+        label = federated_network.get('label', '-')
+        allowed_members = federated_network.get('allowedMembers', '-')
+        state = federated_network.get('state', '-')
+
+        # TODO to use contants
+        return {"id" :id, "state": state, "label": label, "cird": cird, "allowed_members": allowed_members }
+
+
 class NetworkUtil:
 
     @staticmethod
     def get_networks(federation_token_value):
         LOG.debug("Gettings networks")
-        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, federation_token_value)
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, \
+                     status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
         response_json = response.text
@@ -59,7 +149,7 @@ class NetworkUtil:
 
     # TODO use object in attrs
     @staticmethod
-    def create_network(gateway, address, allocation, member, federation_token_value):
+    def create_network(address ,gateway, allocation, member, federation_token_value):
         LOG.debug("Trying to create network")
 
         data = {}
@@ -89,13 +179,13 @@ class NetworkUtil:
         network = json.loads(response_json)
 
         # TODO to use contants
-        id = network['id']
-        state = network['state']
-        label = network['label']
-        address = network['address']
-        gateway = network['gateway']
-        network_interface = network['networkInterface']
-        mac_inferface = network['MACInterface']
+        id = network.get('id', '-')
+        state = network.get('state', '-')
+        label = network.get('label', '-')
+        address = network.get('address', '-')
+        gateway = network.get('gateway', '-')
+        network_interface = network.get('networkInterface', '-')
+        mac_inferface = network.get('MACInterface', '-')
 
         # TODO to use contants
         return {"id" :id, "network_id": id, "state": state, "label": label, "address": address, "gateway": gateway, \
@@ -108,8 +198,8 @@ class NetworkUtil:
         data = json.loads(response_json)
 
         for network in data:
-            networks.append(Network({'id': network.get('id'), 
-            'network_id': network.get('id'), 'state': network.get('state')}))
+            networks.append(Network({'id': network.get('instanceId', '-'), 
+            'network_id': network.get('instanceId', '-'), 'state': network.get('state', '-')}))
 
         return networks
         
@@ -117,7 +207,8 @@ class ComputeUtil:
 
     @staticmethod
     def get_computes(federation_token_value):
-        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, federation_token_value)
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
         response_json = response.text
@@ -132,26 +223,37 @@ class ComputeUtil:
 
     # TODO use object in attrs
     @staticmethod
-    def create_compute(vcpu, memory, member, image_id, network_id, extra_user_data, extra_user_data_type, public_key, federation_token_value):
+    def create_compute(vcpu, memory, member, image_id, network_id, extra_user_data, extra_user_data_type, public_key, federated_network_id, federation_token_value):
         LOG.debug("Trying to create compute")
 
         data = {}
         data[FogbowConstants.VCPU_ORDER_COMPUTE_KEY] = vcpu
         data[FogbowConstants.MEMORY_ORDER_COMPUTE_KEY] = memory
-        data[FogbowConstants.NETWORK_ID_ORDER_COMPUTE_KEY] = network_id
         data[FogbowConstants.PUBLIC_KEY_ORDER_COMPUTE_KEY] = public_key
         data[FogbowConstants.IMAGE_ID_ORDER_COMPUTE_KEY] = image_id
         data[FogbowConstants.PROVIDING_MEMBER_ORDER_KEY] = member
 
-        data_userdata = {}
-        data_userdata[FogbowConstants.EXTRA_USER_DATA_CONTENT_ORDER_COMPUTE_KEY] = extra_user_data
-        data_userdata[FogbowConstants.EXTRA_USER_DATA_TYPE_ORDER_COMPUTE_KEY] = extra_user_data_type
+        if network_id:
+            data[FogbowConstants.NETWORK_ID_ORDER_COMPUTE_KEY] = [ network_id ]
 
-        data[FogbowConstants.EXTRA_USER_DATA_ORDER_COMPUTE_KEY] = data_userdata
+        if extra_user_data:
+            data_userdata = {}
+            data_userdata[FogbowConstants.EXTRA_USER_DATA_CONTENT_ORDER_COMPUTE_KEY] = extra_user_data
+            data_userdata[FogbowConstants.EXTRA_USER_DATA_TYPE_ORDER_COMPUTE_KEY] = extra_user_data_type
 
-        json_data = json.dumps(data)
+            data[FogbowConstants.EXTRA_USER_DATA_ORDER_COMPUTE_KEY] = data_userdata
 
-        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
+        if federated_network_id and settings.FEDERATED_NETWORK_EXTENSION:
+            data[FogbowConstants.FED_NET_ID_ORDER_COMPUTE_TO_FEDERATED_NETWORK_KEY] = federated_network_id
+
+        json_data = json.dumps(data)        
+        LOG.info(json_data)
+
+        # TODO to use contants
+        extra_headers = {"Content-Type": "application/json"}
+
+        response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, \
+                     federation_token_value, json_data=json_data, extra_headers=extra_headers)
         RequestUtil.check_success_request(response)
 
     @staticmethod
@@ -161,8 +263,7 @@ class ComputeUtil:
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
-        response_json = response.text
-        LOG.info(response_json)
+        response_json = response.text        
 
         return ComputeUtil.__get_compute_from_json(response_json)    
 
@@ -170,22 +271,26 @@ class ComputeUtil:
     @staticmethod
     def __get_compute_from_json(response_json):
         compute = json.loads(response_json)
+        
+        # TODO to use contants
+        id = compute.get('id', '-')
+        state = compute.get('state', '-')
+        host_name = compute.get('hostName', '-')
+        ssh_tunnel_con_data = compute.get('sshTunnelConnectionData', '-')
+        ssh_public_address, ssh_user_name, ssh_extra_ports = '-', '-', '-'
+        if ssh_tunnel_con_data != '-' and ssh_tunnel_con_data is not None:
+            ssh_public_address = ssh_tunnel_con_data.get('sshPublicAddress', '-')
+            ssh_user_name = ssh_tunnel_con_data.get('sshUserName', '-')
+            ssh_extra_ports = ssh_tunnel_con_data.get('sshExtraPorts', '-')
+        v_cpu = compute.get('vCPU', '-')
+        ram = compute.get('ram', '-')
+        local_ip_address = compute.get('localIpAddress', '-')
+        federated_ip = compute.get('federatedIp', '-')
 
         # TODO to use contants
-        id = compute['id']
-        state = compute['state']
-        host_name = compute['hostName']
-        ssh_public_address = compute['sshTunnelConnectionData']['sshPublicAddress']
-        ssh_user_name = compute['sshTunnelConnectionData']['sshUserName']
-        ssh_extra_ports = compute['sshTunnelConnectionData']['sshExtraPorts']
-        v_cpu = compute['vCPU']
-        memory = compute['memory']
-        local_ip_address = compute['localIpAddress']
-
-        # TODO to use contants
-        return {"id" :id, "volume_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
-                    "memory": memory, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
-                    "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports }
+        return {"id" :id, "compute_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
+                    "ram": ram, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
+                    "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports, "federated_ip": federated_ip }
 
     @staticmethod
     def __get_compute_ids_from_json(response_json):    
@@ -194,20 +299,11 @@ class ComputeUtil:
         data = json.loads(response_json)
         for compute in data:
             # TODO to use contants
-            id = compute['id']
-            state = compute['state']
-            host_name = compute['hostName']
-            ssh_public_address = compute['sshTunnelConnectionData']['sshPublicAddress']
-            ssh_user_name = compute['sshTunnelConnectionData']['sshUserName']
-            ssh_extra_ports = compute['sshTunnelConnectionData']['sshExtraPorts']
-            v_cpu = compute['vCPU']
-            memory = compute['memory']
-            local_ip_address = compute['localIpAddress']
+            id = compute.get('instanceId', '-')
+            state = compute.get('state', '-')
 
             # TODO to use contants
-            computes.append(Compute({"id" :id, "compute_id": id, "state": state, "host_name": host_name, "v_cpu": v_cpu, \
-                       "memory": memory, "local_ip_address": local_ip_address, "ssh_public_address": ssh_public_address, \
-                       "ssh_user_name": ssh_user_name, "ssh_extra_ports": ssh_extra_ports }))
+            computes.append(Compute({"id" :id, "compute_id": id, "state": state }))
         return computes        
 
 
@@ -216,9 +312,10 @@ class VolumeUtil:
     @staticmethod
     def get_volumes(federation_token_value):
         LOG.debug("Gettings volumes")
-        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, federation_token_value)
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, \
+                     status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
-
         response_json = response.text        
         return VolumeUtil.__get_volumes_from_json(response_json)
 
@@ -259,10 +356,10 @@ class VolumeUtil:
         volume = json.loads(response_json)
 
         # TODO to use contants
-        id = volume['id']
-        state = volume['state']
-        name = volume['name']
-        size = volume['size']
+        id = volume.get('id', '-')
+        state = volume.get('state', '-')
+        name = volume.get('name', '-')
+        size = volume.get('size', '-')
 
         # TODO to use contants
         return {"id" :id, "volume_id": id, "state": state, "name": name, "size": size}
@@ -274,12 +371,11 @@ class VolumeUtil:
         data = json.loads(response_json)
         for volume in data:
             # TODO to use contants
-            id = volume['id']
-            state = volume['state']
-            name = volume['name']
-            size = volume['size']
+            id = volume.get('instanceId', '-')
+            state = volume.get('state', '-')
+
             # TODO to use contants
-            volumes.append(Volume({"id" :id, "volume_id": id, "state": state, "name": name, "size": size}))
+            volumes.append(Volume({"id" :id, "volume_id": id, "state": state}))
 
         return volumes
 
@@ -288,7 +384,9 @@ class AttachmentUtil:
     @staticmethod
     def get_attachments(federation_token_value):
         LOG.debug("Gettings attachments")
-        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, federation_token_value)
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, \
+                     status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)        
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
         response_json = response.text        
@@ -322,8 +420,7 @@ class AttachmentUtil:
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)      
 
-        response_json = response.text
-        LOG.info(response_json)
+        response_json = response.text        
 
         return AttachmentUtil.__get_attachment_from_json(response_json)        
 
@@ -334,37 +431,35 @@ class AttachmentUtil:
         data = json.loads(response_json)
         for attachment in data:
             # TODO to use contants
-            id = attachment['id']
-            state = attachment['state']
-            device = attachment['device']
-            server_id = attachment['serverId']
-            volume_id = attachment['volumeId']
+            id = attachment.get('instanceId', '-')
+            state = attachment.get('state', '-')
             # TODO to use contants
-            attachments.append(Attachment({"id" :id, "attachment_id": id, "state": state, "device": device, "server_id": server_id, "volume_id": volume_id}))
+            attachments.append(Attachment({"id" :id, "attachment_id": id, "state": state}))
 
         return attachments    
 
-    # TODO reuse this method in __get_attachments_from_json
     @staticmethod
     def __get_attachment_from_json(response_json):
-        volume = json.loads(response_json)
+        attachment = json.loads(response_json)
 
         # TODO to use contants
-        id = volume['id']
-        state = volume['state']
-        device = volume['device']
-        volume_id = volume['volumeId']
-        server_id = volume['serverId']
+        id = attachment.get('id', '-')
+        state = attachment.get('state', '-')
+        device = attachment.get('device', '-')
+        server_id = attachment.get('serverId', '-')
+        volume_id = attachment.get('volumeId', '-')
 
         # TODO to use contants
-        return {"id" :id, "attachment_id": id, "state": state, "volume_id": volume_id, "server_id": server_id, "device": device}
+        return {"id" :id, "attachment_id": id, "state": state, "device": device, "server_id": server_id, "volume_id": volume_id}
 
 class ImageUtil:
 
     @staticmethod
     def get_images_response(member_id, federation_token_value):
-        endpoint = "{action_request_manager}/{member_id}".format(action_request_manager=FogbowConstants.IMAGES_ACTION_REQUEST_MANAGER, member_id=member_id)
-        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        # TODO: Use contansts
+        extra_headers = {"memberId": member_id}
+        
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.IMAGES_ACTION_REQUEST_MANAGER, federation_token_value, extra_headers=extra_headers)
         RequestUtil.check_success_request(response)
 
         return response
@@ -377,7 +472,7 @@ class RequestUtil:
             raise Exception("Response is null")
 
         status_code = response.status_code
-        if status_code != RequestConstants.OK_STATUS_CODE and status_code != RequestConstants.CREATED_STATUS_CODE:
+        if status_code != RequestConstants.OK_STATUS_CODE and status_code != RequestConstants.CREATED_STATUS_CODE and status_code != RequestConstants.OK_NO_CONTENT_STATUS_CODE:
             raise Exception("Response is not ok. Status code is {code}".format(code=response.status_code))
 
     @staticmethod
@@ -397,7 +492,7 @@ class RequestUtil:
         return response
     
     @staticmethod
-    def do_request_manager(method_request, action_enpoint, federation_token_value, json_data=None):
+    def do_request_manager(method_request, action_enpoint, federation_token_value, json_data=None, extra_headers=None):
         timeout_post = settings.TIMEOUT_POST
         if timeout_post is None or not timeout_post:
             timeout_post = DashboardConstants.DEFAULT_POST_TIMEOUT
@@ -409,7 +504,12 @@ class RequestUtil:
             timeout_get = DashboardConstants.DEFAULT_GET_TIMEOUT
     
         headers = {RequestConstants.CONTENT_TYPE_HEADER: RequestConstants.JSON_APPLIVATION_VALUE_HEADER,
-                    FogbowConstants.FEDERATION_TOKEN_VALUE : federation_token_value}    
+                    FogbowConstants.FEDERATION_TOKEN_VALUE : federation_token_value}
+
+        if extra_headers:
+            for key, value in extra_headers.items():
+                headers[key] = value
+
         try:
             if method_request == RequestConstants.GET_METHOD:
                 response = requests.get(settings.FOGBOW_MANAGER_CORE_ENDPOINT + action_enpoint, headers=headers, timeout=timeout_get)
@@ -423,19 +523,4 @@ class RequestUtil:
             raise Exception(msg)
             
         return response    
-           
-# TODO check if is necessary. Old code
-def doRequest(method, endpoint, additionalHeaders):
-    token = settings.MY_TOKEN    
-    headers = {'content-type': 'text/occi', 'X-Auth-Token' : token}
-    if additionalHeaders is not None:
-        headers.update(additionalHeaders)    
         
-    if method == 'get': 
-        response = requests.get(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers)
-    elif method == 'delete':
-        response = requests.delete(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers)
-    elif method == 'post':        
-        response = requests.post(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers)
-    
-    return response

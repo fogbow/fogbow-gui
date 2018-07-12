@@ -1,0 +1,27 @@
+{% load i18n sizeformat parse_date %}
+{% load url from future %}
+
+<div class="info row-fluid detail">
+  <h3>{% trans "Information" %}</h3>
+  <hr class="header_rule">
+  <dl>
+    <dt>{% trans "Instance ID" %}</dt>
+    {{ federatednetwork.id }}
+  </dl>
+  <dl>
+    <dt>{% trans "Label" %}</dt>
+    {{ federatednetwork.label }}
+  </dl>
+  <dl>
+    <dt>{% trans "CIRD" %}</dt>
+    {{ federatednetwork.cird }}
+  </dl>
+  <dl>
+    <dt>{% trans "State" %}</dt>
+    {{ federatednetwork.state }}
+  </dl>  
+  <dl>
+    <dt>{% trans "Allowed Members" %}</dt>
+    {{ federatednetwork.allowed_members }}
+  </dl>
+</div>

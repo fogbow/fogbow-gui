@@ -4,117 +4,150 @@
 	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
 		<thead>
 			<tr>
-				<th style="padding: 5px 76px;">Local</th>
-				<th style="padding: 5px 76px;">Instance</th>
-				<th style="padding: 5px 76px;">vCPU</th>
-				<th style="padding: 5px 76px;">RAM</th>
-				<th style="padding: 5px 76px;">Volume</th>
-				<th style="padding: 5px 76px;">Storage</th>
-				<th style="padding: 5px 76px;">FIPs</th>
-				<th style="padding: 5px 76px;">Networks</th>
+				<th style="padding: 5px 76px; padding-left:  5px;">Local</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Instance</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">vCPU</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">RAM</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Volume</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Storage</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">FIPs</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Networks</th>
 			</tr>
 		</thead>
 		<tr>
 			<td>Shared Quota</td>
-			<td style="padding: 5px 76px;" id="shared_compute">-</td>
-			<td style="padding: 5px 76px;" id="shared_cpu">-</td>
-			<td style="padding: 5px 76px;" id="shared_ram">-</td>
-			<td style="padding: 5px 76px;">-</td>
-			<td style="padding: 5px 76px;">-</td>
-			<td style="padding: 5px 76px;">-</td>
-			<td style="padding: 5px 76px;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_compute">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_cpu">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 		</tr>
 		
 		<tr>
 			<td>Available Quota</td>
-			<td style="padding: 5px 76px;" id="free_compute">-</td>
-			<td style="padding: 5px 76px;" id="free_cpu">-</td>
-			<td style="padding: 5px 76px;" id="free_ram">-</td>
-			<td style="padding: 5px 76px;">-</td>
-			<td style="padding: 5px 76px;">-</td>
-			<td style="padding: 5px 76px;">-</td>
-			<td style="padding: 5px 76px;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="free_compute">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="free_cpu">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="free_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 		</tr>
 		
 		<tr>
 			<td>Quota Used by me</td>
-			<td style="padding: 5px 76px;" id="my_compute">-</td>
-			<td style="padding: 5px 76px;" id="my_cpu"></td>
-			<td style="padding: 5px 76px;" id="my_ram">-</td>
-			<td style="padding: 5px 76px;">-</td>
-			<td style="padding: 5px 76px;">-</td>
-			<td style="padding: 5px 76px;">-</td>
-			<td style="padding: 5px 76px;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_compute">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_cpu"></td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+		</tr>
+	</table>
+
+	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
+		<thead>
+			<tr>
+				<th style="padding: 5px 76px; padding-left:  5px;">Aggregated</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Instance</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">vCPU</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">RAM</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Volume</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Storage</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">FIPs</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Networks</th>
+			</tr>
+		</thead>
+		<tr>
+			<td>Shared Quota</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="using_compute">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="using_vCPU">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="using_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="using_volume">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="using_storage">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="using_fIPs">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="using_networks">-</td>
+		</tr>
+		
+		<tr>
+			<td>Available Quota</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="available_compute">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="available_vCPU">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="available_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="available_volume">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="available_storage">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="available_fIPs">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="available_networks">-</td>
+		</tr>
+		
+		<tr>
+			<td>Quota Used by me</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_compute">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_vCPU"></td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_volume">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_storage">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_fIPs">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_networks">-</td>
 		</tr>
 	</table>
 	
 	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
+		<thead>
+			<tr>
+				<th>
+					<select id="member" style="width: 100%">
+						<option value="">Choose member</option>
+					</select>
+				</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Instance</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">vCPU</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">RAM</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Volume</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Storage</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">FIPs</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Networks</th>
+			</tr>
+		</thead>
 		<tr>
-			<th style="padding: 5px 76px;">Resource</th>
-			<th style="padding: 5px 76px;">Using</th>
-			<th style="padding: 5px 76px;">Total</th>
+			<td>Shared Quota</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_shared_instances">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_shared_vCPU">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_shared_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 		</tr>
+		
 		<tr>
-			<td>Instance</td>
-			<td style="padding: 5px 76px;" id="using_compute">-</td>
-			<td style="padding: 5px 76px;" id="available_compute">-</td>
+			<td>Available Quota</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_total_instances">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_total_vCPU">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_total_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 		</tr>
+		
 		<tr>
-			<td>vCPU</td>
-			<td style="padding: 5px 76px;" id="using_vCPU">-</td>
-			<td style="padding: 5px 76px;" id="available_vCPU">-</td>
-		</tr>
-		<tr>
-			<td>RAM</td>
-			<td style="padding: 5px 76px;" id="using_ram">-</td>
-			<td style="padding: 5px 76px;" id="available_ram">-</td>
-		</tr>
-		<tr>
-			<td>Volume</td>
-			<td style="padding: 5px 76px;" id="using_volume">-</td>
-			<td style="padding: 5px 76px;" id="available_volume">-</td>
-		</tr>
-		<tr>
-			<td>Storage</td>
-			<td style="padding: 5px 76px;" id="using_storage">-</td>
-			<td style="padding: 5px 76px;" id="available_storage">-</td>
-		</tr>
-		<tr>
-			<td>FIPs</td>
-			<td style="padding: 5px 76px;" id="using_fIPs">-</td>
-			<td style="padding: 5px 76px;" id="available_fIPs">-</td>
-		</tr>
-		<tr>
-			<td>Networks</td>
-			<td style="padding: 5px 76px;" id="using_networks">-</td>
-			<td style="padding: 5px 76px;" id="available_networks">-</td>
-		</tr>
-	</table>
-	
-	<select id="member">
-		<option value="">Members</option>
-	</select>
-	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
-		<tr>
-			<th style="padding: 0px 85px;">Instance</th>
-			<th style="padding: 0px 85px;">vCPU</th>
-			<th style="padding: 0px 85px;">RAM</th>
-			<th style="padding: 0px 85px;">Volume</th>
-			<th style="padding: 0px 85px;">Storage</th>
-			<th style="padding: 0px 85px;">FIPs</th>
-			<th style="padding: 0px 85px;">Networks</th>
-		</tr>
-		<tr>
-			<td style="padding: 0px 85px;" id="member_compute">-</td>
-			<td style="padding: 0px 85px;" id="member_cpu">-</td>
-			<td style="padding: 0px 85px;" id="member_ram">-</td>
-			<td style="padding: 0px 85px;">-</td>
-			<td style="padding: 0px 85px;">-</td>
-			<td style="padding: 0px 85px;">-</td>
-			<td style="padding: 0px 85px;">-</td>
+			<td>Quota Used by me</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_his_instances">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_his_vCPU">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_his_ram">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
+			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;">-</td>
 		</tr>
 	</table>
 </div>
+
+<div id="manager-xmpp-jid" style="visibility: hidden">{{ request.session.managerXmppJid }}</div>
 
 <style>
 	.same-line {
@@ -150,390 +183,226 @@
 <script type="text/javascript">
 	
 	// TODO needs a refactor
+	// TODO improve element names
 	(function(){	
-		var continueRefresh = true
-		
-		$(document).find("a").click(function() {
-			console.log('clicked');
-			continueRefresh = false;
+	
+		var aggregatedTotalRam = 0;
+		var aggregatedTotalVCPU = 0;
+		var aggregatedTotalInstance = 0;
+		var aggregatedAvailableRam = 0;
+		var aggregatedAvailablelVCPU = 0;
+		var aggregatedAvailablelInstance = 0;
+		var aggregatedUsedByMeRam = 0;
+		var aggregatedUsedByMeVCPU = 0;
+		var aggregatedUsedByMeInstance = 0;		
+
+		$(document).ready(function() {
+			getMembers();
+			// TODO use default member
+
+			managerXmppJid = $('#manager-xmpp-jid').text();
+			fillLocalQuotaTable(managerXmppJid);
 		});
-		
-		var members = [];
-		var totalRamAvailable = 0;
-		var totalRam = 0;
-		var totalVCPUAvailable = 0;
-		var totalVCPU = 0;
-		var totalRAMInUseByUser = 0;
-		var totalVCPUInUseByUser = 0;
-		var totalInstanceAvailable = 0;
-		var totalInstance = 0;	
-		var totalInstanceInUseByUser = 0;
-		
-		function updateMembers(memberLocalStorage) {
-			console.log("Updating members...");
-			var cont = 0;
-			$('#members').find('tr').each(function(indice) {
-				$(this).find('td').each(function(indice) {
-					if (indice == 0) {
-						var text = $(this).text();
-						
-						if (text.indexOf("Displaying") !== -1) {
-							return;
-						}
-						
-						var columnAndLine = "#members__row__" + text.replace(/\./g, '\\.') + " td:eq(10)"
-						
-						if (memberLocalStorage == null ) {
-							$(columnAndLine).text("Loading");
-							$(columnAndLine).css('color', 'black');		
-						} else {
-							$(columnAndLine).text("Not updated");
-							$(columnAndLine).css('color', 'purple');		        		
-						}
-						
-						members[cont] = text;    	
-						cont++;
-					}
-				});
-			});		
-		}	
-		
-		var tokenToReplace = '#TokenReplace#';
-		
-		function updateLocalStorage(numberMember, newMemberData) {
-			var localStorageMembers = localStorage.getItem("members");
-			if (localStorageMembers == null || localStorageMembers == 'undefined') {
-				localStorageMembers = newMemberData;
-				localStorage.setItem("members", localStorageMembers);
-				return;
-			}
-			localStorageMembers = localStorageMembers + tokenToReplace + newMemberData;
-			localStorage.setItem("members", localStorageMembers);    		
-		}
-		
-		function getMemberDataLocalStorage(numberMember) {
-			var localStorageMembers = localStorage.getItem("members");
-			if (localStorageMembers == null || localStorageMembers == 'undefined') {
-				return null;
-			}
-			
-			return localStorageMembers;
-		}
-		
-		function populateMemberLine(member, jsonData, color) {    	
-			try {			
-				for (var key in jsonData) {
-					if (jsonData.hasOwnProperty(key)) {
-						if (jsonData[key].length < 9 || key == 10) {
-							$("#members__row__" + member + " td:eq(" + key + ")").text(jsonData[key]);
-							
-							if (key == 1) {
-								try {
-									totalVCPUAvailable = totalVCPUAvailable + parseFloat(jsonData[key]);					 			
-								}
-								catch(err) {}
-							} else if (key == 2) {
-								try {			 											 			
-									totalVCPU = totalVCPU + parseFloat(jsonData[key]);
-								}
-								catch(err) {}
-							} else if (key == 4) {
-								try {	 			
-									totalRamAvailable = totalRamAvailable + parseFloat(jsonData[key]);					 			
-								}
-								catch(err) {}						 		
-							} else if (key == 5) {					 	
-								try {			 			
-									totalRam = totalRam + parseFloat(jsonData[key]);
-								}
-								catch(err) {}					 		
-							} else if (key == 3) {
-								try {			 
-									
-									totalVCPUInUseByUser = totalVCPUInUseByUser + parseFloat(jsonData[key]);
-									$('#totalVCPUInUseByUserResponse').text(totalVCPUInUseByUser);
-									
-									var calculation = totalVCPUAvailable - totalVCPU + totalVCPUInUseByUser;
-									if (isNaN(calculation)) {
-										calculation = 'no limit';
-									}
-									$('#totalVCPUAvailableResponse').text(calculation);
-								}
-								catch(err) {}
-							} else if (key == 6) {
-								try {			
-									totalRAMInUseByUser = totalRAMInUseByUser + parseFloat(jsonData[key]);
-									$('#totalRAMInUseByUserResponse').text(totalRAMInUseByUser / 1024);					 			
-									
-									var calculation = ((totalRamAvailable - totalRam + totalRAMInUseByUser) / 1024)
-									if (isNaN(calculation)) {
-										calculation = 'no limit';
-										$('#totalRamAvailableResponse').text(calculation);
-									}					 			
-									$('#totalRamAvailableResponse').text(calculation.toFixed(1));
-								}
-								catch(err) {}
-								
-							} else if (key == 7) {
-								try {		 			
-									totalInstanceAvailable = totalInstanceAvailable + parseFloat(jsonData[key]);					 			
-								}
-								catch(err) {}						 		
-							} else if (key == 8) {					 	
-								try {			 			
-									totalInstance = totalInstance + parseFloat(jsonData[key]);
-								}
-								catch(err) {}					 		
-							} else if (key == 9) {
-								try {			
-									totalInstanceInUseByUser = totalInstanceInUseByUser + parseFloat(jsonData[key]);
-									$('#totalInstanceInUseByUserResponse').text(totalInstanceInUseByUser);
-									
-									var calculation = ((totalInstanceAvailable - totalInstance + totalInstanceInUseByUser))
-									if (isNaN(calculation)) {
-										calculation = 'no limit';
-										$('#totalInstanceAvailableResponse').text(calculation);
-									}					 			 			
-									$('#totalInstanceAvailableResponse').text(calculation.toFixed(1));
-								}
-								catch(err) {}
-							}
-							
-						} else {
-							
-							$("#members__row__" + member + " td:eq(" + key + ")").text('No Limit');
-							
-							if (key == 1) {
-								totalVCPUAvailable = 'No Limit';
-								$('#totalVCPUAvailableResponse').text(totalVCPUAvailable);
-							} else if (key == 4) {
-								totalRamAvailable = 'No Limit';
-								$('#totalRamAvailableResponse').text(totalRamAvailable);
-							} else if (key == 7) {
-								totalInstanceAvailable = 'No Limit';
-								$('#totalInstanceAvailableResponse').text(totalInstanceAvailable);
-							}
-							
-						}
-					}
-				}
-				
-				if (color == "undefined" || color == null) {
-					color = "blue";
-				}
-				columnEl.css('color', color);			
-				
-			} catch(err) {}
-		}
-		
-		var contTimes = 1;
-		var contTryTimesDefault = 3;  
-		
-		// @Deprecated
-		function refreshLine(numberMember) {				
-			var text = members[numberMember];			
-			console.log("Trying first time in " + text);
-			if (text == null || text == 'undefined') {
-				return;
-			}
-			var cont = numberMember;
-			
-			$.ajax({
-				url: window.location.href + text + '/quota',
-				type: "GET",
-				timeout: 20000,    	    
-				success: function(data) {       
-					console.log('Response ok in ' + text);
-					text = text.replace(/\./g, '\\.');
-					columnEl = $("#members__row__" + text + " td:eq(10)");
-					if (data == 'error') {
-						columnEl.text('Error');
-						columnEl.css('color', 'red');
-						
-						if (continueRefresh) {
-							if (contTimes < contTryTimesDefault) {						
-								contTimes ++;
-								console.log('try ' + contTimes + ' times in ' + text + '.');							
-								refreshLine(cont);
-							} 
-						} 										
-					} else {
-						var jsonData = JSON.parse(data);
-						var date = new Date();
-						jsonData["name"] = text;		
-						jsonData["10"] = date.toLocaleDateString("en-US") + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();					
-						populateMemberLine(text, jsonData);
-						updateLocalStorage(cont, JSON.stringify(jsonData));						
-					}
-					
-				},
-				error: function() {
-					console.log('Timeout in ' + text);
-					columnEl = $("#members__row__" + text + " td:eq(10)"); 
-					columnEl.text('Error');
-					columnEl.css('color', 'red');
-					
-					if (continueRefresh) {
-						if (contTimes < contTryTimesDefault) {						
-							contTimes ++;
-							console.log('try ' + contTimes + ' times in ' + text + '.');
-							refreshLine(cont);
-						} else {
-							console.log('next after ' + text + '.');
-							contTimes = 0;
-						}					
-					}    			
-				},
-			});				
-		}
-		
-		
-		function fillTableFields(localStorageMembers, cont, text, data) {
-			columnEl = $("#members__row__" + text + " td:eq(10)");
-			if (data == 'error' || data.startsWith("error")) {
-				columnEl.text('Not updated');
-				columnEl.css('color', 'gray');
-				var member = text;
-				populateMemberLineWithBD(localStorageMembers, member);
-			} else {
-				var jsonData = JSON.parse(data);
-				var date = new Date();
-				jsonData["name"] = text;		
-				jsonData["10"] = date.toLocaleDateString("en-US") + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();					
-				populateMemberLine(text, jsonData);
-				updateLocalStorage(cont, JSON.stringify(jsonData));			
-			}		
-		}
-		
-		function getInlineJS() {
-			var js = document.querySelector('[type="javascript/worker"]').textContent;
-			var blob = new Blob([js], {"type": "text\/plain"});
-			return URL.createObjectURL(blob);
-		}
-		
-		var localStorageMembersGlobal;
-		
-		function refreshTable() {		
-			console.log("Refreshing table ...");			
-			if (typeof(Worker) !== "undefined") {
-				var workerJsStr = getInlineJS();
-				var workers = [];	
-				for (i = 0; i < members.length; i++) {	
-					var member = members[i];								
-					var index = i;
-					workers.push(new Worker(workerJsStr));		
-					workersSelected = workers[i];
-					
-					workersSelected.onmessage = function(e) {					
-						var response = e.data.response;
-						var member = e.data.member;					
-						console.log("Message of (" + member + ") : " + response);
-						if (response.startsWith("error")) {
-							if (continueRefresh && contTimes < contTryTimesDefault) {
-								contTimes ++;
-								console.log('Try ' + contTimes + ' with ' + member);
-								workersSelected.postMessage({url: window.location.href + member + '/quota', name : "worker" + i, member: member});		
-								return;
-							}  
-						}
-						
-						member = member.replace(/\./g, '\\.');
-						fillTableFields(localStorageMembersGlobal, index, member, response);
-					};						
-					
-					console.log("Starting member " + member);	
-					workersSelected.postMessage({url: window.location.href + member + '/quota', name : "worker" + i, member: member}); 							
-				}
-			} else {
-				console.log("Sorry! No Web Worker support..")
-				setTimeout(function(){
-					for (i = 0; i < members.length; i++) {			
-						var index = i;
-						refreshLine(index); 
-					}		    		    
-				}, 0);
-			}		
-		}
-		
-		function populateMemberLineWithBD(localStorageMembers, nameMember) {
-			var populate = false;
-			memberData = null;
-			indexReference = 0;
-			
-			if (localStorageMembers == "undefined" || localStorageMembers == null) {
-				var localStorageMembers = localStorage.getItem("members");
-			}
-			localStorageSplit = String(localStorageMembers).split(tokenToReplace);
-			
-			for (j = 0; j < localStorageSplit.length; j++) {
-				try {
-					memberData = localStorageSplit[j];
-					var name = JSON.parse(memberData)["name"];
-					if (name == nameMember) {
-						indexReference = j;
-						populate = true;
-						break;
-					}
-				} catch (err) {}		
-			}
-			
-			if (populate == false || memberData == null) {
-				return;
-			}			
-			
-			populateMemberLine(nameMember, JSON.parse(localStorageSplit[indexReference]), "purple");		
-		}
-		function getSharedQuota() {
-			fetch(window.location.origin.concat('/fogbow/2/shared'), { method: 'GET', credentials: 'include'})
+
+		// TODO refactor. Repeated code
+		function fillMemberTable(memberId) {
+			fetch(window.location.origin.concat('/fogbow/' + memberId + '/compute-quota'), { method: 'GET', credentials: 'include'})
 			.then(res => {
+				if (!res.ok) {
+					throw Error(response.statusText);
+				}
+
 				res.json().then(body => {
-					$("#shared_compute").text(body.instances);
-					$("#shared_cpu").text(body.vCPU);
-					$("#shared_ram").text(body.ram);
+					body_json = JSON.parse(body);
+					$("#member_shared_instances").text(body_json.totalQuota.instances);
+					$("#member_shared_vCPU").text(body_json.totalQuota.vCPU);
+					$("#member_shared_ram").text(body_json.totalQuota.ram);
+
+					$("#member_total_instances").text(body_json.availableQuota.instances);
+					$("#member_total_vCPU").text(body_json.availableQuota.vCPU);
+					$("#member_total_ram").text(body_json.availableQuota.ram);
 				})
 				
 			})
-		}
-		
-		function getFreeQuota() {
-			fetch(window.location.origin.concat('/fogbow/2/free'), { method: 'GET', credentials: 'include'})
+			.catch(function(error) {
+				alert('Is not possible get quota of the member:' + memberId)
+				console.log(error);
+			});
+
+			fetch(window.location.origin.concat('/fogbow/' + memberId + '/compute-allocation'), { method: 'GET', credentials: 'include'})
 			.then(res => {
+				if (!res.ok) {
+					throw Error(response.statusText);
+				}
+
 				res.json().then(body => {
-					$("#free_compute").text(body.instances);
-					$("#free_cpu").text(body.vCPU);
-					$("#free_ram").text(body.ram);
+					body_json = JSON.parse(body)
+					$("#member_his_instances").text(body_json.instances);
+					$("#member_his_vCPU").text(body_json.vCPU);
+					$("#member_his_ram").text(body_json.ram);
 				})
 				
 			})
+			.catch(function(error) {
+				alert('Is not possible get quota of the member:' + memberId);
+
+				$("#member_shared_instances").text("-");
+				$("#member_shared_vCPU").text("-");
+				$("#member_shared_ram").text("-");
+
+				$("#member_total_instances").text("-");
+				$("#member_total_vCPU").text("-");
+				$("#member_total_ram").text("-");
+
+				$("#member_his_instances").text("-");
+				$("#member_his_vCPU").text("-");
+				$("#member_his_ram").text(body_json.ram);
+
+				console.log(error);
+			});						
 		}
-		
-		function getUsedByMeQuota() {
-			fetch(window.location.origin.concat('/fogbow/2/my'), { method: 'GET', credentials: 'include'})
+
+		// TODO Repeated code
+		function fillLocalQuotaTable(memberId) {
+			fetch(window.location.origin.concat('/fogbow/' + memberId + '/compute-quota'), { method: 'GET', credentials: 'include'})
 			.then(res => {
+				if (!res.ok) {
+					throw Error(response.statusText);
+				}
+
 				res.json().then(body => {
-					$("#my_compute").text(body.instances);
-					$("#my_cpu").text(body.vCPU);
-					$("#my_ram").text(body.ram);
+					body_json = JSON.parse(body);
+					$("#shared_compute").text(body_json.totalQuota.instances);
+					$("#shared_cpu").text(body_json.totalQuota.vCPU);
+					$("#shared_ram").text(body_json.totalQuota.ram);
+
+					$("#free_compute").text(body_json.availableQuota.instances);
+					$("#free_cpu").text(body_json.availableQuota.vCPU);
+					$("#free_ram").text(body_json.availableQuota.ram);
 				})
 				
 			})
+			.catch(function(error) {
+				alert('Is not possible get quota of the member:' + memberId)
+				console.log(error);
+			});
+
+			fetch(window.location.origin.concat('/fogbow/' + memberId + '/compute-allocation'), { method: 'GET', credentials: 'include'})
+			.then(res => {
+				if (!res.ok) {
+					throw Error(response.statusText);
+				}
+
+				res.json().then(body => {
+					body_json = JSON.parse(body)
+					$("#my_compute").text(body_json.instances);
+					$("#my_cpu").text(body_json.vCPU);
+					$("#my_ram").text(body_json.ram);
+				})
+				
+			})
+			.catch(function(error) {
+				alert('Is not possible get quota of the member:' + memberId);
+
+				$("#shared_compute").text("-");
+				$("#shared_cpu").text("-");
+				$("#shared_ram").text("-");
+
+				$("#free_compute").text("-");
+				$("#free_cpu").text("-");
+				$("#free_ram").text("-");
+
+				$("#my_compute").text("-");
+				$("#my_cpu").text("-");
+				$("#my_ram").text("-");
+
+				console.log(error);
+			});
 		}
 		
+		// TODO Repeated code
+		function fillAggreegateTable(memberId) {
+			fetch(window.location.origin.concat('/fogbow/' + memberId + '/compute-quota'), { method: 'GET', credentials: 'include'})
+			.then(res => {
+				if (!res.ok) {
+					throw Error(response.statusText);
+				}
+
+				res.json().then(body => {
+					body_json = JSON.parse(body);
+					aggregatedTotalInstance += parseInt(body_json.totalQuota.instances);
+					aggregatedTotalVCPU += parseInt(body_json.totalQuota.vCPU);
+					aggregatedTotalRam += parseInt(body_json.totalQuota.ram);
+
+					aggregatedAvailablelInstance += parseInt(body_json.availableQuota.instances);
+					aggregatedAvailablelVCPU += parseInt(body_json.availableQuota.vCPU);
+					aggregatedAvailableRam += parseInt(body_json.availableQuota.ram);	
+
+					$("#using_compute").text(aggregatedTotalInstance);
+					$("#using_vCPU").text(aggregatedTotalVCPU);
+					$("#using_ram").text(aggregatedTotalRam);
+
+					$("#available_compute").text(aggregatedAvailablelInstance);
+					$("#available_vCPU").text(aggregatedAvailablelVCPU);
+					$("#available_ram").text(aggregatedAvailableRam);
+				})
+				
+			})
+			.catch(function(error) {
+				alert('Is not possible get quota of the member:' + memberId)
+				console.log(error);
+			});
+
+			fetch(window.location.origin.concat('/fogbow/' + memberId + '/compute-allocation'), { method: 'GET', credentials: 'include'})
+			.then(res => {
+				if (!res.ok) {
+					throw Error(response.statusText);
+				}
+
+				res.json().then(body => {
+					body_json = JSON.parse(body);
+
+					aggregatedUsedByMeRam = parseInt(body_json.instances);
+					aggregatedUsedByMeVCPU = parseInt(body_json.vCPU);
+					aggregatedUsedByMeInstance = parseInt(body_json.ram);
+
+					$("#shared_agg_compute").text(aggregatedUsedByMeInstance);
+					$("#shared_agg_vCPU").text(aggregatedUsedByMeVCPU);
+					$("#shared_agg_ram").text(aggregatedUsedByMeRam);
+				})
+				
+			})
+			.catch(function(error) {
+				console.log(error);
+			});						
+		}
+
+		// TODO change local
+		var members = []
+
 		function getMembers() {
-			fetch(window.location.origin.concat('/fogbow/members'), { method: 'GET', credentials: 'include'})
-			.then(res => {
-				res.json().then(body => {
-					body.forEach(element => {
-						$('select').append($('<option>', {
-							text: element
-						}));
-					});
-					log_members();
-				})
-				
-			})
+			//TODO Use constants
+			const request = async () => {
+				const response = await fetch(window.location.origin.concat('/fogbow/members'), { method: 'GET', credentials: 'include'})
+				if (!response.ok) {
+					throw Error(response.statusText);
+				}
+
+				const json = await response.json();
+				json.forEach(element => {
+					let member = element[0]
+					members.push(member);
+					$('select').append($('<option>', {							
+						text: member
+					}));
+				});
+
+				fillAgreegateTable();
+			}
+			request();
 		}
 		
+		// TODO check
 		function getAggregated() {
 			fetch(window.location.origin.concat('/fogbow/aggregated'), { method: 'GET', credentials: 'include'})
 			.then(res => {
@@ -542,95 +411,42 @@
 					for(let key in body) {
 						$("#using_" + key).text(body[key].using);
 						$("#available_" + key).text(body[key].total);
+						$("#shared_agg_" + key).text(body[key].shared);
 					}
 				})
 				
 			})
 		}
-		
-		function log_members() {
-			$( "select" )
-			.change(() => {
-				var str = "";
-				$( "select option:selected" ).each(function() {
-					str += $( this ).text();
-				});
-				
-				
-				if(str !== "Members") {
-					fetch(window.location.origin.concat('/fogbow/quota'), { method: 'GET', credentials: 'include'})
-					.then(res => {
-						res.json().then(body => {
-							$("#member_compute").text(body.instances);
-							$("#member_cpu").text(body.vCPU);
-							$("#member_ram").text(body.ram);
-						})
-					})
-				}
-			})
-			.change();
-		}
-		
-		$(document).ready(function() {
-			var localStorageMembers = localStorage.getItem("members");
-			updateMembers(localStorageMembers);
-			getSharedQuota();
-			getFreeQuota();
-			getUsedByMeQuota();
-			getMembers();
-			getAggregated();
-			if (localStorageMembers == null) {
-				// refreshTable();			
-			} else {									
-				for (i = 0; i < members.length; i++) { 		
-					var nameMember = members[i].replace(/\./g, '\\.');
-					
-					populateMemberLineWithBD(localStorageMembers, nameMember);
-				}
+
+		function fillAgreegateTable() {
+			for (i = 0; i < members.length; i++) { 
+				let member = members[i];
+				fillAggreegateTable(member);	
 			}
-		});	
-		
-		$("#button_populate").click(function() {
-			totalRamAvailable = 0;
-			totalRam = 0;
-			totalVCPUAvailable = 0;
-			totalVCPU = 0;
-			totalRAMInUseByUser = 0;
-			totalVCPUInUseByUser = 0;    	
-			totalInstanceAvailable = 0;
-			totalInstance = 0;	
-			totalInstanceInUseByUser = 0;    	
-			
-			$('#totalVCPUResponse').text("0");
-			$('#totalRamResponse').text("0");
-			$('#totalVCPUAvailableResponse').text("0");
-			$('#totalRamAvailableResponse').text("0");
-			$('#totalInstanceResponse').text("0");
-			$('#totalInstanceAvailableResponse').text("0");		
-			
-			totalRamAvailableResponse
-			
-			$("#button_populate").prop("disabled", true);
-			localStorageMembersGlobal = localStorage.getItem("members");
-			checkAndClearLocalStorageFull();
-			updateMembers();
-			refreshTable();
-			$("#button_populate").prop("disabled", false);
-		});
-		
-		function checkAndClearLocalStorageFull() {
-			var localStorageMembers = localStorage.getItem("members");
-			var localStorageMembersStr = String(localStorageMembers);		
-			var max = 100; // kbs
-			var size = (localStorageMembersStr.length*16)/(8*1024);
-			if (localStorageMembersStr != null && size > max) {		
-				localStorage.clear();
-			}	
+
 		}
+
+		$('#member').change(function(){
+			let memberId = $('#member').val();
+			if (!memberId){
+				$('#member_shared_instances').text('-');
+				$('#member_shared_vCPU').text('-');
+				$('#member_shared_ram').text('-');
+				$('#member_total_instances').text('-');
+				$('#member_total_vCPU').text('-');
+				$('#member_total_ram').text('-');
+				$('#member_his_instances').text('-');
+				$('#member_his_vCPU').text('-');
+				$('#member_his_ram').text('-');
+			}else {
+				fillMemberTable(memberId);
+			}
+		});
 		
 	})();
 </script>
 
+<!-- Check if is necessary -->
 <script id="worker" type="javascript/worker">
 	self.onmessage = function(e) {
 		var xhr = new XMLHttpRequest();

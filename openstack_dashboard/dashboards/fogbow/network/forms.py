@@ -25,11 +25,11 @@ LOG = logging.getLogger(__name__)
 class CreateNetwork(forms.SelfHandlingForm):
     success_url = reverse_lazy("horizon:fogbow:network:index")
     
-    cird = forms.CharField(label=_('CIDR'), initial='192.188.0.0/24',
+    cird = forms.CharField(label=_('CIDR'), initial='10.10.0.0/24',
                           widget=forms.TextInput(),
                           required=False)
 
-    gateway = forms.CharField(label=_('Gateway'), initial='192.188.0.1',
+    gateway = forms.CharField(label=_('Gateway'), initial='10.10.0.1',
                           widget=forms.TextInput())
 
     allocation = forms.ChoiceField(label=_('Allocation'), help_text=_('Allocation'), required=False)  
@@ -51,7 +51,7 @@ class CreateNetwork(forms.SelfHandlingForm):
         self.fields['allocation'].choices = dataAllocation
 
     def handle(self, request, data):
-        LOG.debug("Try create compute")
+        LOG.debug("Try create network")
         federation_token_value = request.user.token.id
         
         try:

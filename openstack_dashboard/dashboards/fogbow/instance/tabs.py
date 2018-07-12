@@ -1,4 +1,5 @@
 import logging
+from django.conf import settings
 
 from django.utils.translation import ugettext_lazy as _
 from horizon import tabs
@@ -24,7 +25,9 @@ class InstanceDetailTabInstancePanel(tabs.Tab):
             LOG.info("Is not possible get the compute. Message exception is {error_msg}:".format(error_msg=str(e)))
             compute = None
 
-        return {'compute' : compute}
+        federated_network_extension  = settings.FEDERATED_NETWORK_EXTENSION 
+
+        return {'compute' : compute, 'session': {'federatedNetworkExtension': federated_network_extension }}
     
 class InstanceDetailTabGroupInstancePanel(tabs.TabGroup):
     slug = "compute_details"

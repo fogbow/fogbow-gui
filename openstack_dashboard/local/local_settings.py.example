@@ -4,39 +4,27 @@ from django.utils.translation import ugettext_lazy as _
 
 from openstack_dashboard import exceptions
 
-# -------------------------- FOGBOW CONFIGURATION -------------------------- #
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-# Endpoint Manager
-FOGBOW_MANAGER_ENDPOINT = 'http://localhost:8182' # Mandatory
+## -------------------------- FOGBOW CONFIGURATION -------------------------- ##
 
-# Endpoint Membership
+# Endpoint Manager
 FOGBOW_MANAGER_CORE_ENDPOINT = 'http://localhost:8181' # Mandatory
+FOGBOW_MANAGER_CORE_XMPP_JID= 'manager.lsd.ufcg.br' Mandatory
 # Endpoint Membership
 FOGBOW_MEMBERSHIP_ENDPOINT = 'http://localhost:8180' # Mandatory
 
-FOGBOW_FEDERATION_AUTH_ENDPOINT = '' # Mandatory
-# types : keystone, opennebula, voms, raw_opennebula, raw_keystone, shibboleth, naf, ldap
+# Extensions (True or False)
+FEDERATED_NETWORK_EXTENSION = False # Mandatory
+
+# Types : ldap
 FOGBOW_FEDERATION_AUTH_TYPE = '' # Mandatory
-
-# ps: Read the fogbow-cli documentation. URL...
-FOGBOW_AUTHENTICATION_CONF_PATH = '$path_to_config'
-
-# for naf federation auth
-## dashboard private key path
-# FOGBOW_NAF_DASHBOARD_PRIVATE_KEY_PATH='$path_to/dash_private_key.pem'
-## dashboard private key path
-# FOGBOW_NAF_DASHBOARD_PUBLIC_KEY_PATH='$path_to/dash_public_key.pem'
-## portal public key path
-# FOGBOW_NAF_PORTAL_PUBLIC_KEY_PATH='$path_to/portal_public_key.pem'
-
-# for ldap federation auth
-# PRIVATE_KEY_PATH='$path_to/private_key.pem'
-# PUBLIC_KEY_PATH='$path_to/public_key.pem'
-# FOGBOW_LDAP_BASE='dc=lsd,dc=ufcg,dc=edu,dc=br'
-# FOGBOW_LDAP_ENCRYPT=''
+FOGBOW_FEDERATION_AUTH_ENDPOINT = ''
+# Fogbow-cli configuration path  
+# PS: Read the fogbow-cli documentation. 
+FOGBOW_AUTHENTICATION_CONF_PATH = 
+# example : '{home}/fogbow-dashboard-core/openstack_dashboard/local/auth_conf_example' 
 
 # custom_theme 
 # customization of style
@@ -59,7 +47,7 @@ TIMEOUT_GET=60
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 
 
-# -------------------------- FOGBOW CONFIGURATION -------------------------- #
+## -------------------------- FOGBOW CONFIGURATION -------------------------- ##
 
 
 # Required for Django 1.5.

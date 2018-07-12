@@ -153,10 +153,10 @@ def get_quota_me(handler):
     return {"vCPU": "10", "ram": "20000", "instances": "5"}
 
 def get_quota_member(handler):
-    return {"vCPU": "14", "ram": "28000", "instances": "7"}
+    return {"shared": {"vCPU": "14", "ram": "28000", "instances": "7"}, "available": {"vCPU": "14", "ram": "28000", "instances": "7"}, "me": {"vCPU": "14", "ram": "28000", "instances": "7"}}
 
 def get_quota_aggregated(handler):
-    return {"compute": {"using": "8", "total": "40"}, "vCPU": {"using": "8", "total": "40"}, "ram": {"using": "8", "total": "40"}, "volume": {"using": "8", "total": "40"}, "storage": {"using": "8", "total": "40"}, "fIPs": {"using": "8", "total": "40"}, "networks": {"using": "8","total": "40"}}
+    return {"compute": {"using": "8", "total": "40", "shared": "14"}, "vCPU": {"using": "8", "total": "40", "shared": "14"}, "ram": {"using": "8", "total": "40", "shared": "14"}, "volume": {"using": "8", "total": "40", "shared": "14"}, "storage": {"using": "8", "total": "40", "shared": "14"}, "fIPs": {"using": "8", "total": "40", "shared": "14"}, "networks": {"using": "8","total": "40", "shared": "14"} }
 
 class MethodRequest(urllib2.Request):
     def __init__(self, *args, **kwargs):

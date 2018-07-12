@@ -24,25 +24,26 @@ from base64 import b64encode, b64decode
 import hashlib
 import base64
 
-# from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
-
 LOG = logging.getLogger(__name__)
 
 # TODO to refactor this class. To move everything that is inconsistent in reference to the models
-
 # TODO remove OCCI
 class FogbowConstants():
     ##
     ## new fogbow
     ##
-    FEDERATION_TOKEN_VALUE = 'federation_token_value'
+    FEDERATION_TOKEN_VALUE = 'federationTokenValue'
     
     ## manager core
+    FEDERATED_NETWORKS_ACTION_REQUEST_MANAGER = '/federatedNetworks'
     NETWORKS_ACTION_REQUEST_MANAGER = '/networks'
     VOLUMES_ACTION_REQUEST_MANAGER = '/volumes'
     COMPUTES_ACTION_REQUEST_MANAGER = '/computes'
+    STATUS_SUFIX_REQUEST_MANAGER = '/status'
+    COMPUTE_QUOTA_ACTION_REQUEST_MANAGER= '/computes/quota'
+    COMPUTE_ALLOCATION_ACTION_REQUEST_MANAGER= '/computes/allocation'
     ATTACHMENTS_ACTION_REQUEST_MANAGER= '/attachments'
-    IMAGES_ACTION_REQUEST_MANAGER= '/attachments'
+    IMAGES_ACTION_REQUEST_MANAGER= '/images'
 
     ## attrs
     PROVIDING_MEMBER_ORDER_KEY = 'providingMember'
@@ -50,17 +51,24 @@ class FogbowConstants():
     # compute
     VCPU_ORDER_COMPUTE_KEY = 'vCPU'
     MEMORY_ORDER_COMPUTE_KEY = 'memory'
-    NETWORK_ID_ORDER_COMPUTE_KEY = 'networkId'
+    NETWORK_ID_ORDER_COMPUTE_KEY = 'networksId'
     IMAGE_ID_ORDER_COMPUTE_KEY = 'imageId'
     EXTRA_USER_DATA_ORDER_COMPUTE_KEY = 'userData'
     EXTRA_USER_DATA_CONTENT_ORDER_COMPUTE_KEY = 'extraUserDataFileContent'
     EXTRA_USER_DATA_TYPE_ORDER_COMPUTE_KEY = 'extraUserDataFileType'
     PUBLIC_KEY_ORDER_COMPUTE_KEY = 'publicKey'
 
-    #network
+    # network
     GATEWAY_ORDER_NETWORK_KEY = 'gateway'
     ADDRESS_ORDER_COMPUTE_KEY = 'address'
     ALLOCATION_ID_ORDER_COMPUTE_KEY = 'allocation'   
+
+    # federated network
+    LABEL_ORDER_FEDERATED_NETWORK_KEY = "label"
+    CIRD_ORDER_FEDERATED_NETWORK_KEY = "cidrNotation"
+    ALLOWED_MEMBERS_FEDERATED_NETWORK_KEY = "allowedMembers"    
+
+    FED_NET_ID_ORDER_COMPUTE_TO_FEDERATED_NETWORK_KEY = 'federatedNetworkId'
 
     # volume
     SIZE_ORDER_VOLUME_KEY = 'volumeSize'
@@ -74,6 +82,7 @@ class FogbowConstants():
     # membership 
     MEMBERS_ACTION_REQUEST_MERBERSHIP = '/members'
 
+    # TODO remove
     ##
     ## old fogbow
     ##
@@ -136,7 +145,7 @@ class DashboardConstants():
 
 class RequestConstants():
     CONTENT_TYPE_HEADER = 'Content-Type'
-    JSON_APPLIVATION_VALUE_HEADER = 'json/application'
+    JSON_APPLIVATION_VALUE_HEADER = 'application/json'
     ACCEPT_HEADER = 'Accept'
     
     GET_METHOD = 'get'
@@ -145,6 +154,7 @@ class RequestConstants():
 
     OK_STATUS_CODE = 200
     CREATED_STATUS_CODE = 201
+    OK_NO_CONTENT_STATUS_CODE = 204
     BAD_REQUEST_STATUS_CODE = 400
 
 class IdentityPluginConstants():
@@ -252,45 +262,7 @@ def checkUserAuthenticated(token):
         
 # TODO remove old method
 def doRequest(method, endpoint, additionalHeaders, request, hiddenMessage=None):    
-    federationToken = request.user.token.id
-    
-    timeoutPost = settings.TIMEOUT_POST;
-    if timeoutPost is not None:
-        timeoutPost = 15
-    timeoutDelete = settings.TIMEOUT_DELETE;
-    if timeoutDelete is not None:
-        timeoutDelete = 15    
-    timeoutGet = settings.TIMEOUT_GET;
-    if timeoutGet is not None:
-        timeoutGet = 60    
-    
-    headers = {'content-type': 'text/occi', 'X-Auth-Token' : federationToken}    
-    if additionalHeaders is not None:
-        headers.update(additionalHeaders)    
-        
-    responseStr, response = '', None
-    try:
-        if method == 'get':
-            response = requests.get(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers, timeout=timeoutGet)
-        elif method == 'delete':
-            response = requests.delete(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers, timeout=timeoutDelete)
-        elif method == 'post':   
-            response = requests.post(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers, timeout=timeoutPost)
-        responseStr = response.text
-    except Exception as e:
-        print e
-        if hiddenMessage == None:
-            messages.error(request, _('Problem communicating with the Fogbow Manager'))
-    
-    if 'Unauthorized' in responseStr or 'Authentication required.' in responseStr:
-        if hiddenMessage == None:
-            messages.error(request, _('Token unauthorized'))
-        LOG.error(responseStr)
-    elif 'Bad Request' in responseStr:
-        if hiddenMessage == None:
-            messages.error(request, _('Bad request'))
-        LOG.error(responseStr)
-    return response
+    pass
 
 def isResponseOk(responseStr):
     if 'Unauthorized' not in responseStr and 'Bad Request' not in responseStr and 'Authentication required.' not in responseStr and 'NullPointerException' not in responseStr:

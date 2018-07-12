@@ -33,7 +33,7 @@ class IndexView(tables.DataTableView):
         try:
             return NetworkUtil.get_networks(federation_token_value)
         except Exception as e:
-            error_msg = "Is not possible to get computes"
+            error_msg = "Is not possible to get networks"
             error_msg_detail = "Error message: {error_msg}".format(error_msg=str(e))
             LOG.error("{error_msg}{error_msg_detail}".format(error_msg=error_msg, error_msg_detail=error_msg_detail))
             messages.error(self.request, error_msg)
