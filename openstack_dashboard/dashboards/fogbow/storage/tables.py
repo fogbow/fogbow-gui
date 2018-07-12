@@ -59,7 +59,7 @@ class InstancesFilterAction(tables.FilterAction):
 
 class InstancesTable(tables.DataTable):
     volume_id = tables.Column(get_volume_id, link=("horizon:fogbow:storage:detail"),
-                                verbose_name=_("Volume ID"))
+                                verbose_name=_("Volume id"))
 
     state = tables.Column('state', verbose_name=_('State'))
 

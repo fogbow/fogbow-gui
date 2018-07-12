@@ -5,7 +5,7 @@
   <h3>{% trans "Information" %}</h3>
   <hr class="header_rule">
   <dl>
-    <dt>{% trans "Network ID" %}</dt>
+    <dt>{% trans "Network id" %}</dt>
     {{ network.network_id }}
   </dl>
   <dl>
@@ -13,7 +13,7 @@
     {{ network.label }}
   </dl>
   <dl>
-    <dt>{% trans "address" %}</dt>
+    <dt>{% trans "Address (CIDR)" %}</dt>
     {{ network.address }}
   </dl>                
   <dl>
@@ -28,6 +28,10 @@
     <dt>{% trans "MAC Interface" %}</dt>
     {{ network.mac_interface }}
   </dl>                         
+  <dl>
+    <dt>{% trans "State" %}</dt>
+    {{ network.state }}
+  </dl>   
 </div>
 
 </div>

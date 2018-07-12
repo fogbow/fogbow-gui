@@ -5,12 +5,8 @@
   <h3>{% trans "Information" %}</h3>
   <hr class="header_rule">
   <dl>
-    <dt>{% trans "Instance ID" %}</dt>
+    <dt>{% trans "Instance id" %}</dt>
     {{ compute.id }}
-  </dl>
-  <dl>
-    <dt>{% trans "State" %}</dt>
-    {{ compute.state }}
   </dl>
   <dl>
     <dt>{% trans "vCPU" %}</dt>
@@ -21,7 +17,7 @@
     {{ compute.ram }}
   </dl>
   <dl>
-    <dt>{% trans "Local id address" %}</dt>
+    <dt>{% trans "Local ip address" %}</dt>
     {{ compute.local_ip_address }}
   </dl>
   <dl>
@@ -30,7 +26,7 @@
   </dl>
   {% if session.federatedNetworkExtension == True %}
     <dl>
-      <dt>{% trans "Federated ID" %}</dt>
+      <dt>{% trans "Federated ip address" %}</dt>
       {{ compute.federated_ip }}
     </dl>  
   {% endif %} 
@@ -42,4 +38,8 @@
     <dt>{% trans "SHH extra ports" %}</dt>
     {{ compute.ssh_extra_ports }}
   </dl>
+  <dl>
+    <dt>{% trans "State" %}</dt>
+    {{ compute.state }}
+  </dl>  
 </div>

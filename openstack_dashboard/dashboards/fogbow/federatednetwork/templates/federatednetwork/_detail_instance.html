@@ -5,7 +5,7 @@
   <h3>{% trans "Information" %}</h3>
   <hr class="header_rule">
   <dl>
-    <dt>{% trans "Instance ID" %}</dt>
+    <dt>{% trans "Federated network id" %}</dt>
     {{ federatednetwork.id }}
   </dl>
   <dl>
@@ -17,11 +17,11 @@
     {{ federatednetwork.cird }}
   </dl>
   <dl>
-    <dt>{% trans "State" %}</dt>
-    {{ federatednetwork.state }}
-  </dl>  
-  <dl>
     <dt>{% trans "Allowed Members" %}</dt>
     {{ federatednetwork.allowed_members }}
   </dl>
+  <dl>
+    <dt>{% trans "State" %}</dt>
+    {{ federatednetwork.state }}
+  </dl>    
 </div>

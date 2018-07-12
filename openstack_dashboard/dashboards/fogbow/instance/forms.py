@@ -37,7 +37,7 @@ class CreateInstance(forms.SelfHandlingForm):
                           widget=forms.TextInput(),
                           required=False)
     
-    members = forms.ChoiceField(label=_('Members'), help_text=_('Members'), required=False)
+    members = forms.ChoiceField(label=_('Member'), help_text=_('Members'), required=False)
         
     # FIXME.
     image = forms.ChoiceField(label=_('Image'), required=False, help_text=_('Image'))

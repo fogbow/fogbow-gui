@@ -4,18 +4,18 @@
 	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
 		<thead>
 			<tr>
-				<th style="padding: 5px 76px; padding-left:  5px;">Local</th>
+				<th style="padding: 5px 76px; padding-left:  5px; min-width: 160px;">Local</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Instance</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">vCPU</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">RAM</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Volume</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Storage</th>
-				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">FIPs</th>
-				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Networks</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">FIP</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Network</th>
 			</tr>
 		</thead>
 		<tr>
-			<td>Shared Quota</td>
+			<td>Shared quota</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_compute">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_cpu">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_ram">-</td>
@@ -26,7 +26,7 @@
 		</tr>
 		
 		<tr>
-			<td>Available Quota</td>
+			<td>Available quota</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="free_compute">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="free_cpu">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="free_ram">-</td>
@@ -37,7 +37,7 @@
 		</tr>
 		
 		<tr>
-			<td>Quota Used by me</td>
+			<td>Quota used by me</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_compute">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_cpu"></td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="my_ram">-</td>
@@ -51,18 +51,18 @@
 	<table style="margin-bottom: 40px;" class="table table-bordered table-striped datatable">
 		<thead>
 			<tr>
-				<th style="padding: 5px 76px; padding-left:  5px;">Aggregated</th>
+				<th style="padding: 5px 76px; padding-left:  5px; min-width: 160px;">Aggregated</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Instance</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">vCPU</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">RAM</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Volume</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Storage</th>
-				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">FIPs</th>
-				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Networks</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">FIP</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Network</th>
 			</tr>
 		</thead>
 		<tr>
-			<td>Shared Quota</td>
+			<td>Shared quota</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="using_compute">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="using_vCPU">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="using_ram">-</td>
@@ -73,7 +73,7 @@
 		</tr>
 		
 		<tr>
-			<td>Available Quota</td>
+			<td>Available quota</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="available_compute">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="available_vCPU">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="available_ram">-</td>
@@ -84,7 +84,7 @@
 		</tr>
 		
 		<tr>
-			<td>Quota Used by me</td>
+			<td>Quota used by me</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_compute">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_vCPU"></td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="shared_agg_ram">-</td>
@@ -99,7 +99,7 @@
 		<thead>
 			<tr>
 				<th>
-					<select id="member" style="width: 100%">
+					<select id="member" style="min-width: 160px;">
 						<option value="">Choose member</option>
 					</select>
 				</th>
@@ -108,12 +108,12 @@
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">RAM</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Volume</th>
 				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Storage</th>
-				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">FIPs</th>
-				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Networks</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">FIP</th>
+				<th style="padding: 5px 76px; padding-right: 5px; text-align: right;">Network</th>
 			</tr>
 		</thead>
 		<tr>
-			<td>Shared Quota</td>
+			<td>Shared quota</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_shared_instances">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_shared_vCPU">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_shared_ram">-</td>
@@ -124,7 +124,7 @@
 		</tr>
 		
 		<tr>
-			<td>Available Quota</td>
+			<td>Available quota</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_total_instances">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_total_vCPU">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_total_ram">-</td>
@@ -135,7 +135,7 @@
 		</tr>
 		
 		<tr>
-			<td>Quota Used by me</td>
+			<td>Quota used by me</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_his_instances">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_his_vCPU">-</td>
 			<td style="padding: 5px 76px; padding-right: 5px; text-align: right;" id="member_his_ram">-</td>
@@ -225,7 +225,7 @@
 				
 			})
 			.catch(function(error) {
-				alert('Is not possible get quota of the member:' + memberId)
+				alert('Is is not possible to get the quota of member: ' + memberId)
 				console.log(error);
 			});
 
@@ -244,7 +244,7 @@
 				
 			})
 			.catch(function(error) {
-				alert('Is not possible get quota of the member:' + memberId);
+				alert('Is is not possible to get the quota of member: ' + memberId);
 
 				$("#member_shared_instances").text("-");
 				$("#member_shared_vCPU").text("-");
@@ -283,7 +283,7 @@
 				
 			})
 			.catch(function(error) {
-				alert('Is not possible get quota of the member:' + memberId)
+				alert('Is is not possible to get the quota of member: ' + memberId)
 				console.log(error);
 			});
 
@@ -302,7 +302,7 @@
 				
 			})
 			.catch(function(error) {
-				alert('Is not possible get quota of the member:' + memberId);
+				alert('Is is not possible to get the quota of member: ' + memberId);
 
 				$("#shared_compute").text("-");
 				$("#shared_cpu").text("-");
@@ -349,7 +349,7 @@
 				
 			})
 			.catch(function(error) {
-				alert('Is not possible get quota of the member:' + memberId)
+				alert('Is is not possible to get the quota of member: ' + memberId)
 				console.log(error);
 			});
 
