@@ -262,45 +262,7 @@ def checkUserAuthenticated(token):
         
 # TODO remove old method
 def doRequest(method, endpoint, additionalHeaders, request, hiddenMessage=None):    
-    federationToken = request.user.token.id
-    
-    timeoutPost = settings.TIMEOUT_POST;
-    if timeoutPost is not None:
-        timeoutPost = 15
-    timeoutDelete = settings.TIMEOUT_DELETE;
-    if timeoutDelete is not None:
-        timeoutDelete = 15    
-    timeoutGet = settings.TIMEOUT_GET;
-    if timeoutGet is not None:
-        timeoutGet = 60    
-    
-    headers = {'content-type': 'text/occi', 'X-Auth-Token' : federationToken}    
-    if additionalHeaders is not None:
-        headers.update(additionalHeaders)    
-        
-    responseStr, response = '', None
-    try:
-        if method == 'get':
-            response = requests.get(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers, timeout=timeoutGet)
-        elif method == 'delete':
-            response = requests.delete(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers, timeout=timeoutDelete)
-        elif method == 'post':   
-            response = requests.post(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers, timeout=timeoutPost)
-        responseStr = response.text
-    except Exception as e:
-        print e
-        if hiddenMessage == None:
-            messages.error(request, _('Problem communicating with the Fogbow Manager'))
-    
-    if 'Unauthorized' in responseStr or 'Authentication required.' in responseStr:
-        if hiddenMessage == None:
-            messages.error(request, _('Token unauthorized'))
-        LOG.error(responseStr)
-    elif 'Bad Request' in responseStr:
-        if hiddenMessage == None:
-            messages.error(request, _('Bad request'))
-        LOG.error(responseStr)
-    return response
+    pass
 
 def isResponseOk(responseStr):
     if 'Unauthorized' not in responseStr and 'Bad Request' not in responseStr and 'Authentication required.' not in responseStr and 'NullPointerException' not in responseStr:

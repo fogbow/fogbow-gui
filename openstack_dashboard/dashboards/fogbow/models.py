@@ -247,6 +247,7 @@ class ComputeUtil:
             data[FogbowConstants.FED_NET_ID_ORDER_COMPUTE_TO_FEDERATED_NETWORK_KEY] = federated_network_id
 
         json_data = json.dumps(data)        
+        LOG.info(json_data)
 
         # TODO to use contants
         extra_headers = {"Content-Type": "application/json"}
@@ -419,8 +420,7 @@ class AttachmentUtil:
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)      
 
-        response_json = response.text
-        LOG.info(response_json)
+        response_json = response.text        
 
         return AttachmentUtil.__get_attachment_from_json(response_json)        
 
@@ -523,19 +523,4 @@ class RequestUtil:
             raise Exception(msg)
             
         return response    
-           
-# TODO check if is necessary. Old code
-def doRequest(method, endpoint, additionalHeaders):
-    token = settings.MY_TOKEN    
-    headers = {'content-type': 'text/occi', 'X-Auth-Token' : token}
-    if additionalHeaders is not None:
-        headers.update(additionalHeaders)    
         
-    if method == 'get': 
-        response = requests.get(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers)
-    elif method == 'delete':
-        response = requests.delete(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers)
-    elif method == 'post':        
-        response = requests.post(settings.FOGBOW_MANAGER_ENDPOINT + endpoint, headers=headers)
-    
-    return response

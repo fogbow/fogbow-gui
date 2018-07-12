@@ -9,9 +9,6 @@ TEMPLATE_DEBUG = DEBUG
 
 ## -------------------------- FOGBOW CONFIGURATION -------------------------- ##
 
-# Endpoint Manager (Deprecated)
-FOGBOW_MANAGER_ENDPOINT = 'http://localhost:8182' # Mandatory
-
 # Endpoint Manager
 FOGBOW_MANAGER_CORE_ENDPOINT = 'http://localhost:8181' # Mandatory
 FOGBOW_MANAGER_CORE_XMPP_JID= 'manager.lsd.ufcg.br' Mandatory
@@ -24,8 +21,10 @@ FEDERATED_NETWORK_EXTENSION = False # Mandatory
 # Types : ldap
 FOGBOW_FEDERATION_AUTH_TYPE = '' # Mandatory
 FOGBOW_FEDERATION_AUTH_ENDPOINT = ''
-# ps: Read the fogbow-cli documentation.
-FOGBOW_AUTHENTICATION_CONF_PATH = '$path_to_config'
+# Fogbow-cli configuration path  
+# PS: Read the fogbow-cli documentation. 
+FOGBOW_AUTHENTICATION_CONF_PATH = 
+# example : '{home}/fogbow-dashboard-core/openstack_dashboard/local/auth_conf_example' 
 
 # custom_theme 
 # customization of style

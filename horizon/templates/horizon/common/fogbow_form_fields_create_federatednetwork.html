@@ -31,3 +31,14 @@
     </div>
   </div>
 {% endfor %}
+
+<script src="../static/dashboard/js/jquery-1.12.0.min.js"></script> 
+<script type="text/javascript">
+(function() {
+
+	$(document).ready(function() {
+    $(".control-group:has([for='id_members_0']) li").css("height", "25px");
+  });
+	
+})();
+</script>
