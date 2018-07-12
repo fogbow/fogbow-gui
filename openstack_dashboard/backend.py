@@ -54,11 +54,15 @@ class FogbowBackend(object):
             tokenInfo = json.loads(getTokenInfoUser(federationToken, settings.FOGBOW_FEDERATION_AUTH_TYPE, federationEndpoint))
             username = tokenInfo.get('attributes').get('user-name')
             userId = tokenInfo.get('id')
-            LOG.info('%s : %s ' % username, userId)
-        except Exception, e: 
-	        LOG.error(str(e))
-        
-        user = User(username, federationToken, userId, username, {})        
+            LOG.info('%s : %s ' % (username, userId))
+        except Exception as e:
+            LOG.error('Error while get token information: {error}'.format(error=str(e)))
+            wrong_user = User()
+            wrong_user.errors = True
+            wrong_user.typeError = 'Invalid credentials'
+            return wrong_user
+
+        user = User(username, federationToken, userId, username, {})
     
         try:            
             LOG.info('Checking user authenticated')
@@ -68,11 +72,9 @@ class FogbowBackend(object):
                 user.typeError = fogbow_models.getErrorMessage(settings.FOGBOW_FEDERATION_AUTH_TYPE)   
                 if fogbow_models.IdentityPluginConstants.AUTH_NAF == settings.FOGBOW_FEDERATION_AUTH_TYPE:
                     return HttpResponse('Unauthorized', status=401)
-        except Exception, e: 
+        except Exception: 
             user.errors = True
             user.typeError = 'Manager connection failed'
-
-        LOG.error('Valid federation token value') 
 
         request.user = user
         federation_token_id = uuid.uuid4()         
