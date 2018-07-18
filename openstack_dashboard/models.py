@@ -185,6 +185,7 @@ class User(models.AnonymousUser):
     typeError = ''
     type = 'fogbow_user'
     authorized_tenants = {}
+    manager_xmpp_jid = settings.FOGBOW_MANAGER_CORE_XMPP_JID
     
     def __init__(self, id=None, token=None, userId=None, username=None, roles=None):
         self.id = id

@@ -63,4 +63,4 @@ class CreateInstance(forms.SelfHandlingForm):
         except Exception as e:
             LOG.error(str(e))
             redirect = reverse("horizon:fogbow:federatednetwork:index")
-            exceptions.handle(request, _('Unable to create orders.'), redirect=redirect)        
+            exceptions.handle(request, _('Unable to create federated network.'), redirect=redirect)        

@@ -49,7 +49,7 @@
 	}
   
   </style>
-  <span>Logged in as: <b class="p"> {{ request.user.id }} <span class="p"> ID : {{ request.user.userId }}</span> </b></span>
+  <span>Logged in <b class="p"> {{ request.user.manager_xmpp_jid }} </b> as: <b class="p"> {{ request.user.id }} <span class="p"> ID : {{ request.user.userId }}</span> </b></span>
   <a href="{% url 'horizon:settings:user:index' %}">{% trans "Settings" %}</a>
   {% if HORIZON_CONFIG.help_url %}
   <a href="{{ HORIZON_CONFIG.help_url }}" target="_new">{% trans "Help" %}</a>
