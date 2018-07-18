@@ -362,9 +362,9 @@
 				res.json().then(body => {
 					body_json = JSON.parse(body);
 
-					aggregatedUsedByMeRam = parseInt(body_json.instances);
-					aggregatedUsedByMeVCPU = parseInt(body_json.vCPU);
-					aggregatedUsedByMeInstance = parseInt(body_json.ram);
+					aggregatedUsedByMeRam += parseInt(body_json.ram);
+					aggregatedUsedByMeVCPU += parseInt(body_json.vCPU);
+					aggregatedUsedByMeInstance += parseInt(body_json.instances);
 
 					$("#shared_agg_compute").text(aggregatedUsedByMeInstance);
 					$("#shared_agg_vCPU").text(aggregatedUsedByMeVCPU);
