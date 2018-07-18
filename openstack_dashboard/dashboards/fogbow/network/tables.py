@@ -61,6 +61,8 @@ class InstancesTable(tables.DataTable):
     instanceId = tables.Column(get_network_id, link=("horizon:fogbow:network:detail"),
                                 verbose_name=_("Network id"))
 
+    provider = tables.Column('provider', verbose_name=_('Provider'))
+
     state = tables.Column('state', verbose_name=_('State'))
 
     class Meta:
