@@ -300,9 +300,10 @@ class ComputeUtil:
             # TODO to use contants
             id = compute.get('instanceId', '-')
             state = compute.get('state', '-')
+            provider = compute.get('provider', '-')
 
             # TODO to use contants
-            computes.append(Compute({"id" :id, "compute_id": id, "state": state }))
+            computes.append(Compute({"id" :id, "compute_id": id, "state": state, "provider": provider }))
         return computes        
 
 
