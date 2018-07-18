@@ -131,9 +131,9 @@ class CreateInstance(forms.SelfHandlingForm):
 
             ComputeUtil.create_compute(vcpu, memory, member, image_id, network_id, extra_user_data, extra_user_data_type, public_key, federated_network_id, federation_token_value)
 
-            messages.success(request, _('Orders created'))            
+            messages.success(request, _('Compute created'))            
             return shortcuts.redirect(reverse("horizon:fogbow:instance:index"))         
         except Exception as e:
             LOG.error(str(e))
             redirect = reverse("horizon:fogbow:instance:index")
-            exceptions.handle(request, _('Unable to create orders.'), redirect=redirect)         
+            exceptions.handle(request, _('Unable to create computes.'), redirect=redirect)         

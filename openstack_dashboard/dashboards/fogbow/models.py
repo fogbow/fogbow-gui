@@ -196,10 +196,9 @@ class NetworkUtil:
         networks = []
 
         data = json.loads(response_json)
-
         for network in data:
             networks.append(Network({'id': network.get('instanceId', '-'), 
-            'network_id': network.get('instanceId', '-'), 'state': network.get('state', '-')}))
+            'network_id': network.get('instanceId', '-'), 'state': network.get('state', '-'), 'provider': network.get('provider', '-')}))
 
         return networks
         
@@ -300,9 +299,10 @@ class ComputeUtil:
             # TODO to use contants
             id = compute.get('instanceId', '-')
             state = compute.get('state', '-')
+            provider = compute.get('provider', '-')
 
             # TODO to use contants
-            computes.append(Compute({"id" :id, "compute_id": id, "state": state }))
+            computes.append(Compute({"id" :id, "compute_id": id, "state": state, "provider": provider }))
         return computes        
 
 
@@ -358,7 +358,7 @@ class VolumeUtil:
         id = volume.get('id', '-')
         state = volume.get('state', '-')
         name = volume.get('name', '-')
-        size = volume.get('size', '-')
+        size = volume.get('size', '-')        
 
         # TODO to use contants
         return {"id" :id, "volume_id": id, "state": state, "name": name, "size": size}
@@ -372,9 +372,10 @@ class VolumeUtil:
             # TODO to use contants
             id = volume.get('instanceId', '-')
             state = volume.get('state', '-')
+            provider = volume.get('provider', '-')            
 
             # TODO to use contants
-            volumes.append(Volume({"id" :id, "volume_id": id, "state": state}))
+            volumes.append(Volume({"id" :id, "volume_id": id, "state": state, "provider": provider}))
 
         return volumes
 
@@ -432,8 +433,10 @@ class AttachmentUtil:
             # TODO to use contants
             id = attachment.get('instanceId', '-')
             state = attachment.get('state', '-')
+            provider = attachment.get('provider', '-')     
+
             # TODO to use contants
-            attachments.append(Attachment({"id" :id, "attachment_id": id, "state": state}))
+            attachments.append(Attachment({"id" :id, "attachment_id": id, "state": state, "provider": provider}))
 
         return attachments    
 

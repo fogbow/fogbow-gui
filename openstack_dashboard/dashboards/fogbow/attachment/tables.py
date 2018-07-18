@@ -60,6 +60,8 @@ class InstancesTable(tables.DataTable):
     
     attachmentId = tables.Column(get_attachment_id, link=("horizon:fogbow:attachment:detail"), verbose_name=_("Attachment id"))
     
+    provider = tables.Column('provider', verbose_name=_('Provider'))
+
     state = tables.Column('state', verbose_name=_('State'))
 
     class Meta:

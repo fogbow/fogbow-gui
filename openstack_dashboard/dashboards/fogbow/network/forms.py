@@ -34,7 +34,7 @@ class CreateNetwork(forms.SelfHandlingForm):
 
     allocation = forms.ChoiceField(label=_('Allocation'), help_text=_('Allocation'), required=False)  
 
-    members = forms.ChoiceField(label=_('Members'), help_text=_('Members'), required=False)
+    members = forms.ChoiceField(label=_('Member'), help_text=_('Member'), required=False)
 
     def __init__(self, request, *args, **kwargs):
         super(CreateNetwork, self).__init__(request, *args, **kwargs)
