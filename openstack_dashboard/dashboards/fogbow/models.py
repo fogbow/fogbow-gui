@@ -34,6 +34,8 @@ class MemberUtil:
         for member in json_data:
             members.append((member, member))
             
+        members = sorted(members)
+
         return members
 
 class QuotaUtil:
@@ -460,7 +462,6 @@ class ImageUtil:
         
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, FogbowConstants.IMAGES_ACTION_REQUEST_MANAGER, federation_token_value, extra_headers=extra_headers)
         RequestUtil.check_success_request(response)
-
         return response
 
 class RequestUtil:
