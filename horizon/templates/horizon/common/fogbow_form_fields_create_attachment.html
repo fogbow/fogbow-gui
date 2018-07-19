@@ -34,26 +34,99 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function() {
-		hideOptionsByComputeIdSufix();
-	});
+  (function(){	
+
+    $(document).ready(function() {
+      let member = $("#id_members").val()
+      hiddenFields(member);
+    });    
+
+    function hiddenComputeFields(member) {
+      let url = window.location.origin.concat('/fogbow/attachment', '/computes')
+      fetch(url, { method: 'GET', credentials: 'include'})
+			.then(res => {        
+				if (!res.ok) {
+					throw Error(response.statusText);
+				}
+        
+				res.text().then(body => {    
+					let body_json_str = JSON.parse(body);
+          let body_json = JSON.parse(body_json_str);
+          body_json.forEach(element => {
+            if (element.provider == member) {
+              $("option:contains(" + element.instanceId + ")").show();
+            } else {
+              $("option:contains(" + element.instanceId + ")").hide();
+            }
+          });          
+				})
+				
+			})
+			.catch(function(error) {
+				alert('Is is not possible to get the computes: ' + memberId)
+				console.log(error);
+			});
+    }
+
+    function hiddenVolumeFields(member) {
+      let url = window.location.origin.concat('/fogbow/attachment', '/volumes')
+      fetch(url, { method: 'GET', credentials: 'include'})
+			.then(res => {        
+				if (!res.ok) {
+					throw Error(response.statusText);
+				}
+        
+				res.text().then(body => {    
+					let body_json_str = JSON.parse(body);
+          let body_json = JSON.parse(body_json_str);
+          body_json.forEach(element => {
+            if (element.provider == member) {
+              $("option:contains(" + element.instanceId + ")").show();
+            } else {
+              $("option:contains(" + element.instanceId + ")").hide();
+            }
+          });          
+				})
+				
+			})
+			.catch(function(error) {
+				alert('Is is not possible to get the volumes: ' + memberId)
+				console.log(error);
+			});
+    }
+
+    function hiddenFields(member) {
+      hiddenComputeFields(member)
+      hiddenVolumeFields(member);
+    }
+
+    $('#id_members').change(function () {
+      let member = $("#id_members").val();
+      hiddenFields(member)
+    });
+
+  })();
+
+	// $(document).ready(function() {
+	// 	hideOptionsByComputeIdSufix();
+	// });
 	
-	$('#id_compute').change(function () {
-		hideOptionsByComputeIdSufix();
-	});
+	// $('#id_compute').change(function () {
+	// 	hideOptionsByComputeIdSufix();
+	// });
 	
-	function hideOptionsByComputeIdSufix() {
-		var computeId = $('#id_compute').val().trim();
-		console.log(computeId);
-		if (computeId == '') {
-			$("#id_storage option").hide();
-		} else {
-			$("#id_storage option").hide();
-			var computeIdSplit = computeId.split("@");
-			if (computeIdSplit.length >= 1) {
-				$("#id_storage option[value*='" + computeIdSplit[1] + "']").show();
-			}
-		}
-	}
+	// function hideOptionsByComputeIdSufix() {
+	// 	var computeId = $('#id_compute').val().trim();
+	// 	console.log(computeId);
+	// 	if (computeId == '') {
+	// 		$("#id_storage option").hide();
+	// 	} else {
+	// 		$("#id_storage option").hide();
+	// 		var computeIdSplit = computeId.split("@");
+	// 		if (computeIdSplit.length >= 1) {
+	// 			$("#id_storage option[value*='" + computeIdSplit[1] + "']").show();
+	// 		}
+	// 	}
+	// }
 	
 </script>

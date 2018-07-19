@@ -22,13 +22,16 @@ from openstack_dashboard.dashboards.fogbow.storage.views import IndexView as sto
 from openstack_dashboard.dashboards.fogbow.models import AttachmentUtil
 from openstack_dashboard.dashboards.fogbow.models import VolumeUtil
 from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
+from openstack_dashboard.dashboards.fogbow.models import MemberUtil
 
 LOG = logging.getLogger(__name__)
 
 class CreateAttachment(forms.SelfHandlingForm):
     
     success_url = reverse_lazy("horizon:fogbow:attachment:index")
-        
+
+    members = forms.ChoiceField(label=_('Member'), help_text=_('Members'), required=False)
+
     compute = forms.ChoiceField(label=_('Compute'),
                                help_text=_('Compute'),
                                required=True)
@@ -42,8 +45,13 @@ class CreateAttachment(forms.SelfHandlingForm):
         super(CreateAttachment, self).__init__(request, *args, **kwargs)
         federation_token_value = request.user.token.id
 
+        members_choices = []
+        members_choices.extend(MemberUtil.get_members(federation_token_value))
+        self.fields['members'].choices = members_choices
+
         volumes_choices = []
         volumes = VolumeUtil.get_volumes(federation_token_value)
+        volumes_choices.append(("", ""))
         for volume in volumes:
             if volume.state == 'READY':
                 volumes_choices.append((volume.id, volume.id))
@@ -52,6 +60,7 @@ class CreateAttachment(forms.SelfHandlingForm):
         
         computes_choices = []
         computes = ComputeUtil.get_computes(federation_token_value)
+        computes_choices.append(("", ""))
         for compute in computes:
             if compute.state == 'READY':
                 computes_choices.append((compute.id, compute.id))

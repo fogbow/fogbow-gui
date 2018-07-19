@@ -6,5 +6,7 @@ from openstack_dashboard.dashboards.fogbow.attachment import views
 urlpatterns = patterns('',
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^create/$', views.CreateView.as_view(), name='create'),
-    url(r'^(?P<attachment_id>[^/]+)/details$', views.DetailViewAttachment.as_view(), name='detail')
+    url(r'^(?P<attachment_id>[^/]+)/details$', views.DetailViewAttachment.as_view(), name='detail'),
+    url(r'^computes/$', views.get_computes, name='computes'),
+    url(r'^volumes/$', views.get_volumes, name='volumes')
 )

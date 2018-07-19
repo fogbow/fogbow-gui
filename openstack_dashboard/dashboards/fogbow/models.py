@@ -207,13 +207,18 @@ class NetworkUtil:
 class ComputeUtil:
 
     @staticmethod
-    def get_computes(federation_token_value):
+    def get_computes_json_response(federation_token_value):
         endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.COMPUTES_ACTION_REQUEST_MANAGER, status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
-        response_json = response.text
+        return response.text        
+
+    @staticmethod
+    def get_computes(federation_token_value):
+        response_json = ComputeUtil.get_computes_json_response(federation_token_value)
         return ComputeUtil.__get_compute_ids_from_json(response_json)
+
 
     @staticmethod
     def delete_compute(compute_id, federation_token_value):
@@ -311,13 +316,18 @@ class ComputeUtil:
 class VolumeUtil:
 
     @staticmethod
-    def get_volumes(federation_token_value):
+    def get_volumes_json_response(federation_token_value):
         LOG.debug("Gettings volumes")
         endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, \
                      status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
         response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
-        response_json = response.text        
+        return response.text        
+        return VolumeUtil.__get_volumes_from_json(response_json)
+    
+    @staticmethod
+    def get_volumes(federation_token_value):
+        response_json = VolumeUtil.get_volumes_json_response(federation_token_value)
         return VolumeUtil.__get_volumes_from_json(response_json)
 
     @staticmethod

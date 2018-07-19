@@ -1,5 +1,7 @@
 import logging
+import json
 
+from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy 
 from horizon import views
 from django.utils.translation import ugettext_lazy as _
@@ -18,6 +20,8 @@ import openstack_dashboard.models as fogbow_models
 from openstack_dashboard.dashboards.fogbow.attachment.forms import CreateAttachment
 from openstack_dashboard.dashboards.fogbow.attachment.models import Attachment
 from openstack_dashboard.dashboards.fogbow.models import AttachmentUtil
+from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
+from openstack_dashboard.dashboards.fogbow.models import VolumeUtil
 
 LOG = logging.getLogger(__name__)
 
@@ -40,6 +44,18 @@ class IndexView(tables.DataTableView):
             LOG.error(error_msg)
             messages.error(self.request, error_msg)
             return {}        
+
+def get_computes(request):
+    federation_token_value = request.user.token.id
+    computes_json_response = ComputeUtil.get_computes_json_response(federation_token_value)
+    json_response = json.dumps(computes_json_response)
+    return HttpResponse(json_response)
+
+def get_volumes(request):
+    federation_token_value = request.user.token.id
+    volumes_json_response = VolumeUtil.get_volumes_json_response(federation_token_value)
+    json_response = json.dumps(volumes_json_response)
+    return HttpResponse(json_response)    
 
 class DetailViewAttachment(tabs.TabView):
     tab_group_class = project_tabs.AttachmentDetailTabGroupInstancePanel
