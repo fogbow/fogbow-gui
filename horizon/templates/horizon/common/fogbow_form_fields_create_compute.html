@@ -46,6 +46,7 @@
 	
 	$(document).ready(function() {
     setValueOnImages();
+    setValueOnNetworks();
 
     let federatedNetworkExtension = $('#federation-network-extension').text()
     console.log(federatedNetworkExtension);
@@ -86,9 +87,47 @@
         console.error('There has been a problem with your fetch operation: ' + error.message);
       });
 	};
+
+  function setValueOnNetworks() {
+    var memberId = $('#id_members').val();
+    var netowrkIdEl = $('#id_network_id');
+
+      let url = window.location.origin.concat('/fogbow/instance', '/networks')
+      fetch(url, { method: 'GET', credentials: 'include'})
+			.then(res => { 
+        try {
+          if (!res.ok) {
+            throw Error(response.statusText);
+          }
+        
+          res.text().then(body => { 
+            netowrkIdEl.find('option').remove();
+            netowrkIdEl.append($('<option>', { text: "Choose a network" }));
+
+            let body_json_str = JSON.parse(body);
+            let body_json = JSON.parse(body_json_str);
+            
+            body_json.forEach(element => {
+              if (element.provider == memberId) {
+                netowrkIdEl.append($("<option>", { text: element.instanceId }));
+              }
+            });          
+          })
+        } catch (err) {
+          console.error('There has been a problem with fill images: ' + error.message);
+          netowrkIdEl.find('option').remove();
+        }
+			})
+			.catch(function(error) {
+				alert('Is is not possible to get the computes: ' + memberId);
+        netowrkIdEl.find('option').remove();
+				console.log(error);
+			});
+  };
 	
 	$('#id_members').change(function() {
 		setValueOnImages();
+    setValueOnNetworks();
 	});
 
   $('#id_image').change(function() {

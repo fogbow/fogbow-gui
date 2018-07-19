@@ -132,6 +132,16 @@ class FederatedNetworkUtil:
 class NetworkUtil:
 
     @staticmethod
+    def get_networks_json_response(federation_token_value):
+        LOG.debug("Gettings networks")
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, \
+                     status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        return response.text
+
+    @staticmethod
     def get_networks(federation_token_value):
         LOG.debug("Gettings networks")
         endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, \
