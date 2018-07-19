@@ -67,9 +67,11 @@
           res.json().then(body => {          
             imageIdEl.find('option').remove();
 
-            imageIdEl.append($('<option>', { text: "Choose an image" , value: DEFAULT_VALUE, name: "" }));            
-            for(let key in body) {              
-              imageIdEl.append($('<option>', { text: body[key] , value: DEFAULT_VALUE, name: key }));            
+            imageIdEl.append($('<option>', { text: "Choose an image" , value: DEFAULT_VALUE, name: "" }));
+            
+            var ordered_images = Object.values(body).sort();
+            for(let i in ordered_images) {
+              imageIdEl.append($('<option>', { text: ordered_images[i] , value: DEFAULT_VALUE, name: "" }));            
             }
           })
         } catch(err) {
