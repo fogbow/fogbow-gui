@@ -132,6 +132,16 @@ class FederatedNetworkUtil:
 class NetworkUtil:
 
     @staticmethod
+    def get_networks_json_response(federation_token_value):
+        LOG.debug("Gettings networks")
+        endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, \
+                     status_sufix=FogbowConstants.STATUS_SUFIX_REQUEST_MANAGER)
+        response = RequestUtil.do_request_manager(RequestConstants.GET_METHOD, endpoint, federation_token_value)
+        RequestUtil.check_success_request(response)
+
+        return response.text
+
+    @staticmethod
     def get_networks(federation_token_value):
         LOG.debug("Gettings networks")
         endpoint = "{action_request_manager}{status_sufix}".format(action_request_manager=FogbowConstants.NETWORKS_ACTION_REQUEST_MANAGER, \
@@ -339,12 +349,13 @@ class VolumeUtil:
 
     # TODO use object in attrs
     @staticmethod
-    def create_volume(size, member, federation_token_value):
+    def create_volume(size, name, member, federation_token_value):
         LOG.debug("Trying to create volume")
 
         data = {}
         data[FogbowConstants.SIZE_ORDER_VOLUME_KEY] = size
         data[FogbowConstants.PROVIDING_MEMBER_ORDER_KEY] = member
+        data[FogbowConstants.NAME_ORDER_VOLUME_KEY] = name
         json_data = json.dumps(data)
 
         response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.VOLUMES_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)
@@ -411,15 +422,15 @@ class AttachmentUtil:
         response = RequestUtil.do_request_manager(RequestConstants.DELETE_METHOD, endpoint, federation_token_value)
         RequestUtil.check_success_request(response)
 
-    # TODO use object in attrs
     @staticmethod
-    def create_attachment(target, source, federation_token_value):
+    def create_attachment(target, source, member, federation_token_value):
         LOG.debug("Trying to create attachment")
 
         data = {}
         data[FogbowConstants.DEVICE_ORDER_ATTACHMENT] = ""
         data[FogbowConstants.TARGET_ORDER_ATTACHMENT] = target
         data[FogbowConstants.SOURCE_ORDER_ATTACHMENT] = source
+        data[FogbowConstants.PROVIDING_MEMBER_ORDER_KEY] = member
         json_data = json.dumps(data)
 
         response = RequestUtil.do_request_manager(RequestConstants.POST_METHOD, FogbowConstants.ATTACHMENTS_ACTION_REQUEST_MANAGER, federation_token_value, json_data=json_data)

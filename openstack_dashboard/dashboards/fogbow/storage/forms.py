@@ -29,8 +29,10 @@ class CreateStorage(forms.SelfHandlingForm):
     
     size = forms.CharField(label=_('Volume size (in GB)'), initial=1,
                           widget=forms.TextInput(),
-                          required=False)
-    
+                          required=True)
+
+    name = forms.CharField(label=_('Name'), widget=forms.TextInput(), required=False)                          
+                              
     members = forms.ChoiceField(label=_('Members'), help_text=_('Members'), required=False)
         
     def __init__(self, request, *args, **kwargs):
@@ -48,8 +50,9 @@ class CreateStorage(forms.SelfHandlingForm):
         try:
             size = data['size']
             member = data['members']
+            name = data['name']
 
-            VolumeUtil.create_volume(size, member, federation_token_value)
+            VolumeUtil.create_volume(size, name, member, federation_token_value)
 
             messages.success(request, _('Volume created'))
             return shortcuts.redirect(reverse("horizon:fogbow:storage:index"))    

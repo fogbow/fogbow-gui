@@ -6,7 +6,7 @@ FOGBOW_CLI_JAVA_COMMAND = 'java -cp fogbow-cli-core-0.0.1-SNAPSHOT-jar-with-depe
 
 def checkUserAuthenticated(token, type):
     command = '%s check-token --conf-path %s --type %s --federation-token-value %s ' % (
-        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, type, token.id)
+        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_FILES_DIR, type, token.id)
     
     responseStr = commands.getoutput(command) 
  

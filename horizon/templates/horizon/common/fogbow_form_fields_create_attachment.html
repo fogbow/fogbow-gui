@@ -38,37 +38,49 @@
 
     $(document).ready(function() {
       let member = $("#id_members").val()
-      hiddenFields(member);
+      showResourcesFields(member);
     });    
 
-    function hiddenComputeFields(member) {
+    function showComputeFields(member) {
+      var imageIdEl = $('#id_compute');
+
       let url = window.location.origin.concat('/fogbow/attachment', '/computes')
       fetch(url, { method: 'GET', credentials: 'include'})
-			.then(res => {        
-				if (!res.ok) {
-					throw Error(response.statusText);
-				}
+			.then(res => { 
+        try {
+          if (!res.ok) {
+            throw Error(response.statusText);
+          }
         
-				res.text().then(body => {    
-					let body_json_str = JSON.parse(body);
-          let body_json = JSON.parse(body_json_str);
-          body_json.forEach(element => {
-            if (element.provider == member) {
-              $("option:contains(" + element.instanceId + ")").show();
-            } else {
-              $("option:contains(" + element.instanceId + ")").hide();
-            }
-          });          
-				})
-				
+          res.text().then(body => { 
+            let body_json_str = JSON.parse(body);
+            let body_json = JSON.parse(body_json_str);
+            
+            body_json.forEach(element => {
+              if (element.provider == member) {
+                $("option:contains(" + element.instanceId + ")").show();
+              } else {
+                let el = $("option:contains(" + element.instanceId + ")")
+                el.hide();
+                el.prop('selected', false);                
+              }
+            });          
+          })
+        } catch (err) {
+          console.error('There has been a problem with fill images: ' + error.message);
+          imageIdEl.find('option').remove();
+        }
 			})
 			.catch(function(error) {
-				alert('Is is not possible to get the computes: ' + memberId)
+				alert('Is is not possible to get the computes: ' + memberId);
+        imageIdEl.find('option').remove();
 				console.log(error);
 			});
     }
 
-    function hiddenVolumeFields(member) {
+    function showVolumeFields(member) {
+      var imageIdEl = $('#id_volume');
+
       let url = window.location.origin.concat('/fogbow/attachment', '/volumes')
       fetch(url, { method: 'GET', credentials: 'include'})
 			.then(res => {        
@@ -76,57 +88,38 @@
 					throw Error(response.statusText);
 				}
         
-				res.text().then(body => {    
+				res.text().then(body => {
 					let body_json_str = JSON.parse(body);
           let body_json = JSON.parse(body_json_str);
+
           body_json.forEach(element => {
             if (element.provider == member) {
               $("option:contains(" + element.instanceId + ")").show();
             } else {
-              $("option:contains(" + element.instanceId + ")").hide();
+              let el = $("option:contains(" + element.instanceId + ")")
+              el.hide();
+              el.prop('selected', false);                
             }
           });          
 				})
-				
 			})
 			.catch(function(error) {
-				alert('Is is not possible to get the volumes: ' + memberId)
+				alert('Is is not possible to get the volumes: ' + memberId);
+        imageIdEl.find('option').remove();
 				console.log(error);
 			});
     }
 
-    function hiddenFields(member) {
-      hiddenComputeFields(member)
-      hiddenVolumeFields(member);
+    function showResourcesFields(member) {
+      showComputeFields(member)
+      showVolumeFields(member);
     }
 
     $('#id_members').change(function () {
       let member = $("#id_members").val();
-      hiddenFields(member)
+      showResourcesFields(member)
     });
 
   })();
-
-	// $(document).ready(function() {
-	// 	hideOptionsByComputeIdSufix();
-	// });
-	
-	// $('#id_compute').change(function () {
-	// 	hideOptionsByComputeIdSufix();
-	// });
-	
-	// function hideOptionsByComputeIdSufix() {
-	// 	var computeId = $('#id_compute').val().trim();
-	// 	console.log(computeId);
-	// 	if (computeId == '') {
-	// 		$("#id_storage option").hide();
-	// 	} else {
-	// 		$("#id_storage option").hide();
-	// 		var computeIdSplit = computeId.split("@");
-	// 		if (computeIdSplit.length >= 1) {
-	// 			$("#id_storage option[value*='" + computeIdSplit[1] + "']").show();
-	// 		}
-	// 	}
-	// }
-	
+  
 </script>

@@ -106,7 +106,7 @@ def getToken(credentials, type):
         credentialsStr += '-D%s=%s ' % (key, credentials[key])
 
     command = '%s token --create --conf-path %s %s --type %s' % (
-        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, credentialsStr, type)
+        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_FILES_DIR, credentialsStr, type)
 
     responseStr = commands.getoutput(command)
   
@@ -117,7 +117,7 @@ def getToken(credentials, type):
 
 def checkUserAuthenticated(token, type):
     command = '%s check-token --conf-path %s --type %s --federation-token-value %s ' % (
-        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, type, token.id)
+        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_FILES_DIR, type, token.id)
     
     responseStr = commands.getoutput(command) 
  
@@ -127,7 +127,7 @@ def checkUserAuthenticated(token, type):
 
 def getTokenInfoUser(token, type, endpoint):
     command = '%s user --get-user --conf-path %s --type %s --federation-token-value %s' % (
-        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_PATH, type, token.id)
+        FOGBOW_CLI_JAVA_COMMAND, settings.FOGBOW_AUTHENTICATION_CONF_FILES_DIR, type, token.id)
     
     responseStr = commands.getoutput(command) 
     
