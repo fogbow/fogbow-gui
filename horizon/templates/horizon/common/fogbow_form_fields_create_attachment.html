@@ -53,15 +53,16 @@
           }
         
           res.text().then(body => { 
-            imageIdEl.find('option').remove();
-            imageIdEl.append($('<option>', { text: "Choose a compute" }));
-
             let body_json_str = JSON.parse(body);
             let body_json = JSON.parse(body_json_str);
             
             body_json.forEach(element => {
               if (element.provider == member) {
-                imageIdEl.append($("<option>", { text: element.instanceId }));
+                $("option:contains(" + element.instanceId + ")").show();
+              } else {
+                let el = $("option:contains(" + element.instanceId + ")")
+                el.hide();
+                el.prop('selected', false);                
               }
             });          
           })
@@ -88,15 +89,16 @@
 				}
         
 				res.text().then(body => {
-          imageIdEl.find('option').remove();
-          imageIdEl.append($('<option>', { text: "Choose a volume" }));
-
 					let body_json_str = JSON.parse(body);
           let body_json = JSON.parse(body_json_str);
 
           body_json.forEach(element => {
             if (element.provider == member) {
-              imageIdEl.append($("<option>", { text: element.instanceId }));
+              $("option:contains(" + element.instanceId + ")").show();
+            } else {
+              let el = $("option:contains(" + element.instanceId + ")")
+              el.hide();
+              el.prop('selected', false);                
             }
           });          
 				})

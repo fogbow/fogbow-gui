@@ -84,7 +84,7 @@ class CreateInstance(forms.SelfHandlingForm):
         self.fields['data_user_type'].choices = dataUserTypeChoices
         
         networks_choices = []
-        networks_choices.append(('', 'Default'))   
+        networks_choices.append(('', 'Choose a network'))   
         networks = NetworkUtil.get_networks(federation_token_value)
         for network in networks:
             networks_choices.append((network.id, network.id))
@@ -94,7 +94,7 @@ class CreateInstance(forms.SelfHandlingForm):
         if settings.FEDERATED_NETWORK_EXTENSION:
             LOG.debug("Filling federated network field")
             federated_networks_choices = []     
-            federated_networks_choices.append(('', ''))       
+            federated_networks_choices.append(('', 'Choose a federated network'))       
             try:
                 federated_networks = FederatedNetworkUtil.get_federated_networks(federation_token_value)
                 for federated_network in federated_networks:
