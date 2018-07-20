@@ -86,13 +86,14 @@
           })
         } catch(err) {
           console.error('There has been a problem with fill images: ' + error.message);
-          imageIdEl.find('option').remove();
+          imageIdEl.find('option').remove();                 
         }
         
       })
       .catch(function(error) {
         alert("Is not possible get images referring of the member: " + memberId);
         imageIdEl.find('option').remove();
+        imageIdEl.append($('<option>', { text: "Choose an image" , value: DEFAULT_VALUE, name: DEFAULT_VALUE , imageid: DEFAULT_VALUE}));           
         console.error('There has been a problem with your fetch operation: ' + error.message);
       });
 	};

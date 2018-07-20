@@ -51,7 +51,7 @@ class CreateAttachment(forms.SelfHandlingForm):
 
         volumes_choices = []
         volumes = VolumeUtil.get_volumes(federation_token_value)
-        volumes_choices.append(("", ""))
+        volumes_choices.append(("", "Choose a volume"))
         for volume in volumes:
             if volume.state == 'READY':
                 volumes_choices.append((volume.id, volume.id))
@@ -60,7 +60,7 @@ class CreateAttachment(forms.SelfHandlingForm):
         
         computes_choices = []
         computes = ComputeUtil.get_computes(federation_token_value)
-        computes_choices.append(("", ""))
+        computes_choices.append(("", "Choose a compute"))
         for compute in computes:
             if compute.state == 'READY':
                 computes_choices.append((compute.id, compute.id))
@@ -72,8 +72,9 @@ class CreateAttachment(forms.SelfHandlingForm):
         try:
             target = data['volume']
             source = data['compute']
+            member = data['members']
 
-            AttachmentUtil.create_attachment(target, source, federation_token_value)
+            AttachmentUtil.create_attachment(target, source, member, federation_token_value)
             
             messages.success(request, _('Attachment created'))            
             return shortcuts.redirect(reverse("horizon:fogbow:attachment:index"))    

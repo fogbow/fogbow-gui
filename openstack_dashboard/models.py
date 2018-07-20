@@ -72,6 +72,7 @@ class FogbowConstants():
 
     # volume
     SIZE_ORDER_VOLUME_KEY = 'volumeSize'
+    NAME_ORDER_VOLUME_KEY = 'volumeName'
 
     # attachment 
     # TODO put _KEY in the end of the constants
@@ -129,14 +130,14 @@ class FogbowConstants():
     FOGBOW_TYPE_TERM = 'org.fogbowcloud.order.type'
     FOGBOW_RESOURCE_KIND_TERM = 'org.fogbowcloud.order.resource-kind'
     FOGBOW_INSTANCE_ID_TERM = 'org.fogbowcloud.order.instance-id' 
-    
-    NETWORK_VLAN = "occi.network.vlan=";
-    NETWORK_LABEL = "occi.network.label=";
-    NETWORK_STATE = "occi.network.state=";
-    NETWORK_ADDRESS = "occi.network.address=";
-    NETWORK_GATEWAY = "occi.network.gateway=";
-    NETWORK_ALLOCATION = "occi.network.allocation=";
-    NETWORK_ID = "org.fogbowcloud.order.network-id";  
+
+    NETWORK_VLAN = "occi.network.vlan="
+    NETWORK_LABEL = "occi.network.label="
+    NETWORK_STATE = "occi.network.state="
+    NETWORK_ADDRESS = "occi.network.address="
+    NETWORK_GATEWAY = "occi.network.gateway="
+    NETWORK_ALLOCATION = "occi.network.allocation="
+    NETWORK_ID = "org.fogbowcloud.order.network-id"
 
 class DashboardConstants():
     DEFAULT_GET_TIMEOUT = 60
