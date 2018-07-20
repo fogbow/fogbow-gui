@@ -20,6 +20,7 @@ from openstack_dashboard.dashboards.fogbow.instance.models import Compute
 import openstack_dashboard.models as fogbow_models
 from openstack_dashboard.dashboards.fogbow.models import ComputeUtil
 from openstack_dashboard.dashboards.fogbow.models import ImageUtil
+from openstack_dashboard.dashboards.fogbow.models import NetworkUtil
 
 LOG = logging.getLogger(__name__)
 
@@ -57,3 +58,10 @@ def getImages(request, member_id):
     federation_token_value = request.user.token.id
     response = ImageUtil.get_images_response(member_id, federation_token_value)
     return HttpResponse(response.text.encode('ascii'))
+
+def getNetworks(request):
+    federation_token_value = request.user.token.id
+    network_json_response = NetworkUtil.get_networks_json_response(federation_token_value)
+
+    json_response = json.dumps(network_json_response)
+    return HttpResponse(json_response)

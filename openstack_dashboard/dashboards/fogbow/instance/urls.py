@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     url(r'^create/$', views.CreateView.as_view(), name='create'),
     url(r'^(?P<instance_id>[^/]+)/details$', views.DetailViewInstance.as_view(), name='detail'),
     # TODO review this. is it the correct location ?
-    url(r'^(?P<member_id>.*)/images$', views.getImages, name='images'), 
+    url(r'^(?P<member_id>.*)/images$', views.getImages, name='images'),
+    url(r'^networks/$', views.getNetworks, name='networks')
 )

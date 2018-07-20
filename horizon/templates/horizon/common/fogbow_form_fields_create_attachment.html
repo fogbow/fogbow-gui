@@ -46,24 +46,30 @@
 
       let url = window.location.origin.concat('/fogbow/attachment', '/computes')
       fetch(url, { method: 'GET', credentials: 'include'})
-			.then(res => {        
-				if (!res.ok) {
-					throw Error(response.statusText);
-				}
+			.then(res => { 
+        try {
+          if (!res.ok) {
+            throw Error(response.statusText);
+          }
         
-				res.text().then(body => { 
+          res.text().then(body => { 
+            let body_json_str = JSON.parse(body);
+            let body_json = JSON.parse(body_json_str);
+            
+            body_json.forEach(element => {
+              if (element.provider == member) {
+                $("option:contains(" + element.instanceId + ")").show();
+              } else {
+                let el = $("option:contains(" + element.instanceId + ")")
+                el.hide();
+                el.prop('selected', false);                
+              }
+            });          
+          })
+        } catch (err) {
+          console.error('There has been a problem with fill images: ' + error.message);
           imageIdEl.find('option').remove();
-          imageIdEl.append($('<option>', { text: "Choose a compute" }));
-
-					let body_json_str = JSON.parse(body);
-          let body_json = JSON.parse(body_json_str);
-          
-          body_json.forEach(element => {
-            if (element.provider == member) {
-              imageIdEl.append($("<option>", { text: element.instanceId }));
-            }
-          });          
-				})
+        }
 			})
 			.catch(function(error) {
 				alert('Is is not possible to get the computes: ' + memberId);
@@ -83,15 +89,16 @@
 				}
         
 				res.text().then(body => {
-          imageIdEl.find('option').remove();
-          imageIdEl.append($('<option>', { text: "Choose a volume" }));
-
 					let body_json_str = JSON.parse(body);
           let body_json = JSON.parse(body_json_str);
 
           body_json.forEach(element => {
             if (element.provider == member) {
-              imageIdEl.append($("<option>", { text: element.instanceId }));
+              $("option:contains(" + element.instanceId + ")").show();
+            } else {
+              let el = $("option:contains(" + element.instanceId + ")")
+              el.hide();
+              el.prop('selected', false);                
             }
           });          
 				})
