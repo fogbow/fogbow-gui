@@ -25,10 +25,10 @@ WORKDIR /root
 
 # Installing Dashboard
 RUN \
-  git clone https://github.com/fogbow/fogbow-dashboard-core.git
+  git clone https://github.com/fogbow/fogbow-gui.git
 
 # Define working directory.
-WORKDIR /root/fogbow-dashboard-core
+WORKDIR /root/fogbow-gui
 
 RUN \
   yes | ./run_tests.sh
