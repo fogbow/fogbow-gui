@@ -30,7 +30,7 @@ class CreateInstance(forms.SelfHandlingForm):
                           widget=forms.TextInput(),
                           required=False)
 
-    cird = forms.CharField(label=_('CIRD'), initial='188.140.0.0/24',
+    cird = forms.CharField(label=_('CIDR'), initial='188.140.0.0/24',
                           widget=forms.TextInput(),
                           required=True)
 
