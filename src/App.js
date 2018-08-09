@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux'
+
+import LoginPage from './pages/LoginPage';
 
 class App extends Component {
   render() {
@@ -9,6 +11,7 @@ class App extends Component {
           <BrowserRouter>
             <main>
               <Switch>
+                <Route exact path="/" component={LoginPage} />
               </Switch>
           </main>
         </BrowserRouter>
