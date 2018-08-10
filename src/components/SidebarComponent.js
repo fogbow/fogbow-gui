@@ -1,8 +1,43 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 
 import '../styles/sidebar.css';
 
+const tabs = [
+    { text: 'Members', link: 'members'    , selected: true},
+    { text: 'Orders', link: 'members'     , selected: false},
+    { text: 'Instances', link: 'members'  , selected: false},
+    { text: 'Volumes', link: 'members'    , selected: false},
+    { text: 'Networks', link: 'members'   , selected: false},
+    { text: 'Attachments', link: 'members', selected: false},
+    { text: 'Overview', link: 'members'   , selected: false}
+];
+
 class SidebarComponent extends Component {
+    static contextTypes = {
+        router: PropTypes.object
+    }
+    constructor(props, context) {
+        super(props, context);
+        this.state = { tabs };
+    }
+
+
+    goto = (link) => {
+        this.context.router.history.push('/fogbow/'.concat(link));
+    };
+
+    renderItens = () => {
+        return tabs.map(tab => {
+            return(
+                <li key={tab.text} onClick={() => this.goto(tab.link)}>
+                    {tab.text}
+                </li>
+            ) 
+        });
+    };
+
+
     render() {
         return (
             <div className="sidebar">
@@ -13,15 +48,8 @@ class SidebarComponent extends Component {
 
                 <div className="links">
                     <p>User Panel</p>
-                    <ul Style="list-style-type: none">
-                        <li><a>Members</a></li>
-                        <li><a>Orders</a></li>
-                        <li><a>Instances</a></li>
-                        <li><a>Volumes</a></li>
-                        <li><a>Networks</a></li>
-                        <li><a>Attachments</a></li>
-                        <li><a>Usage</a></li>
-                        <li><a>Overview</a></li>
+                    <ul style={{listStyleType: 'none'}}>
+                        {this.renderItens()}
                     </ul>
                 </div>
             </div>
