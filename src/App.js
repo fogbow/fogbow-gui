@@ -3,7 +3,8 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 import LoginPage from './pages/LoginPage';
-import MembersPage from './pages/MembersPage';
+import QuotaPage from './pages/QuotaPage';
+import DashboardPage from './pages/DashboardPage';
 
 class App extends Component {
   render() {
@@ -13,7 +14,8 @@ class App extends Component {
             <main>
               <Switch>
                 <Route exact path="/" component={LoginPage} />
-                <Route exact path="/quota" component={MembersPage} />
+                <Route exact path="/quota" component={QuotaPage} />
+                <Route exact path="/fogbow" component={DashboardPage} />
               </Switch>
             </main>
         </BrowserRouter>

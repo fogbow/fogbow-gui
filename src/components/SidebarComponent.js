@@ -1,35 +1,35 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
 
 import '../styles/sidebar.css';
 
 const tabs = [
-    { text: 'Quota', link: '/quota'    , selected: true},
-    { text: 'Computes', link: 'members'     , selected: false},
-    { text: 'Volumes', link: 'members'    , selected: false},
-    { text: 'Networks', link: 'members'   , selected: false},
-    { text: 'Federated Networks', link: 'members'  , selected: false},
-    { text: 'Attachments', link: 'members', selected: false},
+    { text: 'Quota', value: 'quota'},
+    { text: 'Computes', value: 'computes'},
+    { text: 'Volumes', value: 'volumes'},
+    { text: 'Networks', value: 'networks'},
+    { text: 'Federated Networks', value: 'fednets'},
+    { text: 'Attachments', value: 'attachments'},
 ];
 
 class SidebarComponent extends Component {
-    static contextTypes = {
-        router: PropTypes.object
-    }
-    constructor(props, context) {
-        super(props, context);
-        this.state = { tabs };
+    constructor(props) {
+        super(props);
+        this.state = { 
+            tabs: tabs,
+            content: ''
+        };
     }
 
-
-    goto = (link) => {
-        this.context.router.history.push(link);
+    setContent = (tab) => {
+        this.setState({
+            content: this.props.goto(tab)
+        });
     };
 
     renderItens = () => {
         return tabs.map(tab => {
             return(
-                <li key={tab.text} onClick={() => this.goto(tab.link)}>
+                <li key={tab.text} onClick={() => this.setContent(tab.value)}>
                     {tab.text}
                 </li>
             ) 
@@ -39,17 +39,22 @@ class SidebarComponent extends Component {
 
     render() {
         return (
-            <div className="sidebar">
-                <img className="image" src={require("../assets/logo_fogbow_transparent.png")} alt="Fogbow"></img>
+            <div className="row">
+                <div className="sidebar col col-lg-2">
+                    <img className="image" src={require("../assets/logo_fogbow_transparent.png")} alt="Fogbow"></img>
 
-                <p className="federation-label">Federation</p>
-                <hr className="horizontal-line"/>
+                    <p className="federation-label">Federation</p>
+                    <hr className="horizontal-line"/>
 
-                <div className="links">
-                    <p>User Panel</p>
-                    <ul style={{listStyleType: 'none'}}>
-                        {this.renderItens()}
-                    </ul>
+                    <div className="links">
+                        <p>User Panel</p>
+                        <ul style={{listStyleType: 'none'}}>
+                            {this.renderItens()}
+                        </ul>
+                    </div>
+                </div>
+                <div className="col">
+                    {this.state.content}
                 </div>
             </div>
         );
