@@ -24,10 +24,17 @@
 
 .sidebar hr {
     border-top: 1px solid #ccc;
-    padding-bottom: 30px;
     margin-top: 0px;
 }
 
 .sidebar .links {
     padding-left: 10px;
+}
+
+.links p {
+    margin-bottom: 5px;
+}
+
+.links li {
+    padding: 8px 0px;
 }

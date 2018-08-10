@@ -15,7 +15,7 @@ class App extends Component {
                 <Route exact path="/" component={LoginPage} />
                 <Route exact path="/fogbow/members" component={MembersPage} />
               </Switch>
-          </main>
+            </main>
         </BrowserRouter>
       </div>
     );
