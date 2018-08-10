@@ -26,7 +26,7 @@ class LoginPage extends Component {
 
         let { history } = this.props;
 
-        history.push('/fogbow/members');
+        history.push('/quota');
     };
 
     render() {

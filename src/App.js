@@ -13,7 +13,7 @@ class App extends Component {
             <main>
               <Switch>
                 <Route exact path="/" component={LoginPage} />
-                <Route exact path="/fogbow/members" component={MembersPage} />
+                <Route exact path="/quota" component={MembersPage} />
               </Switch>
             </main>
         </BrowserRouter>

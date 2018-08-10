@@ -4,13 +4,12 @@ import PropTypes from "prop-types";
 import '../styles/sidebar.css';
 
 const tabs = [
-    { text: 'Members', link: 'members'    , selected: true},
-    { text: 'Orders', link: 'members'     , selected: false},
-    { text: 'Instances', link: 'members'  , selected: false},
+    { text: 'Quota', link: '/quota'    , selected: true},
+    { text: 'Computes', link: 'members'     , selected: false},
     { text: 'Volumes', link: 'members'    , selected: false},
     { text: 'Networks', link: 'members'   , selected: false},
+    { text: 'Federated Networks', link: 'members'  , selected: false},
     { text: 'Attachments', link: 'members', selected: false},
-    { text: 'Overview', link: 'members'   , selected: false}
 ];
 
 class SidebarComponent extends Component {
@@ -24,7 +23,7 @@ class SidebarComponent extends Component {
 
 
     goto = (link) => {
-        this.context.router.history.push('/fogbow/'.concat(link));
+        this.context.router.history.push(link);
     };
 
     renderItens = () => {
