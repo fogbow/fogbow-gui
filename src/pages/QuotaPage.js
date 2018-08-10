@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 
-class QuotaPage extends Component {
-    
+import QuotaTable from '../components/QuotaTable';
+
+class QuotaPage extends Component {    
     render() {
         return (
-            <p>opa quota</p>
+            <div>
+                <QuotaTable label="Local"/>
+                <QuotaTable label="Aggregated"/>
+            </div>
         );
     }
 }
