@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 import LoginPage from './pages/LoginPage';
-import QuotaPage from './pages/QuotaPage';
 import DashboardPage from './pages/DashboardPage';
 
 class App extends Component {
@@ -14,7 +13,6 @@ class App extends Component {
             <main>
               <Switch>
                 <Route exact path="/" component={LoginPage} />
-                <Route exact path="/quota" component={QuotaPage} />
                 <Route exact path="/fogbow" component={DashboardPage} />
               </Switch>
             </main>
