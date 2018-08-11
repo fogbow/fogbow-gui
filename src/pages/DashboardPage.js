@@ -19,7 +19,7 @@ class DashboardComponent extends Component {
     render() {
         return (
             <div>
-                <SidebarComponent goto={this.goto}/>
+                <SidebarComponent goto={this.goto} defaultView={<QuotaPage/>}/>
             </div>
         );
     }
