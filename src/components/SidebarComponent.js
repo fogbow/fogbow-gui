@@ -16,7 +16,7 @@ class SidebarComponent extends Component {
         super(props);
         this.state = { 
             tabs: tabs,
-            content: ''
+            content: props.defaultView
         };
     }
 
