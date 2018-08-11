@@ -25,12 +25,32 @@ class QuotaTable extends Component {
         }
     }
 
+    getFirstLabel = () => {
+        let label = this.props.label;
+        let vendors = this.props.vendors;
+        if (label) {
+            return <th key={label}>{label}</th>
+        } else {
+            return(
+                <th>
+                    <select value='' onChange={this.props.vendorChange}>
+                        { vendors.map(vendor => <option key={vendor} value={vendor}>{vendor}</option>) }
+                    </select>
+                </th>
+            );
+                
+        }
+    };
+
     getHeaders = () => {
         let columns = this.state.columns.map(col => col.label);
 
-        return [this.props.label]
-            .concat(columns)
-            .map(header => <th key={header}>{header}</th>);
+        return (
+            <tr>
+                {this.getFirstLabel()}
+                {columns.map(header => <th key={header}>{header}</th>)}
+            </tr>
+        );
     };
 
     
@@ -41,13 +61,13 @@ class QuotaTable extends Component {
             return(
                 <tr key={row.label}>
                     <td key={row.label}>{row.label}</td>
-                    {this.getCells(row.label, data[row.key])}
+                    {this.getCells(data[row.key])}
                 </tr>
             );
         });
     };
 
-    getCells = (label, row) => {
+    getCells = (row) => {
         let cells = this.state.columns.map(col => col.key);
         return cells.map((key, index) => {
             return row[key] ? 
@@ -58,18 +78,14 @@ class QuotaTable extends Component {
 
     render() {
         return (
-            <div>
-                <table className="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            {this.getHeaders()}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.getRolls()}
-                    </tbody>
-                </table>
-            </div>
+            <table className="table table-striped table-bordered table-hover">
+                <thead>
+                    {this.getHeaders()}
+                </thead>
+                <tbody>
+                    {this.getRolls()}
+                </tbody>
+            </table>
         );
     }
 }
