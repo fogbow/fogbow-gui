@@ -34,7 +34,7 @@ class QuotaTable extends Component {
             return(
                 <th>
                     <select value='' onChange={this.props.vendorChange}>
-                        { vendors.map(vendor => <option key={vendor} value={vendor}>{vendor}</option>) }
+                        { vendors.map((vendor, idx) => <option key={idx} value={vendor}>{vendor}</option>) }
                     </select>
                 </th>
             );
