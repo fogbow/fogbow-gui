@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import TopMenu from '../components/TopMenu';
 import SidebarComponent from '../components/SidebarComponent';
 
 import QuotaPage from './QuotaPage';
@@ -10,20 +11,29 @@ class DashboardComponent extends Component {
     goto = (tab) => {
         switch (tab) {
             case 'quota':
-                return <QuotaPage/>;
+                return this.getPageContent(<QuotaPage/>);
             
             case 'computes':
-                return <ComputesPage/>
+                return this.getPageContent(<ComputesPage/>);
         
             default:
                 break;
         }        
     };
 
+    getPageContent = (tab) => {
+        return(
+            <div>
+                <TopMenu /> 
+                { tab }
+            </div>
+        );
+    }
+
     render() {
         return (
             <div>
-                <SidebarComponent goto={this.goto} defaultView={<QuotaPage/>}/>
+                <SidebarComponent goto={this.goto} defaultView={this.getPageContent(<QuotaPage/>)}/>
             </div>
         );
     }
