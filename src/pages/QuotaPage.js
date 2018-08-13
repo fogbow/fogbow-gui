@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import QuotaTable from '../components/QuotaTable';
+import { getMembers } from '../actions/members.actions';
 
 const mockData = { 
     totalQuota: { 
@@ -28,6 +30,15 @@ class QuotaPage extends Component {
             selectedUserQuota: mockData
         };
     }
+
+    componentDidMount = () => {
+        this.getVendors();
+    };
+
+    getVendors = () => {
+        const { dispatch } = this.props;
+        dispatch(getMembers());
+    }
     
 
     vendorChange = (event) => {
@@ -36,16 +47,24 @@ class QuotaPage extends Component {
     };
 
     render() {
+        let memberQuota = this.props.members.loading ?
+                            <QuotaTable vendors={this.props.members.data} 
+                                vendorChange={this.vendorChange} 
+                                data={this.state.selectedUserQuota}/> :
+                            undefined;
+
         return (
             <div>
                 <QuotaTable label="Local" data={this.state.quota}/>
                 <QuotaTable label="Aggregated" data={this.state.quota}/>
-                <QuotaTable vendors={['naf1', 'naf2']} 
-                    vendorChange={this.vendorChange} 
-                    data={this.state.selectedUserQuota}/>
+                {memberQuota}
             </div>
         );
     }
 }
 
-export default QuotaPage;
+const stateToProps = state => ({
+    members: state.members
+});
+
+export default connect(stateToProps)(QuotaPage);
