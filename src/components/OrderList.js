@@ -30,7 +30,7 @@ class OrderList extends Component {
         return this.props.orders
             .map(order => {
                 return(
-                    <OrderComponent key={order.id} id={order.id}/>
+                    <OrderComponent key={order.id} order={order}/>
                 );
             });
     };
