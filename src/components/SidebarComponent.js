@@ -53,7 +53,7 @@ class SidebarComponent extends Component {
                         </ul>
                     </div>
                 </div>
-                <div className="col">
+                <div className="col content">
                     {this.state.content}
                 </div>
             </div>
