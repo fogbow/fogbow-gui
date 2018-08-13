@@ -3,9 +3,12 @@ import React, { Component } from 'react';
 class OrderComponent extends Component {
     render() {
         return (
-            <div>
-                
-            </div>
+            <tr>
+                <td>Test Content</td>
+                <td>Test Content</td>
+                <td>Test Content</td>
+                <td>Test Content</td>
+            </tr>
         );
     }
 }
