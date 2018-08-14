@@ -32,14 +32,9 @@ class QuotaPage extends Component {
     }
 
     componentDidMount = () => {
-        this.getVendors();
-    };
-
-    getVendors = () => {
         const { dispatch } = this.props;
         dispatch(getMembers());
-    }
-    
+    };
 
     vendorChange = (event) => {
         event.preventDefault();
