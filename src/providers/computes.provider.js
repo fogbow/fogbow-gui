@@ -3,7 +3,7 @@ import { env } from '../defaults/api.config';
 
 const config = {
     headers: {
-        federationTokenValue: env.managerToken
+        'federationTokenValue': env.managerToken
     }
 };
 
@@ -11,7 +11,7 @@ class ComputesProvider {
     url = env.manager.concat('/computes');
 
     get() {
-        return axios.get(this.url, config);
+        return axios.get(this.url.concat('/status'), config);
     }
 }
 
