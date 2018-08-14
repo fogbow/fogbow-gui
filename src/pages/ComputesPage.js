@@ -18,6 +18,9 @@ class ComputesPage extends Component {
         };
     }
     
+    componentDidMount = () => {
+        
+    };
 
     render() {
         return (
