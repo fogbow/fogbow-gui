@@ -21,9 +21,23 @@ class QuotaTable extends Component {
         super(props);
         this.state = {
             rows,
-            columns
+            columns,
+            vendor: ''
         }
     }
+
+    handleChange = (event) => {
+        let { name, value } = event.target;
+        
+        this.setState({
+            [name]: value
+        });
+    };
+
+    vendorChange = (event) => {
+        this.handleChange(event);
+        this.props.vendorChange(event);
+    };
 
     getFirstLabel = () => {
         let label = this.props.label;
@@ -33,7 +47,8 @@ class QuotaTable extends Component {
         } else {
             return(
                 <th>
-                    <select value='' onChange={this.props.vendorChange}>
+                    <select value={this.state.vendor} onChange={this.vendorChange} name='vendor'>
+                        <option value=''></option>
                         { vendors.map((vendor, idx) => <option key={idx} value={vendor}>{vendor}</option>) }
                     </select>
                 </th>
