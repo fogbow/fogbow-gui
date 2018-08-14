@@ -43,13 +43,12 @@ class QuotaPage extends Component {
 
     vendorChange = (event) => {
         event.preventDefault();
-        // TODO: Here we will get data.
     };
 
     render() {
         let memberQuota = this.props.members.loading ?
-                            <QuotaTable vendors={this.props.members.data} 
-                                vendorChange={this.vendorChange} 
+                            <QuotaTable vendors={this.props.members.data}
+                                vendorChange={this.vendorChange}
                                 data={this.state.selectedUserQuota}/> :
                             undefined;
 
