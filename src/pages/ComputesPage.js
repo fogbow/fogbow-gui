@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import OrderList from '../components/OrderList';
 
@@ -29,4 +30,4 @@ class ComputesPage extends Component {
     }
 }
 
-export default ComputesPage;
+export default connect()(ComputesPage);
