@@ -42,7 +42,7 @@ class OrderList extends Component {
                     {this.getHeaders()}
                 </thead>
                 <tbody>
-                    {this.getLines()}
+                    {this.getLines() || undefined }
                 </tbody>
             </table>
         );
