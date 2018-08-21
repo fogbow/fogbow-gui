@@ -5,6 +5,7 @@ import SidebarComponent from '../components/SidebarComponent';
 
 import QuotaPage from './QuotaPage';
 import ComputesPage from './ComputesPage';
+import VolumesPage from './VolumesPage';
 
 class DashboardComponent extends Component {
 
@@ -15,6 +16,9 @@ class DashboardComponent extends Component {
             
             case 'computes':
                 return this.getPageContent(<ComputesPage/>);
+            
+            case 'volumes':
+                return this.getPageContent(<VolumesPage/>);
         
             default:
                 break;
