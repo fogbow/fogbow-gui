@@ -7,6 +7,7 @@ import QuotaPage from './QuotaPage';
 import ComputesPage from './ComputesPage';
 import VolumesPage from './VolumesPage';
 import NetworksPage from './NetworksPage';
+import AttachmentsPage from './AttachmentsPage';
 
 class DashboardComponent extends Component {
 
@@ -23,6 +24,9 @@ class DashboardComponent extends Component {
 
             case 'networks':
                 return this.getPageContent(<NetworksPage/>);
+            
+            case 'attachments':
+                return this.getPageContent(<AttachmentsPage/>);
         
             default:
                 break;
