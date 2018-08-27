@@ -62,7 +62,27 @@ class OrderList extends Component {
                             <input value={this.state.orderName} type="search" onChange={this.handleChange} name="orderName"
                                 placeholder="Search" className="form-control mr-sm-2 my-2"/>
 
-                            <button className="btn btn-btn-dark my-2 my-sm-0">Create</button>
+                            <button type="button" className="btn btn-btn-dark my-2 my-sm-0" data-toggle="modal" data-target="#form">Create</button>
+
+                            <div className="modal fade" id="form" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div className="modal-dialog" role="document">
+                                <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div className="modal-body">
+                                    ...
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" className="btn btn-primary">Save changes</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
                         </form>
                     </div>
                 </nav>
