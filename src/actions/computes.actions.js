@@ -18,3 +18,21 @@ export const getComputes = () => {
         });
     };
 };
+
+export const getImages = () => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: computesActionsTypes.GET_IMAGES_REQUEST});
+            const success = (images) => ({ type: computesActionsTypes.GET_IMAGES_SUCCESS, images });
+            const failure = (error) => ({ type: computesActionsTypes.GET_IMAGES_FAILURE, error });
+
+            dispatch(request());
+
+            ComputesProvider.getImages().then(
+                images => resolve(dispatch(success(images.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
