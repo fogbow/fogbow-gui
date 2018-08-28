@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import OrderList from '../components/OrderList';
+import ComputeForm from '../components/ComputeForm';
 import { getComputes } from '../actions/computes.actions';
 
 class ComputesPage extends Component {
@@ -20,7 +21,7 @@ class ComputesPage extends Component {
 
     render() {
         return (
-            <OrderList orders={this.computes}/>
+            <OrderList orders={this.computes} form={<ComputeForm/>}/>
         );
     }
 }
