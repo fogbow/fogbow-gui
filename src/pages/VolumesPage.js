@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import OrderList from '../components/OrderList';
 import { getVolumes } from '../actions/volumes.actions';
+import VolumeForm from '../components/VolumeForm';
 
 
 class VolumesPage extends Component {
@@ -21,7 +22,7 @@ class VolumesPage extends Component {
 
     render() {
         return (
-            <OrderList orders={this.volumes}/>
+            <OrderList orders={this.volumes} form={<VolumeForm/>}/>
         );
     }
 }
