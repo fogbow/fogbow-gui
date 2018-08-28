@@ -65,7 +65,9 @@ class OrderList extends Component {
 
                             <button type="button" className="btn btn-btn-dark my-2 my-sm-0" data-toggle="modal" data-target="#form">Create</button>
 
-                            <ComputeForm/>
+                            <div>
+                                {this.props.form}
+                            </div>
                         </form>
                     </div>
                 </nav>
