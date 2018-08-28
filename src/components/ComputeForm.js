@@ -2,8 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getImages } from '../actions/computes.actions';
+import { getNetworks } from '../actions/networks.actions';
 
 import '../styles/order-form.css';
+
+const scriptTypes = [
+    'text/x-shellscript',
+    'text/x-include-url',
+    'text/upstart-job',
+    'text/cloud-config',
+    'text/cloud-boothook'    
+];
 
 class ComputeForm extends Component {
     constructor(props) {
@@ -16,7 +25,12 @@ class ComputeForm extends Component {
 
     componentDidMount = () => {
         let { dispatch } = this.props;
-        dispatch(getImages());
+        if(! this.props.images.loading) {
+            dispatch(getImages());
+        }
+        if(! this.props.networks.loading) {
+            dispatch(getNetworks());
+        }
     };
 
     render() {
@@ -48,15 +62,19 @@ class ComputeForm extends Component {
                             <option value=''></option>
                             {
                                 this.props.images.loading ?
-                                this.props.images.data.map((member, idx) => <option key={idx} value={member}>{member}</option>):
+                                this.props.images.data.map((image, idx) => <option key={idx} value={image}>{image}</option>):
                                 undefined
                             }
                         </select>
 
                         <label>Network id</label>
-                        <select value={this.props.members} name='member' className="form-control">
+                        <select value={this.state.network} name='member' className="form-control">
                             <option value=''></option>
-                            { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
+                            { 
+                                this.props.networks.loading ?
+                                this.props.networks.data.map((network, idx) => <option key={idx} value={network}>{network}</option>):
+                                undefined
+                            }
                         </select>
 
                         <label>Federated network id</label>
@@ -69,9 +87,9 @@ class ComputeForm extends Component {
                         <input type="file" className="form-control"/>
 
                         <label>Extra user data file type</label>
-                        <select value={this.props.members} name='member' className="form-control">
+                        <select value={this.state.scriptType} name='member' className="form-control">
                             <option value=''></option>
-                            { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
+                            { scriptTypes.map((type, idx) => <option key={idx} value={type}>{type}</option>) }
                         </select>
 
                         <label>Public key</label>
@@ -90,7 +108,8 @@ class ComputeForm extends Component {
 
 const stateToProps = state => ({
     members: state.members,
-    images: state.images
+    images: state.images,
+    networks: state.networks
 });
 
 export default connect(stateToProps)(ComputeForm);
