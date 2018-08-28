@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { getImages } from '../actions/computes.actions';
+
 import '../styles/order-form.css';
 
 class ComputeForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            member: '',
+            image: ''
+        };
+    }
+
+    componentDidMount = () => {
+        let { dispatch } = this.props;
+        dispatch(getImages());
+    };
+
     render() {
         return (
             <div className="modal fade" id="form" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -23,15 +38,19 @@ class ComputeForm extends Component {
                         <input className="form-control" type="text"/>
 
                         <label>Member</label>
-                        <select value={this.props.members} name='member' className="form-control">
+                        <select value={this.state.member} name='member' className="form-control">
                             <option value=''></option>
                             { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
                         </select>
 
                         <label>Image</label>
-                        <select value={this.props.members} name='member' className="form-control">
+                        <select value={this.state.image} name='member' className="form-control">
                             <option value=''></option>
-                            { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
+                            {
+                                this.props.images.loading ?
+                                this.props.images.data.map((member, idx) => <option key={idx} value={member}>{member}</option>):
+                                undefined
+                            }
                         </select>
 
                         <label>Network id</label>
@@ -70,7 +89,8 @@ class ComputeForm extends Component {
 }
 
 const stateToProps = state => ({
-    members: state.members
+    members: state.members,
+    images: state.images
 });
 
 export default connect(stateToProps)(ComputeForm);

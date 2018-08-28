@@ -9,9 +9,14 @@ const config = {
 
 class ComputesProvider {
     url = env.manager.concat('/computes');
+    imagesUrl = env.manager.concat('/images');
 
     get() {
         return axios.get(this.url.concat('/status'), config);
+    }
+
+    getImages() {
+        return axios.get(this.imagesUrl, config);
     }
 }
 
