@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import QuotaTable from '../components/QuotaTable';
-import { getMembers } from '../actions/members.actions';
+import { getMembers, getMemberData } from '../actions/members.actions';
 
 const mockData = { 
     totalQuota: { 
@@ -38,6 +38,11 @@ class QuotaPage extends Component {
 
     vendorChange = (event) => {
         event.preventDefault();
+        const { dispatch } = this.props;
+        let id = event.target.value;
+
+        //TODO: check if this id is already fetched.
+        dispatch(getMemberData(id));
     };
 
     render() {
@@ -58,7 +63,8 @@ class QuotaPage extends Component {
 }
 
 const stateToProps = state => ({
-    members: state.members
+    members: state.members,
+    quota: state.quota
 });
 
 export default connect(stateToProps)(QuotaPage);
