@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import OrderList from '../components/OrderList';
 import { getAttachments } from '../actions/attachments.actions';
+import AttachmentForm from '../components/AttachmentForm';
 
 class AttachmentsPage extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class AttachmentsPage extends Component {
 
     render() {
         return (
-            <OrderList orders={this.attachments}/>
+            <OrderList orders={this.attachments} form={<AttachmentForm/>}  />
         );
     }
 }
