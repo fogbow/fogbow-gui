@@ -8,6 +8,7 @@ import ComputesPage from './ComputesPage';
 import VolumesPage from './VolumesPage';
 import NetworksPage from './NetworksPage';
 import AttachmentsPage from './AttachmentsPage';
+import FederetedNetworksPage from './FederetedNetworksPage';
 
 class DashboardComponent extends Component {
 
@@ -27,6 +28,9 @@ class DashboardComponent extends Component {
             
             case 'attachments':
                 return this.getPageContent(<AttachmentsPage/>);
+            
+            case 'fednets':
+                return this.getPageContent(<FederetedNetworksPage/>);
         
             default:
                 break;

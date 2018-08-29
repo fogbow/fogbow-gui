@@ -18,6 +18,8 @@ class OrderList extends Component {
     
 
     getHeaders = () => {
+        this.state.headers = this.props.disableProvider ?
+            headers.filter(h => h !== 'Provider'): headers;
         return(
             <tr>
                 {this.state.headers
@@ -41,7 +43,7 @@ class OrderList extends Component {
         return this.props.orders
             .map(order => {
                 return(
-                    <OrderComponent key={order.instanceId} order={order}/>
+                    <OrderComponent key={order.instanceId} order={order} disableProvider={this.props.disableProvider}/>
                 );
             });
     };
