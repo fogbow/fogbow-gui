@@ -62,7 +62,7 @@ class ComputeForm extends Component {
                             <option value=''></option>
                             {
                                 this.props.images.loading ?
-                                this.props.images.data.map((image, idx) => <option key={idx} value={image}>{image}</option>):
+                                Object.values(this.props.images.data).map((image, idx) => <option key={idx} value={image}>{image}</option>):
                                 undefined
                             }
                         </select>

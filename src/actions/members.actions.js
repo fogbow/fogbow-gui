@@ -18,3 +18,21 @@ export const getMembers = () => {
         });
     };
 };
+
+export const getMemberData = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: membersActionsTypes.GET_MEMBER_DATA_REQUEST});
+            const success = (quota) => ({ type: membersActionsTypes.GET_MEMBER_DATA_SUCCESS, quota, id });
+            const failure = (error) => ({ type: membersActionsTypes.GET_MEMBER_DATA_FAILURE, error });
+
+            dispatch(request());
+
+            MembersProvider.getQuota(id).then(
+                quota => resolve(dispatch(success(quota.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
