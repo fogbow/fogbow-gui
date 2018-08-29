@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import OrderList from '../components/OrderList';
 import { getNetworks } from '../actions/networks.actions';
+import FederatedNetworksForm from '../components/FederatedNetworksForm';
 
 class FederetedNetworksPage extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class FederetedNetworksPage extends Component {
 
     render() {
         return (
-            <OrderList orders={this.networks} disableProvider={true}/>
+            <OrderList orders={this.networks} disableProvider={true} form={<FederatedNetworksForm/>}/>
         );
     }
 }
