@@ -36,3 +36,21 @@ export const getImages = () => {
         });
     };
 };
+
+export const createCompute = (body) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: computesActionsTypes.CREATE_COMPUTE_REQUEST});
+            const success = (compute) => ({ type: computesActionsTypes.CREATE_COMPUTE_SUCCESS, compute });
+            const failure = (error) => ({ type: computesActionsTypes.CREATE_COMPUTE_FAILURE, error });
+
+            dispatch(request());
+
+            ComputesProvider.create(body).then(
+                images => resolve(dispatch(success(images.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
