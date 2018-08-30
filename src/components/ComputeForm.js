@@ -54,7 +54,11 @@ class ComputeForm extends Component {
                         <label>Member</label>
                         <select value={this.state.member} name='member' className="form-control">
                             <option value=''></option>
-                            { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
+                            {   
+                                this.props.members.loading ?
+                                this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>):
+                                undefined
+                            }
                         </select>
 
                         <label>Image</label>
@@ -80,7 +84,11 @@ class ComputeForm extends Component {
                         <label>Federated network id</label>
                         <select value={this.props.members} name='member' className="form-control">
                             <option value=''></option>
-                            { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
+                            { 
+                                this.props.members.loading ?
+                                this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>):
+                                undefined
+                            }
                         </select>
 
                         <label>Extra user file</label>
