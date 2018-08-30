@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { getImages } from '../actions/computes.actions';
+import { getImages, createCompute } from '../actions/computes.actions';
 import { getNetworks } from '../actions/networks.actions';
 
 
@@ -55,6 +55,9 @@ class ComputeForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let body = _.pickBy(this.state, _.identity);
+        
+        let { dispatch } = this.props;
+        dispatch(createCompute(body));
     };
 
     render() {

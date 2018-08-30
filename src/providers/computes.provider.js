@@ -11,6 +11,10 @@ class ComputesProvider {
     url = env.manager.concat('/computes');
     imagesUrl = env.manager.concat('/images');
 
+    create(body) {
+        return axios.post(this.url, body, config);
+    }
+
     get() {
         return axios.get(this.url.concat('/status'), config);
     }
