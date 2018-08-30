@@ -14,13 +14,22 @@ const scriptTypes = [
     'text/cloud-boothook'    
 ];
 
+const initialState = {
+    member: '',
+    image: '',
+    vCPU: 1,
+    memory: 1024,
+    networkId: '',
+    fednetId: '',
+    file: '',
+    scriptType: scriptTypes[0],
+    publicKey: ''
+};
+
 class ComputeForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            member: '',
-            image: ''
-        };
+        this.state = initialState;
     }
 
     componentDidMount = () => {
@@ -31,6 +40,14 @@ class ComputeForm extends Component {
         if(! this.props.networks.loading) {
             dispatch(getNetworks());
         }
+    };
+
+    handleChange = (event) => {
+        let { name, value } = event.target;
+        
+        this.setState({
+            [name]: value
+        });
     };
 
     render() {
@@ -46,14 +63,17 @@ class ComputeForm extends Component {
                     </div>
                     <div className="modal-body">
                         <label>Minimal number of vCPUs</label>
-                        <input className="form-control" type="text"/>
+                        <input value={this.state.vCPU} onChange={this.handleChange}
+                            className="form-control" type="number" name="vCPU"/>
 
                         <label>Minimal amount of RAM in MB</label>
-                        <input className="form-control" type="text"/>
+                        <input value={this.state.memory} onChange={this.handleChange}
+                            className="form-control" type="number" name="memory"/>
 
                         <label>Member</label>
-                        <select value={this.state.member} name='member' className="form-control">
-                            <option value=''></option>
+                        <select value={this.state.member} onChange={this.handleChange} 
+                            name='member' className="form-control">
+                            <option value=''>Choose a member</option>
                             {   
                                 this.props.members.loading ?
                                 this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>):
@@ -62,8 +82,9 @@ class ComputeForm extends Component {
                         </select>
 
                         <label>Image</label>
-                        <select value={this.state.image} name='member' className="form-control">
-                            <option value=''></option>
+                        <select value={this.state.image} onChange={this.handleChange}
+                            name='imageId' className="form-control">
+                            <option value=''>Choose an image</option>
                             {
                                 this.props.images.loading ?
                                 Object.values(this.props.images.data).map((image, idx) => <option key={idx} value={image}>{image}</option>):
@@ -72,8 +93,9 @@ class ComputeForm extends Component {
                         </select>
 
                         <label>Network id</label>
-                        <select value={this.state.network} name='member' className="form-control">
-                            <option value=''></option>
+                        <select value={this.state.network} onChange={this.handleChange} 
+                            name='networkId' className="form-control">
+                            <option value=''>Choose a network</option>
                             { 
                                 this.props.networks.loading ?
                                 this.props.networks.data.map((network, idx) => <option key={idx} value={network}>{network}</option>):
@@ -82,8 +104,9 @@ class ComputeForm extends Component {
                         </select>
 
                         <label>Federated network id</label>
-                        <select value={this.props.members} name='member' className="form-control">
-                            <option value=''></option>
+                        <select value={this.props.fednetId} onChange={this.handleChange}
+                            name='fednetId' className="form-control">
+                            <option value=''>Choose a federated network</option>
                             { 
                                 this.props.members.loading ?
                                 this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>):
@@ -92,16 +115,19 @@ class ComputeForm extends Component {
                         </select>
 
                         <label>Extra user file</label>
-                        <input type="file" className="form-control"/>
+                        <input value={this.state.file} onChange={this.handleChange}
+                            type="file" className="form-control" name="file"/>
 
                         <label>Extra user data file type</label>
-                        <select value={this.state.scriptType} name='member' className="form-control">
+                        <select value={this.state.scriptType} onChange={this.handleChange}
+                            name='scriptType' className="form-control">
                             <option value=''></option>
                             { scriptTypes.map((type, idx) => <option key={idx} value={type}>{type}</option>) }
                         </select>
 
                         <label>Public key</label>
-                        <textarea className="form-control" type=""></textarea>
+                        <textarea value={this.state.publicKey} onChange={this.handleChange} 
+                            className="form-control" name="publicKey"></textarea>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
