@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { getImages } from '../actions/computes.actions';
 import { getNetworks } from '../actions/networks.actions';
+
 
 import '../styles/order-form.css';
 
@@ -48,6 +50,11 @@ class ComputeForm extends Component {
         this.setState({
             [name]: value
         });
+    };
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        let body = _.pickBy(this.state, _.identity);
     };
 
     render() {
@@ -131,7 +138,7 @@ class ComputeForm extends Component {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-primary">Create Compute</button>
+                        <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Create Compute</button>
                     </div>
                     </div>
                 </div>
