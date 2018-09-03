@@ -18,3 +18,21 @@ export const getNetworks = () => {
         });
     };
 };
+
+export const createNetwork = (body) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: networksActionsTypes.CREATE_NETWORK_REQUEST});
+            const success = (network) => ({ type: networksActionsTypes.CREATE_NETWORK_SUCCESS, network, member: body.member });
+            const failure = (error) => ({ type: networksActionsTypes.CREATE_NETWORK_FAILURE, error });
+
+            dispatch(request());
+
+            NetworksProvider.create(body).then(
+                network => resolve(dispatch(success(network.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
