@@ -58,13 +58,13 @@ class AttachmentForm extends Component {
                         </div>
                         <div className="modal-body">
                             <label>Member</label>
-                            <select name='member' className="form-control" value={this.state.member} onChange={this.state.handleChange}>
+                            <select name='member' className="form-control" value={this.state.member} onChange={this.handleChange}>
                                 <option value=''></option>
                                 { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
                             </select>
 
                             <label>Compute</label>
-                            <select  name='source' className="form-control" value={this.state.source} onChange={this.state.handleChange}>
+                            <select  name='source' className="form-control" value={this.state.source} onChange={this.handleChange}>
                                 <option value=''></option>
                                 {
                                     this.props.computes.loading ?
@@ -76,7 +76,7 @@ class AttachmentForm extends Component {
                             </select>
 
                             <label>Volume</label>
-                            <select name='target' className="form-control" value={this.state.target} onChange={this.state.handleChange}>
+                            <select name='target' className="form-control" value={this.state.target} onChange={this.handleChange}>
                                 <option value=''></option>
                                 { 
                                     this.props.volumes.loading ?
