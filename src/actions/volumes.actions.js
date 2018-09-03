@@ -18,3 +18,21 @@ export const getVolumes = () => {
         });
     };
 };
+
+export const createVolume = (body) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: volumesActionsTypes.CREATE_VOLUME_REQUEST});
+            const success = (volume) => ({ type: volumesActionsTypes.CREATE_VOLUME_SUCCESS, volume, member: body.member });
+            const failure = (error) => ({ type: volumesActionsTypes.CREATE_VOLUME_FAILURE, error });
+
+            dispatch(request());
+
+            VolumesProvider.create(body).then(
+                volume => resolve(dispatch(success(volume.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};

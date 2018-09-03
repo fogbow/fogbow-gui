@@ -20,7 +20,7 @@ const networks = (state = {loading: false, data: []}, action) => {
             state.data.push({
                 instanceId: action.network,
                 state: 'OPEN',
-                member: action.member
+                provider: action.member
             });
             return {
                 ...state,
