@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 const initialState = {
     cidrNotation: '188.140.0.0/24',
@@ -24,11 +25,24 @@ class FederatedNetworksForm extends Component {
     handleAddMember = (event) => {
         let value = event.target.value;
         let members = this.state.allowedMembers;
-        if(!members.includes(value)) {
-            // TODO
-        } else {
 
+        if(!members.includes(value)) {
+            this.setState({
+                allowedMembers: members.concat([value])
+            });
+        } else {
+            this.setState({
+                allowedMembers: members.filter(member => member !== value)
+            });
         }
+    };
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        let body = _.pickBy(this.state, _.identity);
+        
+        let { dispatch } = this.props;
+        // dispatch(createCompute(body));
     };
 
     render() {
@@ -65,7 +79,7 @@ class FederatedNetworksForm extends Component {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary">Create federated network</button>
+                            <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Create federated network</button>
                         </div>
                     </div>
                 </div>
