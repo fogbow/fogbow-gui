@@ -1,6 +1,6 @@
 import { membersActionsTypes } from '../actions/members.actions.types';
 
-const members = (state = {loading: false}, action) => {
+const members = (state = {loading: false, data: []}, action) => {
     switch (action.type) {
         case membersActionsTypes.GET_MEMBER_DATA_REQUEST:
             return { data: [] };

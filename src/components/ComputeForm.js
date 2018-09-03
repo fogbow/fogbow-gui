@@ -18,7 +18,7 @@ const scriptTypes = [
 
 const initialState = {
     member: '',
-    image: '',
+    imageId: '',
     vCPU: 1,
     memory: 1024,
     networkId: '',

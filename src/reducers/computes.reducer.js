@@ -15,11 +15,15 @@ const computes = (state = { data: [], loading: false }, action) => {
 
         // CREATE
         case computesActionsTypes.CREATE_COMPUTE_REQUEST:
-            return { loading: false };
+            return { data: state.data, loading: false };
         case computesActionsTypes.CREATE_COMPUTE_SUCCESS:
+            state.data.push({
+                instanceId: action.compute,
+                state: 'OPEN'
+            });
             return {
                 ...state,
-                data: state.data.push(action.compute),
+                data: state.data,
                 loading: true
             };
         case computesActionsTypes.CREATE_COMPUTE_FAILURE:
