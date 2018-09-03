@@ -41,7 +41,7 @@ export const createCompute = (body) => {
     return dispatch => {
         return new Promise((resolve, reject) => {
             const request = () => ({ type: computesActionsTypes.CREATE_COMPUTE_REQUEST});
-            const success = (compute) => ({ type: computesActionsTypes.CREATE_COMPUTE_SUCCESS, compute });
+            const success = (compute) => ({ type: computesActionsTypes.CREATE_COMPUTE_SUCCESS, compute, member: body.member });
             const failure = (error) => ({ type: computesActionsTypes.CREATE_COMPUTE_FAILURE, error });
 
             dispatch(request());

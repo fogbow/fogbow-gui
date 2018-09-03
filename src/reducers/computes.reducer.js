@@ -19,7 +19,8 @@ const computes = (state = { data: [], loading: false }, action) => {
         case computesActionsTypes.CREATE_COMPUTE_SUCCESS:
             state.data.push({
                 instanceId: action.compute,
-                state: 'OPEN'
+                state: 'OPEN',
+                member: action.member
             });
             return {
                 ...state,
