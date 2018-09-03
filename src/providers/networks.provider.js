@@ -17,6 +17,15 @@ class NetworksProvider {
     get() {
         return axios.get(this.url.concat('/status'), config);
     }
+
+    //TODO: Need review url.
+    createFedNetwork(body) {
+        return axios.post(this.url, body, config);
+    }
+
+    getFedNetworks() {
+        return axios.get(this.url.concat('/status'), config);
+    }
 }
 
 export default new NetworksProvider();
