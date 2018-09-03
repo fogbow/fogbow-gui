@@ -20,7 +20,7 @@ const computes = (state = { data: [], loading: false }, action) => {
             state.data.push({
                 instanceId: action.compute,
                 state: 'OPEN',
-                member: action.member
+                provider: action.member
             });
             return {
                 ...state,
