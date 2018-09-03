@@ -47,7 +47,7 @@ export const createCompute = (body) => {
             dispatch(request());
 
             ComputesProvider.create(body).then(
-                images => resolve(dispatch(success(images.data)))
+                compute => resolve(dispatch(success(compute.data)))
             ).catch(
                 error => reject(dispatch(failure(error)))
             );
