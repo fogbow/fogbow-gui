@@ -18,3 +18,21 @@ export const getAttachments = () => {
         });
     };
 };
+
+export const createAttachment = (body) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: attachmentsActionsTypes.CREATE_ATTACHEMENT_REQUEST});
+            const success = (attachment) => ({ type: attachmentsActionsTypes.CREATE_ATTACHEMENT_SUCCESS, attachment });
+            const failure = (error) => ({ type: attachmentsActionsTypes.CREATE_ATTACHEMENT_FAILURE, error });
+
+            dispatch(request());
+
+            AttachmentsProvider.create(body).then(
+                attachment => resolve(dispatch(success(attachment.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};

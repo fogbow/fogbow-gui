@@ -20,6 +20,7 @@ const initialState = {
     member: '',
     imageId: '',
     vCPU: 1,
+    disk: 30,
     memory: 1024,
     networkId: '',
     fednetId: '',
@@ -55,6 +56,9 @@ class ComputeForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let body = _.pickBy(this.state, _.identity);
+
+        if(!body.file)
+            delete body.scriptType;
         
         let { dispatch } = this.props;
         dispatch(createCompute(body));
@@ -97,7 +101,8 @@ class ComputeForm extends Component {
                             <option value=''>Choose an image</option>
                             {
                                 this.props.images.loading ?
-                                Object.values(this.props.images.data).map((image, idx) => <option key={idx} value={image}>{image}</option>):
+                                Object.keys(this.props.images.data)
+                                    .map((image, idx) => <option key={idx} value={image}>{this.props.images.data[image]}</option>):
                                 undefined
                             }
                         </select>
@@ -108,7 +113,7 @@ class ComputeForm extends Component {
                             <option value=''>Choose a network</option>
                             { 
                                 this.props.networks.loading ?
-                                this.props.networks.data.map((network, idx) => <option key={idx} value={network}>{network}</option>):
+                                this.props.networks.data.map((network, idx) => <option key={idx} value={network.instanceId}>{network.instanceId}</option>):
                                 undefined
                             }
                         </select>
