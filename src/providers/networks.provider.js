@@ -9,6 +9,7 @@ const config = {
 
 class NetworksProvider {
     url = env.manager.concat('/networks');
+    fedNetUrl = env.manager.concat('/federatedNetworks');
 
     create(body) {
         return axios.post(this.url, body, config);
@@ -18,13 +19,12 @@ class NetworksProvider {
         return axios.get(this.url.concat('/status'), config);
     }
 
-    //TODO: Need review url.
-    createFedNetwork(body) {
-        return axios.post(this.url, body, config);
+    createFedNet(body) {
+        return axios.post(this.fedNetUrl, body, config);
     }
 
-    getFedNetworks() {
-        return axios.get(this.url.concat('/status'), config);
+    getFetNets() {
+        return axios.get(this.fedNetUrl.concat('/status'), config);
     }
 }
 

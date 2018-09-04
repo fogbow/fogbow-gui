@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import OrderList from '../components/OrderList';
-import { getNetworks } from '../actions/networks.actions';
+import { getFedNetworks } from '../actions/networks.actions';
 import FederatedNetworksForm from '../components/FederatedNetworksForm';
 
 class FederetedNetworksPage extends Component {
@@ -12,7 +12,7 @@ class FederetedNetworksPage extends Component {
     
     componentDidMount = () => {
         const { dispatch } = this.props;
-        dispatch(getNetworks())
+        dispatch(getFedNetworks())
     };
 
     get networks() {
@@ -27,7 +27,7 @@ class FederetedNetworksPage extends Component {
 }
 
 const stateToProps = state => ({
-    networks: state.networks
+    networks: state.fedNetworks
 });
 
 export default connect(stateToProps)(FederetedNetworksPage);
