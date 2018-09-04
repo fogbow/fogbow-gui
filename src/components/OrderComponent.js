@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 
 import { deleteAttachment } from '../actions/attachments.actions';
 import { deleteCompute } from '../actions/computes.actions';
+import { deleteNetwork, deleteFedNetwork } from '../actions/networks.actions';
 
 const mapping = {
     computes: 'compute',
-    networks: 'cetwork',
+    networks: 'network',
     federatedNetworks: 'federated Network',
     volumes: 'volume',
     attachments: 'attachment'
@@ -24,7 +25,14 @@ class OrderComponent extends Component {
 
         switch (type) {
             case 'computes':
-                dispatch(deleteCompute(id))
+                dispatch(deleteCompute(id));
+                break;
+            case 'network':
+                dispatch(deleteNetwork(id));
+                break;
+            case 'federatedNetworks':
+                dispatch(deleteFedNetwork(id));
+                break;
             case 'attachments':
                 dispatch(deleteAttachment(id));
                 break;

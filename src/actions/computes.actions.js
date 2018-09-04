@@ -65,7 +65,7 @@ export const deleteCompute = (id) => {
             dispatch(request());
 
             ComputesProvider.delete(id).then(
-                compute => resolve(dispatch(success(compute.data)))
+                () => resolve(dispatch(success()))
             ).catch(
                 error => reject(dispatch(failure(error)))
             );
