@@ -36,3 +36,16 @@ export const getMemberData = (id) => {
         });
     };
 };
+
+export const getAllMembersData = (members) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            let promises = members.map(id => dispatch(getMemberData(id)));
+            Promise.all(promises)
+                .then(data => {
+                    //TODO: Need to finish
+                    data.map(action => action.quota);
+                });
+        });
+    };
+};
