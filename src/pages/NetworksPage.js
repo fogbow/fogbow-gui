@@ -17,11 +17,16 @@ class NetworksPage extends Component {
 
     get networks() {
         return this.props.networks.loading ? this.props.networks.data: [];
-    } 
+    }
+
+    handleShow = (orderId) => {
+        console.log(orderId);
+    }
 
     render() {
         return (
-            <OrderList orders={this.networks} form={<NetworkForm/>} type={'networks'}/>
+            <OrderList orders={this.networks} form={<NetworkForm/>} 
+            type={'networks'} handleShow={this.handleShow}/>
         );
     }
 }

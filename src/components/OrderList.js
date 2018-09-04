@@ -44,7 +44,7 @@ class OrderList extends Component {
             .map(order => {
                 return(
                     <OrderComponent key={order.instanceId} order={order} type={this.props.type}
-                        disableProvider={this.props.disableProvider}/>
+                        disableProvider={this.props.disableProvider} handleShow={() => this.props.handleShow(order.instanceId)}/>
                 );
             });
     };

@@ -12,16 +12,21 @@ class AttachmentsPage extends Component {
     
     componentDidMount = () => {
         const { dispatch } = this.props;
-        dispatch(getAttachments())
+        dispatch(getAttachments());
     };
 
     get attachments() {
         return this.props.attachments.loading ? this.props.attachments.data: [];
-    } 
+    }
+
+    handleShow = (orderId) => {
+        console.log(orderId);
+    }
 
     render() {
         return (
-            <OrderList orders={this.attachments} form={<AttachmentForm/>}  type={'attachments'}/>
+            <OrderList orders={this.attachments} form={<AttachmentForm/>}  
+            type={'attachments'} handleShow={this.handleShow}/>
         );
     }
 }
