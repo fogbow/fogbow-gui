@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { deleteAttachment } from '../actions/attachments.actions';
+import { deleteCompute } from '../actions/computes.actions';
 
 const mapping = {
     computes: 'compute',
@@ -22,6 +23,8 @@ class OrderComponent extends Component {
         let type = this.props.type;
 
         switch (type) {
+            case 'computes':
+                dispatch(deleteCompute(id))
             case 'attachments':
                 dispatch(deleteAttachment(id));
                 break;

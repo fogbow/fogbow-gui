@@ -54,3 +54,21 @@ export const createCompute = (body) => {
         });
     };
 };
+
+export const deleteCompute = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: computesActionsTypes.DELETE_COMPUTE_REQUEST});
+            const success = () => ({ type: computesActionsTypes.DELETE_COMPUTE_SUCCESS, id});
+            const failure = (error) => ({ type: computesActionsTypes.DELETE_COMPUTE_FAILURE, error });
+
+            dispatch(request());
+
+            ComputesProvider.delete(id).then(
+                compute => resolve(dispatch(success(compute.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
