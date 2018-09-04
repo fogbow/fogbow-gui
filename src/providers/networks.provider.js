@@ -19,12 +19,20 @@ class NetworksProvider {
         return axios.get(this.url.concat('/status'), config);
     }
 
+    delete(id) {
+        return axios.delete(this.url.concat('/', id), config);
+    }
+
     createFedNet(body) {
         return axios.post(this.fedNetUrl, body, config);
     }
 
     getFetNets() {
         return axios.get(this.fedNetUrl.concat('/status'), config);
+    }
+
+    deletefedNet(id) {
+        return axios.delete(this.fedNetUrl.concat('/', id), config);        
     }
 }
 

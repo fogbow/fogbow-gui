@@ -37,6 +37,24 @@ export const createNetwork = (body) => {
     };
 };
 
+export const deleteNetwork = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: networksActionsTypes.DELETE_NETWORK_REQUEST});
+            const success = () => ({ type: networksActionsTypes.DELETE_NETWORK_SUCCESS, id });
+            const failure = (error) => ({ type: networksActionsTypes.DELETE_NETWORK_FAILURE, error });
+
+            dispatch(request());
+
+            NetworksProvider.delete(id).then(
+                () => resolve(dispatch(success()))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
+
 export const getFedNetworks = () => {
     return dispatch => {
         return new Promise((resolve, reject) => {
@@ -66,6 +84,24 @@ export const createFedNetwork = (body) => {
 
             NetworksProvider.createFedNet(body).then(
                 network => resolve(dispatch(success(network.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
+
+export const deleteFedNetwork = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: networksActionsTypes.DELETE_FED_NETWORK_REQUEST});
+            const success = () => ({ type: networksActionsTypes.DELETE_FED_NETWORK_SUCCESS, id });
+            const failure = (error) => ({ type: networksActionsTypes.DELETE_FED_NETWORK_FAILURE, error });
+
+            dispatch(request());
+
+            NetworksProvider.deletefedNet(id).then(
+                () => resolve(dispatch(success()))
             ).catch(
                 error => reject(dispatch(failure(error)))
             );
