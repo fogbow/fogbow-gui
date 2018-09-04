@@ -36,3 +36,21 @@ export const createAttachment = (body) => {
         });
     };
 };
+
+export const deleteAttachment = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: attachmentsActionsTypes.DELETE_ATTACHEMENT_REQUEST});
+            const success = () => ({ type: attachmentsActionsTypes.DELETE_ATTACHEMENT_SUCCESS, id });
+            const failure = (error) => ({ type: attachmentsActionsTypes.DELETE_ATTACHEMENT_FAILURE, error });
+
+            dispatch(request());
+
+            AttachmentsProvider.delete(id).then(
+                () => resolve(dispatch(success()))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};

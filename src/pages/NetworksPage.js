@@ -21,7 +21,7 @@ class NetworksPage extends Component {
 
     render() {
         return (
-            <OrderList orders={this.networks} form={<NetworkForm/>} />
+            <OrderList orders={this.networks} form={<NetworkForm/>} type={'networks'}/>
         );
     }
 }

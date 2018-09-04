@@ -21,7 +21,7 @@ class ComputesPage extends Component {
 
     render() {
         return (
-            <OrderList orders={this.computes} form={<ComputeForm/>}/>
+            <OrderList orders={this.computes} form={<ComputeForm/>} type={'computes'}/>
         );
     }
 }
