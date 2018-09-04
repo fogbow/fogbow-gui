@@ -4,10 +4,15 @@ import { connect } from 'react-redux';
 import OrderList from '../components/OrderList';
 import ComputeForm from '../components/ComputeForm';
 import { getComputes } from '../actions/computes.actions';
+import ComputeDatails from '../components/ComputeDatails';
 
 class ComputesPage extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            tableVisible: true,
+            orderId: ''
+        }
     }
     
     componentDidMount = () => {
@@ -20,13 +25,20 @@ class ComputesPage extends Component {
     }
 
     handleShow = (orderId) => {
-        console.log(orderId);
+        this.setState({
+            tableVisible: false,
+            orderId
+        });
     }
 
     render() {
         return (
-            <OrderList orders={this.computes} form={<ComputeForm/>} 
-            type={'computes'} handleShow={this.handleShow}/>
+            <div>
+                {this.state.tableVisible ? 
+                (<OrderList orders={this.computes} form={<ComputeForm/>} 
+                    type={'computes'} handleShow={this.handleShow}/>):
+                <ComputeDatails id={this.state.orderId}/>}
+            </div>
         );
     }
 }
