@@ -43,7 +43,8 @@ class OrderList extends Component {
         return this.props.orders
             .map(order => {
                 return(
-                    <OrderComponent key={order.instanceId} order={order} disableProvider={this.props.disableProvider}/>
+                    <OrderComponent key={order.instanceId} order={order} type={this.props.type}
+                        disableProvider={this.props.disableProvider}/>
                 );
             });
     };

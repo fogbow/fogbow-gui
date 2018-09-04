@@ -22,7 +22,7 @@ class VolumesPage extends Component {
 
     render() {
         return (
-            <OrderList orders={this.volumes} form={<VolumeForm/>}/>
+            <OrderList orders={this.volumes} form={<VolumeForm/>} type={'volumes'}/>
         );
     }
 }

@@ -21,7 +21,8 @@ class FederetedNetworksPage extends Component {
 
     render() {
         return (
-            <OrderList orders={this.networks} disableProvider={true} form={<FederatedNetworksForm/>}/>
+            <OrderList orders={this.networks} disableProvider={true} 
+            type={'federatedNetworks'} form={<FederatedNetworksForm/>}/>
         );
     }
 }

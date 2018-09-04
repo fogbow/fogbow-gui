@@ -21,7 +21,7 @@ class AttachmentsPage extends Component {
 
     render() {
         return (
-            <OrderList orders={this.attachments} form={<AttachmentForm/>}  />
+            <OrderList orders={this.attachments} form={<AttachmentForm/>}  type={'attachments'}/>
         );
     }
 }
