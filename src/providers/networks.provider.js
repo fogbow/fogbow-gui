@@ -9,7 +9,7 @@ const config = {
 
 class NetworksProvider {
     url = env.manager.concat('/networks');
-    fedNetUrl = env.manager.concat('/federatedNetworks');
+    fedNetUrl = env.fedenet.concat('/federatedNetworks');
 
     create(body) {
         return axios.post(this.url, body, config);

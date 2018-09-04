@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { env } from '../defaults/api.config';
 import QuotaTable from '../components/QuotaTable';
 import { getMembers, getMemberData } from '../actions/members.actions';
 
 const mockData = { 
     totalQuota: { 
-        vCPU: 28,
-        ram: 73728,
-        instances: 11
+        vCPU: 0,
+        ram: 0,
+        instances: 0
     },
     usedQuota: { 
         vCPU: 0,
@@ -16,9 +17,9 @@ const mockData = {
         instances: 0
     },
     availableQuota: { 
-        vCPU: 28,
-        ram: 73728,
-        instances: 11
+        vCPU: 0,
+        ram: 0,
+        instances: 0
     } 
 };
 
@@ -27,7 +28,8 @@ class QuotaPage extends Component {
         super(props);
         this.state = {
             quota: mockData,
-            selectedUserQuota: mockData
+            selectedUserQuota: mockData,
+            localMember: env.local
         };
     }
 
@@ -41,15 +43,19 @@ class QuotaPage extends Component {
         const { dispatch } = this.props;
         let id = event.target.value;
 
-        //TODO: check if this id is already fetched.
-        dispatch(getMemberData(id));
+        dispatch(getMemberData(id))
+            .then(data => {
+                this.setState({
+                    selectedUserQuota: data.quota
+                });
+            });
     };
 
     render() {
         let memberQuota = this.props.members.loading ?
                             <QuotaTable vendors={this.props.members.data}
                                 vendorChange={this.vendorChange}
-                                data={this.state.selectedUserQuota}/> :
+                                data={this.props.members.loadingMember ? this.state.selectedUserQuota: mockData}/> :
                             undefined;
 
         return (
