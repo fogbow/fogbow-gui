@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+import { createFedNetwork } from '../actions/networks.actions';
+
 const initialState = {
     cidrNotation: '188.140.0.0/24',
     label: '',
@@ -42,7 +44,7 @@ class FederatedNetworksForm extends Component {
         let body = _.pickBy(this.state, _.identity);
         
         let { dispatch } = this.props;
-        // dispatch(createCompute(body));
+        dispatch(createFedNetwork(body));
     };
 
     render() {
