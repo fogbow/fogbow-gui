@@ -17,11 +17,16 @@ class ComputesPage extends Component {
 
     get computes() {
         return this.props.computes.loading ? this.props.computes.data: [];
-    } 
+    }
+
+    handleShow = (orderId) => {
+        console.log(orderId);
+    }
 
     render() {
         return (
-            <OrderList orders={this.computes} form={<ComputeForm/>} type={'computes'}/>
+            <OrderList orders={this.computes} form={<ComputeForm/>} 
+            type={'computes'} handleShow={this.handleShow}/>
         );
     }
 }

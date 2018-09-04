@@ -50,7 +50,7 @@ class OrderComponent extends Component {
     render() {
         return (
             <tr>
-                <td><a href="http://github.com/fogbow">{this.props.order.instanceId}</a></td>
+                <td><a href="#" onClick={this.props.handleShow}>{this.props.order.instanceId}</a></td>
                 {this.props.disableProvider ? undefined:
                     <td>{this.props.order.provider}</td>}
                 <td>{this.props.order.state}</td>

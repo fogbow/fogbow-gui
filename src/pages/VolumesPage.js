@@ -18,11 +18,16 @@ class VolumesPage extends Component {
 
     get volumes() {
         return this.props.volumes.loading ? this.props.volumes.data: [];
-    } 
+    }
+
+    handleShow = (orderId) => {
+        console.log(orderId);
+    }
 
     render() {
         return (
-            <OrderList orders={this.volumes} form={<VolumeForm/>} type={'volumes'}/>
+            <OrderList orders={this.volumes} form={<VolumeForm/>} 
+            type={'volumes'} handleShow={this.handleShow}/>
         );
     }
 }
