@@ -19,6 +19,24 @@ export const getComputes = () => {
     };
 };
 
+export const getComputeData = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: computesActionsTypes.GET_DATA_COMPUTE_REQUEST});
+            const success = (compute) => ({ type: computesActionsTypes.GET_DATA_COMPUTE_SUCCESS, compute });
+            const failure = (error) => ({ type: computesActionsTypes.GET_DATA_COMPUTE_FAILURE, error });
+
+            dispatch(request());
+
+            ComputesProvider.getData(id).then(
+                compute => resolve(dispatch(success(compute.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
+
 export const getImages = () => {
     return dispatch => {
         return new Promise((resolve, reject) => {
