@@ -36,3 +36,21 @@ export const createVolume = (body) => {
         });
     };
 };
+
+export const deleteVolume = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: volumesActionsTypes.DELETE_VOLUME_REQUEST});
+            const success = () => ({ type: volumesActionsTypes.DELETE_VOLUME_SUCCESS, id });
+            const failure = (error) => ({ type: volumesActionsTypes.DELETE_VOLUME_FAILURE, error });
+
+            dispatch(request());
+
+            VolumesProvider.delete(id).then(
+                () => resolve(dispatch(success()))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
