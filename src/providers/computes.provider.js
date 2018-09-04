@@ -19,6 +19,10 @@ class ComputesProvider {
         return axios.get(this.url.concat('/status'), config);
     }
 
+    delete(id) {
+        return axios.delete(this.url.concat('/', id), config);
+    }
+
     getImages() {
         return axios.get(this.imagesUrl, config);
     }
