@@ -43,9 +43,24 @@ export const getAllMembersData = (members) => {
             let promises = members.map(id => dispatch(getMemberData(id)));
             Promise.all(promises)
                 .then(data => {
-                    //TODO: Need to finish
-                    data.map(action => action.quota);
+                    let response = data.map(action => action.quota)
+                        .reduce((a,b) => ({
+                                totalQuota: sumAllocation(a.totalQuota, b.totalQuota),
+                                usedQuota: sumAllocation(a.usedQuota, b.usedQuota),
+                                availableQuota: sumAllocation(a.availableQuota, b.availableQuota)
+                            })
+                        );
+                    resolve(response);
+                    
                 });
         });
     };
 };
+
+const sumAllocation = (a, b) => {
+    return {
+        vCPU: a.vCPU + b.vCPU,
+        ram: a.ram + b.ram,
+        instances: a.instances + b.instances
+    }
+}

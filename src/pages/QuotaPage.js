@@ -28,6 +28,7 @@ class QuotaPage extends Component {
         super(props);
         this.state = {
             localQuota: mockData,
+            totalQuota: mockData,
             selectedUserQuota: mockData,
             localMember: env.local
         };
@@ -37,7 +38,12 @@ class QuotaPage extends Component {
         const { dispatch } = this.props;
         dispatch(getMembers())
             .then(data => {
-                dispatch(getAllMembersData(data.members));
+                dispatch(getAllMembersData(data.members))
+                    .then(data => {
+                        this.setState({
+                            totalQuota: data
+                        });
+                    })
             });
 
         // local
@@ -73,7 +79,7 @@ class QuotaPage extends Component {
             <div>
                 <QuotaTable label="Local" 
                     data={this.props.members.loadingMember ? this.state.localQuota: mockData}/>
-                <QuotaTable label="Aggregated" data={mockData}/>
+                <QuotaTable label="Aggregated" data={this.props.members.loadingMember ? this.state.totalQuota: mockData}/>
                 {memberQuota}
             </div>
         );
