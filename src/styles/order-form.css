@@ -9,3 +9,9 @@
 .form-control {
     margin-bottom: 15px;
 }
+
+.error-message {
+    background-color: #ff7272;
+    color: white;
+    padding: 1em;
+  }
