@@ -19,6 +19,24 @@ export const getNetworks = () => {
     };
 };
 
+export const getNetworkData = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: networksActionsTypes.GET_DATA_NETWORK_REQUEST});
+            const success = (networks) => ({ type: networksActionsTypes.GET_DATA_NETWORK_SUCCESS, networks });
+            const failure = (error) => ({ type: networksActionsTypes.GET_DATA_NETWORK_FAILURE, error });
+
+            dispatch(request());
+
+            NetworksProvider.getData(id).then(
+                network => resolve(dispatch(success(network.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
+
 export const createNetwork = (body) => {
     return dispatch => {
         return new Promise((resolve, reject) => {

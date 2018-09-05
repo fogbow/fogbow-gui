@@ -19,6 +19,10 @@ class NetworksProvider {
         return axios.get(this.url.concat('/status'), config);
     }
 
+    getData(id) {
+        return axios.get(this.url.concat('/', id), config);
+    }
+
     delete(id) {
         return axios.delete(this.url.concat('/', id), config);
     }

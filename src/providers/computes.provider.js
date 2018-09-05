@@ -20,7 +20,7 @@ class ComputesProvider {
     }
 
     getData(id) {
-        return axios.get(this.url, config);
+        return axios.get(this.url.concat('/', id), config);
     }
 
     delete(id) {

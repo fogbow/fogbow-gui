@@ -4,10 +4,15 @@ import { connect } from 'react-redux';
 import OrderList from '../components/OrderList';
 import { getNetworks } from '../actions/networks.actions';
 import NetworkForm from '../components/NetworkForm';
+import NetworkDetails from '../components/NetworkDetails';
 
 class NetworksPage extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            tableVisible: true,
+            orderId: ''
+        }
     }
     
     componentDidMount = () => {
@@ -20,13 +25,20 @@ class NetworksPage extends Component {
     }
 
     handleShow = (orderId) => {
-        console.log(orderId);
+        this.setState({
+            tableVisible: false,
+            orderId
+        });
     }
 
     render() {
         return (
-            <OrderList orders={this.networks} form={<NetworkForm/>} 
-            type={'networks'} handleShow={this.handleShow}/>
+            <div>
+                {this.state.tableVisible ? 
+                (<OrderList orders={this.networks} form={<NetworkForm/>} 
+                    type={'networks'} handleShow={this.handleShow}/>):
+                <NetworkDetails id={this.state.orderId}/>}
+            </div>
         );
     }
 }
