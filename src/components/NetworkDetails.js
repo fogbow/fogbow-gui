@@ -23,22 +23,29 @@ class NetworkDetails extends Component {
 
     render() {
         return (
-            <div>
+            <div className="details">
                 <h2>Information</h2>
+                <hr className="horizontal-line"/>
 
-                <p>Network id</p>
+                <p className="bolder">Network id</p>
                 <p>{this.state.orderData.id || '-'}</p>
-                <p>Label</p>
+
+                <p className="bolder">Label</p>
                 <p>{this.state.orderData.label || '-'}</p>
-                <p>Address (CIDR)</p>
+
+                <p className="bolder">Address (CIDR)</p>
                 <p>{this.state.orderData.address || '-'}</p>
-                <p>Gateway</p>
+
+                <p className="bolder">Gateway</p>
                 <p>{this.state.orderData.gateway || '-'}</p>
-                <p>Network Interface</p>
+
+                <p className="bolder">Network Interface</p>
                 <p>{this.state.orderData.networkInterface || '-'}</p>
-                <p>MAC Interface</p>
+
+                <p className="bolder">MAC Interface</p>
                 <p>{this.state.orderData.macinterface || '-'}</p>
-                <p>State</p>
+
+                <p className="bolder">State</p>
                 <p>{this.state.orderData.state || '-'}</p>
             </div>
         );
