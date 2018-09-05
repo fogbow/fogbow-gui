@@ -19,6 +19,24 @@ export const getVolumes = () => {
     };
 };
 
+export const getVolumeData = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: volumesActionsTypes.GET_DATA_VOLUME_REQUEST});
+            const success = (volume) => ({ type: volumesActionsTypes.GET_DATA_VOLUME_SUCCESS, volume });
+            const failure = (error) => ({ type: volumesActionsTypes.GET_DATA_VOLUME_FAILURE, error });
+
+            dispatch(request());
+
+            VolumesProvider.getData(id).then(
+                volumes => resolve(dispatch(success(volumes.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
+
 export const createVolume = (body) => {
     return dispatch => {
         return new Promise((resolve, reject) => {

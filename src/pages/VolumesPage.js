@@ -4,11 +4,16 @@ import { connect } from 'react-redux';
 import OrderList from '../components/OrderList';
 import { getVolumes } from '../actions/volumes.actions';
 import VolumeForm from '../components/VolumeForm';
+import VolumeDetails from '../components/VolumeDetails';
 
 
 class VolumesPage extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            tableVisible: true,
+            orderId: ''
+        }
     }
     
     componentDidMount = () => {
@@ -21,13 +26,21 @@ class VolumesPage extends Component {
     }
 
     handleShow = (orderId) => {
-        console.log(orderId);
+        this.setState({
+            tableVisible: false,
+            orderId
+        });
     }
 
     render() {
         return (
-            <OrderList orders={this.volumes} form={<VolumeForm/>} 
-            type={'volumes'} handleShow={this.handleShow}/>
+            <div>
+                {this.state.tableVisible ?
+                    (<OrderList orders={this.volumes} form={<VolumeForm/>} 
+                    type={'volumes'} handleShow={this.handleShow}/>):
+                    <VolumeDetails id={this.state.orderId}/>
+                }
+            </div>
         );
     }
 }
