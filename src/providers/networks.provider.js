@@ -35,6 +35,10 @@ class NetworksProvider {
         return axios.get(this.fedNetUrl.concat('/status'), config);
     }
 
+    getFedNetData(id) {
+        return axios.get(this.fedNetUrl.concat('/', id), config);
+    }
+
     deletefedNet(id) {
         return axios.delete(this.fedNetUrl.concat('/', id), config);        
     }
