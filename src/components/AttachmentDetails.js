@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getComputeData } from '../actions/computes.actions';
+import { getAttachmentData } from '../actions/attachments.actions';
 
-class ComputeDatails extends Component {
+class AttachmentDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
             orderData: {}
         }
     }
-    
+
     componentDidMount() {
         let { dispatch } = this.props;
-        dispatch(getComputeData(this.props.id)).then(data => {
+        dispatch(getAttachmentData(this.props.id)).then(data => {
             this.setState({
-                orderData: data.compute
+                orderData: data.attachments
             });
         })
     }
-    
+
     render() {
         return (
             <div>
@@ -36,13 +36,6 @@ class ComputeDatails extends Component {
                 <p>SSH public address</p>
                 <p>{this.state.orderData.sshTunnelConnectionData ? 
                     this.state.orderData.sshTunnelConnectionData.sshPublicAddress: '-'}</p>
-                <p>Federated ip address</p>
-                {/* <p>{this.state.orderData || '-'}</p> */}
-                <p>SSH user name</p>
-                <p>{this.state.orderData.sshTunnelConnectionData ?
-                    this.state.orderData.sshTunnelConnectionData.sshUserName: '-'}</p>            
-                <p>SSH extra ports</p>
-                {/* <p>{this.state.orderData || '-'}</p>             */}
                 <p>State</p>
                 <p>{this.state.orderData.state || '-'}</p>
             </div>
@@ -50,4 +43,4 @@ class ComputeDatails extends Component {
     }
 }
 
-export default connect()(ComputeDatails);
+export default connect()(AttachmentDetails);

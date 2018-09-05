@@ -4,10 +4,15 @@ import { connect } from 'react-redux';
 import OrderList from '../components/OrderList';
 import { getAttachments } from '../actions/attachments.actions';
 import AttachmentForm from '../components/AttachmentForm';
+import AttachmentDetails from '../components/AttachmentDetails';
 
 class AttachmentsPage extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            tableVisible: true,
+            orderId: ''
+        }
     }
     
     componentDidMount = () => {
@@ -20,13 +25,21 @@ class AttachmentsPage extends Component {
     }
 
     handleShow = (orderId) => {
-        console.log(orderId);
+        this.setState({
+            tableVisible: false,
+            orderId
+        });
     }
 
     render() {
         return (
-            <OrderList orders={this.attachments} form={<AttachmentForm/>}  
-            type={'attachments'} handleShow={this.handleShow}/>
+            <div>
+                {this.state.tableVisible ?
+                    (<OrderList orders={this.attachments} form={<AttachmentForm/>}  
+                    type={'attachments'} handleShow={this.handleShow}/>):
+                    <AttachmentDetails id={this.state.orderId}/>
+                }
+            </div>
         );
     }
 }

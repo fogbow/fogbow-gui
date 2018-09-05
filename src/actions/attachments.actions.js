@@ -19,6 +19,24 @@ export const getAttachments = () => {
     };
 };
 
+export const getAttachmentData = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: attachmentsActionsTypes.GET_DATA_ATTACHEMENTS_REQUEST });
+            const success = (attachments) => ({ type: attachmentsActionsTypes.GET_DATA_ATTACHEMENTS_SUCCESS, attachments });
+            const failure = (error) => ({ type: attachmentsActionsTypes.GET_ATTACHEMENTS_FAILURE, error });
+
+            dispatch(request());
+
+            AttachmentsProvider.getData(id).then(
+                attachments => resolve(dispatch(success(attachments.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
+
 export const createAttachment = (body) => {
     return dispatch => {
         return new Promise((resolve, reject) => {
