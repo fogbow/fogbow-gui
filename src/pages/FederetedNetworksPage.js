@@ -4,10 +4,15 @@ import { connect } from 'react-redux';
 import OrderList from '../components/OrderList';
 import { getFedNetworks } from '../actions/networks.actions';
 import FederatedNetworksForm from '../components/FederatedNetworksForm';
+import FedNetDetails from '../components/FedNetDetails';
 
 class FederetedNetworksPage extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            tableVisible: true,
+            orderId: ''
+        }
     }
     
     componentDidMount = () => {
@@ -20,13 +25,21 @@ class FederetedNetworksPage extends Component {
     }
 
     handleShow = (orderId) => {
-        console.log(orderId);
+        this.setState({
+            tableVisible: false,
+            orderId
+        });
     }
 
     render() {
         return (
-            <OrderList orders={this.networks} disableProvider={true} handleShow={this.handleShow}
-            type={'federatedNetworks'} form={<FederatedNetworksForm/>}/>
+            <div>
+                {this.state.tableVisible ? 
+                (<OrderList orders={this.networks} disableProvider={true} handleShow={this.handleShow}
+                 type={'federatedNetworks'} form={<FederatedNetworksForm/>}/>):
+                 <FedNetDetails id={this.state.orderId}/>
+                }
+            </div>
         );
     }
 }

@@ -91,6 +91,24 @@ export const getFedNetworks = () => {
     };
 };
 
+export const getFedNetworkData = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            const request = () => ({ type: networksActionsTypes.GET_FED_DATA_NETWORK_REQUEST});
+            const success = (networks) => ({ type: networksActionsTypes.GET_FED_DATA_NETWORK_SUCCESS, networks });
+            const failure = (error) => ({ type: networksActionsTypes.GET_FED_DATA_NETWORK_FAILURE, error });
+
+            dispatch(request());
+
+            NetworksProvider.getFedNetData(id).then(
+                network => resolve(dispatch(success(network.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
+
 export const createFedNetwork = (body) => {
     return dispatch => {
         return new Promise((resolve, reject) => {
