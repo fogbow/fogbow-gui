@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import '../styles/login.css';
+
+import { getAuthorization } from '../actions/auth.actions';
 
 const initialState = {
     username: '',
@@ -21,12 +24,19 @@ class LoginPage extends Component {
         });
     };
 
+    resetState = () => this.setState(initialState);
+
     login = (event) => {
         event.preventDefault();
 
-        let { history } = this.props;
+        let { history, dispatch } = this.props;
+        dispatch(getAuthorization(this.state))
+            .then(data => {
+                history.push('/fogbow');
+            }, err => {
+                this.resetState();
+            });
 
-        history.push('/fogbow');
     };
 
     render() {
@@ -44,7 +54,7 @@ class LoginPage extends Component {
                     <div className="form-group">
                         <label>Username</label>
 
-                        <input value={this.state.username} onChange={this.handleChange} name="text"
+                        <input value={this.state.username} onChange={this.handleChange} name="username"
                         type="email" className="form-control" placeholder="Enter email"/>
 
                     </div>
@@ -63,4 +73,4 @@ class LoginPage extends Component {
     }
 }
 
-export default LoginPage;
+export default connect()(LoginPage);

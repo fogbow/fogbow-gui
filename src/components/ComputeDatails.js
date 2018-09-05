@@ -42,7 +42,7 @@ class ComputeDatails extends Component {
                 <p>{this.state.orderData.sshTunnelConnectionData ? 
                     this.state.orderData.sshTunnelConnectionData.sshPublicAddress: '-'}</p>
 
-                <p>Federated ip address</p>
+                <p className="bolder">Federated ip address</p>
                 {/* <p>{this.state.orderData || '-'}</p> */}
 
                 <p className="bolder"> SSH user name</p>
