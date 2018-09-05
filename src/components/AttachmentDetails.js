@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import '../styles/details.css';
+
 import { getAttachmentData } from '../actions/attachments.actions';
 
 class AttachmentDetails extends Component {
@@ -22,21 +24,27 @@ class AttachmentDetails extends Component {
 
     render() {
         return (
-            <div>
+            <div className="details">
                 <h2>Information</h2>
+                <hr className="horizontal-line"/>
 
-                <p>Instance id</p>
+                <p className="bolder">Instance id</p>
                 <p>{this.state.orderData.id || '-'}</p>
-                <p>vCPU</p>
+
+                <p className="bolder">vCPU</p>
                 <p>{this.state.orderData.vCPU || '-'}</p>
-                <p>Memory</p>
+
+                <p className="bolder">Memory</p>
                 <p>{this.state.orderData.ram || '-'}</p>
-                <p>Local ip address</p>
+
+                <p className="bolder">Local ip address</p>
                 <p>{this.state.orderData.localIpAddress || '-'}</p>
-                <p>SSH public address</p>
+
+                <p className="bolder">SSH public address</p>
                 <p>{this.state.orderData.sshTunnelConnectionData ? 
                     this.state.orderData.sshTunnelConnectionData.sshPublicAddress: '-'}</p>
-                <p>State</p>
+
+                <p className="bolder">State</p>
                 <p>{this.state.orderData.state || '-'}</p>
             </div>
         );

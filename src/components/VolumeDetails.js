@@ -22,16 +22,20 @@ class VolumeDetails extends Component {
 
     render() {
         return (
-            <div>
+            <div className="details">
                 <h2>Information</h2>
+                <hr className="horizontal-line"/>
 
-                <p>Volume id</p>
+                <p className="bolder">Volume id</p>
                 <p>{this.state.orderData.id || '-'}</p>
-                <p>Volume size (in GB)</p>
+
+                <p className="bolder">Volume size (in GB)</p>
                 <p>{this.state.orderData.name || '-'}</p>
-                <p>Name</p>
+
+                <p className="bolder">Name</p>
                 <p>{this.state.orderData.size || '-'}</p>
-                <p>State</p>
+
+                <p className="bolder">State</p>
                 <p>{this.state.orderData.state || '-'}</p>
             </div>
         );

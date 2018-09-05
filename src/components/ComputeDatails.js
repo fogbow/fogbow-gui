@@ -22,28 +22,37 @@ class ComputeDatails extends Component {
     
     render() {
         return (
-            <div>
+            <div className="details">
                 <h2>Information</h2>
+                <hr className="horizontal-line"/>
 
-                <p>Instance id</p>
+                <p className="bolder">Instance id</p>
                 <p>{this.state.orderData.id || '-'}</p>
-                <p>vCPU</p>
+
+                <p className="bolder">vCPU</p>
                 <p>{this.state.orderData.vCPU || '-'}</p>
-                <p>Memory</p>
+
+                <p className="bolder">Memory</p>
                 <p>{this.state.orderData.ram || '-'}</p>
-                <p>Local ip address</p>
+
+                <p className="bolder">Local ip address</p>
                 <p>{this.state.orderData.localIpAddress || '-'}</p>
-                <p>SSH public address</p>
+
+                <p className="bolder">SSH public address</p>
                 <p>{this.state.orderData.sshTunnelConnectionData ? 
                     this.state.orderData.sshTunnelConnectionData.sshPublicAddress: '-'}</p>
+
                 <p>Federated ip address</p>
                 {/* <p>{this.state.orderData || '-'}</p> */}
-                <p>SSH user name</p>
+
+                <p className="bolder"> SSH user name</p>
                 <p>{this.state.orderData.sshTunnelConnectionData ?
-                    this.state.orderData.sshTunnelConnectionData.sshUserName: '-'}</p>            
-                <p>SSH extra ports</p>
-                {/* <p>{this.state.orderData || '-'}</p>             */}
-                <p>State</p>
+                    this.state.orderData.sshTunnelConnectionData.sshUserName: '-'}</p>
+
+                <p className="bolder">SSH extra ports</p>
+                {/* <p>{this.state.orderData || '-'}</p>*/}
+
+                <p className="bolder">State</p>
                 <p>{this.state.orderData.state || '-'}</p>
             </div>
         );
