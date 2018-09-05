@@ -16,7 +16,7 @@ class ComputeDatails extends Component {
         let { dispatch } = this.props;
         dispatch(getComputeData(this.props.id)).then(data => {
             this.setState({
-                orderData: data.compute[0]
+                orderData: data.compute
             });
         })
     }

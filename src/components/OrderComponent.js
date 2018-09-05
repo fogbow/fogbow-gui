@@ -55,7 +55,7 @@ class OrderComponent extends Component {
                     <td>{this.props.order.provider}</td>}
                 <td>{this.props.order.state}</td>
                 <td>
-                    <button type="button" class="btn btn-danger" onClick={this.handleDelete}>Terminate {mapping[this.props.type]}</button>
+                    <button type="button" className="btn btn-danger" onClick={this.handleDelete}>Terminate {mapping[this.props.type]}</button>
                 </td>
             </tr>
         );

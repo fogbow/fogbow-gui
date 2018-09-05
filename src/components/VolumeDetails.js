@@ -15,7 +15,7 @@ class VolumeDetails extends Component {
         let { dispatch } = this.props;
         dispatch(getVolumeData(this.props.id)).then(data => {
             this.setState({
-                orderData: data.volume[0]
+                orderData: data.volume
             });
         })
     }
