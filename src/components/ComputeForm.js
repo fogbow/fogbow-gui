@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { getImages, createCompute } from '../actions/computes.actions';
+import { getImages, createCompute, getComputes } from '../actions/computes.actions';
 import { getNetworks } from '../actions/networks.actions';
 
 
@@ -26,7 +26,8 @@ const initialState = {
     fednetId: '',
     file: '',
     scriptType: scriptTypes[0],
-    publicKey: ''
+    publicKey: '',
+    showError: false
 };
 
 class ComputeForm extends Component {
@@ -53,9 +54,23 @@ class ComputeForm extends Component {
         });
     };
 
+    toggleError = () => {
+        this.setState((prevState, props) => {
+            return { showError: true }
+        })
+    };
+
     handleSubmit = (event) => {
         event.preventDefault();
+        this.setState((props) => {
+            return { showError: false }
+        });
         let body = _.pickBy(this.state, _.identity);
+
+        if (!this.isCurrentStateOk()) {
+            this.toggleError();
+            return;
+        }
 
         if(!body.file)
             delete body.scriptType;
@@ -63,6 +78,17 @@ class ComputeForm extends Component {
         let { dispatch } = this.props;
         dispatch(createCompute(body));
     };
+
+    isCurrentStateOk = () => {
+        if (this.state.vCPU < 1) {
+            return false;
+        } else if (this.state.memory < 1) {
+            return false;
+        } else if (this.state.disk < 1) {
+            return false;
+        }
+        return true;
+    }
 
     render() {
         return (
@@ -76,6 +102,9 @@ class ComputeForm extends Component {
                         </button>
                     </div>
                     <div className="modal-body">
+                        <div>
+                            {this.state.showError && <div className="error-message">Please, check your requirements!</div>}
+                        </div>
                         <label>Minimal number of vCPUs</label>
                         <input value={this.state.vCPU} onChange={this.handleChange}
                             className="form-control" type="number" name="vCPU"/>
