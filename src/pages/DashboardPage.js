@@ -12,6 +12,10 @@ import FederetedNetworksPage from './FederetedNetworksPage';
 import FloatingIpPage from './FloatingIpPage';
 
 class DashboardComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
+    
 
     goto = (tab) => {
         switch (tab) {
@@ -44,11 +48,18 @@ class DashboardComponent extends Component {
     getPageContent = (tab, label) => {
         return(
             <div>
-                <TopMenu labelName={label}/> 
+                <TopMenu labelName={label} logout={this.logout}/> 
                 { tab }
             </div>
         );
     }
+
+    logout = (event) => {
+        event.preventDefault();
+        let { history } = this.props;
+        localStorage.removeItem('token');
+        history.push('/');
+    };
 
     render() {
         return (

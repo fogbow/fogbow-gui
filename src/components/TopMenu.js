@@ -21,7 +21,7 @@ class TopMenu extends Component {
                         <h1 style={{fontSize: '30px', color: 'white'}}>{this.label}</h1>
                         <div className="my-4  ml-auto">
                             <a className="btn my-2 my-sm-0">Settings</a>
-                            <a className="btn my-2 my-sm-0">Sign Out</a>
+                            <a className="btn my-2 my-sm-0" onClick={this.props.logout}>Sign Out</a>
                         </div>
                     </div>
                 </nav>

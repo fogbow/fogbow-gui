@@ -68,7 +68,7 @@ class NetworkForm extends Component {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Create Network</button>
+                        <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.handleSubmit}>Create Network</button>
                     </div>
                     </div>
                 </div>
