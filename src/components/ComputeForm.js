@@ -54,12 +54,6 @@ class ComputeForm extends Component {
         });
     };
 
-    toggleError = () => {
-        this.setState((prevState, props) => {
-            return { showError: true }
-        })
-    };
-
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState((props) => {
@@ -67,28 +61,12 @@ class ComputeForm extends Component {
         });
         let body = _.pickBy(this.state, _.identity);
 
-        if (!this.isCurrentStateOk()) {
-            this.toggleError();
-            return;
-        }
-
         if(!body.file)
             delete body.scriptType;
         
         let { dispatch } = this.props;
         dispatch(createCompute(body));
     };
-
-    isCurrentStateOk = () => {
-        if (this.state.vCPU < 1) {
-            return false;
-        } else if (this.state.memory < 1) {
-            return false;
-        } else if (this.state.disk < 1) {
-            return false;
-        }
-        return true;
-    }
 
     render() {
         return (
@@ -107,11 +85,11 @@ class ComputeForm extends Component {
                         </div>
                         <label>Minimal number of vCPUs</label>
                         <input value={this.state.vCPU} onChange={this.handleChange}
-                            className="form-control" type="number" name="vCPU"/>
+                            className="form-control" type="number" name="vCPU" min="1"/>
 
                         <label>Minimal amount of RAM in MB</label>
                         <input value={this.state.memory} onChange={this.handleChange}
-                            className="form-control" type="number" name="memory"/>
+                            className="form-control" type="number" name="memory" min="1"/>
 
                         <label>Member</label>
                         <select value={this.state.member} onChange={this.handleChange} 
@@ -175,7 +153,7 @@ class ComputeForm extends Component {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Create Compute</button>
+                        <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.handleSubmit}>Create Compute</button>
                     </div>
                     </div>
                 </div>
