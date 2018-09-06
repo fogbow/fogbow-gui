@@ -26,8 +26,7 @@ const initialState = {
     fednetId: '',
     file: '',
     scriptType: scriptTypes[0],
-    publicKey: '',
-    showError: false
+    publicKey: ''
 };
 
 class ComputeForm extends Component {
@@ -56,9 +55,7 @@ class ComputeForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.setState((props) => {
-            return { showError: false }
-        });
+
         let body = _.pickBy(this.state, _.identity);
 
         if(!body.file)
