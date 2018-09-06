@@ -11,7 +11,7 @@ const attachments = (state = {loading: false}, action) => {
                 loading: true
             };
         case attachmentsActionsTypes.GET_ATTACHEMENTS_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
 
         // CREATE
         case attachmentsActionsTypes.CREATE_ATTACHEMENT_REQUEST:
@@ -27,7 +27,7 @@ const attachments = (state = {loading: false}, action) => {
                 loading: true
             };
         case attachmentsActionsTypes.CREATE_ATTACHEMENT_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
 
         
         // DELETE
@@ -40,7 +40,7 @@ const attachments = (state = {loading: false}, action) => {
                 loading: true
             };
         case attachmentsActionsTypes.DELETE_ATTACHEMENT_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
         
         default:
             return state;

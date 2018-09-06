@@ -11,7 +11,7 @@ const computes = (state = { data: [], loading: false }, action) => {
                 loading: true
             };
         case computesActionsTypes.GET_COMPUTES_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
 
         // CREATE
         case computesActionsTypes.CREATE_COMPUTE_REQUEST:
@@ -28,7 +28,7 @@ const computes = (state = { data: [], loading: false }, action) => {
                 loading: true
             };
         case computesActionsTypes.CREATE_COMPUTE_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
 
         // DELETE
         case computesActionsTypes.DELETE_COMPUTE_REQUEST:
@@ -40,7 +40,7 @@ const computes = (state = { data: [], loading: false }, action) => {
                 loading: true
             };
         case computesActionsTypes.DELETE_COMPUTE_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
         
         default:
             return state;

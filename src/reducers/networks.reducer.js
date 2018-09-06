@@ -11,7 +11,7 @@ const networks = (state = {loading: false, data: []}, action) => {
                 loading: true
             };
         case networksActionsTypes.GET_NETWORKS_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
         
         // CREATE
         case networksActionsTypes.CREATE_NETWORK_REQUEST:
@@ -28,7 +28,7 @@ const networks = (state = {loading: false, data: []}, action) => {
                 loading: true
             };
         case networksActionsTypes.CREATE_NETWORK_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
         
         // DELETE
         case networksActionsTypes.DELETE_NETWORK_REQUEST:
@@ -40,7 +40,7 @@ const networks = (state = {loading: false, data: []}, action) => {
                 loading: true
             };
         case networksActionsTypes.DELETE_NETWORK_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
         
         default:
             return state;

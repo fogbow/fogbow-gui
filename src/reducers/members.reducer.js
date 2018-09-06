@@ -11,7 +11,7 @@ const members = (state = {loading: false, specific: {}}, action) => {
                 loading: true
             };
         case membersActionsTypes.GET_MEMBERS_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
 
         case membersActionsTypes.GET_MEMBER_DATA_REQUEST:
             return { ...state, loadingMember: false };
@@ -24,7 +24,7 @@ const members = (state = {loading: false, specific: {}}, action) => {
                 loadingMember: true
             };
         case membersActionsTypes.GET_MEMBER_DATA_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
         
         default:
             return state;

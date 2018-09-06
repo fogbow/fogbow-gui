@@ -11,7 +11,7 @@ const members = (state = {loading: false, data: []}, action) => {
                 data: data
             };
         case membersActionsTypes.GET_MEMBERS_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
         
         default:
             return state;

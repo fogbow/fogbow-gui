@@ -12,7 +12,7 @@ const volumes = (state = {loading: false, data: []}, action) => {
                 loading: true
             };
         case volumesActionsTypes.GET_VOLUMES_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
         
         // CREATE
         case volumesActionsTypes.CREATE_VOLUME_REQUEST:
@@ -29,7 +29,7 @@ const volumes = (state = {loading: false, data: []}, action) => {
                 loading: true
             };
         case volumesActionsTypes.CREATE_VOLUME_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
 
         // DELETE
         case volumesActionsTypes.DELETE_VOLUME_REQUEST:
@@ -41,7 +41,7 @@ const volumes = (state = {loading: false, data: []}, action) => {
                 loading: true
             };
         case volumesActionsTypes.DELETE_VOLUME_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
         
         default:
             return state;

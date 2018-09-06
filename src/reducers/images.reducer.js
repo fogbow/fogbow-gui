@@ -10,7 +10,7 @@ const images = (state = {loading: false}, action) => {
                 loading: true
             };
         case computesActionsTypes.GET_IMAGES_FAILURE:
-            return { error: action.error };
+            return { ...state, error: action.error };
         
         default:
             return state;
