@@ -46,7 +46,7 @@ class VolumeForm extends Component {
                         <div className="modal-body">
                             <label>Volume size (in GB)</label>
                             <input className="form-control" type="number" name="volumeSize"
-                                value={this.state.volumeSize} onChange={this.handleChange}/>
+                                value={this.state.volumeSize} onChange={this.handleChange} min="1"/>
 
                             <label>Name</label>
                             <input className="form-control" type="text" name="name"
