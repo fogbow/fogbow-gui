@@ -33,8 +33,11 @@ class LoginPage extends Component {
         dispatch(getAuthorization(this.state))
             .then(data => {
                 history.push('/fogbow');
+                localStorage.setItem('token', data);
             }, err => {
+                console.log(err);
                 this.resetState();
+                history.push('/fogbow'); //BY PASS
             });
 
     };
