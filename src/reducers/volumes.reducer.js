@@ -4,9 +4,10 @@ const volumes = (state = {loading: false, data: []}, action) => {
     switch (action.type) {
         // GET ALL
         case volumesActionsTypes.GET_VOLUMES_REQUEST:
-            return { loading: false };
+            return { ...state, loading: false };
         case volumesActionsTypes.GET_VOLUMES_SUCCESS:
             return {
+                ...state,
                 data: action.volumes,
                 loading: true
             };
@@ -15,7 +16,7 @@ const volumes = (state = {loading: false, data: []}, action) => {
         
         // CREATE
         case volumesActionsTypes.CREATE_VOLUME_REQUEST:
-            return { data: state.data, loading: false };
+            return { ...state, loading: false };
         case volumesActionsTypes.CREATE_VOLUME_SUCCESS:
             state.data.push({
                 instanceId: action.volume,
@@ -28,6 +29,18 @@ const volumes = (state = {loading: false, data: []}, action) => {
                 loading: true
             };
         case volumesActionsTypes.CREATE_VOLUME_FAILURE:
+            return { error: action.error };
+
+        // DELETE
+        case volumesActionsTypes.DELETE_VOLUME_REQUEST:
+            return { ...state };
+        case volumesActionsTypes.DELETE_VOLUME_SUCCESS:
+            return {
+                ...state,
+                data: state.data.filter(volume => volume.instanceId !== action.id),
+                loading: true
+            };
+        case volumesActionsTypes.DELETE_VOLUME_FAILURE:
             return { error: action.error };
         
         default:

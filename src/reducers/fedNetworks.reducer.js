@@ -4,7 +4,7 @@ const fedNetworks = (state = {loading: false, data: []}, action) => {
     switch (action.type) {
         // GET ALL
         case networksActionsTypes.GET_FED_NETWORKS_REQUEST:
-            return { loading: false };
+            return { ...state, loading: false };
         case networksActionsTypes.GET_FED_NETWORKS_SUCCESS:
             return {
                 data: action.networks,
@@ -15,7 +15,7 @@ const fedNetworks = (state = {loading: false, data: []}, action) => {
         
         // CREATE
         case networksActionsTypes.CREATE_FED_NETWORK_REQUEST:
-            return { data: state.data, loading: false };
+            return { ...state, loading: false };
         case networksActionsTypes.CREATE_FED_NETWORK_SUCCESS:
             state.data.push({
                 instanceId: action.network,
@@ -28,6 +28,18 @@ const fedNetworks = (state = {loading: false, data: []}, action) => {
                 loading: true
             };
         case networksActionsTypes.CREATE_FED_NETWORK_FAILURE:
+            return { error: action.error };
+
+        // DELETE
+        case networksActionsTypes.DELETE_FED_NETWORK_REQUEST:
+            return { ...state };
+        case networksActionsTypes.DELETE_FED_NETWORK_SUCCESS:
+            return {
+                ...state,
+                data: state.data.filter(network => network.instanceId !== action.id),
+                loading: true
+            };
+        case networksActionsTypes.DELETE_FED_NETWORK_FAILURE:
             return { error: action.error };
         
         default:

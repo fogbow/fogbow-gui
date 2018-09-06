@@ -4,7 +4,7 @@ const computes = (state = { data: [], loading: false }, action) => {
     switch (action.type) {
         // GET ALL
         case computesActionsTypes.GET_COMPUTES_REQUEST:
-            return { loading: false };
+            return { ...state, loading: false };
         case computesActionsTypes.GET_COMPUTES_SUCCESS:
             return {
                 data: action.computes,
@@ -15,7 +15,7 @@ const computes = (state = { data: [], loading: false }, action) => {
 
         // CREATE
         case computesActionsTypes.CREATE_COMPUTE_REQUEST:
-            return { data: state.data, loading: false };
+            return { ...state, loading: false };
         case computesActionsTypes.CREATE_COMPUTE_SUCCESS:
             state.data.push({
                 instanceId: action.compute,
@@ -28,6 +28,18 @@ const computes = (state = { data: [], loading: false }, action) => {
                 loading: true
             };
         case computesActionsTypes.CREATE_COMPUTE_FAILURE:
+            return { error: action.error };
+
+        // DELETE
+        case computesActionsTypes.DELETE_COMPUTE_REQUEST:
+            return { ...state };
+        case computesActionsTypes.DELETE_COMPUTE_SUCCESS:
+            return {
+                ...state,
+                data: state.data.filter(compute => compute.instanceId !== action.id),
+                loading: true
+            };
+        case computesActionsTypes.DELETE_COMPUTE_FAILURE:
             return { error: action.error };
         
         default:
