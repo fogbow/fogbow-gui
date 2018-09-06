@@ -12,14 +12,21 @@ class VolumesPage extends Component {
         super(props);
         this.state = {
             tableVisible: true,
-            orderId: ''
+            orderId: '',
+            intervalId: ''
         }
     }
     
     componentDidMount = () => {
         const { dispatch } = this.props;
-        dispatch(getVolumes())
+        this.state.intervalId = setInterval(async() => {
+            await dispatch(getVolumes());
+        }, 5000);
     };
+
+    componentWillUnmount = () => {
+        clearInterval(this.state.intervalId);
+    }
 
     get volumes() {
         return this.props.volumes.loading ? this.props.volumes.data: [];
