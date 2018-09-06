@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 
 import OrderList from '../components/OrderList';
 import FloatingIpForm from '../components/FloatingIpForm';
+import { getFloatIps } from '../actions/floatIps.actions';
 
 class FloatingIpPage extends Component {
     constructor(props) {
@@ -14,7 +17,7 @@ class FloatingIpPage extends Component {
 
     componentDidMount = () => {
         const { dispatch } = this.props;
-        // dispatch(getAttachments());
+        dispatch(getFloatIps());
     };
 
     get floatingIps() {
@@ -33,10 +36,9 @@ class FloatingIpPage extends Component {
             <div>
                 <OrderList orders={[]} form={<FloatingIpForm/>}  
                     type={'floatip'} handleShow={this.handleShow}/>
-                
             </div>
         );
     }
 }
 
-export default FloatingIpPage;
+export default connect()(FloatingIpPage);

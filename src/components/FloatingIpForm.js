@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { getComputes } from '../actions/computes.actions';
-
 import '../styles/details.css';
 
+import { getComputes } from '../actions/computes.actions';
+import { createFloatIp } from '../actions/floatIps.actions';
+
 const initialState = {
-    member: '',
-    source: '',
+    providingMember: '',
+    computeOrderId: '',
 };
 
 class FloatingIpForm extends Component {
@@ -37,7 +38,7 @@ class FloatingIpForm extends Component {
         let body = _.pickBy(this.state, _.identity);
         
         let { dispatch } = this.props;
-        // dispatch(createAttachment(body));
+        dispatch(createFloatIp(body));
     };
 
     render() {
@@ -53,13 +54,15 @@ class FloatingIpForm extends Component {
                         </div>
                         <div className="modal-body">
                             <label>Member</label>
-                            <select name='member' className="form-control" value={this.state.member} onChange={this.handleChange}>
+                            <select name='providingMember' className="form-control" required 
+                                value={this.state.member} onChange={this.handleChange}>
                                 <option value=''></option>
                                 { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
                             </select>
 
                             <label>Compute</label>
-                            <select  name='source' className="form-control" value={this.state.source} onChange={this.handleChange}>
+                            <select  name='computeOrderId' className="form-control" required
+                                value={this.state.source} onChange={this.handleChange}>
                                 <option value=''></option>
                                 {
                                     this.props.computes.loading ?
@@ -72,7 +75,7 @@ class FloatingIpForm extends Component {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Create Attachment</button>
+                            <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.handleSubmit}>Create Attachment</button>
                         </div>
                     </div>
                 </div>
