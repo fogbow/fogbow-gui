@@ -11,14 +11,21 @@ class ComputesPage extends Component {
         super(props);
         this.state = {
             tableVisible: true,
-            orderId: ''
+            orderId: '',
+            intervalId: ''
         }
     }
     
     componentDidMount = () => {
         const { dispatch } = this.props;
-        dispatch(getComputes())
+        this.state.intervalId = setInterval(async() => {
+            await dispatch(getComputes());
+        }, 5000);
     };
+
+    componentWillUnmount = () => {
+        clearInterval(this.state.intervalId);
+    }
 
     get computes() {
         return this.props.computes.loading ? this.props.computes.data: [];
