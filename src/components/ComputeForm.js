@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { getImages, createCompute, getComputes } from '../actions/computes.actions';
+import { getImages, createCompute } from '../actions/computes.actions';
 import { getNetworks } from '../actions/networks.actions';
 
 
@@ -77,9 +77,6 @@ class ComputeForm extends Component {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <div>
-                            {this.state.showError && <div className="error-message">Please, check your requirements!</div>}
-                        </div>
                         <label>Minimal number of vCPUs</label>
                         <input value={this.state.vCPU} onChange={this.handleChange}
                             className="form-control" type="number" name="vCPU" min="1"/>
