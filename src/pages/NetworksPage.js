@@ -11,14 +11,21 @@ class NetworksPage extends Component {
         super(props);
         this.state = {
             tableVisible: true,
-            orderId: ''
+            orderId: '',
+            intervalId: ''
         }
     }
     
     componentDidMount = () => {
         const { dispatch } = this.props;
-        dispatch(getNetworks())
+        this.state.intervalId = setInterval(async() => {
+            await dispatch(getNetworks());
+        }, 5000);
     };
+
+    componentWillUnmount = () => {
+        clearInterval(this.state.intervalId);
+    }
 
     get networks() {
         return this.props.networks.loading ? this.props.networks.data: [];
