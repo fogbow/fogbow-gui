@@ -2,15 +2,7 @@ import React, { Component } from 'react';
 
 import '../styles/sidebar.css';
 
-const tabs = [
-    { text: 'Quota', value: 'quota'},
-    { text: 'Computes', value: 'computes'},
-    { text: 'Volumes', value: 'volumes'},
-    { text: 'Networks', value: 'networks'},
-    { text: 'Federated Networks', value: 'fednets'},
-    { text: 'Attachments', value: 'attachments'},
-    { text: 'Floating IP', value: 'floatip'},
-];
+import { resources as tabs } from '../defaults/resources.types';
 
 class SidebarComponent extends Component {
     constructor(props) {

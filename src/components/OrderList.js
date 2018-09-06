@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import OrderComponent from './OrderComponent';
-import ComputeForm from './ComputeForm';
 
 const headers = [
     'id', 'Provider', 'State', 'Actions'
@@ -15,7 +14,6 @@ class OrderList extends Component {
             orderName: ''
         };
     }
-    
 
     getHeaders = () => {
         this.state.headers = this.props.disableProvider ?

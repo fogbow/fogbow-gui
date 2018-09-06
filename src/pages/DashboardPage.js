@@ -16,35 +16,35 @@ class DashboardComponent extends Component {
     goto = (tab) => {
         switch (tab) {
             case 'quota':
-                return this.getPageContent(<QuotaPage/>);
+                return this.getPageContent(<QuotaPage/>, tab);
             
             case 'computes':
-                return this.getPageContent(<ComputesPage/>);
+                return this.getPageContent(<ComputesPage/>, tab);
             
             case 'volumes':
-                return this.getPageContent(<VolumesPage/>);
+                return this.getPageContent(<VolumesPage/>, tab);
 
             case 'networks':
-                return this.getPageContent(<NetworksPage/>);
+                return this.getPageContent(<NetworksPage/>, tab);
             
             case 'attachments':
-                return this.getPageContent(<AttachmentsPage/>);
+                return this.getPageContent(<AttachmentsPage/>, tab);
             
             case 'fednets':
-                return this.getPageContent(<FederetedNetworksPage/>);
+                return this.getPageContent(<FederetedNetworksPage/>, tab);
             
             case 'floatip':
-                return this.getPageContent(<FloatingIpPage/>);
+                return this.getPageContent(<FloatingIpPage/>, tab);
         
             default:
                 break;
         }        
     };
 
-    getPageContent = (tab) => {
+    getPageContent = (tab, label) => {
         return(
             <div>
-                <TopMenu /> 
+                <TopMenu labelName={label}/> 
                 { tab }
             </div>
         );
@@ -53,7 +53,7 @@ class DashboardComponent extends Component {
     render() {
         return (
             <div>
-                <SidebarComponent goto={this.goto} defaultView={this.getPageContent(<QuotaPage/>)}/>
+                <SidebarComponent goto={this.goto} defaultView={this.getPageContent(<QuotaPage/>, 'quota')}/>
             </div>
         );
     }

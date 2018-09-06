@@ -31,7 +31,7 @@ class OrderComponent extends Component {
             case 'networks':
                 dispatch(deleteNetwork(id));
                 break;
-            case 'federatedNetworks':
+            case 'fednets':
                 dispatch(deleteFedNetwork(id));
                 break;
             case 'volumes':
