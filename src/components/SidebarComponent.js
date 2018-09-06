@@ -9,6 +9,7 @@ const tabs = [
     { text: 'Networks', value: 'networks'},
     { text: 'Federated Networks', value: 'fednets'},
     { text: 'Attachments', value: 'attachments'},
+    { text: 'Floating IP', value: 'floatip'},
 ];
 
 class SidebarComponent extends Component {
