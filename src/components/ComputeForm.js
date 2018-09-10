@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { getImages, createCompute } from '../actions/computes.actions';
-import { getNetworks } from '../actions/networks.actions';
+import { getNetworks, getFedNetworks } from '../actions/networks.actions';
 
 
 import '../styles/order-form.css';
@@ -23,7 +23,7 @@ const initialState = {
     disk: 30,
     memory: 1024,
     networkId: '',
-    fednetId: '',
+    federatedNetworkId: '',
     file: '',
     scriptType: scriptTypes[0],
     publicKey: ''
@@ -43,6 +43,9 @@ class ComputeForm extends Component {
         if(! this.props.networks.loading) {
             dispatch(getNetworks());
         }
+        if(! this.props.fednets.loading) {
+            dispatch(getFedNetworks());
+        }
     };
 
     handleChange = (event) => {
@@ -60,6 +63,11 @@ class ComputeForm extends Component {
 
         if(!body.file)
             delete body.scriptType;
+
+        if(body.federatedNetworkId) {
+            body = { federatedNetworkId: body.federatedNetworkId, computeOrder: body };
+            delete body.computeOrder.federatedNetworkId;
+        }
         
         let { dispatch } = this.props;
         dispatch(createCompute(body));
@@ -120,12 +128,12 @@ class ComputeForm extends Component {
                         </select>
 
                         <label>Federated network id</label>
-                        <select value={this.props.fednetId} onChange={this.handleChange}
-                            name='fednetId' className="form-control">
+                        <select value={this.props.federatedNetworkId} onChange={this.handleChange}
+                            name='federatedNetworkId' className="form-control">
                             <option value=''>Choose a federated network</option>
                             { 
-                                this.props.members.loading ?
-                                this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>):
+                                this.props.fednets.loading ?
+                                this.props.fednets.data.map((network, idx) => <option key={idx} value={network.instanceId}>{network.instanceId}</option>):
                                 undefined
                             }
                         </select>
@@ -159,7 +167,8 @@ class ComputeForm extends Component {
 const stateToProps = state => ({
     members: state.members,
     images: state.images,
-    networks: state.networks
+    networks: state.networks,
+    fednets: state.fedNetworks
 });
 
 export default connect(stateToProps)(ComputeForm);
