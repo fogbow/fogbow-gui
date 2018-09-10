@@ -4,16 +4,19 @@ import { connect } from 'react-redux';
 import '../styles/login.css';
 
 import { getAuthorization } from '../actions/auth.actions';
+import { env } from '../defaults/api.config';
 
-const initialState = {
-    username: '',
-    password: ''
-}
+let fields = Object.keys(env.authFields).map(key => {
+    return { [key]: '' }
+});
+
+const initialState = Object.assign({}, ...fields)
+
 
 class LoginPage extends Component {
     constructor(props) {
         super(props);
-
+        
         this.state = initialState;
     }
 
@@ -39,7 +42,44 @@ class LoginPage extends Component {
                 this.resetState();
                 history.push('/fogbow'); //BY PASS
             });
+    };
 
+    generateDropdown = (field, label, options) => {
+        return (
+            <div>
+                <label>{label}</label>
+                <select value={this.state[field]} onChange={this.handleChange} name={field} className="form-control">
+                    <option value=''>Choose an option</option>
+                    {
+                        options.map(option => <option value={option}>{option}</option>)
+                    }
+                </select>
+            </div>
+        );
+    };
+
+    generateInputs = () => {
+        let fields = env.authFields;
+        return(
+            <div>
+                {Object.keys(fields).map(field => {
+                    let {label, type} = fields[field];
+                    if (type === 'dropdown') {
+                        let { options } = fields[field];
+                        return this.generateDropdown(field, label, options);
+                    }
+
+                    return (
+                        <div className="form-group" key={field}>
+                            <label>{label}</label>
+        
+                            <input value={this.state[field]} onChange={this.handleChange} name={field}
+                            type={type} className="form-control"/>
+                        </div>
+                    );
+                })}
+            </div>
+        );
     };
 
     render() {
@@ -54,18 +94,7 @@ class LoginPage extends Component {
 
                     <p>Federation identity plugin :</p>
 
-                    <div className="form-group">
-                        <label>Username</label>
-
-                        <input value={this.state.username} onChange={this.handleChange} name="username"
-                        type="email" className="form-control" placeholder="Enter email"/>
-
-                    </div>
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input value={this.state.password} onChange={this.handleChange} name="password"
-                        type="password" className="form-control" placeholder="Password"/>
-                    </div>
+                    {this.generateInputs()}
 
                 </form>
                 <div className="form-footer">
