@@ -92,7 +92,7 @@ class LoginPage extends Component {
 
                     <hr className="horizontal-line"/>
 
-                    <p>Federation identity plugin :</p>
+                    <p>Authentication Service : {env.authPlugin}</p>
 
                     {this.generateInputs()}
 
