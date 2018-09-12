@@ -1,0 +1,19 @@
+.details {
+    padding: 15px;
+    margin-left: 15px;
+    margin-top: 20px;
+    border: 1px #dddddd solid;
+}
+
+.bolder {
+    font-weight: bold;
+}
+
+h2 {
+    line-height: 27px;
+    font-size: 18px;
+}
+
+p {
+    font-size: 13px;
+}

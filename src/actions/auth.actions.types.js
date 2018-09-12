@@ -1,0 +1,5 @@
+export const authActionsTypes = {
+    GET_AUTH_REQUEST: 'GET_AUTH_REQUEST',
+    GET_AUTH_SUCCESS: 'GET_AUTH_SUCCESS',
+    GET_AUTH_FAILURE: 'GET_AUTH_FAILURE'
+};

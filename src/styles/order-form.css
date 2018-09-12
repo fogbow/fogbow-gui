@@ -1,0 +1,11 @@
+.modal {
+    font-size: 14px;
+}
+
+.form-inline label {
+    justify-content: left;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
