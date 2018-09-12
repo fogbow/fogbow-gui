@@ -30,7 +30,7 @@ class QuotaPage extends Component {
             localQuota: mockData,
             totalQuota: mockData,
             selectedUserQuota: mockData,
-            localMember: env.local
+            localMember: env.memberId
         };
     }
 

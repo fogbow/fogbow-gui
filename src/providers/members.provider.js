@@ -10,8 +10,8 @@ const config = {
 };
 
 class MembersProvider {
-    members = env.membership.concat('/members');
-    computeQuota = env.manager.concat('/computes/quota/');
+    members = env.ms.concat('/members');
+    computeQuota = env.ras.concat('/computes/quota/');
 
     get() {
         return axios.get(this.members);

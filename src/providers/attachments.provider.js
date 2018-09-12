@@ -10,7 +10,7 @@ const config = {
 };
 
 class AttachmentsProvider {
-    url = env.manager.concat('/attachments');
+    url = env.ras.concat('/attachments');
 
     create(body) {
         return axios.post(this.url, body, config);

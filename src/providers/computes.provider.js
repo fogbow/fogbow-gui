@@ -10,8 +10,8 @@ const config = {
 };
 
 class ComputesProvider {
-    url = env.manager.concat('/computes');
-    imagesUrl = env.manager.concat('/images');
+    url = env.ras.concat('/computes');
+    imagesUrl = env.ras.concat('/images');
 
     create(body) {
         return axios.post(this.url, body, config);

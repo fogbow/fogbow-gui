@@ -10,8 +10,8 @@ const config = {
 };
 
 class NetworksProvider {
-    url = env.manager.concat('/networks');
-    fedNetUrl = env.fedenet.concat('/federatedNetworks');
+    url = env.ras.concat('/networks');
+    fedNetUrl = env.fns.concat('/federatedNetworks');
 
     create(body) {
         return axios.post(this.url, body, config);

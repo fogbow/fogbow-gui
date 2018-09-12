@@ -6,7 +6,7 @@ import '../styles/login.css';
 import { getAuthorization } from '../actions/auth.actions';
 import { env } from '../defaults/api.config';
 
-let fields = Object.keys(env.authFields).map(key => {
+let fields = Object.keys(env.credentialFields).map(key => {
     return { [key]: '' }
 });
 
@@ -59,7 +59,7 @@ class LoginPage extends Component {
     };
 
     generateInputs = () => {
-        let fields = env.authFields;
+        let fields = env.credentialFields;
         return(
             <div>
                 {Object.keys(fields).map(field => {
@@ -92,7 +92,7 @@ class LoginPage extends Component {
 
                     <hr className="horizontal-line"/>
 
-                    <p>Authentication Service : {env.authPlugin}</p>
+                    <p>Authentication Service : {env.authenticationPlugin}</p>
 
                     {this.generateInputs()}
 

@@ -10,7 +10,7 @@ const config = {
 };
 
 class VolumesProvider {
-    url = env.manager.concat('/volumes');
+    url = env.ras.concat('/volumes');
 
     create(body) {
         return axios.post(this.url, body, config);

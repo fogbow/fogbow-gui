@@ -2,7 +2,7 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class AuthProvider {
-    url = env.manager.concat('/tokens');
+    url = env.ras.concat('/tokens');
 
     authorize(credentials) {
         return axios.post(this.url, credentials);

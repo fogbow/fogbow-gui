@@ -10,7 +10,7 @@ const config = {
 };
 
 class FloatIPsProvider {
-    url = env.manager.concat('/publicIps');
+    url = env.ras.concat('/publicIps');
 
     create(body) {
         return axios.post(this.url, body, config);
