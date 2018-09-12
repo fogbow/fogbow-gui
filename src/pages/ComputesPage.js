@@ -18,9 +18,11 @@ class ComputesPage extends Component {
     
     componentDidMount = () => {
         const { dispatch } = this.props;
-        this.state.intervalId = setInterval(async() => {
-            await dispatch(getComputes());
-        }, 5000);
+        this.setState({
+            intervalId: setInterval(async() => {
+                await dispatch(getComputes());
+            }, 5000)
+        });
     };
 
     componentWillUnmount = () => {

@@ -12,11 +12,6 @@ import FederetedNetworksPage from './FederetedNetworksPage';
 import FloatingIpPage from './FloatingIpPage';
 
 class DashboardComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
-    
-
     goto = (tab) => {
         switch (tab) {
             case 'quota':

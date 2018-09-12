@@ -5,9 +5,6 @@ import '../styles/top-menu.css';
 import { resources } from '../defaults/resources.types';
 
 class TopMenu extends Component {
-    constructor(props) {
-        super(props);
-    }
     
     get label() {
         return resources.find(tab => tab.value === this.props.labelName).text;

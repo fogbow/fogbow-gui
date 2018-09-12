@@ -16,8 +16,9 @@ class OrderList extends Component {
     }
 
     getHeaders = () => {
-        this.state.headers = this.props.disableProvider ?
-            headers.filter(h => h !== 'Provider'): headers;
+        this.setState({
+            headers: this.props.disableProvider ? headers.filter(h => h !== 'Provider'): headers
+        });
         return(
             <tr>
                 {this.state.headers

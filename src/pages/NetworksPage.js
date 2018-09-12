@@ -18,9 +18,11 @@ class NetworksPage extends Component {
     
     componentDidMount = () => {
         const { dispatch } = this.props;
-        this.state.intervalId = setInterval(async() => {
-            await dispatch(getNetworks());
-        }, 5000);
+        this.setState({
+            intervalId:setInterval(async() => {
+                await dispatch(getNetworks());
+            }, 5000)
+        });
     };
 
     componentWillUnmount = () => {
