@@ -9,16 +9,15 @@ const headers = [
 class OrderList extends Component {
     constructor(props) {
         super(props);
+        
+        let hds = this.props.disableProvider ? headers.filter(h => h !== 'Provider'): headers;
         this.state = {
-            headers,
+            headers: hds,
             orderName: ''
         };
     }
 
     getHeaders = () => {
-        this.setState({
-            headers: this.props.disableProvider ? headers.filter(h => h !== 'Provider'): headers
-        });
         return(
             <tr>
                 {this.state.headers
