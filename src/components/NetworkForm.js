@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { createNetwork } from '../actions/networks.actions';
 
 const initialState = {
+    name: '',
     address: '10.10.0.0/24',
     gateway: '10.10.0.1',
     allocation: 'dynamic',
@@ -45,6 +46,10 @@ class NetworkForm extends Component {
                         </button>
                     </div>
                     <div className="modal-body">
+                        <label>Name</label>
+                        <input value={this.state.name} onChange={this.handleChange}
+                        className="form-control" type="text" name="name"/> 
+
                         <label>CIDR</label>
                         <input className="form-control" type="text" name="address" 
                            value={this.state.address} onChange={this.handleChange}/>

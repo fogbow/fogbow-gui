@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import OrderComponent from './OrderComponent';
 
 const headers = [
-    'id', 'Provider', 'State', 'Actions'
+    'id', 'name', 'Provider', 'State', 'Actions'
 ];
 
 class OrderList extends Component {

@@ -8,6 +8,7 @@ import { getComputes } from '../actions/computes.actions';
 import { createFloatIp } from '../actions/floatIps.actions';
 
 const initialState = {
+    name: '',
     providingMember: '',
     computeOrderId: '',
 };
@@ -53,6 +54,10 @@ class FloatingIpForm extends Component {
                             </button>
                         </div>
                         <div className="modal-body">
+                            <label>Name</label>
+                            <input value={this.state.name} onChange={this.handleChange}
+                            className="form-control" type="text" name="name"/>  
+                            
                             <label>Member</label>
                             <select name='providingMember' className="form-control" required 
                                 value={this.state.member} onChange={this.handleChange}>

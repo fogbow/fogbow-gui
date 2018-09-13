@@ -5,8 +5,8 @@ import _ from 'lodash';
 import { createFedNetwork } from '../actions/networks.actions';
 
 const initialState = {
+    name: '',
     cidrNotation: '188.140.0.0/24',
-    label: '',
     allowedMembers: []
 };
 
@@ -59,8 +59,9 @@ class FederatedNetworksForm extends Component {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <label>Label</label>
-                            <input className="form-control" type="text" name="label" value={this.state.label} onChange={this.handleChange}/>
+                            <label>Name</label>
+                            <input value={this.state.name} onChange={this.handleChange}
+                            className="form-control" type="text" name="name"/>  
                             
                             <label>CIDR</label>
                             <input className="form-control" type="text" name="cidrNotation" value={this.state.cidrNotation} onChange={this.handleChange}/>

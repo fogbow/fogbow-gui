@@ -17,6 +17,7 @@ const scriptTypes = [
 ];
 
 const initialState = {
+    name: '',
     member: '',
     imageId: '',
     vCPU: 1,
@@ -85,6 +86,10 @@ class ComputeForm extends Component {
                         </button>
                     </div>
                     <div className="modal-body">
+                        <label>Name</label>
+                        <input value={this.state.name} onChange={this.handleChange}
+                        className="form-control" type="text" name="name"/>
+
                         <label>Minimal number of vCPUs</label>
                         <input value={this.state.vCPU} onChange={this.handleChange}
                             className="form-control" type="number" name="vCPU" min="1"/>

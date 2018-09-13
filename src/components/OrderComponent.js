@@ -51,6 +51,7 @@ class OrderComponent extends Component {
         return (
             <tr>
                 <td><a href="#" onClick={this.props.handleShow}>{this.props.order.instanceId}</a></td>
+                <td>{this.props.order.name}</td>
                 {this.props.disableProvider ? undefined:
                     <td>{this.props.order.provider}</td>}
                 <td>{this.props.order.state}</td>

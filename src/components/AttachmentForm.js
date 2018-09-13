@@ -7,6 +7,7 @@ import { getVolumes } from '../actions/volumes.actions';
 import { createAttachment } from '../actions/attachments.actions';
 
 const initialState = {
+    name: '',
     member: '',
     source: '',
     target: '',
@@ -57,6 +58,11 @@ class AttachmentForm extends Component {
                             </button>
                         </div>
                         <div className="modal-body">
+                            <label>Name</label>
+                            <input value={this.state.name} onChange={this.handleChange}
+                            className="form-control" type="text" name="name"/>                        
+
+
                             <label>Member</label>
                             <select name='member' className="form-control" value={this.state.member} onChange={this.handleChange}>
                                 <option value=''></option>
