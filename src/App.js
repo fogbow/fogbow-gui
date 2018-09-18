@@ -6,12 +6,6 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 
 class App extends Component {
-  isAuthenticated = (transition) => {
-    const hasToken = !!localStorage.getItem('token');
-    if(!hasToken)
-      transition.redirect('/');
-  };
-
   render() {
     return (
       <div>
@@ -19,7 +13,7 @@ class App extends Component {
             <main>
               <Switch>
                 <Route exact path="/" component={LoginPage} />
-                <Route exact path="/fogbow" component={DashboardPage} onEnter={this.isAuthenticated}/>
+                <Route exact path="/fogbow" component={DashboardPage}/>
               </Switch>
             </main>
         </BrowserRouter>

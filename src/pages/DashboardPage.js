@@ -16,6 +16,7 @@ class DashboardComponent extends Component {
     constructor(props) {
         super(props);
         this.getTokenFromQueryString();
+        this.checkToken();
     }
     
     getTokenFromQueryString = () => {
@@ -25,6 +26,13 @@ class DashboardComponent extends Component {
             if (token)
                 localStorage.setItem('token', token);
         }
+    };
+
+    checkToken = () => {
+        const token = localStorage.getItem('token');
+        const { history } = this.props;
+        if (!token)
+            history.push('/');
     };
     
 
