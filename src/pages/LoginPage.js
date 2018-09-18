@@ -32,15 +32,20 @@ class LoginPage extends Component {
     login = (event) => {
         event.preventDefault();
 
-        let { history, dispatch } = this.props;
-        dispatch(getAuthorization(this.state))
-            .then(data => {
-                history.push('/fogbow');
-                localStorage.setItem('token', data.token);
-            }, err => {
-                console.log(err);
-                this.resetState();
-            });
+        if (env.cafeEndpoint) {
+            this.loginWithCafe(event);
+        } else {
+            let { history, dispatch } = this.props;
+            dispatch(getAuthorization(this.state))
+                .then(data => {
+                    history.push('/fogbow');
+                    localStorage.setItem('token', data.token);
+                }, err => {
+                    console.log(err);
+                    this.resetState();
+                });
+        }
+
     };
 
     loginWithCafe = (event) => {
@@ -63,11 +68,8 @@ class LoginPage extends Component {
     };
 
     generateAuth = () => {
-        let authMethod = env.authenticationPlugin.toLowerCase();
-        if(authMethod !== 'cafe')
+        if(!env.cafeEndpoint)
             return this.generateInputs();
-        
-        return this.generateCafeAuth();
     };
 
 
@@ -91,16 +93,6 @@ class LoginPage extends Component {
                         </div>
                     );
                 })}
-            </div>
-        );
-    };
-
-    generateCafeAuth = () => {
-        return(
-            <div>
-                <button type="button" class="btn btn-primary btn-lg btn-block" onClick={this.loginWithCafe}> 
-                    Login with Cafe
-                </button>
             </div>
         );
     };
