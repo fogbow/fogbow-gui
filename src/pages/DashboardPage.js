@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { parse } from 'query-string';
 
 import TopMenu from '../components/TopMenu';
 import SidebarComponent from '../components/SidebarComponent';
@@ -12,6 +13,21 @@ import FederetedNetworksPage from './FederetedNetworksPage';
 import FloatingIpPage from './FloatingIpPage';
 
 class DashboardComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.getTokenFromQueryString();
+    }
+    
+    getTokenFromQueryString = () => {
+        if (this.props.location.search) {
+            const token = parse(this.props.location.search).token;
+        
+            if (token)
+                localStorage.setItem('token', token);
+        }
+    };
+    
+
     goto = (tab) => {
         switch (tab) {
             case 'quota':
