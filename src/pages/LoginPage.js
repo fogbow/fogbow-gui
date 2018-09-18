@@ -43,6 +43,11 @@ class LoginPage extends Component {
             });
     };
 
+    loginWithCafe = (event) => {
+        event.preventDefault();
+        // TODO: post to cafe auth url.
+    };
+
     generateDropdown = (field, label, options) => {
         return (
             <div>
@@ -56,6 +61,15 @@ class LoginPage extends Component {
             </div>
         );
     };
+
+    generateAuth = () => {
+        let authMethod = env.authenticationPlugin.toLowerCase();
+        if(authMethod !== 'cafe')
+            return this.generateInputs();
+        
+        return this.generateCafeAuth();
+    };
+
 
     generateInputs = () => {
         let fields = env.credentialFields;
@@ -81,6 +95,16 @@ class LoginPage extends Component {
         );
     };
 
+    generateCafeAuth = () => {
+        return(
+            <div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" onClick={this.loginWithCafe}> 
+                    Login with Cafe
+                </button>
+            </div>
+        );
+    };
+
     render() {
         return (
             <div>
@@ -93,7 +117,7 @@ class LoginPage extends Component {
 
                     <p>Authentication Service : {env.authenticationPlugin}</p>
 
-                    {this.generateInputs()}
+                    {this.generateAuth()}
 
                 </form>
                 <div className="form-footer">
