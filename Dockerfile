@@ -11,8 +11,6 @@ RUN git clone https://github.com/fogbow/fogbow-gui.git
 
 WORKDIR fogbow-gui
 
-RUN git checkout new-release
-
 RUN npm i
 
 CMD npm start && tail -f /dev/null
