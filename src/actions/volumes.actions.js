@@ -3,12 +3,13 @@ import VolumesProvider from '../providers/volumes.provider';
 
 export const getVolumes = () => {
     return async(dispatch) => {
+        let provider = new VolumesProvider();
         const request = () => ({ type: volumesActionsTypes.GET_VOLUMES_REQUEST});
         const success = (volumes) => ({ type: volumesActionsTypes.GET_VOLUMES_SUCCESS, volumes });
         const failure = (error) => ({ type: volumesActionsTypes.GET_VOLUMES_FAILURE, error });
         try {
             dispatch(request());
-            let volumes = await VolumesProvider.get();
+            let volumes = await provider.get();
 
             dispatch(success(volumes.data));
         } catch (error) {
@@ -20,13 +21,14 @@ export const getVolumes = () => {
 export const getVolumeData = (id) => {
     return dispatch => {
         return new Promise((resolve, reject) => {
+            let provider = new VolumesProvider();
             const request = () => ({ type: volumesActionsTypes.GET_DATA_VOLUME_REQUEST});
             const success = (volume) => ({ type: volumesActionsTypes.GET_DATA_VOLUME_SUCCESS, volume });
             const failure = (error) => ({ type: volumesActionsTypes.GET_DATA_VOLUME_FAILURE, error });
 
             dispatch(request());
 
-            VolumesProvider.getData(id).then(
+            provider.getData(id).then(
                 volumes => resolve(dispatch(success(volumes.data)))
             ).catch(
                 error => reject(dispatch(failure(error)))
@@ -38,13 +40,14 @@ export const getVolumeData = (id) => {
 export const createVolume = (body) => {
     return dispatch => {
         return new Promise((resolve, reject) => {
+            let provider = new VolumesProvider();
             const request = () => ({ type: volumesActionsTypes.CREATE_VOLUME_REQUEST});
             const success = (volume) => ({ type: volumesActionsTypes.CREATE_VOLUME_SUCCESS, volume, member: body.member });
             const failure = (error) => ({ type: volumesActionsTypes.CREATE_VOLUME_FAILURE, error });
 
             dispatch(request());
 
-            VolumesProvider.create(body).then(
+            provider.create(body).then(
                 volume => resolve(dispatch(success(volume.data)))
             ).catch(
                 error => reject(dispatch(failure(error)))
@@ -56,13 +59,14 @@ export const createVolume = (body) => {
 export const deleteVolume = (id) => {
     return dispatch => {
         return new Promise((resolve, reject) => {
+            let provider = new VolumesProvider();
             const request = () => ({ type: volumesActionsTypes.DELETE_VOLUME_REQUEST});
             const success = () => ({ type: volumesActionsTypes.DELETE_VOLUME_SUCCESS, id });
             const failure = (error) => ({ type: volumesActionsTypes.DELETE_VOLUME_FAILURE, error });
 
             dispatch(request());
 
-            VolumesProvider.delete(id).then(
+            provider.delete(id).then(
                 () => resolve(dispatch(success()))
             ).catch(
                 error => reject(dispatch(failure(error)))

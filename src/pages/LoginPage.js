@@ -40,7 +40,6 @@ class LoginPage extends Component {
             }, err => {
                 console.log(err);
                 this.resetState();
-                history.push('/fogbow'); //BY PASS
             });
     };
 

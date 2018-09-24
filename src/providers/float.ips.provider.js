@@ -1,32 +1,29 @@
 import axios from 'axios';
 import { env } from '../defaults/api.config';
 
-let token = localStorage.getItem('token') || env.managerToken;
-
-const config = {
-    headers: {
-        'federationTokenValue': token
-    }
-};
-
 class FloatIPsProvider {
     url = env.ras.concat('/publicIps');
+    config = {
+        headers: {
+            'federationTokenValue': localStorage.getItem('token')
+        }
+    };
 
     create(body) {
-        return axios.post(this.url, body, config);
+        return axios.post(this.url, body, this.config);
     }
 
     get() {
-        return axios.get(this.url.concat('/status'), config);
+        return axios.get(this.url.concat('/status'), this.config);
     }
 
     getData(id) {
-        return axios.get(this.url.concat('/', id), config);
+        return axios.get(this.url.concat('/', id), this.config);
     }
 
     delete(id) {
-        return axios.delete(this.url.concat('/', id), config);
+        return axios.delete(this.url.concat('/', id), this.config);
     }
 }
 
-export default new FloatIPsProvider();
+export default FloatIPsProvider;
