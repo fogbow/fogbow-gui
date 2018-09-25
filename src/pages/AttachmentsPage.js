@@ -11,13 +11,22 @@ class AttachmentsPage extends Component {
         super(props);
         this.state = {
             tableVisible: true,
-            orderId: ''
+            orderId: '',
+            intervalId: ''
         }
     }
     
     componentDidMount = () => {
         const { dispatch } = this.props;
-        dispatch(getAttachments());
+        this.setState({
+            intervalId: setInterval(async() => {
+                await dispatch(getAttachments());
+            }, 5000)
+        });
+    };
+
+    componentWillUnmount = () => {
+        clearInterval(this.state.intervalId);
     };
 
     get attachments() {
