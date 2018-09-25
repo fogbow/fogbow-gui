@@ -32,6 +32,11 @@ class NetworkForm extends Component {
         
         let { dispatch } = this.props;
         dispatch(createNetwork(body));
+        this.resetForm();
+    };
+
+    resetForm = () => {
+        this.setState(initialState);
     };
 
     render() {

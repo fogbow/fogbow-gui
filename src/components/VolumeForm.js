@@ -31,6 +31,11 @@ class VolumeForm extends Component {
         
         let { dispatch } = this.props;
         dispatch(createVolume(body));
+        this.resetForm();
+    };
+
+    resetForm = () => {
+        this.setState(initialState);
     };
     
     render() {

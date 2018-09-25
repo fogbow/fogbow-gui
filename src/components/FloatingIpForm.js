@@ -40,6 +40,11 @@ class FloatingIpForm extends Component {
         
         let { dispatch } = this.props;
         dispatch(createFloatIp(body));
+        this.resetForm();
+    };
+
+    resetForm = () => {
+        this.setState(initialState);
     };
 
     render() {

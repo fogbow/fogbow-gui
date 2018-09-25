@@ -72,6 +72,11 @@ class ComputeForm extends Component {
         
         let { dispatch } = this.props;
         dispatch(createCompute(body));
+        this.resetForm();
+    };
+
+    resetForm = () => {
+        this.setState(initialState);
     };
 
     render() {

@@ -44,6 +44,11 @@ class AttachmentForm extends Component {
         
         let { dispatch } = this.props;
         dispatch(createAttachment(body));
+        this.resetForm();
+    };
+
+    resetForm = () => {
+        this.setState(initialState);
     };
 
     render() {

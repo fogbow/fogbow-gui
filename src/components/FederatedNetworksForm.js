@@ -45,6 +45,11 @@ class FederatedNetworksForm extends Component {
         
         let { dispatch } = this.props;
         dispatch(createFedNetwork(body));
+        this.resetForm();
+    };
+
+    resetForm = () => {
+        this.setState(initialState);
     };
 
     render() {
