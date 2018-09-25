@@ -39,12 +39,6 @@ class NetworkDetails extends Component {
                 <p className="bolder">Gateway</p>
                 <p>{this.state.orderData.gateway || '-'}</p>
 
-                <p className="bolder">Network Interface</p>
-                <p>{this.state.orderData.networkInterface || '-'}</p>
-
-                <p className="bolder">MAC Interface</p>
-                <p>{this.state.orderData.macinterface || '-'}</p>
-
                 <p className="bolder">State</p>
                 <p>{this.state.orderData.state || '-'}</p>
             </div>

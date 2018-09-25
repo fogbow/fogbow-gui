@@ -29,10 +29,10 @@ class VolumeDetails extends Component {
                 <p className="bolder">Volume id</p>
                 <p>{this.state.orderData.id || '-'}</p>
 
-                <p className="bolder">Volume size (in GB)</p>
+                <p className="bolder">Name</p>
                 <p>{this.state.orderData.name || '-'}</p>
 
-                <p className="bolder">Name</p>
+                <p className="bolder">Volume size (in GB)</p>
                 <p>{this.state.orderData.size || '-'}</p>
 
                 <p className="bolder">State</p>
