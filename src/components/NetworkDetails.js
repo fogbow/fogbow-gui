@@ -30,8 +30,8 @@ class NetworkDetails extends Component {
                 <p className="bolder">Network id</p>
                 <p>{this.state.orderData.id || '-'}</p>
 
-                <p className="bolder">Label</p>
-                <p>{this.state.orderData.label || '-'}</p>
+                <p className="bolder">Name</p>
+                <p>{this.state.orderData.name || '-'}</p>
 
                 <p className="bolder">Address (CIDR)</p>
                 <p>{this.state.orderData.address || '-'}</p>
