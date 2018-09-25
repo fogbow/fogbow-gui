@@ -13,4 +13,4 @@ WORKDIR fogbow-gui
 
 RUN npm i
 
-CMD npm start && tail -f /dev/null
+CMD npm start || tail -f /dev/null
