@@ -22,7 +22,7 @@ class SidebarComponent extends Component {
     renderItens = () => {
         return tabs.map(tab => {
             return(
-                <li key={tab.text} onClick={() => this.setContent(tab.value)}>
+                <li key={tab.text} onClick={() => this.setContent(tab.value)} style={{cursor: 'Pointer'}}>
                     {tab.text}
                 </li>
             ) 
