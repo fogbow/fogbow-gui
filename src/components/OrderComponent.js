@@ -5,6 +5,7 @@ import { deleteAttachment } from '../actions/attachments.actions';
 import { deleteCompute } from '../actions/computes.actions';
 import { deleteNetwork, deleteFedNetwork } from '../actions/networks.actions';
 import { deleteVolume } from '../actions/volumes.actions';
+import { deleteFloatIp } from '../actions/floatIps.actions';
 
 const mapping = {
     computes: 'compute',
@@ -40,7 +41,9 @@ class OrderComponent extends Component {
             case 'attachments':
                 dispatch(deleteAttachment(id));
                 break;
-        
+            case 'floatip':
+                dispatch(deleteFloatIp(id));
+                break;
             default:
                 break;
         }
