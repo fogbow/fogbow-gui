@@ -30,6 +30,18 @@ const floatIps = (state = {loading: false, specific: {}}, action) => {
             };
         case floatIpsActionsTypes.CREATE_FLOAT_IP_FAILURE:
             return { ...state, error: action.error };
+
+        // DELETE
+        case floatIpsActionsTypes.DELETE_FLOAT_IP_REQUEST:
+            return { ...state };
+        case floatIpsActionsTypes.DELETE_FLOAT_IP_SUCCESS:
+            return {
+                ...state,
+                data: state.data.filter(floatIp => floatIp.instanceId !== action.id),
+                loading: true
+            };
+        case floatIpsActionsTypes.DELETE_FLOAT_IP_FAILURE:
+            return { ...state, error: action.error };
         
         default:
             return state;

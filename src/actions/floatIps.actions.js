@@ -44,13 +44,13 @@ export const getFloatIpData = (id) => {
         return new Promise((resolve, reject) => {
             let provider = new FloatIPsProvider();
             const request = () => ({ type: floatIpsActionsTypes.GET_DATA_FLOAT_IP_REQUEST});
-            const success = (volume) => ({ type: floatIpsActionsTypes.GET_DATA_FLOAT_IP_SUCCESS, volume });
+            const success = (floatIp) => ({ type: floatIpsActionsTypes.GET_DATA_FLOAT_IP_SUCCESS, floatIp });
             const failure = (error) => ({ type: floatIpsActionsTypes.GET_DATA_FLOAT_IP_FAILURE, error });
 
             dispatch(request());
 
             provider.getData(id).then(
-                volumes => resolve(dispatch(success(volumes.data)))
+                floatIp => resolve(dispatch(success(floatIp.data)))
             ).catch(
                 error => reject(dispatch(failure(error)))
             );
