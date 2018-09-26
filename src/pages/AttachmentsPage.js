@@ -18,6 +18,7 @@ class AttachmentsPage extends Component {
     
     componentDidMount = () => {
         const { dispatch } = this.props;
+        dispatch(getAttachments());
         this.setState({
             intervalId: setInterval(async() => {
                 await dispatch(getAttachments());

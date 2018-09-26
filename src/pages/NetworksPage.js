@@ -18,6 +18,7 @@ class NetworksPage extends Component {
     
     componentDidMount = () => {
         const { dispatch } = this.props;
+        dispatch(getNetworks());
         this.setState({
             intervalId:setInterval(async() => {
                 await dispatch(getNetworks());

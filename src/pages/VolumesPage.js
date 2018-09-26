@@ -19,6 +19,7 @@ class VolumesPage extends Component {
     
     componentDidMount = () => {
         const { dispatch } = this.props;
+        dispatch(getVolumes());
         this.setState({
             intervalId: setInterval(async() => {
                 await dispatch(getVolumes());
