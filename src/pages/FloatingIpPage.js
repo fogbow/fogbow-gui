@@ -11,18 +11,26 @@ class FloatingIpPage extends Component {
         super(props);
         this.state = {
             tableVisible: true,
-            orderId: ''
+            orderId: '',
+            intervalId: ''
         }
     }
 
     componentDidMount = () => {
         const { dispatch } = this.props;
         dispatch(getFloatIps());
+        this.setState({
+            intervalId: setInterval(async() => {
+                await dispatch(getFloatIps());
+            }, 5000)
+        });
     };
 
+    componentWillUnmount = () => {
+        clearInterval(this.state.intervalId);
+    }
+
     get floatIps() {
-        console.log(this.props.floatIps);
-        
         return this.props.floatIps.loading ? this.props.floatIps.data: [];
     }
 
