@@ -38,3 +38,41 @@ export const getFloatIps = () => {
         });
     };
 };
+
+export const getFloatIpData = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            let provider = new FloatIPsProvider();
+            const request = () => ({ type: floatIpsActionsTypes.GET_DATA_FLOAT_IP_REQUEST});
+            const success = (volume) => ({ type: floatIpsActionsTypes.GET_DATA_FLOAT_IP_SUCCESS, volume });
+            const failure = (error) => ({ type: floatIpsActionsTypes.GET_DATA_FLOAT_IP_FAILURE, error });
+
+            dispatch(request());
+
+            provider.getData(id).then(
+                volumes => resolve(dispatch(success(volumes.data)))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
+
+export const deleteFloatIp = (id) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            let provider = new FloatIPsProvider();
+            const request = () => ({ type: floatIpsActionsTypes.DELETE_FLOAT_IP_REQUEST});
+            const success = () => ({ type: floatIpsActionsTypes.DELETE_FLOAT_IP_SUCCESS, id });
+            const failure = (error) => ({ type: floatIpsActionsTypes.DELETE_FLOAT_IP_FAILURE, error });
+
+            dispatch(request());
+
+            provider.delete(id).then(
+                () => resolve(dispatch(success()))
+            ).catch(
+                error => reject(dispatch(failure(error)))
+            );
+        });
+    };
+};
