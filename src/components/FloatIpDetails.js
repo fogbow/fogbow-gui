@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { getFloatIpData } from '../actions/floatIps.actions';
+
 class FloatIpDetails extends Component {
     constructor(props) {
         super(props);
@@ -10,11 +12,11 @@ class FloatIpDetails extends Component {
 
     componentDidMount() {
         let { dispatch } = this.props;
-        // dispatch(getNetworkData(this.props.id)).then(data => {
-        //     this.setState({
-        //         orderData: data.networks
-        //     });
-        // })
+        dispatch(getFloatIpData(this.props.id)).then(data => {
+            this.setState({
+                orderData: data.floatIp
+            });
+        });
     }
 
     render() {
