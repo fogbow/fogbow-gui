@@ -6,7 +6,7 @@ export const createFloatIp = (body) => {
         return new Promise((resolve, reject) => {
             let provider = new FloatIPsProvider();
             const request = () => ({ type: floatIpsActionsTypes.CREATE_FLOAT_IP_REQUEST});
-            const success = (floatIp) => ({ type: floatIpsActionsTypes.CREATE_FLOAT_IP_SUCCESS, floatIp });
+            const success = (floatIp) => ({ type: floatIpsActionsTypes.CREATE_FLOAT_IP_SUCCESS, floatIp, member: body.providingMember });
             const failure = (error) => ({ type: floatIpsActionsTypes.CREATE_FLOAT_IP_FAILURE, error });
 
             dispatch(request());

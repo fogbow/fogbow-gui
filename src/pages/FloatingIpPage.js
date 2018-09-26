@@ -20,8 +20,10 @@ class FloatingIpPage extends Component {
         dispatch(getFloatIps());
     };
 
-    get floatingIps() {
-        return this.props.attachments.loading ? this.props.attachments.data: [];
+    get floatIps() {
+        console.log(this.props.floatIps);
+        
+        return this.props.floatIps.loading ? this.props.floatIps.data: [];
     }
 
     handleShow = (orderId) => {
@@ -40,11 +42,15 @@ class FloatingIpPage extends Component {
     render() {
         return (
             <div>
-                <OrderList orders={[]} form={<FloatingIpForm/>}  
+                <OrderList orders={this.floatIps} form={<FloatingIpForm/>}  
                     type={'floatip'} handleShow={this.handleShow} handleHide={this.handleHide}/>
             </div>
         );
     }
 }
 
-export default connect()(FloatingIpPage);
+const stateToProps = state => ({
+    floatIps: state.floatIps
+});
+
+export default connect(stateToProps)(FloatingIpPage);

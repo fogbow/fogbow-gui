@@ -8,6 +8,7 @@ import fedNetworks from './fedNetworks.reducer';
 import attachments from './attachments.reducer';
 import images from './images.reducer';
 import quota from './quota.reducer';
+import floatIps from './floatIp.reducer';
 
 export default combineReducers({
     members,
@@ -17,5 +18,6 @@ export default combineReducers({
     fedNetworks,
     attachments,
     images,
-    quota
+    quota,
+    floatIps
 });
