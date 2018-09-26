@@ -39,7 +39,13 @@ class AttachmentsPage extends Component {
             tableVisible: false,
             orderId
         });
-    }
+    };
+
+    handleHide = () => {
+        this.setState({
+            tableVisible: true
+        });
+    };
 
     render() {
         return (
@@ -47,7 +53,7 @@ class AttachmentsPage extends Component {
                 {this.state.tableVisible ?
                     (<OrderList orders={this.attachments} form={<AttachmentForm/>}  
                     type={'attachments'} handleShow={this.handleShow}/>):
-                    <AttachmentDetails id={this.state.orderId}/>
+                    <AttachmentDetails id={this.state.orderId} handleHide={this.handleHide}/>
                 }
             </div>
         );

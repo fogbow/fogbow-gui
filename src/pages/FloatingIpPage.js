@@ -29,13 +29,19 @@ class FloatingIpPage extends Component {
             tableVisible: false,
             orderId
         });
-    }
+    };
+
+    handleHide = () => {
+        this.setState({
+            tableVisible: true
+        });
+    };
 
     render() {
         return (
             <div>
                 <OrderList orders={[]} form={<FloatingIpForm/>}  
-                    type={'floatip'} handleShow={this.handleShow}/>
+                    type={'floatip'} handleShow={this.handleShow} handleHide={this.handleHide}/>
             </div>
         );
     }

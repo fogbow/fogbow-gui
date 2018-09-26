@@ -40,7 +40,13 @@ class VolumesPage extends Component {
             tableVisible: false,
             orderId
         });
-    }
+    };
+
+    handleHide = () => {
+        this.setState({
+            tableVisible: true
+        });
+    };
 
     render() {
         return (
@@ -48,7 +54,7 @@ class VolumesPage extends Component {
                 {this.state.tableVisible ?
                     (<OrderList orders={this.volumes} form={<VolumeForm/>} 
                     type={'volumes'} handleShow={this.handleShow}/>):
-                    <VolumeDetails id={this.state.orderId}/>
+                    <VolumeDetails id={this.state.orderId} handleHide={this.handleHide}/>
                 }
             </div>
         );

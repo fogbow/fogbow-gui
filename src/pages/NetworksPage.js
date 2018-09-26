@@ -39,7 +39,13 @@ class NetworksPage extends Component {
             tableVisible: false,
             orderId
         });
-    }
+    };
+
+    handleHide = () => {
+        this.setState({
+            tableVisible: true
+        });
+    };
 
     render() {
         return (
@@ -47,7 +53,7 @@ class NetworksPage extends Component {
                 {this.state.tableVisible ? 
                 (<OrderList orders={this.networks} form={<NetworkForm/>} 
                     type={'networks'} handleShow={this.handleShow}/>):
-                <NetworkDetails id={this.state.orderId}/>}
+                <NetworkDetails id={this.state.orderId} handleHide={this.handleHide}/>}
             </div>
         );
     }

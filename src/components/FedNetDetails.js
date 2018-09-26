@@ -24,6 +24,9 @@ class FedNetDetails extends Component {
     render() {
         return (
             <div className="details">
+                <button type="button" class="close" aria-label="Close" onClick={() => this.props.handleHide()}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h2>Information</h2>
                 <hr className="horizontal-line"/>
 

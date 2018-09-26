@@ -15,7 +15,7 @@ class ComputesPage extends Component {
             intervalId: ''
         }
     }
-    
+
     componentDidMount = () => {
         const { dispatch } = this.props;
         dispatch(getComputes());
@@ -41,13 +41,19 @@ class ComputesPage extends Component {
         });
     }
 
+    handleHide = () => {
+        this.setState({
+            tableVisible: true
+        });
+    };
+
     render() {
         return (
             <div>
                 {this.state.tableVisible ? 
                 (<OrderList orders={this.computes} form={<ComputeForm/>} 
                     type={'computes'} handleShow={this.handleShow}/>):
-                <ComputeDatails id={this.state.orderId}/>}
+                <ComputeDatails id={this.state.orderId} handleHide={this.handleHide}/>}
             </div>
         );
     }

@@ -29,7 +29,13 @@ class FederetedNetworksPage extends Component {
             tableVisible: false,
             orderId
         });
-    }
+    };
+
+    handleHide = () => {
+        this.setState({
+            tableVisible: true
+        });
+    };
 
     render() {
         return (
@@ -37,7 +43,7 @@ class FederetedNetworksPage extends Component {
                 {this.state.tableVisible ? 
                 (<OrderList orders={this.networks} disableProvider={true} handleShow={this.handleShow}
                  type={'fednets'} form={<FederatedNetworksForm/>}/>):
-                 <FedNetDetails id={this.state.orderId}/>
+                 <FedNetDetails id={this.state.orderId} handleHide={this.handleHide}/>
                 }
             </div>
         );
