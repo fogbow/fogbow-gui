@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import OrderList from '../components/OrderList';
 import FloatingIpForm from '../components/FloatingIpForm';
 import { getFloatIps } from '../actions/floatIps.actions';
+import FloatIpDetails from '../components/FloatIpDetails';
 
 class FloatingIpPage extends Component {
     constructor(props) {
@@ -50,8 +51,10 @@ class FloatingIpPage extends Component {
     render() {
         return (
             <div>
-                <OrderList orders={this.floatIps} form={<FloatingIpForm/>}  
-                    type={'floatip'} handleShow={this.handleShow} handleHide={this.handleHide}/>
+                {this.state.tableVisible ? 
+                (<OrderList orders={this.floatIps} form={<FloatingIpForm/>}  
+                    type={'floatip'} handleShow={this.handleShow} handleHide={this.handleHide}/>):
+                <FloatIpDetails id={this.state.orderId} handleHide={this.handleHide}/>}
             </div>
         );
     }
