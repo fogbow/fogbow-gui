@@ -38,8 +38,8 @@ class LoginPage extends Component {
             let { history, dispatch } = this.props;
             dispatch(getAuthorization(this.state))
                 .then(data => {
-                    history.push('/fogbow');
                     localStorage.setItem('token', data.token);
+                    history.push('/fogbow');
                 }, err => {
                     console.log(err);
                     this.resetState();

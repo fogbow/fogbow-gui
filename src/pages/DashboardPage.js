@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { parse } from 'query-string';
 
 import TopMenu from '../components/TopMenu';
@@ -12,27 +13,41 @@ import AttachmentsPage from './AttachmentsPage';
 import FederetedNetworksPage from './FederetedNetworksPage';
 import FloatingIpPage from './FloatingIpPage';
 
+import { getAuthorization } from '../actions/auth.actions';
+
 class DashboardComponent extends Component {
     constructor(props) {
         super(props);
-        this.getTokenFromQueryString();
         this.checkToken();
     }
     
-    getTokenFromQueryString = () => {
-        if (this.props.location.search) {
-            const token = parse(this.props.location.search).token;
+    checkToken = () => {
+        const credentials = this.getCredentialsFromQueryString();
+        if (credentials)
+            this.validateCredentials(credentials);
         
-            if (token)
-                localStorage.setItem('token', token);
-        }
+        const { history } = this.props;
+        history.push('/');
     };
 
-    checkToken = () => {
-        const token = localStorage.getItem('token');
-        const { history } = this.props;
-        if (!token)
-            history.push('/');
+    getCredentialsFromQueryString = () => {
+        if (this.props.location.search)
+            return parse(this.props.location.search);
+    };
+
+
+    validateCredentials = (credentials) => {
+        const { dispatch, history } = this.props;
+        dispatch(getAuthorization(credentials)).then(
+            data => {
+                localStorage.setItem('token', data.token);
+                history.push('/fogbow');
+            },
+            err => {
+                console.log(err);
+                history.push('/');
+            }
+        );
     };
     
 
@@ -89,4 +104,4 @@ class DashboardComponent extends Component {
     }
 }
 
-export default DashboardComponent;
+export default connect()(DashboardComponent);
