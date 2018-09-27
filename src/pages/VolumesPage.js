@@ -23,7 +23,8 @@ class VolumesPage extends Component {
         dispatch(getVolumes());
         this.setState({
             intervalId: setInterval(async() => {
-                await dispatch(getVolumes());
+                if (this.state.tableVisible)
+                    await dispatch(getVolumes());
             }, env.refreshTime)
         });
     };

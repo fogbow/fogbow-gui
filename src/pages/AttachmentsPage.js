@@ -22,7 +22,8 @@ class AttachmentsPage extends Component {
         dispatch(getAttachments());
         this.setState({
             intervalId: setInterval(async() => {
-                await dispatch(getAttachments());
+                if (this.state.tableVisible)
+                    await dispatch(getAttachments());
             }, env.refreshTime)
         });
     };

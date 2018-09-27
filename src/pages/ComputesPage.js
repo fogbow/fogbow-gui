@@ -22,7 +22,8 @@ class ComputesPage extends Component {
         dispatch(getComputes());
         this.setState({
             intervalId: setInterval(async() => {
-                await dispatch(getComputes());
+                if (this.state.tableVisible)
+                    await dispatch(getComputes());
             }, env.refreshTime)
         });
     };

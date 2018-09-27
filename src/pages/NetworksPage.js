@@ -22,7 +22,8 @@ class NetworksPage extends Component {
         dispatch(getNetworks());
         this.setState({
             intervalId:setInterval(async() => {
-                await dispatch(getNetworks());
+                if (this.state.tableVisible)
+                    await dispatch(getNetworks());
             }, env.refreshTime)
         });
     };
