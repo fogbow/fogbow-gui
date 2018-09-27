@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-
+import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import FloatingIpForm from '../components/FloatingIpForm';
 import { getFloatIps } from '../actions/floatIps.actions';
@@ -23,7 +23,7 @@ class FloatingIpPage extends Component {
         this.setState({
             intervalId: setInterval(async() => {
                 await dispatch(getFloatIps());
-            }, 5000)
+            }, env.refreshTime)
         });
     };
 

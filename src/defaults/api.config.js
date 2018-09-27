@@ -3,6 +3,7 @@ export const env = {
     fns: 'http://10.11.4.198:8082',
     ms: 'http://10.11.4.198:8081',
     local: 'atm-test.cloud.lsd.ufcg.edu.br',
+    refreshTime: 5000,
     authenticationPlugin: 'KeystoneV3',
     credentialFields: {
             username: {
