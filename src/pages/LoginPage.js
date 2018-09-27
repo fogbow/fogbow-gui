@@ -33,7 +33,8 @@ class LoginPage extends Component {
         event.preventDefault();
 
         if (env.cafeEndpoint) {
-            this.loginWithCafe(event);
+            window.location.href = env.cafeEndpoint;
+
         } else {
             let { history, dispatch } = this.props;
             dispatch(getAuthorization(this.state))
@@ -46,11 +47,6 @@ class LoginPage extends Component {
                 });
         }
 
-    };
-
-    loginWithCafe = (event) => {
-        event.preventDefault();
-        // TODO: post to cafe auth url.
     };
 
     generateDropdown = (field, label, options) => {
