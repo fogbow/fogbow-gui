@@ -2,7 +2,7 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class NetworksProvider {
-    url = env.ras.concat('/networks');
+    url = env.fns.concat('/networks');
     fedNetUrl = env.fns.concat('/federatedNetworks');
     config = {
         headers: {
