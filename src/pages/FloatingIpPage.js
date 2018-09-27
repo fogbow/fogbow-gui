@@ -22,7 +22,8 @@ class FloatingIpPage extends Component {
         dispatch(getFloatIps());
         this.setState({
             intervalId: setInterval(async() => {
-                await dispatch(getFloatIps());
+                if (this.state.tableVisible)
+                    await dispatch(getFloatIps());
             }, 5000)
         });
     };
