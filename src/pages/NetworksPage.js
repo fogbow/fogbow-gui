@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import { getNetworks } from '../actions/networks.actions';
 import NetworkForm from '../components/NetworkForm';
@@ -21,8 +22,9 @@ class NetworksPage extends Component {
         dispatch(getNetworks());
         this.setState({
             intervalId:setInterval(async() => {
-                await dispatch(getNetworks());
-            }, 5000)
+                if (this.state.tableVisible)
+                    await dispatch(getNetworks());
+            }, env.refreshTime)
         });
     };
 

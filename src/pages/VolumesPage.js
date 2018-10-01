@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import { getVolumes } from '../actions/volumes.actions';
 import VolumeForm from '../components/VolumeForm';
@@ -22,8 +23,9 @@ class VolumesPage extends Component {
         dispatch(getVolumes());
         this.setState({
             intervalId: setInterval(async() => {
-                await dispatch(getVolumes());
-            }, 5000)
+                if (this.state.tableVisible)
+                    await dispatch(getVolumes());
+            }, env.refreshTime)
         });
     };
 

@@ -2,8 +2,8 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class ComputesProvider {
-    url = env.ras.concat('/computes');
-    imagesUrl = env.ras.concat('/images');
+    url = env.fns.concat('/computes');
+    imagesUrl = env.fns.concat('/images');
 
     config = {
         headers: {

@@ -17,7 +17,7 @@ class FederetedNetworksPage extends Component {
     
     componentDidMount = () => {
         const { dispatch } = this.props;
-        dispatch(getFedNetworks())
+        dispatch(getFedNetworks());
     };
 
     get networks() {

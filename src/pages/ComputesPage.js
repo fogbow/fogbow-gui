@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import ComputeForm from '../components/ComputeForm';
 import { getComputes } from '../actions/computes.actions';
@@ -21,8 +22,9 @@ class ComputesPage extends Component {
         dispatch(getComputes());
         this.setState({
             intervalId: setInterval(async() => {
-                await dispatch(getComputes());
-            }, 5000)
+                if (this.state.tableVisible)
+                    await dispatch(getComputes());
+            }, env.refreshTime)
         });
     };
 

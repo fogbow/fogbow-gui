@@ -2,7 +2,7 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class AttachmentsProvider {
-    url = env.ras.concat('/attachments');
+    url = env.fns.concat('/attachments');
     config = {
         headers: {
             'federationTokenValue': localStorage.getItem('token')

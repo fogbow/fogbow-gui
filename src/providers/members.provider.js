@@ -3,7 +3,7 @@ import { env } from '../defaults/api.config';
 
 class MembersProvider {
     members = env.ms.concat('/members');
-    computeQuota = env.ras.concat('/computes/quota/');
+    computeQuota = env.fns.concat('/computes/quota/');
     config = {
         headers: {
             'federationTokenValue': localStorage.getItem('token')
