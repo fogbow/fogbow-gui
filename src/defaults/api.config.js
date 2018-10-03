@@ -1,5 +1,5 @@
 export const env = {
-    fns: 'http://10.11.4.34:8082',
+    fns: 'http://localhost:8081',
     ms: 'http://10.11.4.34:8081',
     local: 'atm-test.cloud.lsd.ufcg.edu.br',
     refreshTime: 5000,

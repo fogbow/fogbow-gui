@@ -21,7 +21,7 @@ class OrderComponent extends Component {
     handleDelete = (event) => {
         event.preventDefault();
         const { dispatch } = this.props;
-        
+
         let id = this.props.order.instanceId;
         let type = this.props.type;
 
@@ -54,7 +54,7 @@ class OrderComponent extends Component {
         return (
             <tr>
                 <td><a href="#" onClick={this.props.handleShow}>{this.props.order.instanceId}</a></td>
-                <td>{this.props.order.name}</td>
+                <td>{this.props.order.instanceName}</td>
                 {this.props.disableProvider ? undefined:
                     <td>{this.props.order.provider}</td>}
                 <td>{this.props.order.state || this.props.order.orderState}</td>
