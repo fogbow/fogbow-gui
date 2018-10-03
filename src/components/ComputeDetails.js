@@ -24,8 +24,8 @@ class ComputeDetails extends Component {
         const networks = this.state.orderData.networks ? Object.entries(this.state.orderData.networks)
           .map((network) =>
               <div key={network[1]}>
-                <p className="bolder">{network[1]}</p>
-                <p>{network[0]}</p>
+                <p>Name: {network[1]}</p>
+                <p>ID: {network[0]}</p>
               </div>)
           : '-';
 
@@ -36,19 +36,17 @@ class ComputeDetails extends Component {
                     <span aria-hidden="true">&times;</span>
                 </button>
 
-                <h2>
-                  {this.state.orderData.hostName ? this.state.orderData.hostName : 'Information'}
-                </h2>
+                <h2>Compute Details</h2>
                 <hr className="horizontal-line"/>
+
+                <p className="bolder">Name</p>
+                <p>{this.state.orderData.hostName || '-'}</p>
 
                 <p className="bolder">ID</p>
                 <p>{this.state.orderData.id || '-'}</p>
 
                 <p className="bolder">State</p>
                 <p>{this.state.orderData.state || '-'}</p>
-
-                <h3>Specs</h3>
-                <hr className="horizontal-line"/>
 
                 <p className="bolder">VCPUs</p>
                 <p>{this.state.orderData.vCPU || '-'}</p>
@@ -59,28 +57,19 @@ class ComputeDetails extends Component {
                 <p className="bolder">Disk</p>
                 <p>{this.state.orderData.disk || '-'} GB</p>
 
-                <h3>Networks</h3>
-                <hr className="horizontal-line"/>
-
+                <p className="bolder">Networks</p>
                 {networks}
 
                 <p className="bolder">Local IP Addresses</p>
                 <p>{this.state.orderData.ipAddresses || '-'}</p>
 
-                <h3>Image</h3>
-                <hr className="horizontal-line"/>
-
-                <p className="bolder">Name</p>
+                <p className="bolder">Image</p>
                 <p>
-                  {this.state.orderData.image ? this.state.orderData.image.split(':')[1] : '-'}
+                  Name: {this.state.orderData.image ? this.state.orderData.image.split(':')[1] : '-'}
                 </p>
-                <p className="bolder">ID</p>
                 <p>
-                  {this.state.orderData.image ? this.state.orderData.image.split(':')[0] : '-'}
+                  Id: {this.state.orderData.image ? this.state.orderData.image.split(':')[0] : '-'}
                 </p>
-
-                <h3>Connectivity</h3>
-                <hr className="horizontal-line"/>
 
                 <p className="bolder">SSH public address</p>
                 <p>{this.state.orderData.sshTunnelConnectionData ?
