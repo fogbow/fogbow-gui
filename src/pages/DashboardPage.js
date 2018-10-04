@@ -9,7 +9,7 @@ import VolumesPage from './VolumesPage';
 import NetworksPage from './NetworksPage';
 import AttachmentsPage from './AttachmentsPage';
 import FederetedNetworksPage from './FederetedNetworksPage';
-import FloatingIpPage from './FloatingIpPage';
+import PublicIpPage from './PublicIpPage';
 
 class DashboardComponent extends Component {
     goto = (tab) => {
@@ -32,8 +32,8 @@ class DashboardComponent extends Component {
             case 'fednets':
                 return this.getPageContent(<FederetedNetworksPage/>, tab);
             
-            case 'floatip':
-                return this.getPageContent(<FloatingIpPage/>, tab);
+            case 'publicip':
+                return this.getPageContent(<PublicIpPage/>, tab);
         
             default:
                 break;

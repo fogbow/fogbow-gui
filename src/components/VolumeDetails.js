@@ -23,23 +23,23 @@ class VolumeDetails extends Component {
     render() {
         return (
             <div className="details">
-                <button type="button" class="close" aria-label="Close" onClick={() => this.props.handleHide()}>
+                <button type="button" className="close" aria-label="Close" onClick={() => this.props.handleHide()}>
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h2>Information</h2>
+                <h2>Volume Details</h2>
                 <hr className="horizontal-line"/>
-
-                <p className="bolder">Volume id</p>
-                <p>{this.state.orderData.id || '-'}</p>
 
                 <p className="bolder">Name</p>
                 <p>{this.state.orderData.name || '-'}</p>
 
-                <p className="bolder">Volume size (in GB)</p>
-                <p>{this.state.orderData.size || '-'}</p>
+                <p className="bolder">ID</p>
+                <p>{this.state.orderData.id || '-'}</p>
 
                 <p className="bolder">State</p>
                 <p>{this.state.orderData.state || '-'}</p>
+
+                <p className="bolder">Size</p>
+                <p>{this.state.orderData.size || '-'} GB</p>
             </div>
         );
     }

@@ -25,7 +25,8 @@ class AttachmentDetails extends Component {
     render() {
         return (
             <div className="details">
-                <button type="button" class="close" aria-label="Close" onClick={() => this.props.handleHide()}>
+                <button type="button" className="close" aria-label="Close"
+                        onClick={() => this.props.handleHide()}>
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h2>Attachment Details</h2>
@@ -38,7 +39,7 @@ class AttachmentDetails extends Component {
                 <p>{this.state.orderData.state || '-'}</p>
 
                 <p className="bolder">Compute</p>
-                <p>Name: {this.state.orderData.computeName || '-'}</p>
+                <p>Name: {this.state.orderData.serverName || '-'}</p>
                 <p>ID: {this.state.orderData.serverId || '-'}</p>
 
                 <p className="bolder">Volume</p>

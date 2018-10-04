@@ -5,15 +5,14 @@ import _ from 'lodash';
 import '../styles/details.css';
 
 import { getComputes } from '../actions/computes.actions';
-import { createFloatIp } from '../actions/floatIps.actions';
+import { createPublicIp } from '../actions/publicIps.actions';
 
 const initialState = {
-    name: '',
     providingMember: '',
     computeOrderId: '',
 };
 
-class FloatingIpForm extends Component {
+class PublicIpForm extends Component {
     constructor(props) {
         super(props);
         this.state = initialState;
@@ -28,7 +27,7 @@ class FloatingIpForm extends Component {
 
     handleChange = (event) => {
         let { name, value } = event.target;
-        
+
         this.setState({
             [name]: value
         });
@@ -37,9 +36,9 @@ class FloatingIpForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let body = _.pickBy(this.state, _.identity);
-        
+
         let { dispatch } = this.props;
-        dispatch(createFloatIp(body));
+        dispatch(createPublicIp(body));
         this.resetForm();
     };
 
@@ -53,23 +52,12 @@ class FloatingIpForm extends Component {
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Create Floating IP</h5>
+                            <h5 className="modal-title" id="exampleModalLabel">Create Public IP</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body">
-                            <label>Name</label>
-                            <input value={this.state.name} onChange={this.handleChange}
-                            className="form-control" type="text" name="name"/>  
-                            
-                            <label>Member</label>
-                            <select name='providingMember' className="form-control" required 
-                                value={this.state.member} onChange={this.handleChange}>
-                                <option value=''></option>
-                                { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
-                            </select>
-
                             <label>Compute</label>
                             <select  name='computeOrderId' className="form-control" required
                                 value={this.state.source} onChange={this.handleChange}>
@@ -82,10 +70,17 @@ class FloatingIpForm extends Component {
                                     undefined
                                 }
                             </select>
+
+                            <label>Member</label>
+                            <select name='providingMember' className="form-control" required 
+                                value={this.state.member} onChange={this.handleChange}>
+                                <option value=''></option>
+                                { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
+                            </select>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.handleSubmit}>Create Attachment</button>
+                            <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.handleSubmit}>Create Public IP</button>
                         </div>
                     </div>
                 </div>
@@ -99,4 +94,4 @@ const stateToProps = state => ({
     computes: state.computes
 });
 
-export default connect(stateToProps)(FloatingIpForm);
+export default connect(stateToProps)(PublicIpForm);

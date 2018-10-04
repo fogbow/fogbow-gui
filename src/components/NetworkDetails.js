@@ -10,7 +10,6 @@ class NetworkDetails extends Component {
             orderData: {}
         }
     }
-    
 
     componentDidMount() {
         let { dispatch } = this.props;
@@ -30,11 +29,14 @@ class NetworkDetails extends Component {
                 <h2>Information</h2>
                 <hr className="horizontal-line"/>
 
-                <p className="bolder">Network id</p>
-                <p>{this.state.orderData.id || '-'}</p>
-
                 <p className="bolder">Name</p>
                 <p>{this.state.orderData.name || '-'}</p>
+
+                <p className="bolder">ID</p>
+                <p>{this.state.orderData.id || '-'}</p>
+
+                <p className="bolder">State</p>
+                <p>{this.state.orderData.state || '-'}</p>
 
                 <p className="bolder">Address (CIDR)</p>
                 <p>{this.state.orderData.address || '-'}</p>
@@ -42,8 +44,11 @@ class NetworkDetails extends Component {
                 <p className="bolder">Gateway</p>
                 <p>{this.state.orderData.gateway || '-'}</p>
 
-                <p className="bolder">State</p>
-                <p>{this.state.orderData.state || '-'}</p>
+                <p className="bolder">VLAN</p>
+                <p>{this.state.orderData.vlan || '-'}</p>
+
+                <p className="bolder">Allocation Mode</p>
+                <p>{this.state.orderData.allocation || '-'}</p>
             </div>
         );
     }
