@@ -5,7 +5,7 @@ import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import ComputeForm from '../components/ComputeForm';
 import { getComputes } from '../actions/computes.actions';
-import ComputeDatails from '../components/ComputeDatails';
+import ComputeDetails from '../components/ComputeDetails';
 
 class ComputesPage extends Component {
     constructor(props) {
@@ -52,10 +52,10 @@ class ComputesPage extends Component {
     render() {
         return (
             <div>
-                {this.state.tableVisible ? 
-                (<OrderList orders={this.computes} form={<ComputeForm/>} 
+                {this.state.tableVisible ?
+                (<OrderList orders={this.computes} form={<ComputeForm/>}
                     type={'computes'} handleShow={this.handleShow}/>):
-                <ComputeDatails id={this.state.orderId} handleHide={this.handleHide}/>}
+                <ComputeDetails id={this.state.orderId} handleHide={this.handleHide}/>}
             </div>
         );
     }

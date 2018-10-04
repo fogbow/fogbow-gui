@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import OrderComponent from './OrderComponent';
 
 const headers = [
-    'id', 'name', 'Provider', 'State', 'Actions'
+    'ID', 'Name', 'Provider', 'State', 'Actions'
 ];
 
 class OrderList extends Component {
     constructor(props) {
         super(props);
-        
+
         let hds = this.props.disableProvider ? headers.filter(h => h !== 'Provider'): headers;
         this.state = {
             headers: hds,
@@ -22,7 +22,7 @@ class OrderList extends Component {
             <tr>
                 {this.state.headers
                     .map(header => {
-                        return <th key={header}>{header}</th> 
+                        return <th key={header}>{header}</th>
                 })}
             </tr>
         );
@@ -49,12 +49,12 @@ class OrderList extends Component {
 
     handleChange = (event) => {
         let { name, value } = event.target;
-        
+
         this.setState({
             [name]: value
         });
     };
-    
+
     render() {
         return (
             <div>
