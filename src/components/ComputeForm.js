@@ -65,10 +65,8 @@ class ComputeForm extends Component {
         if(!body.file)
             delete body.scriptType;
 
-        if(body.federatedNetworkId) {
-            body = { federatedNetworkId: body.federatedNetworkId, computeOrder: body };
-            delete body.computeOrder.federatedNetworkId;
-        }
+        body = { federatedNetworkId: body.federatedNetworkId, computeOrder: body };
+        delete body.computeOrder.federatedNetworkId;
         
         let { dispatch } = this.props;
         dispatch(createCompute(body));
