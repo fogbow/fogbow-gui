@@ -71,11 +71,11 @@ class ComputeDetails extends Component {
                   Id: {this.state.orderData.image ? this.state.orderData.image.split(':')[0] : '-'}
                 </p>
 
-                <p className="bolder">SSH public address</p>
+                <p className="bolder">SSH Public IP Address</p>
                 <p>{this.state.orderData.sshTunnelConnectionData ?
                     this.state.orderData.sshTunnelConnectionData.sshPublicAddress: '-'}</p>
 
-                <p className="bolder">SSH user name</p>
+                <p className="bolder">SSH User Name</p>
                 <p>{this.state.orderData.sshTunnelConnectionData ?
                     this.state.orderData.sshTunnelConnectionData.sshUserName: '-'}</p>
 

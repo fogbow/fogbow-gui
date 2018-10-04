@@ -7,7 +7,6 @@ import { getVolumes } from '../actions/volumes.actions';
 import { createAttachment } from '../actions/attachments.actions';
 
 const initialState = {
-    name: '',
     member: '',
     source: '',
     target: '',
@@ -29,10 +28,10 @@ class AttachmentForm extends Component {
             dispatch(getVolumes());
         }
     };
-    
+
     handleChange = (event) => {
         let { name, value } = event.target;
-        
+
         this.setState({
             [name]: value
         });
@@ -41,7 +40,7 @@ class AttachmentForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let body = _.pickBy(this.state, _.identity);
-        
+
         let { dispatch } = this.props;
         dispatch(createAttachment(body));
         this.resetForm();
@@ -63,17 +62,6 @@ class AttachmentForm extends Component {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <label>Name</label>
-                            <input value={this.state.name} onChange={this.handleChange}
-                            className="form-control" type="text" name="name"/>                        
-
-
-                            <label>Member</label>
-                            <select name='member' className="form-control" value={this.state.member} onChange={this.handleChange}>
-                                <option value=''></option>
-                                { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
-                            </select>
-
                             <label>Compute</label>
                             <select  name='source' className="form-control" value={this.state.source} onChange={this.handleChange}>
                                 <option value=''></option>
@@ -89,13 +77,19 @@ class AttachmentForm extends Component {
                             <label>Volume</label>
                             <select name='target' className="form-control" value={this.state.target} onChange={this.handleChange}>
                                 <option value=''></option>
-                                { 
+                                {
                                     this.props.volumes.loading ?
                                     this.props.volumes.data
                                         .filter(volume => volume.state === 'READY')
                                         .map((volume, idx) => <option key={idx} value={volume.instanceId}>{volume.instanceId}</option>):
                                     undefined
                                 }
+                            </select>
+
+                            <label>Member</label>
+                            <select name='member' className="form-control" value={this.state.member} onChange={this.handleChange}>
+                                <option value=''></option>
+                                { this.props.members.data.map((member, idx) => <option key={idx} value={member}>{member}</option>) }
                             </select>
                         </div>
                         <div className="modal-footer">

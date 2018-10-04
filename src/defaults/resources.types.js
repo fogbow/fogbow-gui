@@ -5,5 +5,5 @@ export const resources = [
     { text: 'Networks', value: 'networks'},
     { text: 'Federated Networks', value: 'fednets'},
     { text: 'Attachments', value: 'attachments'},
-    { text: 'Floating IP', value: 'floatip'},
+    { text: 'Public IP', value: 'publicip'},
 ];

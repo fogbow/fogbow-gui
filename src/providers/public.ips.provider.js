@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { env } from '../defaults/api.config';
 
-class FloatIPsProvider {
+class PublicIPsProvider {
     url = env.fns.concat('/publicIps');
     config = {
         headers: {
@@ -26,4 +26,4 @@ class FloatIPsProvider {
     }
 }
 
-export default FloatIPsProvider;
+export default PublicIPsProvider;

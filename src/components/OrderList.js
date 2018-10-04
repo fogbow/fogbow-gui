@@ -38,47 +38,50 @@ class OrderList extends Component {
     };
 
     getLines = () => {
-        return this.props.orders
-            .map(order => {
-                return(
-                    <OrderComponent key={order.instanceId} order={order} type={this.props.type}
-                        disableProvider={this.props.disableProvider} handleShow={() => this.props.handleShow(order.instanceId)}/>
-                );
-            });
+      return this.props.orders
+        .map(order => {
+          return(
+            <OrderComponent key={order.instanceId} order={order} type={this.props.type}
+                            disableProvider={this.props.disableProvider}
+                            handleShow={() => this.props.handleShow(order.instanceId)}/>
+          );
+        });
     };
 
     handleChange = (event) => {
-        let { name, value } = event.target;
+      let { name, value } = event.target;
 
-        this.setState({
-            [name]: value
-        });
+      this.setState({
+          [name]: value
+      });
     };
 
     render() {
         return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <div className="collapse navbar-collapse">
-                        <form className="form-inline ml-auto my-2 my-lg-0">
-                            <input value={this.state.orderName} type="search" onChange={this.handleChange} name="orderName"
-                                placeholder="Search" className="form-control mr-sm-2 my-2"/>
+              <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <div className="collapse navbar-collapse">
+                  <form className="form-inline ml-auto my-2 my-lg-0">
+                    <input value={this.state.orderName} type="search" onChange={this.handleChange}
+                           name="orderName" placeholder="Search"
+                           className="form-control mr-sm-2 my-2"/>
 
-                            <button type="button" className="btn btn-btn-dark my-2 my-sm-0" data-toggle="modal" data-target="#form">Create</button>
+                    <button type="button" className="btn btn-btn-dark my-2 my-sm-0"
+                            data-toggle="modal" data-target="#form">Create</button>
 
-                            <div>
-                                {this.props.form}
-                            </div>
-                        </form>
+                    <div>
+                        {this.props.form}
                     </div>
+                  </form>
+                  </div>
                 </nav>
                 <table className="table table-striped table-bordered table-hover">
-                    <thead>
-                        {this.getHeaders()}
-                    </thead>
-                    <tbody>
-                        {this.getLines() || undefined }
-                    </tbody>
+                  <thead>
+                      {this.getHeaders()}
+                  </thead>
+                  <tbody>
+                      {this.getLines() || undefined }
+                  </tbody>
                 </table>
             </div>
         );

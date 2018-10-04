@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
-import FloatingIpForm from '../components/FloatingIpForm';
-import { getFloatIps } from '../actions/floatIps.actions';
-import FloatIpDetails from '../components/FloatIpDetails';
+import PublicIpForm from '../components/PublicIpForm';
+import { getPublicIps } from '../actions/publicIps.actions';
+import PublicIpDetails from '../components/PublicIpDetails';
 
-class FloatingIpPage extends Component {
+class PublicIpPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,11 +19,11 @@ class FloatingIpPage extends Component {
 
     componentDidMount = () => {
         const { dispatch } = this.props;
-        dispatch(getFloatIps());
+        dispatch(getPublicIps());
         this.setState({
             intervalId: setInterval(async() => {
                 if (this.state.tableVisible)
-                    await dispatch(getFloatIps());
+                    await dispatch(getPublicIps());
             }, env.refreshTime)
         });
     };
@@ -32,8 +32,8 @@ class FloatingIpPage extends Component {
         clearInterval(this.state.intervalId);
     }
 
-    get floatIps() {
-        return this.props.floatIps.loading ? this.props.floatIps.data: [];
+    get publicIps() {
+        return this.props.publicIps.loading ? this.props.publicIps.data: [];
     }
 
     handleShow = (orderId) => {
@@ -50,19 +50,19 @@ class FloatingIpPage extends Component {
     };
 
     render() {
-        return (
-            <div>
-                {this.state.tableVisible ? 
-                (<OrderList orders={this.floatIps} form={<FloatingIpForm/>}  
-                    type={'floatip'} handleShow={this.handleShow} handleHide={this.handleHide}/>):
-                <FloatIpDetails id={this.state.orderId} handleHide={this.handleHide}/>}
-            </div>
-        );
+      return (
+        <div>
+            {this.state.tableVisible ?
+            (<OrderList orders={this.publicIps} form={<PublicIpForm/>}
+                type={'publicip'} handleShow={this.handleShow} handleHide={this.handleHide}/>):
+            <PublicIpDetails id={this.state.orderId} handleHide={this.handleHide}/>}
+        </div>
+      );
     }
 }
 
 const stateToProps = state => ({
-    floatIps: state.floatIps
+    publicIps: state.publicIps
 });
 
-export default connect(stateToProps)(FloatingIpPage);
+export default connect(stateToProps)(PublicIpPage);
