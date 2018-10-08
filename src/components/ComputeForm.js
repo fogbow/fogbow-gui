@@ -38,13 +38,13 @@ class ComputeForm extends Component {
   componentDidMount = () => {
     let { dispatch } = this.props;
     if(! this.props.images.loading) {
-        dispatch(getImages());
+      dispatch(getImages());
     }
     if(! this.props.networks.loading) {
-        dispatch(getNetworks());
+      dispatch(getNetworks());
     }
     if(! this.props.fednets.loading) {
-        dispatch(getFedNetworks());
+      dispatch(getFedNetworks());
     }
   };
 
@@ -62,12 +62,10 @@ class ComputeForm extends Component {
     let body = _.pickBy(this.state, _.identity);
 
     if(!body.file)
-        delete body.scriptType;
+      delete body.scriptType;
 
-    if(body.federatedNetworkId) {
-        body = { federatedNetworkId: body.federatedNetworkId, computeOrder: body };
-        delete body.computeOrder.federatedNetworkId;
-    }
+    body = { federatedNetworkId: body.federatedNetworkId, computeOrder: body };
+    delete body.computeOrder.federatedNetworkId;
 
     let { dispatch } = this.props;
     dispatch(createCompute(body));
