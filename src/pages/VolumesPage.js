@@ -9,62 +9,62 @@ import VolumeDetails from '../components/VolumeDetails';
 
 
 class VolumesPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tableVisible: true,
-            orderId: '',
-            intervalId: ''
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+        tableVisible: true,
+        orderId: '',
+        intervalId: ''
     }
-    
-    componentDidMount = () => {
-        const { dispatch } = this.props;
-        dispatch(getVolumes());
-        this.setState({
-            intervalId: setInterval(async() => {
-                if (this.state.tableVisible)
-                    await dispatch(getVolumes());
-            }, env.refreshTime)
-        });
-    };
+  }
 
-    componentWillUnmount = () => {
-        clearInterval(this.state.intervalId);
-    }
+  componentDidMount = () => {
+    const { dispatch } = this.props;
+    dispatch(getVolumes());
+    this.setState({
+        intervalId: setInterval(async() => {
+            if (this.state.tableVisible)
+                await dispatch(getVolumes());
+        }, env.refreshTime)
+    });
+  };
 
-    get volumes() {
-        return this.props.volumes.loading ? this.props.volumes.data: [];
-    }
+  componentWillUnmount = () => {
+    clearInterval(this.state.intervalId);
+  }
 
-    handleShow = (orderId) => {
-        this.setState({
-            tableVisible: false,
-            orderId
-        });
-    };
+  get volumes() {
+    return this.props.volumes.loading ? this.props.volumes.data : [];
+  }
 
-    handleHide = () => {
-        this.setState({
-            tableVisible: true
-        });
-    };
+  handleShow = (orderId) => {
+      this.setState({
+          tableVisible: false,
+          orderId: orderId
+      });
+  };
 
-    render() {
-        return (
-            <div>
-                {this.state.tableVisible ?
-                    (<OrderList orders={this.volumes} form={<VolumeForm/>} 
-                    type={'volumes'} handleShow={this.handleShow}/>):
-                    <VolumeDetails id={this.state.orderId} handleHide={this.handleHide}/>
-                }
-            </div>
-        );
-    }
+  handleHide = () => {
+    this.setState({
+        tableVisible: true
+    });
+  };
+
+  render() {
+    return (
+        <div>
+            {this.state.tableVisible ?
+                (<OrderList orders={this.volumes} form={<VolumeForm/>}
+                type={'volumes'} handleShow={this.handleShow}/>):
+                <VolumeDetails id={this.state.orderId} handleHide={this.handleHide}/>
+            }
+        </div>
+    );
+  }
 }
 
 const stateToProps = state => ({
-    volumes: state.volumes
+  volumes: state.volumes
 });
 
 export default connect(stateToProps)(VolumesPage);

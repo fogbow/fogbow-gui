@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import OrderComponent from './OrderComponent';
+import { connect } from 'react-redux';
 
 const headers = [
     'ID', 'Name', 'Provider', 'State', 'Actions'
@@ -13,7 +14,8 @@ class OrderList extends Component {
         let hds = this.props.disableProvider ? headers.filter(h => h !== 'Provider'): headers;
         this.state = {
             headers: hds,
-            orderName: ''
+            orderName: '',
+            rows: []
         };
     }
 
@@ -37,15 +39,14 @@ class OrderList extends Component {
         });
     };
 
-    getLines = () => {
-      return this.props.orders
-        .map(order => {
+    getLines = (orders) => {
+      return orders.map(order => {
           return(
             <OrderComponent key={order.instanceId} order={order} type={this.props.type}
                             disableProvider={this.props.disableProvider}
                             handleShow={() => this.props.handleShow(order.instanceId)}/>
           );
-        });
+      });
     };
 
     handleChange = (event) => {
@@ -55,6 +56,13 @@ class OrderList extends Component {
           [name]: value
       });
     };
+
+    componentWillReceiveProps(props) {
+      let lns = this.getLines(props.orders);
+      this.setState((state, props) => ({
+        rows: lns
+      }));
+    }
 
     render() {
         return (
@@ -80,7 +88,7 @@ class OrderList extends Component {
                       {this.getHeaders()}
                   </thead>
                   <tbody>
-                      {this.getLines() || undefined }
+                      {this.state.rows}
                   </tbody>
                 </table>
             </div>
@@ -88,4 +96,4 @@ class OrderList extends Component {
     }
 }
 
-export default OrderList;
+export default connect()(OrderList);
