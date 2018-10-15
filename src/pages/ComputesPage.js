@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import ComputeForm from '../components/ComputeForm';
 import { getComputes } from '../actions/computes.actions';
-import ComputeDatails from '../components/ComputeDatails';
+import ComputeDetails from '../components/ComputeDetails';
 
 class ComputesPage extends Component {
     constructor(props) {
@@ -21,8 +22,9 @@ class ComputesPage extends Component {
         dispatch(getComputes());
         this.setState({
             intervalId: setInterval(async() => {
-                await dispatch(getComputes());
-            }, 5000)
+                if (this.state.tableVisible)
+                    await dispatch(getComputes());
+            }, env.refreshTime)
         });
     };
 
@@ -50,10 +52,10 @@ class ComputesPage extends Component {
     render() {
         return (
             <div>
-                {this.state.tableVisible ? 
-                (<OrderList orders={this.computes} form={<ComputeForm/>} 
+                {this.state.tableVisible ?
+                (<OrderList orders={this.computes} form={<ComputeForm/>}
                     type={'computes'} handleShow={this.handleShow}/>):
-                <ComputeDatails id={this.state.orderId} handleHide={this.handleHide}/>}
+                <ComputeDetails id={this.state.orderId} handleHide={this.handleHide}/>}
             </div>
         );
     }

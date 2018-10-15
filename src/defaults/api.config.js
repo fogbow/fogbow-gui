@@ -1,9 +1,26 @@
 export const env = {
-    ras: 'http://localhost:8080',
-    fns: 'http://localhost:8082',
-    ms: 'http://localhost:8081',
-    local: 'usur-test',
+    fns: 'http://10.11.4.34:8082',
+    ms: 'http://10.11.4.34:8081',
+    local: 'atm-test.cloud.lsd.ufcg.edu.br',
     cafeEndpoint: '',
-    authenticationPlugin: 'Cafe',
-    credentialFields: {}
+    refreshTime: 5000,
+    authenticationPlugin: 'KeystoneV3',
+    credentialFields: {
+            username: {
+                    type: 'text',
+                    label: 'User Name'
+            },
+            password: {
+                    type: 'password',
+                    label: 'Password'
+            },
+            domain: {
+                    type: 'text',
+                    label: 'Domain'
+            },
+            projectname: {
+                    type: 'text',
+                    label: 'Project Name'
+            }
+    }
 };

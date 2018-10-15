@@ -2,7 +2,7 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class VolumesProvider {
-    url = env.ras.concat('/volumes');
+    url = env.fns.concat('/volumes');
 
     config = {
         headers: {

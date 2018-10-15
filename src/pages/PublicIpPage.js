@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
-import { getNetworks } from '../actions/networks.actions';
-import NetworkForm from '../components/NetworkForm';
-import NetworkDetails from '../components/NetworkDetails';
+import PublicIpForm from '../components/PublicIpForm';
+import { getPublicIps } from '../actions/publicIps.actions';
+import PublicIpDetails from '../components/PublicIpDetails';
 
-class NetworksPage extends Component {
+class PublicIpPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,14 +16,14 @@ class NetworksPage extends Component {
             intervalId: ''
         }
     }
-    
+
     componentDidMount = () => {
         const { dispatch } = this.props;
-        dispatch(getNetworks());
+        dispatch(getPublicIps());
         this.setState({
-            intervalId:setInterval(async() => {
+            intervalId: setInterval(async() => {
                 if (this.state.tableVisible)
-                    await dispatch(getNetworks());
+                    await dispatch(getPublicIps());
             }, env.refreshTime)
         });
     };
@@ -32,8 +32,8 @@ class NetworksPage extends Component {
         clearInterval(this.state.intervalId);
     }
 
-    get networks() {
-        return this.props.networks.loading ? this.props.networks.data: [];
+    get publicIps() {
+        return this.props.publicIps.loading ? this.props.publicIps.data: [];
     }
 
     handleShow = (orderId) => {
@@ -50,19 +50,19 @@ class NetworksPage extends Component {
     };
 
     render() {
-        return (
-            <div>
-                {this.state.tableVisible ? 
-                (<OrderList orders={this.networks} form={<NetworkForm/>} 
-                    type={'networks'} handleShow={this.handleShow}/>):
-                <NetworkDetails id={this.state.orderId} handleHide={this.handleHide}/>}
-            </div>
-        );
+      return (
+        <div>
+            {this.state.tableVisible ?
+            (<OrderList orders={this.publicIps} form={<PublicIpForm/>}
+                type={'publicip'} handleShow={this.handleShow} handleHide={this.handleHide}/>):
+            <PublicIpDetails id={this.state.orderId} handleHide={this.handleHide}/>}
+        </div>
+      );
     }
 }
 
 const stateToProps = state => ({
-    networks: state.networks
+    publicIps: state.publicIps
 });
 
-export default connect(stateToProps)(NetworksPage);
+export default connect(stateToProps)(PublicIpPage);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import { getAttachments } from '../actions/attachments.actions';
 import AttachmentForm from '../components/AttachmentForm';
@@ -21,8 +22,9 @@ class AttachmentsPage extends Component {
         dispatch(getAttachments());
         this.setState({
             intervalId: setInterval(async() => {
-                await dispatch(getAttachments());
-            }, 5000)
+                if (this.state.tableVisible)
+                    await dispatch(getAttachments());
+            }, env.refreshTime)
         });
     };
 

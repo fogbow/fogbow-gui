@@ -15,10 +15,10 @@ class FederatedNetworksForm extends Component {
         super(props);
         this.state = initialState;
     }
-    
+
     handleChange = (event) => {
         let { name, value } = event.target;
-        
+
         this.setState({
             [name]: value
         });
@@ -42,7 +42,7 @@ class FederatedNetworksForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let body = _.pickBy(this.state, _.identity);
-        
+
         let { dispatch } = this.props;
         dispatch(createFedNetwork(body));
         this.resetForm();
@@ -66,8 +66,8 @@ class FederatedNetworksForm extends Component {
                         <div className="modal-body">
                             <label>Name</label>
                             <input value={this.state.name} onChange={this.handleChange}
-                            className="form-control" type="text" name="name"/>  
-                            
+                            className="form-control" type="text" name="name"/>
+
                             <label>CIDR</label>
                             <input className="form-control" type="text" name="cidrNotation" value={this.state.cidrNotation} onChange={this.handleChange}/>
 

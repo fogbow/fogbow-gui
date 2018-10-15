@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { env } from '../defaults/api.config';
 
-class FloatIPsProvider {
-    url = env.ras.concat('/publicIps');
+class PublicIPsProvider {
+    url = env.fns.concat('/publicIps');
     config = {
         headers: {
             'federationTokenValue': localStorage.getItem('token')
@@ -26,4 +26,4 @@ class FloatIPsProvider {
     }
 }
 
-export default FloatIPsProvider;
+export default PublicIPsProvider;
