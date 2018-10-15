@@ -22,7 +22,7 @@ const initialState = {
   vCPU: 1,
   disk: 30,
   memory: 1024,
-  networkId: '',
+  networksId: '',
   federatedNetworkId: '',
   file: '',
   scriptType: scriptTypes[0],
@@ -51,7 +51,7 @@ class ComputeForm extends Component {
   handleChange = (event) => {
     let { name, value } = event.target;
 
-    if (name === 'networkId') {
+    if (name === 'networksId') {
       // FIXME(pauloewerton): this will work only with a single network id
       this.setState({
           [name]: [value]
