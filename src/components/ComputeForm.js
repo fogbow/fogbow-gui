@@ -135,7 +135,7 @@ class ComputeForm extends Component {
 
               <label>Network id</label>
               <select value={this.state.network} onChange={this.handleChange}
-                      name='networkId' className="form-control">
+                      name='networksId' className="form-control">
                   <option value=''>Choose a network</option>
                   {
                     this.props.networks.loading ?
