@@ -22,7 +22,7 @@ const initialState = {
   vCPU: 1,
   disk: 30,
   memory: 1024,
-  networkId: [],
+  networkId: '',
   federatedNetworkId: '',
   file: '',
   scriptType: scriptTypes[0],
