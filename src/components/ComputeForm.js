@@ -22,7 +22,7 @@ const initialState = {
   vCPU: 1,
   disk: 30,
   memory: 1024,
-  networkId: '',
+  networkId: [],
   federatedNetworkId: '',
   file: '',
   scriptType: scriptTypes[0],
@@ -51,9 +51,16 @@ class ComputeForm extends Component {
   handleChange = (event) => {
     let { name, value } = event.target;
 
-    this.setState({
-        [name]: value
-    });
+    if (name === 'networkId') {
+      // FIXME(pauloewerton): this will work only with a single network id
+      this.setState({
+          [name]: [value]
+      });
+    } else {
+      this.setState({
+          [name]: value
+      });
+    }
   };
 
   handleSubmit = (event) => {
