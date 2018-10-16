@@ -61,7 +61,7 @@ class PublicIpForm extends Component {
             <div className="modal-body">
               <label>Compute</label>
               <select  name='computeOrderId' className="form-control" required
-                  value={this.state.source} onChange={this.handleChange}>
+                  value={this.state.computeOrderId} onChange={this.handleChange}>
                   <option value=''></option>
                   {
                     this.props.computes.loading ?

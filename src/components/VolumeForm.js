@@ -7,7 +7,6 @@ import { createVolume } from '../actions/volumes.actions';
 const initialState = {
   name: '',
   volumeSize: 1,
-  name: '',
   providingMember: ''
 };
 

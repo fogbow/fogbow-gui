@@ -91,22 +91,23 @@ class ComputeForm extends Component {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">Create Compute</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+                      onClick={this.resetForm}>
               <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">
               <label>Name</label>
               <input value={this.state.name} onChange={this.handleChange} className="form-control"
-                    type="text" name="name"/>
+                     type="text" name="name"/>
 
               <label>Minimal number of vCPUs</label>
               <input value={this.state.vCPU} onChange={this.handleChange} className="form-control"
-                    type="number" name="vCPU" min="1"/>
+                     type="number" name="vCPU" min="1"/>
 
               <label>Minimal amount of RAM in MB</label>
               <input value={this.state.memory} onChange={this.handleChange} className="form-control"
-                    type="number" name="memory" min="1"/>
+                     type="number" name="memory" min="1"/>
 
               <label>Providing Member</label>
               <select value={this.state.providingMember} onChange={this.handleChange}
@@ -121,8 +122,8 @@ class ComputeForm extends Component {
               </select>
 
               <label>Image</label>
-              <select value={this.state.image} onChange={this.handleChange}
-                      name='imageId' className="form-control">
+              <select value={this.state.imageId} onChange={this.handleChange} name='imageId'
+                      className="form-control">
                 <option value=''>Choose an image</option>
                 {
                   this.props.images.loading ?
@@ -134,7 +135,7 @@ class ComputeForm extends Component {
               </select>
 
               <label>Network id</label>
-              <select value={this.state.network} onChange={this.handleChange}
+              <select value={this.state.networksId} onChange={this.handleChange}
                       name='networksId' className="form-control">
                   <option value=''>Choose a network</option>
                   {
@@ -174,7 +175,10 @@ class ComputeForm extends Component {
             </div>
 
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-secondary" data-dismiss="modal"
+                      onClick={this.resetForm}>
+                Close
+              </button>
               <button type="button" className="btn btn-primary" data-dismiss="modal"
                       onClick={this.handleSubmit}>
                 Create Compute
