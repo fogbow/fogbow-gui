@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { parse } from 'query-string';
 
 import '../styles/login.css';
 
@@ -33,16 +34,29 @@ class LoginPage extends Component {
     let { history, dispatch } = this.props;
 
     if (env.cafeEndpoint) {
-        window.location.href = env.cafeEndpoint;
-    } else {
-      try {
-        const data = await dispatch(getAuthorization(this.state));
-        localStorage.setItem('token', data.token);
-        history.push('/fogbow');
-      } catch (err) {
-        console.log(err);
-        this.resetState();
-      }
+      window.location.href = env.cafeEndpoint;
+    }
+
+    try {
+      const data = await dispatch(getAuthorization(this.state));
+      localStorage.setItem('token', data.token);
+      history.push('/fogbow');
+    } catch (err) {
+      console.log(err);
+      this.resetState();
+    }
+  }
+
+  cafeLogin = async(cafeCredentials) => {
+    let { history, dispatch } = this.props;
+
+    try {
+      const data = await dispatch(getAuthorization(cafeCredentials));
+      localStorage.setItem('token', data.token);
+      history.push('/fogbow');
+    } catch (err) {
+      console.log(err);
+      this.resetState();
     }
   }
 
@@ -88,6 +102,15 @@ class LoginPage extends Component {
       </div>
     );
   };
+
+  componentDidMount() {
+    let cafeRedirect = this.props.location.search;
+
+    if (cafeRedirect) {
+      let cafeCredentials = parse(cafeRedirect);
+      this.cafeLogin(cafeCredentials);
+    }
+  }
 
   render() {
     return (

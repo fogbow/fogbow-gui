@@ -16,67 +16,32 @@ import PublicIpPage from './PublicIpPage';
 import { getAuthorization } from '../actions/auth.actions';
 
 class DashboardComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.checkToken();
-    }
-    
-    checkToken = () => {
-        const credentials = this.getCredentialsFromQueryString();
-        if (credentials)
-            this.validateCredentials(credentials);
-        
-        const { history } = this.props;
-        history.push('/');
-    };
-
-    getCredentialsFromQueryString = () => {
-        if (this.props.location.search)
-            return parse(this.props.location.search);
-    };
-
-
-    validateCredentials = (credentials) => {
-        const { dispatch, history } = this.props;
-        dispatch(getAuthorization(credentials)).then(
-            data => {
-                localStorage.setItem('token', data.token);
-                history.push('/fogbow');
-            },
-            err => {
-                console.log(err);
-                history.push('/');
-            }
-        );
-    };
-    
-
     goto = (tab) => {
         switch (tab) {
             case 'quota':
                 return this.getPageContent(<QuotaPage/>, tab);
-            
+
             case 'computes':
                 return this.getPageContent(<ComputesPage/>, tab);
-            
+
             case 'volumes':
                 return this.getPageContent(<VolumesPage/>, tab);
 
             case 'networks':
                 return this.getPageContent(<NetworksPage/>, tab);
-            
+
             case 'attachments':
                 return this.getPageContent(<AttachmentsPage/>, tab);
-            
+
             case 'fednets':
                 return this.getPageContent(<FederetedNetworksPage/>, tab);
-            
+
             case 'publicip':
                 return this.getPageContent(<PublicIpPage/>, tab);
-        
+
             default:
                 break;
-        }        
+        }
     };
 
     getPageContent = (tab, label) => {
