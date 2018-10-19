@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+import { env } from '../defaults/api.config';
 import { createVolume } from '../actions/volumes.actions';
 
 const initialState = {
   name: '',
   volumeSize: 1,
-  providingMember: ''
+  providingMember: env.local
 };
 
 class VolumeForm extends Component {
@@ -45,8 +46,9 @@ class VolumeForm extends Component {
           <div className="modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">Create Volume</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+                        onClick={this.resetForm}>
+                  <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div className="modal-body">
@@ -54,22 +56,28 @@ class VolumeForm extends Component {
               <input className="form-control" type="text" name="name"
                      value={this.state.name} onChange={this.handleChange}/>
 
-              <label>Volume size (in GB)</label>
+              <label>Volume Size (GB)</label>
               <input className="form-control" type="number" name="volumeSize"
                      value={this.state.volumeSize} onChange={this.handleChange} min="1"/>
 
               <label>Providing Member</label>
               <select name='providingMember' className="form-control"
                       value={this.state.providingMember} onChange={this.handleChange}>
-                <option value=''></option>
-                { this.props.members.data.map((member, idx) =>
-                    <option key={idx} value={member}>{member}</option>
-                  )
+                {
+                  this.props.members.loading ?
+                  this.props.members.data.map((member, idx) => {
+                    if (member === env.local) {
+                      return <option key={idx} value={member} defaultValue>{member} (local)</option>;
+                    }
+                    return <option key={idx} value={member}>{member}</option>;
+                  }) :
+                  undefined
                 }
               </select>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal"
+                      onClick={this.resetForm}>
                 Close
               </button>
               <button type="button" className="btn btn-primary" data-dismiss="modal"

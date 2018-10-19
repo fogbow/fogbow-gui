@@ -7,17 +7,19 @@ import networks from './networks.reducer';
 import fedNetworks from './fedNetworks.reducer';
 import attachments from './attachments.reducer';
 import images from './images.reducer';
+import remoteImages from './remoteImages.reducer';
 import quota from './quota.reducer';
 import publicIps from './publicIp.reducer';
 
 export default combineReducers({
-    members,
-    computes,
-    volumes,
-    networks,
-    fedNetworks,
-    attachments,
-    images,
-    quota,
-    publicIps
+  members,
+  computes,
+  volumes,
+  networks,
+  fedNetworks,
+  attachments,
+  images,
+  remoteImages,
+  quota,
+  publicIps
 });

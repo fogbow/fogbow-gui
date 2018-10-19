@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+import { env } from '../defaults/api.config';
 import { createNetwork } from '../actions/networks.actions';
 
 const initialState = {
@@ -9,7 +10,7 @@ const initialState = {
   address: '10.10.0.0/24',
   gateway: '10.10.0.1',
   allocation: 'dynamic',
-  providingMember: ''
+  providingMember: env.local
 }
 
 class NetworkForm extends Component {
@@ -22,7 +23,7 @@ class NetworkForm extends Component {
     let { name, value } = event.target;
 
     this.setState({
-        [name]: value
+      [name]: value
     });
   };
 
@@ -36,7 +37,7 @@ class NetworkForm extends Component {
   };
 
   resetForm = () => {
-      this.setState(initialState);
+    this.setState(initialState);
   };
 
   render() {
@@ -47,8 +48,9 @@ class NetworkForm extends Component {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">Create Network</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+                      onClick={this.resetForm}>
+                <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">
@@ -74,17 +76,27 @@ class NetworkForm extends Component {
               <label>Providing Member</label>
               <select name='providingMember' className="form-control" value={this.state.providingMember}
                       onChange={this.handleChange}>
-                  <option value=''></option>
-                  {
-                    this.props.members.data.map((member, idx) =>
-                      <option key={idx} value={member}>{member}</option>)
-                  }
+                {
+                  this.props.members.loading ?
+                  this.props.members.data.map((member, idx) => {
+                    if (member === env.local) {
+                      return <option key={idx} value={member} defaultValue>{member} (local)</option>;
+                    }
+                    return <option key={idx} value={member}>{member}</option>;
+                  }) :
+                  undefined
+                }
               </select>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-secondary" data-dismiss="modal"
+                      onClick={this.resetForm}>
+                Close
+              </button>
               <button type="button" className="btn btn-primary" data-dismiss="modal"
-                      onClick={this.handleSubmit}>Create Network</button>
+                      onClick={this.handleSubmit}>
+                Create Network
+              </button>
             </div>
           </div>
         </div>
@@ -94,7 +106,7 @@ class NetworkForm extends Component {
 }
 
 const stateToProps = state => ({
-    members: state.members
+  members: state.members
 });
 
 export default connect(stateToProps)(NetworkForm);

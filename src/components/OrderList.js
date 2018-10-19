@@ -15,7 +15,6 @@ class OrderList extends Component {
         this.state = {
             headers: hds,
             orderName: '',
-            rows: []
         };
     }
 
@@ -39,8 +38,8 @@ class OrderList extends Component {
         });
     };
 
-    getLines = (orders) => {
-      return orders.map(order => {
+    getLines = () => {
+      return this.props.orders.map(order => {
           return(
             <OrderComponent key={order.instanceId} order={order} type={this.props.type}
                             disableProvider={this.props.disableProvider}
@@ -56,13 +55,6 @@ class OrderList extends Component {
           [name]: value
       });
     };
-
-    componentWillReceiveProps(props) {
-      let lns = this.getLines(props.orders);
-      this.setState((state, props) => ({
-        rows: lns
-      }));
-    }
 
     render() {
         return (
@@ -88,7 +80,7 @@ class OrderList extends Component {
                       {this.getHeaders()}
                   </thead>
                   <tbody>
-                      {this.state.rows}
+                      {this.getLines()}
                   </tbody>
                 </table>
             </div>

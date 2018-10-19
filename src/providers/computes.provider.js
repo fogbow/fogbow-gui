@@ -27,8 +27,12 @@ class ComputesProvider {
         return axios.delete(this.url.concat('/', id), this.config);
     }
 
-    getImages() {
-        return axios.get(this.imagesUrl, this.config);
+    getImages(memberId) {
+      if (memberId) {
+        this.config.headers['memberId'] = memberId;
+      }
+
+      return axios.get(this.imagesUrl, this.config);
     }
 }
 

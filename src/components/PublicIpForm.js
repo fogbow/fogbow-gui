@@ -4,11 +4,12 @@ import _ from 'lodash';
 
 import '../styles/details.css';
 
+import { env } from '../defaults/api.config';
 import { getComputes } from '../actions/computes.actions';
 import { createPublicIp } from '../actions/publicIps.actions';
 
 const initialState = {
-  providingMember: '',
+  providingMember: env.local,
   computeOrderId: '',
 };
 
@@ -54,37 +55,47 @@ class PublicIpForm extends Component {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">Create Public IP</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+                      onClick={this.resetForm}>
+                <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">
-              <label>Compute</label>
-              <select  name='computeOrderId' className="form-control" required
+              <label>Providing Member</label>
+              <select name='providingMember' className="form-control" required
+                      value={this.state.providingMember} onChange={this.handleChange}>
+                {
+                  this.props.members.loading ?
+                  this.props.members.data.map((member, idx) => {
+                    if (member === env.local) {
+                      return <option key={idx} value={member} defaultValue>{member} (local)</option>;
+                    }
+                    return <option key={idx} value={member}>{member}</option>;
+                  }) :
+                  undefined
+                }
+              </select>
+
+              <label>Compute ID</label>
+              <select name='computeOrderId' className="form-control" required
                   value={this.state.computeOrderId} onChange={this.handleChange}>
                   <option value=''></option>
                   {
                     this.props.computes.loading ?
                     this.props.computes.data
-                        .filter(volume => volume.state === 'READY')
-                        .map((compute, idx) =>
-                          <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>):
+                      .filter(compute => compute.state === 'READY' &&
+                                         compute.provider === this.state.providingMember)
+                      .map((compute, idx) =>
+                        <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>):
                     undefined
                   }
               </select>
-
-              <label>Member</label>
-              <select name='providingMember' className="form-control" required
-                      value={this.state.providingMember} onChange={this.handleChange}>
-                <option value=''></option>
-                {
-                  this.props.members.data.map((member, idx) =>
-                    <option key={idx} value={member}>{member}</option>)
-                }
-              </select>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-secondary" data-dismiss="modal"
+                      onClick={this.resetForm}>
+                Close
+              </button>
               <button type="button" className="btn btn-primary"  data-dismiss="modal"
                       onClick={this.handleSubmit}>
                 Create Public IP
