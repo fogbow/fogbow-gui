@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { ToastContainer, Slide } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
 
 import { getAuthorization } from '../actions/auth.actions';
@@ -99,6 +101,7 @@ class LoginPage extends Component {
             Sign in
           </button>
         </div>
+        <ToastContainer transition={Slide} autoClose={false} />
       </div>
     );
   }

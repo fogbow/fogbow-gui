@@ -1,3 +1,7 @@
+import { ToastContainer, Slide } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 import React, { Component } from 'react';
 
 import TopMenu from '../components/TopMenu';
@@ -12,57 +16,51 @@ import FederetedNetworksPage from './FederetedNetworksPage';
 import PublicIpPage from './PublicIpPage';
 
 class DashboardComponent extends Component {
-    goto = (tab) => {
-        switch (tab) {
-            case 'quota':
-                return this.getPageContent(<QuotaPage/>, tab);
-            
-            case 'computes':
-                return this.getPageContent(<ComputesPage/>, tab);
-            
-            case 'volumes':
-                return this.getPageContent(<VolumesPage/>, tab);
-
-            case 'networks':
-                return this.getPageContent(<NetworksPage/>, tab);
-            
-            case 'attachments':
-                return this.getPageContent(<AttachmentsPage/>, tab);
-            
-            case 'fednets':
-                return this.getPageContent(<FederetedNetworksPage/>, tab);
-            
-            case 'publicip':
-                return this.getPageContent(<PublicIpPage/>, tab);
-        
-            default:
-                break;
-        }        
-    };
-
-    getPageContent = (tab, label) => {
-        return(
-            <div>
-                <TopMenu labelName={label} logout={this.logout}/> 
-                { tab }
-            </div>
-        );
+  goto = (tab) => {
+    switch (tab) {
+      case 'quota':
+        return this.getPageContent(<QuotaPage/>, tab);
+      case 'computes':
+        return this.getPageContent(<ComputesPage/>, tab);
+      case 'volumes':
+        return this.getPageContent(<VolumesPage/>, tab);
+      case 'networks':
+        return this.getPageContent(<NetworksPage/>, tab);
+      case 'attachments':
+        return this.getPageContent(<AttachmentsPage/>, tab);
+      case 'fednets':
+        return this.getPageContent(<FederetedNetworksPage/>, tab);
+      case 'publicip':
+        return this.getPageContent(<PublicIpPage/>, tab);
+      default:
+        break;
     }
+  };
 
-    logout = (event) => {
-        event.preventDefault();
-        let { history } = this.props;
-        localStorage.removeItem('token');
-        history.push('/');
-    };
+  getPageContent = (tab, label) => {
+    return(
+      <div>
+        <TopMenu labelName={label} logout={this.logout}/>
+        { tab }
+      </div>
+    );
+  }
 
-    render() {
-        return (
-            <div>
-                <SidebarComponent goto={this.goto} defaultView={this.getPageContent(<QuotaPage/>, 'quota')}/>
-            </div>
-        );
-    }
+  logout = (event) => {
+    event.preventDefault();
+    let { history } = this.props;
+    localStorage.removeItem('token');
+    history.push('/');
+  };
+
+  render() {
+    return (
+      <div>
+        <SidebarComponent goto={this.goto} defaultView={this.getPageContent(<QuotaPage/>, 'quota')}/>
+        <ToastContainer transition={Slide} autoClose={false} />
+      </div>
+    );
+  }
 }
 
 export default DashboardComponent;

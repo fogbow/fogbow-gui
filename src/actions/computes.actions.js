@@ -1,3 +1,6 @@
+import { toast } from 'react-toastify';
+
+import { messages } from '../defaults/messages';
 import { computesActionsTypes } from './computes.actions.types';
 import ComputesProvider from '../providers/computes.provider';
 
@@ -15,6 +18,7 @@ export const getComputes = () => {
 
       dispatch(success(computes.data));
     } catch (error) {
+      toast.error(messages.compute.getComputes.error);
       dispatch(failure(error));
     }
   };
