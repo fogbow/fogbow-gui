@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { parse } from 'query-string';
 
 import TopMenu from '../components/TopMenu';
 import SidebarComponent from '../components/SidebarComponent';
@@ -12,8 +11,6 @@ import NetworksPage from './NetworksPage';
 import AttachmentsPage from './AttachmentsPage';
 import FederetedNetworksPage from './FederetedNetworksPage';
 import PublicIpPage from './PublicIpPage';
-
-import { getAuthorization } from '../actions/auth.actions';
 
 class DashboardComponent extends Component {
     goto = (tab) => {
