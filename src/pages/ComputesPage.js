@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ToastContainer, Slide } from 'react-toastify';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
@@ -24,7 +23,7 @@ class ComputesPage extends Component {
     this.setState({
       intervalId: setInterval(async() => {
         if (this.state.tableVisible)
-            await dispatch(getComputes());
+          await dispatch(getComputes());
       }, env.refreshTime)
     });
   };
@@ -39,14 +38,14 @@ class ComputesPage extends Component {
 
   handleShow = (orderId) => {
     this.setState({
-        tableVisible: false,
-        orderId
+      tableVisible: false,
+      orderId
     });
   }
 
   handleHide = () => {
     this.setState({
-        tableVisible: true
+      tableVisible: true
     });
   };
 
@@ -57,7 +56,6 @@ class ComputesPage extends Component {
           (<OrderList orders={this.computes} form={<ComputeForm/>}
                       type={'computes'} handleShow={this.handleShow}/>) :
           <ComputeDetails id={this.state.orderId} handleHide={this.handleHide}/>}
-        <ToastContainer transition={Slide} autoClose={false} />
       </div>
     );
   }

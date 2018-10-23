@@ -1,78 +1,85 @@
+import { toast } from 'react-toastify';
+
+import { generateErrorMessage, errorTypes, orderTypes } from '../defaults/messages';
 import { attachmentsActionsTypes } from './attachments.actions.types';
 import AttachmentsProvider from '../providers/attachments.provider';
 
 export const getAttachments = () => {
-    return dispatch => {
-        return new Promise((resolve, reject) => {
-            let provider = new AttachmentsProvider();
-            const request = () => ({ type: attachmentsActionsTypes.GET_ATTACHEMENTS_REQUEST });
-            const success = (attachments) => ({ type: attachmentsActionsTypes.GET_ATTACHEMENTS_SUCCESS, attachments });
-            const failure = (error) => ({ type: attachmentsActionsTypes.GET_ATTACHEMENTS_FAILURE, error });
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new AttachmentsProvider();
+      const request = () => ({ type: attachmentsActionsTypes.GET_ATTACHEMENTS_REQUEST });
+      const success = (attachments) => ({ type: attachmentsActionsTypes.GET_ATTACHEMENTS_SUCCESS, attachments });
+      const failure = (error) => ({ type: attachmentsActionsTypes.GET_ATTACHEMENTS_FAILURE, error });
 
-            dispatch(request());
+      dispatch(request());
 
-            provider.get().then(
-                attachments => resolve(dispatch(success(attachments.data)))
-            ).catch(
-                error => reject(dispatch(failure(error)))
-            );
-        });
-    };
+      provider.get().then(
+        attachments => resolve(dispatch(success(attachments.data)))
+      ).catch((error) => {
+        toast.error(generateErrorMessage(errorTypes.GET, orderTypes.ATTACHMENT));
+        return reject(dispatch(failure(error)));
+      });
+    });
+  };
 };
 
 export const getAttachmentData = (id) => {
-    return dispatch => {
-        return new Promise((resolve, reject) => {
-            let provider = new AttachmentsProvider();
-            const request = () => ({ type: attachmentsActionsTypes.GET_DATA_ATTACHEMENTS_REQUEST });
-            const success = (attachments) => ({ type: attachmentsActionsTypes.GET_DATA_ATTACHEMENTS_SUCCESS, attachments });
-            const failure = (error) => ({ type: attachmentsActionsTypes.GET_ATTACHEMENTS_FAILURE, error });
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new AttachmentsProvider();
+      const request = () => ({ type: attachmentsActionsTypes.GET_DATA_ATTACHEMENTS_REQUEST });
+      const success = (attachments) => ({ type: attachmentsActionsTypes.GET_DATA_ATTACHEMENTS_SUCCESS, attachments });
+      const failure = (error) => ({ type: attachmentsActionsTypes.GET_ATTACHEMENTS_FAILURE, error });
 
-            dispatch(request());
+      dispatch(request());
 
-            provider.getData(id).then(
-                attachments => resolve(dispatch(success(attachments.data)))
-            ).catch(
-                error => reject(dispatch(failure(error)))
-            );
-        });
-    };
+      provider.getData(id).then(
+        attachments => resolve(dispatch(success(attachments.data)))
+      ).catch((error) => {
+        toast.error(generateErrorMessage(errorTypes.DATA, orderTypes.ATTACHMENT, id));
+        return reject(dispatch(failure(error)));
+      });
+    });
+  };
 };
 
 export const createAttachment = (body) => {
-    return dispatch => {
-        return new Promise((resolve, reject) => {
-            let provider = new AttachmentsProvider();
-            const request = () => ({ type: attachmentsActionsTypes.CREATE_ATTACHEMENT_REQUEST});
-            const success = (attachment) => ({ type: attachmentsActionsTypes.CREATE_ATTACHEMENT_SUCCESS, attachment });
-            const failure = (error) => ({ type: attachmentsActionsTypes.CREATE_ATTACHEMENT_FAILURE, error });
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new AttachmentsProvider();
+      const request = () => ({ type: attachmentsActionsTypes.CREATE_ATTACHEMENT_REQUEST});
+      const success = (attachment) => ({ type: attachmentsActionsTypes.CREATE_ATTACHEMENT_SUCCESS, attachment });
+      const failure = (error) => ({ type: attachmentsActionsTypes.CREATE_ATTACHEMENT_FAILURE, error });
 
-            dispatch(request());
+      dispatch(request());
 
-            provider.create(body).then(
-                attachment => resolve(dispatch(success(attachment.data)))
-            ).catch(
-                error => reject(dispatch(failure(error)))
-            );
-        });
-    };
+      provider.create(body).then(
+        attachment => resolve(dispatch(success(attachment.data)))
+      ).catch((error) => {
+        toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.ATTACHMENT));
+        return reject(dispatch(failure(error)));
+      });
+    });
+  };
 };
 
 export const deleteAttachment = (id) => {
-    return dispatch => {
-        return new Promise((resolve, reject) => {
-            let provider = new AttachmentsProvider();
-            const request = () => ({ type: attachmentsActionsTypes.DELETE_ATTACHEMENT_REQUEST});
-            const success = () => ({ type: attachmentsActionsTypes.DELETE_ATTACHEMENT_SUCCESS, id });
-            const failure = (error) => ({ type: attachmentsActionsTypes.DELETE_ATTACHEMENT_FAILURE, error });
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new AttachmentsProvider();
+      const request = () => ({ type: attachmentsActionsTypes.DELETE_ATTACHEMENT_REQUEST});
+      const success = () => ({ type: attachmentsActionsTypes.DELETE_ATTACHEMENT_SUCCESS, id });
+      const failure = (error) => ({ type: attachmentsActionsTypes.DELETE_ATTACHEMENT_FAILURE, error });
 
-            dispatch(request());
+      dispatch(request());
 
-            provider.delete(id).then(
-                () => resolve(dispatch(success()))
-            ).catch(
-                error => reject(dispatch(failure(error)))
-            );
-        });
-    };
+      provider.delete(id).then(
+        () => resolve(dispatch(success()))
+      ).catch((error) => {
+        toast.error(generateErrorMessage(errorTypes.DELETE, orderTypes.ATTACHMENT, id));
+        return reject(dispatch(failure(error)));
+      });
+    });
+  };
 };

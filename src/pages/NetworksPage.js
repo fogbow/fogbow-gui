@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { ToastContainer, Slide } from 'react-toastify';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
@@ -8,61 +9,62 @@ import NetworkForm from '../components/NetworkForm';
 import NetworkDetails from '../components/NetworkDetails';
 
 class NetworksPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tableVisible: true,
-            orderId: '',
-            intervalId: ''
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      tableVisible: true,
+      orderId: '',
+      intervalId: ''
     }
-    
-    componentDidMount = () => {
-        const { dispatch } = this.props;
-        dispatch(getNetworks());
-        this.setState({
-            intervalId:setInterval(async() => {
-                if (this.state.tableVisible)
-                    await dispatch(getNetworks());
-            }, env.refreshTime)
-        });
-    };
+  }
 
-    componentWillUnmount = () => {
-        clearInterval(this.state.intervalId);
-    }
+  componentDidMount = () => {
+    const { dispatch } = this.props;
+    dispatch(getNetworks());
+    this.setState({
+      intervalId:setInterval(async() => {
+        if (this.state.tableVisible)
+          await dispatch(getNetworks());
+      }, env.refreshTime)
+    });
+  };
 
-    get networks() {
-        return this.props.networks.loading ? this.props.networks.data: [];
-    }
+  componentWillUnmount = () => {
+    clearInterval(this.state.intervalId);
+  }
 
-    handleShow = (orderId) => {
-        this.setState({
-            tableVisible: false,
-            orderId
-        });
-    };
+  get networks() {
+    return this.props.networks.loading ? this.props.networks.data: [];
+  }
 
-    handleHide = () => {
-        this.setState({
-            tableVisible: true
-        });
-    };
+  handleShow = (orderId) => {
+    this.setState({
+      tableVisible: false,
+      orderId
+    });
+  };
 
-    render() {
-        return (
-            <div>
-                {this.state.tableVisible ? 
-                (<OrderList orders={this.networks} form={<NetworkForm/>} 
-                    type={'networks'} handleShow={this.handleShow}/>):
-                <NetworkDetails id={this.state.orderId} handleHide={this.handleHide}/>}
-            </div>
-        );
-    }
+  handleHide = () => {
+    this.setState({
+      tableVisible: true
+    });
+  };
+
+  render() {
+    return (
+      <div>
+        {this.state.tableVisible ?
+          (<OrderList orders={this.networks} form={<NetworkForm/>}
+                      type={'networks'} handleShow={this.handleShow}/>):
+          <NetworkDetails id={this.state.orderId} handleHide={this.handleHide}/>}
+        <ToastContainer transition={Slide} autoClose={false} />
+      </div>
+    );
+  }
 }
 
 const stateToProps = state => ({
-    networks: state.networks
+  networks: state.networks
 });
 
 export default connect(stateToProps)(NetworksPage);

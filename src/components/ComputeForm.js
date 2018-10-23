@@ -114,15 +114,15 @@ class ComputeForm extends Component {
 
               <label>Minimal Number of vCPUs</label>
               <input value={this.state.vCPU} onChange={this.handleChange} className="form-control"
-                     type="number" name="vCPU" min="1"/>
+                     type="number" name="vCPU" min="1" required />
 
               <label>Minimal Amount of RAM (MB)</label>
               <input value={this.state.memory} onChange={this.handleChange} className="form-control"
-                     type="number" name="memory" min="1"/>
+                     type="number" name="memory" min="1" required />
 
               <label>Providing Member</label>
               <select value={this.state.providingMember} onChange={this.handleChange}
-                      name='providingMember' className="form-control">
+                      name='providingMember' className="form-control" required>
                 {
                   this.props.members.loading ?
                   this.props.members.data.map((member, idx) => {
@@ -137,7 +137,7 @@ class ComputeForm extends Component {
 
               <label>Image</label>
               <select value={this.state.imageId} onChange={this.handleChange} name='imageId'
-                      className="form-control">
+                      className="form-control" required>
                 <option value=''>Choose an image</option>
                 {
                   images ?

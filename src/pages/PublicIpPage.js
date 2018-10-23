@@ -8,61 +8,61 @@ import { getPublicIps } from '../actions/publicIps.actions';
 import PublicIpDetails from '../components/PublicIpDetails';
 
 class PublicIpPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tableVisible: true,
-            orderId: '',
-            intervalId: ''
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+        tableVisible: true,
+        orderId: '',
+        intervalId: ''
     }
+  }
 
-    componentDidMount = () => {
-        const { dispatch } = this.props;
-        dispatch(getPublicIps());
-        this.setState({
-            intervalId: setInterval(async() => {
-                if (this.state.tableVisible)
-                    await dispatch(getPublicIps());
-            }, env.refreshTime)
-        });
-    };
+  componentDidMount = () => {
+    const { dispatch } = this.props;
+    dispatch(getPublicIps());
+    this.setState({
+      intervalId: setInterval(async() => {
+        if (this.state.tableVisible)
+            await dispatch(getPublicIps());
+      }, env.refreshTime)
+    });
+  };
 
-    componentWillUnmount = () => {
-        clearInterval(this.state.intervalId);
-    }
+  componentWillUnmount = () => {
+    clearInterval(this.state.intervalId);
+  }
 
-    get publicIps() {
-        return this.props.publicIps.loading ? this.props.publicIps.data: [];
-    }
+  get publicIps() {
+    return this.props.publicIps.loading ? this.props.publicIps.data: [];
+  }
 
-    handleShow = (orderId) => {
-        this.setState({
-            tableVisible: false,
-            orderId
-        });
-    };
+  handleShow = (orderId) => {
+    this.setState({
+      tableVisible: false,
+      orderId
+    });
+  };
 
-    handleHide = () => {
-        this.setState({
-            tableVisible: true
-        });
-    };
+  handleHide = () => {
+    this.setState({
+      tableVisible: true
+    });
+  };
 
-    render() {
-      return (
-        <div>
-            {this.state.tableVisible ?
-            (<OrderList orders={this.publicIps} form={<PublicIpForm/>}
-                type={'publicip'} handleShow={this.handleShow} handleHide={this.handleHide}/>):
-            <PublicIpDetails id={this.state.orderId} handleHide={this.handleHide}/>}
-        </div>
-      );
-    }
+  render() {
+    return (
+      <div>
+        {this.state.tableVisible ?
+         (<OrderList orders={this.publicIps} form={<PublicIpForm/>}
+                     type={'publicip'} handleShow={this.handleShow} handleHide={this.handleHide}/>) :
+         <PublicIpDetails id={this.state.orderId} handleHide={this.handleHide}/>}
+      </div>
+    );
+  }
 }
 
 const stateToProps = state => ({
-    publicIps: state.publicIps
+  publicIps: state.publicIps
 });
 
 export default connect(stateToProps)(PublicIpPage);
