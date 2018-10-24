@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer, Slide } from 'react-toastify';
+import { parse } from 'query-string';
 
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
@@ -34,6 +35,10 @@ class LoginPage extends Component {
     event.preventDefault();
     let { history, dispatch } = this.props;
 
+    if (env.cafeEndpoint) {
+      window.location.href = env.cafeEndpoint;
+    }
+
     try {
       const data = await dispatch(getAuthorization(this.state));
       localStorage.setItem('token', data.token);
@@ -42,6 +47,24 @@ class LoginPage extends Component {
       console.log(err);
       this.resetState();
     }
+  }
+
+  cafeLogin = async(cafeCredentials) => {
+    let { history, dispatch } = this.props;
+
+    try {
+      const data = await dispatch(getAuthorization(cafeCredentials));
+      localStorage.setItem('token', data.token);
+      history.push('/fogbow');
+    } catch (err) {
+      console.log(err);
+      this.resetState();
+    }
+  }
+
+  generateAuth = () => {
+    if(!env.cafeEndpoint)
+      return this.generateInputs();
   };
 
   generateDropdown = (field, label, options) => {
@@ -82,6 +105,15 @@ class LoginPage extends Component {
     );
   };
 
+  componentDidMount() {
+    let cafeRedirect = this.props.location.search;
+
+    if (cafeRedirect) {
+      let cafeCredentials = parse(cafeRedirect);
+      this.cafeLogin(cafeCredentials);
+    }
+  }
+
   render() {
     return (
       <div>
@@ -94,7 +126,7 @@ class LoginPage extends Component {
 
           <p>Authentication Service : {env.authenticationPlugin}</p>
 
-          {this.generateInputs()}
+          {this.generateAuth()}
         </form>
         <div className="form-footer">
           <button type="submit" onClick={this.login} className="btn btn-primary submit">
