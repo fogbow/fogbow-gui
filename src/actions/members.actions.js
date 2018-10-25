@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-import { messages } from '../defaults/messages';
+import { messages, quotaErrorMessage } from '../defaults/messages';
 import { membersActionsTypes } from './members.actions.types';
 import MembersProvider from '../providers/members.provider';
 
@@ -37,7 +37,7 @@ export const getMemberData = (id) => {
       provider.getQuota(id).then(
         quota => resolve(dispatch(success(quota.data)))
       ).catch((error) => {
-        toast.error(messages.quota.error);
+        toast.generateErrorMessage(quotaErrorMessage(id));
         return reject(dispatch(failure(error)))
       });
     });
@@ -58,7 +58,6 @@ export const getAllMembersData = (members) => {
             }));
           resolve(response);
         }).catch((error) => {
-          toast.error(messages.quota.error);
           return reject(error);
         });
     });
