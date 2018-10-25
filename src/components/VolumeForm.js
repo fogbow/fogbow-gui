@@ -8,7 +8,7 @@ import { createVolume } from '../actions/volumes.actions';
 const initialState = {
   name: '',
   volumeSize: 1,
-  providingMember: env.local
+  provider: env.local
 };
 
 class VolumeForm extends Component {
@@ -73,8 +73,8 @@ class VolumeForm extends Component {
               <div className='form-row'>
                 <div className='col'>
                   <label>Providing Member</label>
-                  <select name='providingMember' className="form-control" required
-                          value={this.state.providingMember} onChange={this.handleChange}>
+                  <select name='provider' className="form-control" required
+                          value={this.state.provider} onChange={this.handleChange}>
                     {
                       this.props.members.loading ?
                       this.props.members.data.map((member, idx) => {

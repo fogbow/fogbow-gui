@@ -18,12 +18,12 @@ const scriptTypes = [
 
 const initialState = {
   name: '',
-  providingMember: env.local,
+  provider: env.local,
   imageId: '',
   vCPU: 1,
   disk: 30,
   memory: 1024,
-  networksId: '',
+  networkIds: '',
   federatedNetworkId: '',
   file: '',
   scriptType: scriptTypes[0],
@@ -57,7 +57,7 @@ class ComputeForm extends Component {
   handleChange = (event) => {
     let { name, value } = event.target;
 
-    if (name === 'networksId') {
+    if (name === 'networkIds') {
       // FIXME(pauloewerton): this will work only with a single network id
       this.setState({
           [name]: [value]
@@ -92,8 +92,8 @@ class ComputeForm extends Component {
   render() {
     let localImages = this.props.images.loading ? this.props.images.data : undefined;
     let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
-    let images = this.state.providingMember === env.local ? localImages :
-      remoteImages[this.state.providingMember];
+    let images = this.state.provider === env.local ? localImages :
+      remoteImages[this.state.provider];
 
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
@@ -121,8 +121,8 @@ class ComputeForm extends Component {
                      type="number" name="memory" min="1" required />
 
               <label>Providing Member</label>
-              <select value={this.state.providingMember} onChange={this.handleChange}
-                      name='providingMember' className="form-control" required>
+              <select value={this.state.provider} onChange={this.handleChange}
+                      name='provider' className="form-control" required>
                 {
                   this.props.members.loading ?
                   this.props.members.data.map((member, idx) => {
@@ -149,13 +149,13 @@ class ComputeForm extends Component {
               </select>
 
               <label>Network ID</label>
-              <select value={this.state.networksId} onChange={this.handleChange}
-                      name='networksId' className="form-control">
+              <select value={this.state.networkIds} onChange={this.handleChange}
+                      name='networkIds' className="form-control">
                   <option value=''>Choose a network</option>
                   {
                     this.props.networks.loading ?
                     this.props.networks.data.map((network, idx) => {
-                      return network.provider === this.state.providingMember ?
+                      return network.provider === this.state.provider ?
                         <option key={idx} value={network.instanceId}>
                           {network.instanceId}
                         </option> :

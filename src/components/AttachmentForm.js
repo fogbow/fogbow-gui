@@ -8,10 +8,10 @@ import { getVolumes } from '../actions/volumes.actions';
 import { createAttachment } from '../actions/attachments.actions';
 
 const initialState = {
-  providingMember: env.local,
-  source: '',
-  target: '',
-  device: '/dev/sdd'
+  provider: env.local,
+  computeId: '',
+  volumeId: '',
+  device: '/dev/sdb'
 };
 
 class AttachmentForm extends Component {
@@ -66,7 +66,7 @@ class AttachmentForm extends Component {
             </div>
             <div className="modal-body">
               <label>Providing Member</label>
-              <select name='providingMember' className="form-control" value={this.state.providingMember}
+              <select name='provider' className="form-control" value={this.state.provider}
                       onChange={this.handleChange}>
                 {
                   this.props.members.loading ?
@@ -81,14 +81,14 @@ class AttachmentForm extends Component {
               </select>
 
               <label>Compute ID</label>
-              <select name='source' className="form-control" value={this.state.source}
+              <select name='computeId' className="form-control" value={this.state.computeId}
                       onChange={this.handleChange}>
                 <option value=''></option>
                 {
                   this.props.computes.loading ?
                   this.props.computes.data
                     .filter(compute => compute.state === 'READY' &&
-                                       compute.provider === this.state.providingMember)
+                                       compute.provider === this.state.provider)
                     .map((compute, idx) =>
                       <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>):
                   undefined
@@ -96,14 +96,14 @@ class AttachmentForm extends Component {
               </select>
 
               <label>Volume ID</label>
-              <select name='target' className="form-control" value={this.state.target}
+              <select name='volumeId' className="form-control" value={this.state.volumeId}
                       onChange={this.handleChange}>
                 <option value=''></option>
                 {
                   this.props.volumes.loading ?
                   this.props.volumes.data
                     .filter(volume => volume.state === 'READY' &&
-                                      volume.provider === this.state.providingMember)
+                                      volume.provider === this.state.provider)
                     .map((volume, idx) =>
                       <option key={idx} value={volume.instanceId}>{volume.instanceId}</option>):
                   undefined

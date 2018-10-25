@@ -9,8 +9,8 @@ import { getComputes } from '../actions/computes.actions';
 import { createPublicIp } from '../actions/publicIps.actions';
 
 const initialState = {
-  providingMember: env.local,
-  computeOrderId: '',
+  provider: env.local,
+  computeId: '',
 };
 
 class PublicIpForm extends Component {
@@ -62,8 +62,8 @@ class PublicIpForm extends Component {
             </div>
             <div className="modal-body">
               <label>Providing Member</label>
-              <select name='providingMember' className="form-control" required
-                      value={this.state.providingMember} onChange={this.handleChange}>
+              <select name='provider' className="form-control" required
+                      value={this.state.provider} onChange={this.handleChange}>
                 {
                   this.props.members.loading ?
                   this.props.members.data.map((member, idx) => {
@@ -77,14 +77,14 @@ class PublicIpForm extends Component {
               </select>
 
               <label>Compute ID</label>
-              <select name='computeOrderId' className="form-control" required
-                  value={this.state.computeOrderId} onChange={this.handleChange}>
+              <select name='computeId' className="form-control" required
+                  value={this.state.computeId} onChange={this.handleChange}>
                   <option value=''></option>
                   {
                     this.props.computes.loading ?
                     this.props.computes.data
                       .filter(compute => compute.state === 'READY' &&
-                                         compute.provider === this.state.providingMember)
+                                         compute.provider === this.state.provider)
                       .map((compute, idx) =>
                         <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>):
                     undefined

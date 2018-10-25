@@ -7,10 +7,10 @@ import { createNetwork } from '../actions/networks.actions';
 
 const initialState = {
   name: '',
-  address: '10.10.0.0/24',
+  cidr: '10.10.0.0/24',
   gateway: '10.10.0.1',
-  allocation: 'dynamic',
-  providingMember: env.local
+  allocationMode: 'dynamic',
+  provider: env.local
 }
 
 class NetworkForm extends Component {
@@ -59,22 +59,22 @@ class NetworkForm extends Component {
                      type="text" name="name"/>
 
               <label>CIDR</label>
-              <input className="form-control" type="text" name="address" value={this.state.address}
+              <input className="form-control" type="text" name="cidr" value={this.state.cidr}
                      onChange={this.handleChange}/>
 
               <label>Gateway</label>
               <input className="form-control" type="text" name="gateway" value={this.state.gateway}
                      onChange={this.handleChange}/>
 
-              <label>Allocation</label>
-              <select name='allocation' className="form-control" value={this.state.allocation}
+              <label>Allocation Mode</label>
+              <select name='allocationMode' className="form-control" value={this.state.allocationMode}
                       onChange={this.handleChange}>
                   <option value='dynamic'>Dynamic</option>
                   <option value='static'>Static</option>
               </select>
 
               <label>Providing Member</label>
-              <select name='providingMember' className="form-control" value={this.state.providingMember}
+              <select name='provider' className="form-control" value={this.state.provider}
                       onChange={this.handleChange}>
                 {
                   this.props.members.loading ?
