@@ -51,30 +51,45 @@ class VolumeForm extends Component {
                   <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div className="modal-body">
-              <label>Name</label>
-              <input className="form-control" type="text" name="name"
-                     value={this.state.name} onChange={this.handleChange}/>
 
-              <label>Volume Size (GB)</label>
-              <input className="form-control" type="number" name="volumeSize"
-                     value={this.state.volumeSize} onChange={this.handleChange} min="1"/>
+            <div className="modal-body needs-validation">
+              <div className='form-row'>
+                <div className='col'>
+                  <label>Name</label>
+                  <input className="form-control" type="text" name="name"
+                          value={this.state.name} onChange={this.handleChange}/>
+                </div>
+              </div>
 
-              <label>Providing Member</label>
-              <select name='providingMember' className="form-control"
-                      value={this.state.providingMember} onChange={this.handleChange}>
-                {
-                  this.props.members.loading ?
-                  this.props.members.data.map((member, idx) => {
-                    if (member === env.local) {
-                      return <option key={idx} value={member} defaultValue>{member} (local)</option>;
+              <div className='form-row'>
+                <div className='col'>
+                  <label>Volume Size (GB)</label>
+                  <input className="form-control" type="number" name="volumeSize"
+                          value={this.state.volumeSize} onChange={this.handleChange} min="1"
+                          required />
+                </div>
+              </div>
+
+              <div className='form-row'>
+                <div className='col'>
+                  <label>Providing Member</label>
+                  <select name='providingMember' className="form-control" required
+                          value={this.state.providingMember} onChange={this.handleChange}>
+                    {
+                      this.props.members.loading ?
+                      this.props.members.data.map((member, idx) => {
+                        if (member === env.local) {
+                          return <option key={idx} value={member} defaultValue>{member} (local)</option>;
+                        }
+                        return <option key={idx} value={member}>{member}</option>;
+                      }) :
+                      undefined
                     }
-                    return <option key={idx} value={member}>{member}</option>;
-                  }) :
-                  undefined
-                }
-              </select>
+                  </select>
+                </div>
+              </div>
             </div>
+
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal"
                       onClick={this.resetForm}>

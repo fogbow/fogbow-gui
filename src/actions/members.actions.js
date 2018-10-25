@@ -17,7 +17,14 @@ export const getMembers = () => {
       provider.get().then(
         members => resolve(dispatch(success(members.data)))
       ).catch((error) => {
-        toast.error(messages.members.error);
+        if (error.response) {
+          toast.error(error.response.data);
+        } else if (error.request){
+          toast.error(error.request);
+        } else{
+          toast.error(error.message);
+        }
+        toast.error(error.message);
         return reject(dispatch(failure(error)))
       });
     });

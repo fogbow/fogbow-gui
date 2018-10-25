@@ -8,7 +8,7 @@ import DashboardPage from './pages/DashboardPage';
 class App extends Component {
   render() {
     return (
-      <div>
+      <div className='container-fluid'>
           <BrowserRouter>
             <main>
               <Switch>

@@ -9,6 +9,9 @@ RUN \
 
 RUN git clone https://github.com/fogbow/fogbow-gui.git
 
+# Generates the build number based on the commit checksum
+RUN (build_number=$(git rev-parse --short 'HEAD') && echo "build_number=$build_number" > build)
+
 WORKDIR fogbow-gui
 
 RUN npm i

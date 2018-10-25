@@ -10,6 +10,7 @@ import images from './images.reducer';
 import remoteImages from './remoteImages.reducer';
 import quota from './quota.reducer';
 import publicIps from './publicIp.reducer';
+import version from './version.reducer';
 
 export default combineReducers({
   members,
@@ -21,5 +22,6 @@ export default combineReducers({
   images,
   remoteImages,
   quota,
-  publicIps
+  publicIps,
+  version
 });

@@ -14,6 +14,7 @@ import NetworksPage from './NetworksPage';
 import AttachmentsPage from './AttachmentsPage';
 import FederetedNetworksPage from './FederetedNetworksPage';
 import PublicIpPage from './PublicIpPage';
+import VersionPage from './VersionPage';
 
 class DashboardComponent extends Component {
   goto = (tab) => {
@@ -32,6 +33,8 @@ class DashboardComponent extends Component {
         return this.getPageContent(<FederetedNetworksPage/>, tab);
       case 'publicip':
         return this.getPageContent(<PublicIpPage/>, tab);
+      case 'version':
+        return this.getPageContent(<VersionPage/>, tab);
       default:
         break;
     }

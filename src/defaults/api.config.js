@@ -1,7 +1,7 @@
 export const env = {
-  fns: 'http://10.11.4.34:8082',
-  ms: 'http://10.11.4.34:8081',
-  local: 'atm-test.cloud.lsd.ufcg.edu.br',
+  fns: 'http://localhost:8081',
+  ms: 'http://localhost:8082',
+  local: 'fake-localidentity-member',
   remoteEndpoint: '',
   refreshTime: 5000,
   authenticationPlugin: 'KeystoneV3',
