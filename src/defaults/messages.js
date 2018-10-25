@@ -40,6 +40,11 @@ export const messages = {
   },
 };
 
+export const quotaErrorMessage = (memberId) => {
+  return ('Unable to retrieve quota data for member: ' + memberId + '. Aggregated quota values ' +
+          'might be outated. Please, check your console log for further details.');
+};
+
 export const generateErrorMessage = (errorType, orderType, orderId) => {
   return error => {
     let errorMessage = '';
