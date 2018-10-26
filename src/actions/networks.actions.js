@@ -73,7 +73,7 @@ export const deleteNetwork = (id) => {
         dispatch(request());
 
         provider.delete(id).then(
-          () => resolve(dispatch(success()))
+          resolve(dispatch(success()))
         ).catch((error) => {
           toast.error(generateErrorMessage(errorTypes.DELETE, orderTypes.NETWORK, id));
           return reject(dispatch(failure(error)));
@@ -153,7 +153,7 @@ export const deleteFedNetwork = (id) => {
       dispatch(request());
 
       provider.deletefedNet(id).then(
-        () => resolve(dispatch(success()))
+        resolve(dispatch(success()))
       ).catch((error) => {
         toast.error(generateErrorMessage(errorTypes.DELETE, orderTypes.FEDERATED_NETWORK, id));
         return reject(dispatch(failure(error)));
