@@ -4,11 +4,6 @@ import { connect } from 'react-redux';
 import { getVersion } from '../actions/version.actions';
 
 class AboutPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   componentDidMount = () => {
     const { dispatch } = this.props;
     dispatch(getVersion());
@@ -17,11 +12,7 @@ class AboutPage extends Component {
   render() {
     return (
       <div>
-        {this.props.version.loading ?
-          Object.keys(this.props.version.data).map((service, idx) => {
-            return <div key={idx}>{service}</div>;
-          }) : <div>something went wrong</div>
-        }
+        {this.props.version.loading ? <p>{alert(JSON.stringify(this.props.version.data))}</p> : <p>frangote</p>}
       </div>
     );
   }
