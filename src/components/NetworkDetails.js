@@ -39,8 +39,8 @@ class NetworkDetails extends Component {
         <p className="bolder">State</p>
         <p>{this.state.orderData.state || '-'}</p>
 
-        <p className="bolder">Address (CIDR)</p>
-        <p>{this.state.orderData.address || '-'}</p>
+        <p className="bolder">CIDR</p>
+        <p>{this.state.orderData.cidr || '-'}</p>
 
         <p className="bolder">Gateway</p>
         <p>{this.state.orderData.gateway || '-'}</p>
@@ -49,7 +49,7 @@ class NetworkDetails extends Component {
         <p>{this.state.orderData.vlan || '-'}</p>
 
         <p className="bolder">Allocation Mode</p>
-        <p>{this.state.orderData.allocation || '-'}</p>
+        <p>{this.state.orderData.allocationMode || '-'}</p>
       </div>
     );
   }

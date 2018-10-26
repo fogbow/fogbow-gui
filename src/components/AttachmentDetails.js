@@ -39,8 +39,8 @@ class AttachmentDetails extends Component {
         <p>{this.state.orderData.state || '-'}</p>
 
         <p className="bolder">Compute</p>
-        <p>Name: {this.state.orderData.serverName || '-'}</p>
-        <p>ID: {this.state.orderData.serverId || '-'}</p>
+        <p>Name: {this.state.orderData.computeName || '-'}</p>
+        <p>ID: {this.state.orderData.computeId || '-'}</p>
 
         <p className="bolder">Volume</p>
         <p>Name: {this.state.orderData.volumeName || '-'}</p>
