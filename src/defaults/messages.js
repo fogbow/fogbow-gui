@@ -25,6 +25,13 @@ export const messages = {
     error: ('Unable to retrieve federation members list. Please, check your membership service ' +
             'configuration.')
   },
+  version: {
+    error: 'Unable to retrieve API versions.'
+  },
+  quota: {
+    error: ('Unable to retrieve quota data. Your quota page might be outdated. ' +
+            'Please, check your console log for further details.')
+  },
   getImages: {
     error: 'Unable to retrieve images list from local provider.'
   },

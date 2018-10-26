@@ -48,11 +48,11 @@ class QuotaPage extends Component {
 
     // local
     dispatch(getMemberData(this.state.localMember))
-    .then(data => {
-      this.setState({
-        localQuota: data.quota
+      .then(data => {
+        this.setState({
+          localQuota: data.quota
+        });
       });
-    });
   };
 
   vendorChange = (event) => {

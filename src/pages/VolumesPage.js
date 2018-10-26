@@ -22,10 +22,10 @@ class VolumesPage extends Component {
     const { dispatch } = this.props;
     dispatch(getVolumes());
     this.setState({
-        intervalId: setInterval(async() => {
-            if (this.state.tableVisible)
-                await dispatch(getVolumes());
-        }, env.refreshTime)
+      intervalId: setInterval(async() => {
+        if (this.state.tableVisible)
+            await dispatch(getVolumes());
+      }, env.refreshTime)
     });
   };
 
@@ -38,27 +38,27 @@ class VolumesPage extends Component {
   }
 
   handleShow = (orderId) => {
-      this.setState({
-          tableVisible: false,
-          orderId: orderId
-      });
+    this.setState({
+      tableVisible: false,
+      orderId: orderId
+    });
   };
 
   handleHide = () => {
     this.setState({
-        tableVisible: true
+      tableVisible: true
     });
   };
 
   render() {
     return (
-        <div>
-            {this.state.tableVisible ?
-                (<OrderList orders={this.volumes} form={<VolumeForm/>}
-                type={'volumes'} handleShow={this.handleShow}/>):
-                <VolumeDetails id={this.state.orderId} handleHide={this.handleHide}/>
-            }
-        </div>
+      <div>
+        {this.state.tableVisible ?
+            (<OrderList orders={this.volumes} form={<VolumeForm/>}
+            type={'volumes'} handleShow={this.handleShow}/>) :
+            <VolumeDetails id={this.state.orderId} handleHide={this.handleHide}/>
+        }
+      </div>
     );
   }
 }
