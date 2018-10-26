@@ -37,7 +37,7 @@ export const getMemberData = (id) => {
       provider.getQuota(id).then(
         quota => resolve(dispatch(success(quota.data)))
       ).catch((error) => {
-        toast.generateErrorMessage(quotaErrorMessage(id));
+        toast.error(quotaErrorMessage(id));
         return reject(dispatch(failure(error)))
       });
     });
