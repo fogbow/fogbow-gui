@@ -120,7 +120,7 @@ class ComputeForm extends Component {
               <input value={this.state.memory} onChange={this.handleChange} className="form-control"
                      type="number" name="memory" min="1" required />
 
-              <label>Providing Member</label>
+              <label>Provider</label>
               <select value={this.state.provider} onChange={this.handleChange}
                       name='provider' className="form-control" required>
                 {

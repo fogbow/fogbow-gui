@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { getVersion } from '../actions/version.actions';
 
-class VersionPage extends Component {
+class AboutPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -20,7 +20,7 @@ class VersionPage extends Component {
         {this.props.version.loading ?
           Object.keys(this.props.version.data).map((service, idx) => {
             return <div key={idx}>{service}</div>;
-          }) : undefined
+          }) : <div>something went wrong</div>
         }
       </div>
     );
@@ -31,4 +31,4 @@ const stateToProps = state => ({
   version: state.version
 });
 
-export default connect(stateToProps)(VersionPage);
+export default connect(stateToProps)(AboutPage);
