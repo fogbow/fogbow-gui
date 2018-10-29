@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 
-import { quotaErrorMessage } from '../defaults/messages';
 import { membersActionsTypes } from './members.actions.types';
 import MembersProvider from '../providers/members.provider';
 
@@ -45,7 +44,7 @@ export const getMemberData = (id) => {
         quota => resolve(dispatch(success(quota.data)))
       ).catch((error) => {
         const message = error.response ? error.response.data.message : error.message;
-        toast.error(quotaErrorMessage(id) + ' Server response: ' + message);
+        toast.error('Unable to retrieve quota data from provider: ' + id + '. ' + message);
         return reject(dispatch(failure(error)))
       });
     });
