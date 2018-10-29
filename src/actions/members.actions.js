@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-import { messages, quotaErrorMessage } from '../defaults/messages';
+import { quotaErrorMessage } from '../defaults/messages';
 import { membersActionsTypes } from './members.actions.types';
 import MembersProvider from '../providers/members.provider';
 
