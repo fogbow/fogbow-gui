@@ -4,11 +4,6 @@ import { connect } from 'react-redux';
 import { getVersion } from '../actions/version.actions';
 
 class AboutPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {versions: undefined};
-  }
-
   componentDidMount = () => {
     const { dispatch } = this.props;
 
@@ -20,13 +15,20 @@ class AboutPage extends Component {
   render() {
     return (
       <div>
-        {
-          this.props.version.loading ?
-          Object.keys(this.props.version.data)
-              .map((version, idx) =>
-                <p key={idx}>{version + ': v.' + this.props.version.data[version]}</p>) :
-          undefined
-        }
+        <dl className='about'>
+          {
+            this.props.version.loading ?
+              Object.keys(this.props.version.data)
+                .map((version, idx) => {
+                  return (
+                    <div key={idx} className='row'>
+                      <dt className='col-sm-3'>{version}</dt>
+                      <dd className='col-sm-9'>{'v.' + this.props.version.data[version]}</dd>
+                    </div>
+              );}) :
+            undefined
+          }
+        </dl>
       </div>
     );
   }

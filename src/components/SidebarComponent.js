@@ -33,14 +33,14 @@ class SidebarComponent extends Component {
     return (
       <div className="row">
         <div className="sidebar col col-lg-2">
-          <img className="image" src={require("../assets/logo_fogbow_transparent.png")} alt="Fogbow"></img>
+          <img className="d-block mx-auto" src={require("../assets/logo_fogbow_transparent.png")}
+               alt="Fogbow"></img>
 
-          <p className="federation-label">Federation</p>
+          <p className="federation-label">User Panel</p>
           <hr className="horizontal-line"/>
 
           <div className="links">
-            <p>User Panel</p>
-            <ul style={{listStyleType: 'none'}}>
+            <ul className='list-unstyled'>
                 {this.renderItens()}
             </ul>
           </div>

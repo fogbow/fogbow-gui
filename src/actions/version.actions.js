@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 
+import packageJson from '../../package.json';
 import { env } from '../defaults/api.config';
 import { versionActionsTypes } from './version.actions.types';
 import VersionProvider from '../providers/version.provider';
@@ -8,7 +9,9 @@ export const getVersion = () => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       let provider = new VersionProvider();
-      let response = {};
+      let response = {
+        'Fogbow GUI': packageJson.version
+      };
 
       const request = () => ({ type: versionActionsTypes.GET_VERSION_REQUEST });
       const success = (version) => ({ type: versionActionsTypes.GET_VERSION_SUCCESS, version });
@@ -28,14 +31,14 @@ export const getVersion = () => {
             response[service] = endpoint.data;
           } catch (error) {
             const message = error.response ? error.response.data.message : error.message;
-            console.log(message);
+            toast.error('Unable to retrieve version from service: ' + service + '. ' + message);
             throw (message);
           }
         });
 
         resolve(dispatch(success(response)));
       } catch (error) {
-        toast.error('Unable to retrieve service endpoint versions.' + error);
+        console.log(error);
         reject(dispatch(failure(error)));
       }
     });
