@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { getComputeData } from '../actions/computes.actions';
 
@@ -61,7 +62,7 @@ class ComputeDetails extends Component {
         {networks}
 
         <p className="bolder">Local IP Addresses</p>
-        <p>{this.state.orderData.ipAddresses || '-'}</p>
+        <p>{_.join(this.state.orderData.ipAddresses, ',') || '-'}</p>
 
         <p className="bolder">Image</p>
         <p>
@@ -84,7 +85,8 @@ class ComputeDetails extends Component {
           value={this.state.orderData.publicKey || '-'} readOnly></textarea>
 
         <p className="bolder">User Data</p>
-        <p>{this.state.orderData.userDataContent || '-'}</p>
+        <textarea className="public-key" cols="70" rows="5"
+                  value={this.state.orderData.userDataContent || '-'} readOnly></textarea>
       </div>
     );
   }
