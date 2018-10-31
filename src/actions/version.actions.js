@@ -19,6 +19,7 @@ export const getVersion = () => {
 
       const apiEndpoints = {
         'Federated Network Service': env.fns,
+        'Resource Allocation Service': env.ras,
         'Membership Service': env.ms
       };
 

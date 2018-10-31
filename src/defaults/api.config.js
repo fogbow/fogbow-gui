@@ -1,5 +1,6 @@
 export const env = {
   fns: 'http://localhost:8081',
+  ras: 'http://localhost:8080',
   ms: 'http://localhost:8082',
   local: 'fake-localidentity-member',
   remoteEndpoint: '',
