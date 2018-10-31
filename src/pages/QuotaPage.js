@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { env } from '../defaults/api.config';
 import QuotaTable from '../components/QuotaTable';
 import { getMembers, getMemberData, getAllMembersData } from '../actions/members.actions';
+import { getVersion } from '../actions/version.actions';
 
 const mockData = {
   totalQuota: {
@@ -53,6 +54,10 @@ class QuotaPage extends Component {
           localQuota: data.quota
         });
       });
+
+    if (! this.props.version.loading) {
+      dispatch(getVersion());
+    }
   };
 
   vendorChange = (event) => {
@@ -95,7 +100,8 @@ class QuotaPage extends Component {
 
 const stateToProps = state => ({
   members: state.members,
-  quota: state.quota
+  quota: state.quota,
+  version: state.version
 });
 
 export default connect(stateToProps)(QuotaPage);

@@ -34,7 +34,7 @@ class AttachmentForm extends Component {
     let { name, value } = event.target;
 
     this.setState({
-        [name]: value
+      [name]: value
     });
   };
 
@@ -65,7 +65,7 @@ class AttachmentForm extends Component {
               </button>
             </div>
             <div className="modal-body">
-              <label>Providing Member</label>
+              <label>Provider</label>
               <select name='provider' className="form-control" value={this.state.provider}
                       onChange={this.handleChange}>
                 {
@@ -90,7 +90,7 @@ class AttachmentForm extends Component {
                     .filter(compute => compute.state === 'READY' &&
                                        compute.provider === this.state.provider)
                     .map((compute, idx) =>
-                      <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>):
+                      <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>) :
                   undefined
                 }
               </select>
@@ -105,7 +105,7 @@ class AttachmentForm extends Component {
                     .filter(volume => volume.state === 'READY' &&
                                       volume.provider === this.state.provider)
                     .map((volume, idx) =>
-                      <option key={idx} value={volume.instanceId}>{volume.instanceId}</option>):
+                      <option key={idx} value={volume.instanceId}>{volume.instanceId}</option>) :
                   undefined
                 }
               </select>

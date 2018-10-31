@@ -73,7 +73,7 @@ class NetworkForm extends Component {
                   <option value='static'>Static</option>
               </select>
 
-              <label>Providing Member</label>
+              <label>Provider</label>
               <select name='provider' className="form-control" value={this.state.provider}
                       onChange={this.handleChange}>
                 {

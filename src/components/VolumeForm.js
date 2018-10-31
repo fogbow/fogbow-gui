@@ -72,7 +72,7 @@ class VolumeForm extends Component {
 
               <div className='form-row'>
                 <div className='col'>
-                  <label>Providing Member</label>
+                  <label>Provider</label>
                   <select name='provider' className="form-control" required
                           value={this.state.provider} onChange={this.handleChange}>
                     {

@@ -24,3 +24,9 @@ src/defaults/api.config.js
 
 **/*.swp
 **/*.swo
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr

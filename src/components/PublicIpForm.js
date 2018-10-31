@@ -61,7 +61,7 @@ class PublicIpForm extends Component {
               </button>
             </div>
             <div className="modal-body">
-              <label>Providing Member</label>
+              <label>Provider</label>
               <select name='provider' className="form-control" required
                       value={this.state.provider} onChange={this.handleChange}>
                 {

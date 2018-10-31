@@ -6,4 +6,4 @@ class VersionProvider {
   }
 }
 
-export default new VersionProvider();
+export default VersionProvider;

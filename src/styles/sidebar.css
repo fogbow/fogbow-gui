@@ -1,48 +1,49 @@
 .sidebar {
-    color: #ccc;
-    background-color: #474747;
-    border-right: #ccc solid 5px;
-}
-
-.sidebar .image {
-    margin-left: 18%;
-    margin-bottom: 100px;
+  color: #ccc;
+  background-color: #474747;
+  border-right: #ccc solid .3rem;
+  height: 50vmax;
 }
 
 .sidebar .federation-label {
-    color: #555555;
-    font-size: 14px;
-    background-color: #ddd;
-    width: 90px;
-    padding: 5px 3px;
-    text-align: center;
-    margin-bottom: 0px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+  color: #555555;
+  font-size: 1rem;
+  background-color: #ddd;
+  width: 6rem;
+  padding-top: .3rem;
+  padding-bottom: .3rem;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 0rem;
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
 }
 
 .sidebar hr {
-    border-top: 1px solid #ccc;
-    margin-top: 0px;
+  border-top: 1px solid #ccc;
+  margin-top: 0px;
 }
 
 .sidebar .links {
-    padding-left: 10px;
-}
-
-.links p {
-    margin-bottom: 5px;
+  padding-left: .1rem;
 }
 
 .links li {
-    padding: 8px 0px;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  padding-left: 1rem;
+}
+
+.links li:hover {
+  color: black;
+  background-color: white;
 }
 
 .content {
-    padding-left: 0px;
+  padding-left: 0rem;
 }
 
 .table-bordered {
-    margin: 20px;
-    width: 97%;
+  margin: 1.5rem;
+  width: 97%;
 }
