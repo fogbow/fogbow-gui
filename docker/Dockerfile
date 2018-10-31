@@ -15,7 +15,8 @@ ENV HOME /root
 # Define working directory.
 WORKDIR /root
 
-RUN git clone https://github.com/fogbow/fogbow-gui.git && \
+RUN \
+    git clone https://github.com/fogbow/fogbow-gui.git && \
     (cd fogbow-gui && git checkout $BRANCH)
 
 # Define working directory.
@@ -25,6 +26,11 @@ WORKDIR /root/fogbow-gui
 RUN \
 (build_number=$(git rev-parse --short 'HEAD') && echo "build_number=$build_number" > build)
 
-RUN npm i
+RUN \
+  mvn dependency:sources
 
-CMD npm start || tail -f /dev/null
+RUN \
+  npm i
+
+CMD \
+  npm start || tail -f /dev/null
