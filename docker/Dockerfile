@@ -27,9 +27,6 @@ RUN \
 (build_number=$(git rev-parse --short 'HEAD') && echo "build_number=$build_number" > build)
 
 RUN \
-  mvn dependency:sources
-
-RUN \
   npm i
 
 CMD \
