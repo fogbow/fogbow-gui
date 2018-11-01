@@ -86,7 +86,6 @@ class ComputeDetails extends Component {
 
         <p className="bolder">User Data</p>
         {userData}
-
       </div>
     );
   }

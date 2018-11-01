@@ -85,7 +85,6 @@ class ComputeForm extends Component {
           extraUserDataFileType: body.scriptType,
           tag: this.fileContent.value
         });
-        alert(JSON.stringify(body.userData[0]));
       };
 
       reader.readAsText(this.fileContent.files.item(0));
@@ -110,8 +109,7 @@ class ComputeForm extends Component {
   render() {
     let localImages = this.props.images.loading ? this.props.images.data : undefined;
     let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
-    let images = this.state.provider === env.local ? localImages :
-      remoteImages[this.state.provider];
+    let images = this.state.provider === env.local ? localImages : remoteImages[this.state.provider];
 
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"

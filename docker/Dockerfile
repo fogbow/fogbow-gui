@@ -24,12 +24,10 @@ WORKDIR /root/fogbow-gui
 
 # Generates the build number based on the commit checksum
 RUN \
-(build_number=$(git rev-parse --short 'HEAD') && echo "{\"build_number\": \"$build_number\"}" > build.json)
-
-COPY ./build.json ./src/defaults/
+(build_number=$(git rev-parse --short 'HEAD') && echo "build_number=$build_number" > build)
 
 RUN \
   npm i
 
 CMD \
-  npm start || tail -f /dev/null
+  npm stara || tail -f /dev/null
