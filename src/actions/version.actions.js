@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 
 import packageJson from '../../package.json';
+import build from '../defaults/build.json';
 import { env } from '../defaults/api.config';
 import { versionActionsTypes } from './version.actions.types';
 import VersionProvider from '../providers/version.provider';
@@ -10,7 +11,7 @@ export const getVersion = () => {
     return new Promise((resolve, reject) => {
       let provider = new VersionProvider();
       let response = {
-        'Fogbow GUI': packageJson.version
+        'Fogbow GUI': packageJson.version + '-' + build.build_number
       };
 
       const request = () => ({ type: versionActionsTypes.GET_VERSION_REQUEST });

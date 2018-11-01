@@ -45,20 +45,8 @@ class NetworkDetails extends Component {
         <p className="bolder">Gateway</p>
         <p>{this.state.orderData.gateway || '-'}</p>
 
-        <p className="bolder">VLAN</p>
-        <p>{this.state.orderData.vLAN || '-'}</p>
-
         <p className="bolder">Allocation Mode</p>
         <p>{this.state.orderData.allocationMode || '-'}</p>
-
-        <p className="bolder">Network Interface</p>
-        <p>{this.state.orderData.networkInterface || '-'}</p>
-
-        <p className="bolder">Interface State</p>
-        <p>{this.state.orderData.interfaceState || '-'}</p>
-
-        <p className="bolder">MAC Interface</p>
-        <p>{this.state.orderData.macInterface || '-'}</p>
       </div>
     );
   }

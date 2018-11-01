@@ -53,7 +53,7 @@ class PublicIpPage extends Component {
     return (
       <div>
         {this.state.tableVisible ?
-         (<OrderList orders={this.publicIps} form={<PublicIpForm/>}
+         (<OrderList orders={this.publicIps} form={<PublicIpForm/>} disabledHeaders={['Name']}
                      type={'publicip'} handleShow={this.handleShow} handleHide={this.handleHide}/>) :
          <PublicIpDetails id={this.state.orderId} handleHide={this.handleHide}/>}
       </div>

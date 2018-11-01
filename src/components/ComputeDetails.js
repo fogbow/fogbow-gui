@@ -30,6 +30,14 @@ class ComputeDetails extends Component {
         </div>)
       : '-';
 
+    const userData = this.state.orderData.userData ? Object.entries(this.state.orderData.userData)
+      .map((data, idx) =>
+        <div key={idx}>
+          <p>Tag: {data.tag}</p>
+          <p>Type: {data.extraUserDataFileType}</p>
+        </div>)
+      : '-';
+
     return (
       <div className="details">
         <button type="button" className="close" aria-label="Close"
@@ -72,21 +80,13 @@ class ComputeDetails extends Component {
           Id: {this.state.orderData.imageId ? this.state.orderData.imageId.split(':')[0] : '-'}
         </p>
 
-        <p className="bolder">SSH Public IP Address</p>
-        <p>{this.state.orderData.sshTunnelConnectionData ?
-            this.state.orderData.sshTunnelConnectionData.sshPublicAddress: '-'}</p>
-
-        <p className="bolder">SSH User Name</p>
-        <p>{this.state.orderData.sshTunnelConnectionData ?
-            this.state.orderData.sshTunnelConnectionData.sshUserName: '-'}</p>
-
         <p className="bolder">Public Key</p>
         <textarea className="public-key" cols="70" rows="5"
           value={this.state.orderData.publicKey || '-'} readOnly></textarea>
 
         <p className="bolder">User Data</p>
-        <textarea className="public-key" cols="70" rows="5"
-                  value={this.state.orderData.userDataContent || '-'} readOnly></textarea>
+        {userData}
+
       </div>
     );
   }

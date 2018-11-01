@@ -41,8 +41,9 @@ class FederetedNetworksPage extends Component {
     return (
       <div>
         {this.state.tableVisible ?
-          (<OrderList orders={this.networks} disableProvider={true} handleShow={this.handleShow}
-                      type={'fednets'} form={<FederatedNetworksForm/>}/>) :
+          (<OrderList orders={this.networks} disabledHeaders={['Provider']}
+                      handleShow={this.handleShow} type={'fednets'}
+                      form={<FederatedNetworksForm/>}/>) :
           <FedNetDetails id={this.state.orderId} handleHide={this.handleHide}/>
         }
       </div>

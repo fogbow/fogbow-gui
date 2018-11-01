@@ -53,7 +53,7 @@ class AttachmentsPage extends Component {
     return (
       <div>
         {this.state.tableVisible ?
-          (<OrderList orders={this.attachments} form={<AttachmentForm/>}
+          (<OrderList orders={this.attachments} form={<AttachmentForm/>} disabledHeaders={['Name']}
                       type={'attachments'} handleShow={this.handleShow}/>) :
           <AttachmentDetails id={this.state.orderId} handleHide={this.handleHide}/>
         }

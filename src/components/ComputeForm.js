@@ -25,7 +25,8 @@ const initialState = {
   memory: 1024,
   networkIds: '',
   federatedNetworkId: '',
-  file: '',
+  userData: [],
+  fileContent: '',
   scriptType: scriptTypes[0],
   publicKey: ''
 };
@@ -74,11 +75,28 @@ class ComputeForm extends Component {
 
     let body = _.pickBy(this.state, _.identity);
 
-    if(!body.file)
-      delete body.scriptType;
+    if (this.fileContent) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const content = btoa(unescape(encodeURIComponent(reader.result)));
+        body.userData.push({
+          extraUserDataFileContent: content,
+          extraUserDataFileType: body.scriptType,
+          tag: this.fileContent.value
+        });
+        alert(JSON.stringify(body.userData[0]));
+      };
+
+      reader.readAsText(this.fileContent.files.item(0));
+    } else {
+      delete body.userData
+    }
 
     body = { federatedNetworkId: body.federatedNetworkId, computeOrder: body };
     delete body.computeOrder.federatedNetworkId;
+    delete body.fileContent;
+    delete body.scriptType;
 
     let { dispatch } = this.props;
     dispatch(createCompute(body));
@@ -176,13 +194,13 @@ class ComputeForm extends Component {
                   }
               </select>
 
-              <label>Extra User File</label>
-              <input value={this.state.file} onChange={this.handleChange} type="file"
-                    className="form-control" name="file"/>
+              <label>User Data File</label>
+              <input onChange={this.handleChange} type="file" ref={(ref) => this.fileContent = ref}
+                     className="form-control" name="fileContent" />
 
-              <label>Extra User Data File Type</label>
-              <select value={this.state.scriptType} onChange={this.handleChange} name='scriptType'
-                      className="form-control">
+              <label>User Data File Type</label>
+              <select value={this.state.scriptType} onChange={this.handleChange}
+                      name='scriptType' className="form-control">
                   <option value=''></option>
                   { scriptTypes.map((type, idx) => <option key={idx} value={type}>{type}</option>) }
               </select>
