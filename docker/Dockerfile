@@ -30,4 +30,4 @@ RUN \
   npm i
 
 CMD \
-  npm stara || tail -f /dev/null
+  npm start || tail -f /dev/null
