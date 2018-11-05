@@ -30,11 +30,14 @@ class FedNetDetails extends Component {
         <h2>Information</h2>
         <hr className="horizontal-line"/>
 
-        <p className="bolder">Federated network id</p>
+        <p className="bolder">Name</p>
+        <p>{this.state.orderData.name || '-'}</p>
+
+        <p className="bolder">Federated Network ID</p>
         <p>{this.state.orderData.id || '-'}</p>
 
-        <p className="bolder">Label</p>
-        <p>{this.state.orderData.name || '-'}</p>
+        <p className="bolder">State</p>
+        <p>{this.state.orderData.orderState || '-'}</p>
 
         <p className="bolder">CIDR</p>
         <p>{this.state.orderData.cidrNotation || '-'}</p>
@@ -42,8 +45,6 @@ class FedNetDetails extends Component {
         <p className="bolder">Allowed Members</p>
         <p>{this.state.orderData.allowedMembers ? this.state.orderData.allowedMembers.toString() : '-'}</p>
 
-        <p className="bolder">State</p>
-        <p>{this.state.orderData.state || '-'}</p>
       </div>
     );
   }

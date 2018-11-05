@@ -11,6 +11,8 @@ class OrderList extends Component {
   constructor(props) {
     super(props);
 
+    // NOTE(pauloewerton): allowed values for disabled headers are the same as in the 'headers'
+    // list above, except for ID and Actions.
     const filteredHeaders = this.props.disabledHeaders ?
                             headers.filter(h => this.props.disabledHeaders.indexOf(h) === -1) :
                             headers;
@@ -45,7 +47,7 @@ class OrderList extends Component {
     return this.props.orders.map(order => {
       return(
         <OrderComponent key={order.instanceId} order={order} type={this.props.type}
-                        disableProvider={this.props.disableProvider}
+                        disabledHeaders={this.props.disabledHeaders}
                         handleShow={() => this.props.handleShow(order.instanceId)}/>
       );
     });

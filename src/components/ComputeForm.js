@@ -75,7 +75,7 @@ class ComputeForm extends Component {
 
     let body = _.pickBy(this.state, _.identity);
 
-    if (this.fileContent) {
+    if (this.fileContent.files.item(0)) {
       const reader = new FileReader();
 
       reader.onload = () => {

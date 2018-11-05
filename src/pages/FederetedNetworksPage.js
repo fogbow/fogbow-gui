@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import { getFedNetworks } from '../actions/networks.actions';
 import FederatedNetworksForm from '../components/FederatedNetworksForm';
@@ -17,7 +18,12 @@ class FederetedNetworksPage extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props;
-    dispatch(getFedNetworks());
+    this.setState({
+      intervalId: setInterval(async() => {
+        if (this.state.tableVisible)
+          await dispatch(getFedNetworks());
+      }, env.refreshTime)
+    });
   };
 
   get networks() {
@@ -41,8 +47,7 @@ class FederetedNetworksPage extends Component {
     return (
       <div>
         {this.state.tableVisible ?
-          (<OrderList orders={this.networks} disabledHeaders={['Provider']}
-                      handleShow={this.handleShow} type={'fednets'}
+          (<OrderList orders={this.networks} handleShow={this.handleShow} type={'fednets'}
                       form={<FederatedNetworksForm/>}/>) :
           <FedNetDetails id={this.state.orderId} handleHide={this.handleHide}/>
         }

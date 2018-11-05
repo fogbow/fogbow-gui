@@ -16,15 +16,15 @@ ENV HOME /root
 WORKDIR /root
 
 RUN \
-    git clone https://github.com/fogbow/fogbow-gui.git && \
-    (cd fogbow-gui && git checkout $BRANCH)
+  git clone https://github.com/fogbow/fogbow-gui.git && \
+  (cd fogbow-gui && git checkout $BRANCH)
 
 # Define working directory.
 WORKDIR /root/fogbow-gui
 
 # Generates the build number based on the commit checksum
 RUN \
-(build_number=$(git rev-parse --short 'HEAD') && echo "build_number=$build_number" > build)
+  (build_number=$(git rev-parse --short 'HEAD') && echo "{\"build_number\": \"$build_number\"}" > /root/fogbow-gui/src/defaults/build.json)
 
 RUN \
   npm i
