@@ -33,7 +33,7 @@ class FedNetDetails extends Component {
         <p className="bolder">Name</p>
         <p>{this.state.orderData.name || '-'}</p>
 
-        <p className="bolder">Federated Network ID</p>
+        <p className="bolder">ID</p>
         <p>{this.state.orderData.id || '-'}</p>
 
         <p className="bolder">State</p>
