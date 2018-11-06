@@ -95,7 +95,7 @@ class FederatedNetworksForm extends Component {
               </button>
               <button type="button" className="btn btn-primary" data-dismiss="modal"
                       onClick={this.handleSubmit}>
-                Create federated network
+                Create Federated Network
               </button>
             </div>
           </div>
