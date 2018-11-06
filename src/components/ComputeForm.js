@@ -25,8 +25,6 @@ const initialState = {
   memory: 1024,
   networkIds: '',
   federatedNetworkId: '',
-  userData: [],
-  fileContent: '',
   scriptType: scriptTypes[0],
   publicKey: ''
 };
@@ -70,32 +68,47 @@ class ComputeForm extends Component {
     }
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    let body = _.pickBy(this.state, _.identity);
-
-    if (this.fileContent.files.item(0)) {
+  readUserDataFile = (userDataFile) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
 
       reader.onload = () => {
         const content = btoa(unescape(encodeURIComponent(reader.result)));
-        body.userData.push({
-          extraUserDataFileContent: content,
-          extraUserDataFileType: body.scriptType,
-          tag: this.fileContent.value
-        });
+        resolve(content)
       };
 
-      reader.readAsText(this.fileContent.files.item(0));
-    } else {
-      delete body.userData
-    }
+      reader.onerror = (error) => {
+        reject(error);
+      };
+
+      reader.readAsText(userDataFile);
+    });
+  };
+
+  handleSubmit = async(event) => {
+    event.preventDefault();
+
+    let body = _.pickBy(this.state, _.identity);
 
     body = { federatedNetworkId: body.federatedNetworkId, computeOrder: body };
+
+
+    if (this.fileContent.files.item(0)) {
+      try {
+        const userDataContent = await this.readUserDataFile(this.fileContent.files.item(0));
+        body.computeOrder['userData'] = [{
+          extraUserDataFileContent: userDataContent,
+          extraUserDataFileType: body.computeOrder.scriptType,
+          tag: this.fileContent.value
+        }];
+      } catch(error) {
+        console.log(error);
+      }
+    }
+
     delete body.computeOrder.federatedNetworkId;
-    delete body.fileContent;
-    delete body.scriptType;
+    delete body.computeOrder.fileContent;
+    delete body.computeOrder.scriptType;
 
     let { dispatch } = this.props;
     dispatch(createCompute(body));
@@ -104,6 +117,7 @@ class ComputeForm extends Component {
 
   resetForm = () => {
     this.setState(initialState);
+    this.fileContent.value = '';
   };
 
   render() {
@@ -199,7 +213,6 @@ class ComputeForm extends Component {
               <label>User Data File Type</label>
               <select value={this.state.scriptType} onChange={this.handleChange}
                       name='scriptType' className="form-control">
-                  <option value=''></option>
                   { scriptTypes.map((type, idx) => <option key={idx} value={type}>{type}</option>) }
               </select>
 

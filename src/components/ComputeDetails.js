@@ -28,15 +28,17 @@ class ComputeDetails extends Component {
           <p>Name: {network[1]}</p>
           <p>ID: {network[0]}</p>
         </div>)
-      : '-';
+      : <p>-</p>;
 
-    const userData = this.state.orderData.userData ? Object.entries(this.state.orderData.userData)
-      .map((data, idx) =>
-        <div key={idx}>
-          <p>Tag: {data.tag}</p>
-          <p>Type: {data.extraUserDataFileType}</p>
-        </div>)
-      : '-';
+    const userData = this.state.orderData.userData && this.state.orderData.userData.length > 0 ?
+      Object.values(this.state.orderData.userData).map(
+        (data, idx) =>
+          <div key={idx}>
+            <p>Tag: {data.tag || '-'}</p>
+            <p>Type: {data.extraUserDataFileType || '-'}</p>
+          </div>
+        )
+      : <p>-</p>;
 
     return (
       <div className="details">
@@ -69,7 +71,7 @@ class ComputeDetails extends Component {
         <p className="bolder">Networks</p>
         {networks}
 
-        <p className="bolder">Local IP Addresses</p>
+        <p className="bolder">IP Addresses</p>
         <p>{_.join(this.state.orderData.ipAddresses, ',') || '-'}</p>
 
         <p className="bolder">Image</p>
@@ -80,12 +82,12 @@ class ComputeDetails extends Component {
           Id: {this.state.orderData.imageId ? this.state.orderData.imageId.split(':')[0] : '-'}
         </p>
 
-        <p className="bolder">Public Key</p>
-        <textarea className="public-key" cols="70" rows="5"
-          value={this.state.orderData.publicKey || '-'} readOnly></textarea>
-
         <p className="bolder">User Data</p>
         {userData}
+
+        <p className="bolder">Public Key</p>
+        <textarea className="public-key" cols="70" rows="5"
+                  value={this.state.orderData.publicKey || '-'} readOnly></textarea>
       </div>
     );
   }

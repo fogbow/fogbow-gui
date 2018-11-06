@@ -12,7 +12,8 @@ class FederetedNetworksPage extends Component {
     super(props);
     this.state = {
       tableVisible: true,
-      orderId: ''
+      orderId: '',
+      intervalId: ''
     }
   }
 
@@ -25,6 +26,10 @@ class FederetedNetworksPage extends Component {
       }, env.refreshTime)
     });
   };
+
+  componentWillUnmount = () => {
+    clearInterval(this.state.intervalId);
+  }
 
   get networks() {
     return this.props.networks.loading ? this.props.networks.data: [];
