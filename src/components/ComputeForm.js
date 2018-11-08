@@ -26,7 +26,7 @@ const initialState = {
   memory: 1024,
   networkIds: '',
   federatedNetworkId: '',
-  scriptType: scriptTypes[0],
+  scriptType: '',
   publicKey: ''
 };
 
@@ -95,12 +95,15 @@ class ComputeForm extends Component {
 
 
     if (this.fileContent.files.item(0)) {
+      const tag = this.fileContent.value.indexOf('\\') !== -1 ? this.fileContent.value.split('\\') :
+                this.fileContent.value.split('/');
+
       try {
         const userDataContent = await this.readUserDataFile(this.fileContent.files.item(0));
         body.computeOrder['userData'] = [{
           extraUserDataFileContent: userDataContent,
           extraUserDataFileType: body.computeOrder.scriptType,
-          tag: this.fileContent.value
+          tag: tag[tag.length - 1]
         }];
       } catch(error) {
         console.log(error);
@@ -182,29 +185,29 @@ class ComputeForm extends Component {
               <label>Network ID</label>
               <select value={this.state.networkIds} onChange={this.handleChange}
                       name='networkIds' className="form-control">
-                  <option value=''>Choose a network</option>
-                  {
-                    this.props.networks.loading ?
-                    this.props.networks.data.map((network, idx) => {
-                      return network.provider === this.state.provider ?
-                        <option key={idx} value={network.instanceId}>
-                          {network.instanceId}
-                        </option> :
-                        undefined; }) :
-                    undefined
-                  }
+                <option value=''>Choose a network</option>
+                {
+                  this.props.networks.loading ?
+                  this.props.networks.data.map((network, idx) => {
+                    return network.provider === this.state.provider ?
+                      <option key={idx} value={network.instanceId}>
+                        {network.instanceId}
+                      </option> :
+                      undefined; }) :
+                  undefined
+                }
               </select>
 
               <label>Federated Network ID</label>
               <select value={this.props.federatedNetworkId} onChange={this.handleChange}
                       name='federatedNetworkId' className="form-control">
-                  <option value=''>Choose a federated network</option>
-                  {
-                    this.props.fednets.loading ?
-                    this.props.fednets.data.map((network, idx) =>
-                      <option key={idx} value={network.instanceId}>{network.instanceId}</option>) :
-                    undefined
-                  }
+                <option value=''>Choose a federated network</option>
+                {
+                  this.props.fednets.loading ?
+                  this.props.fednets.data.map((network, idx) =>
+                    <option key={idx} value={network.instanceId}>{network.instanceId}</option>) :
+                  undefined
+                }
               </select>
 
               <label>User Data File</label>
@@ -214,7 +217,8 @@ class ComputeForm extends Component {
               <label>User Data File Type</label>
               <select value={this.state.scriptType} onChange={this.handleChange}
                       name='scriptType' className="form-control">
-                  { scriptTypes.map((type, idx) => <option key={idx} value={type}>{type}</option>) }
+                <option value=''>Choose a file type</option>
+                { scriptTypes.map((type, idx) => <option key={idx} value={type}>{type}</option>) }
               </select>
 
               <label>Public Key</label>
