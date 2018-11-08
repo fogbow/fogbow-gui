@@ -9,11 +9,12 @@ import { getNetworks, getFedNetworks } from '../actions/networks.actions';
 import '../styles/order-form.css';
 
 const scriptTypes = [
-  'text/x-shellscript',
-  'text/x-include-url',
-  'text/upstart-job',
-  'text/cloud-config',
-  'text/cloud-boothook'
+  'CLOUD_BOOTHOOK',
+  'CLOUD_CONFIG',
+  'INCLUDE_URL',
+  'PART_HANDLER',
+  'SHELL_SCRIPT',
+  'UPSTART_JOB'
 ];
 
 const initialState = {
