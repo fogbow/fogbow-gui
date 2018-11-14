@@ -2,28 +2,37 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class PublicIPsProvider {
-    url = env.fns.concat('/publicIps');
-    config = {
-        headers: {
-            'federationTokenValue': localStorage.getItem('token')
-        }
-    };
-
-    create(body) {
-        return axios.post(this.url, body, this.config);
+  url = env.fns.concat('/publicIps');
+  config = {
+    headers: {
+      'federationTokenValue': localStorage.getItem('token')
     }
+  };
 
-    get() {
-        return axios.get(this.url.concat('/status'), this.config);
-    }
+  create(body) {
+    return axios.post(this.url, body, this.config);
+  }
 
-    getData(id) {
-        return axios.get(this.url.concat('/', id), this.config);
-    }
+  get() {
+    return axios.get(this.url.concat('/status'), this.config);
+  }
 
-    delete(id) {
-        return axios.delete(this.url.concat('/', id), this.config);
-    }
+  getData(id) {
+    return axios.get(this.url.concat('/', id), this.config);
+  }
+
+  delete(id) {
+    return axios.delete(this.url.concat('/', id), this.config);
+  }
+
+  getSecurityGroupRules(id) {
+    return axios.get(this.url.concat('/', id, '/', 'securityGroupRules'), this.config);
+  }
+
+  deleteSecurityGroupRule(ruleId, orderId) {
+    return axios.get(this.url.concat('/', orderId, '/', 'securityGroupRules', '/', ruleId),
+                     this.config);
+  }
 }
 
 export default PublicIPsProvider;

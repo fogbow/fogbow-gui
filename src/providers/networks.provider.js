@@ -2,45 +2,54 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class NetworksProvider {
-    url = env.fns.concat('/networks');
-    fedNetUrl = env.fns.concat('/federatedNetworks');
-    config = {
-        headers: {
-            'federationTokenValue': localStorage.getItem('token')
-        }
-    };
-
-    create(body) {
-        return axios.post(this.url, body, this.config);
+  url = env.fns.concat('/networks');
+  fedNetUrl = env.fns.concat('/federatedNetworks');
+  config = {
+    headers: {
+        'federationTokenValue': localStorage.getItem('token')
     }
+  };
 
-    get() {
-        return axios.get(this.url.concat('/status'), this.config);
-    }
+  create(body) {
+    return axios.post(this.url, body, this.config);
+  }
 
-    getData(id) {
-        return axios.get(this.url.concat('/', id), this.config);
-    }
+  get() {
+    return axios.get(this.url.concat('/status'), this.config);
+  }
 
-    delete(id) {
-        return axios.delete(this.url.concat('/', id), this.config);
-    }
+  getData(id) {
+    return axios.get(this.url.concat('/', id), this.config);
+  }
 
-    createFedNet(body) {
-        return axios.post(this.fedNetUrl, body, this.config);
-    }
+  delete(id) {
+    return axios.delete(this.url.concat('/', id), this.config);
+  }
 
-    getFetNets() {
-        return axios.get(this.fedNetUrl.concat('/status'), this.config);
-    }
+  createFedNet(body) {
+    return axios.post(this.fedNetUrl, body, this.config);
+  }
 
-    getFedNetData(id) {
-        return axios.get(this.fedNetUrl.concat('/', id), this.config);
-    }
+  getFetNets() {
+    return axios.get(this.fedNetUrl.concat('/status'), this.config);
+  }
 
-    deletefedNet(id) {
-        return axios.delete(this.fedNetUrl.concat('/', id), this.config);        
-    }
+  getFedNetData(id) {
+    return axios.get(this.fedNetUrl.concat('/', id), this.config);
+  }
+
+  deletefedNet(id) {
+    return axios.delete(this.fedNetUrl.concat('/', id), this.config);
+  }
+
+  getSecurityGroupRules(id) {
+    return axios.get(this.url.concat('/', id, '/', 'securityGroupRules'), this.config);
+  }
+
+  deleteSecurityGroupRule(ruleId, orderId) {
+    return axios.get(this.url.concat('/', orderId, '/', 'securityGroupRules', '/', ruleId),
+                     this.config);
+  }
 }
 
 export default NetworksProvider;

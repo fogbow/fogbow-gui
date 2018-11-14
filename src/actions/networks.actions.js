@@ -16,7 +16,8 @@ export const getNetworks = () => {
       let network = await provider.get();
       dispatch(success(network.data))
     } catch (error) {
-      toast.error(generateErrorMessage(errorTypes.GET, orderTypes.NETWORK));
+      const message = error.response ? error.response.data.message : error.message;
+      toast.error('Unable to create network order. ' + message + '.');
       dispatch(failure(error))
     }
   };
@@ -156,6 +157,61 @@ export const deleteFedNetwork = (id) => {
         resolve(dispatch(success()))
       ).catch((error) => {
         toast.error(generateErrorMessage(errorTypes.DELETE, orderTypes.FEDERATED_NETWORK, id));
+        return reject(dispatch(failure(error)));
+      });
+    });
+  };
+};
+
+export const getNetworkSecurityGroupRules = (id) => {
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new NetworksProvider();
+      const request = () => ({ type: networksActionsTypes.GET_NETWORK_SECURITY_GROUP_RULES_REQUEST});
+      const success = (securityGroupRules) => ({
+        type: networksActionsTypes.GET_NETWORK_SECURITY_GROUP_RULES_SUCCESS,
+        securityGroupRules: securityGroupRules
+      });
+      const failure = (error) => ({
+        type: networksActionsTypes.GET_NETWORK_SECURITY_GROUP_RULES_FAILURE,
+        error: error
+      });
+
+      dispatch(request());
+
+      provider.getSecurityGroupRules(id).then(
+        securityGroupRules => resolve(dispatch(success(securityGroupRules.data)))
+      ).catch((error) => {
+        const message = error.response ? error.response.data.message : error.message;
+        toast.error('Unable to get security group rules for network order: ' + id + '. ' + message + '.');
+        return reject(dispatch(failure(error)));
+      });
+    });
+  };
+};
+
+export const deleteNetworkSecurityGroupRule = (ruleId, orderId) => {
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new NetworksProvider();
+      const request = () => ({ type: networksActionsTypes.DELETE_NETWORK_SECURITY_GROUP_RULE_REQUEST});
+      const success = () => ({
+        type: networksActionsTypes.DELETE_NETWORK_SECURITY_GROUP_RULE_SUCCESS,
+        ruleId: ruleId
+      });
+      const failure = (error) => ({
+        type: networksActionsTypes.DELETE_NETWORK_SECURITY_GROUP_RULE_FAILURE,
+        error: error
+      });
+
+      dispatch(request());
+
+      provider.deleteSecurityGroupRule(ruleId, orderId).then(
+        () => resolve(dispatch(success()))
+      ).catch((error) => {
+        const message = error.response ? error.response.data.message : error.message;
+        toast.error('Unable to delete security group rule: ' + ruleId + ' for network order: ' +
+                    orderId + '. ' + message + '.');
         return reject(dispatch(failure(error)));
       });
     });

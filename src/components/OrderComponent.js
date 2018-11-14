@@ -46,7 +46,6 @@ class OrderComponent extends Component {
       default:
           break;
     }
-
   };
 
   render() {

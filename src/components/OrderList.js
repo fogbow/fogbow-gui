@@ -4,7 +4,7 @@ import OrderComponent from './OrderComponent';
 import { connect } from 'react-redux';
 
 const headers = [
-    'ID', 'Name', 'Provider', 'State', 'Actions'
+  'ID', 'Name', 'Provider', 'State', 'Actions'
 ];
 
 class OrderList extends Component {
