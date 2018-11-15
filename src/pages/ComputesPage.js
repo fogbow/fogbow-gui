@@ -53,7 +53,7 @@ class ComputesPage extends Component {
     return (
       <div>
         {this.state.tableVisible ?
-          (<OrderList orders={this.computes} form={<ComputeForm/>}
+          (<OrderList orders={this.computes} forms={[<ComputeForm/>]}
                       type={'computes'} handleShow={this.handleShow}/>) :
           <ComputeDetails id={this.state.orderId} handleHide={this.handleHide}/>}
       </div>

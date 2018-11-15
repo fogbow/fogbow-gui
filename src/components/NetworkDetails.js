@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import SecurityGroupRulesComponent from './SecurityGroupRulesComponent';
+import SecurityRulesComponent from './SecurityRulesComponent';
 import { getNetworkData } from '../actions/networks.actions';
-import { getNetworkSecurityGroupRules } from '../actions/networks.actions';
+import { getNetworkSecurityRules } from '../actions/networks.actions';
 
 class NetworkDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
         orderData: {},
-        securityGroupRules: []
+        securityRules: []
     }
   }
 
@@ -23,17 +23,17 @@ class NetworkDetails extends Component {
       });
     });
 
-    dispatch(getNetworkSecurityGroupRules(this.props.id)).then(data => {
+    dispatch(getNetworkSecurityRules(this.props.id)).then(data => {
       this.setState({
-        securityGroupRules: data
+        securityRules: data
       });
     });
   }
 
   render() {
-    const securityGroupRules = this.state.securityGroupRules.length <= 0 ? '-' :
-      <SecurityGroupRulesComponent securityGroupRules={this.state.securityGroupRules}
-                                   orderId={this.state.orderData.id} orderType='network'/>;
+    const securityRules = this.state.securityRules.length <= 0 ? '-' :
+      <SecurityRulesComponent securityRules={this.state.securityRules} orderType='network'
+                              orderId={this.state.orderData.id}/>;
 
     return (
       <div className="details">
@@ -62,8 +62,8 @@ class NetworkDetails extends Component {
         <p className="bolder">Allocation Mode</p>
         <p>{this.state.orderData.allocationMode || '-'}</p>
 
-        <p className="bolder">Security Group Rules</p>
-        {securityGroupRules}
+        <p className="bolder">Security Rules</p>
+        {securityRules}
       </div>
     );
   }

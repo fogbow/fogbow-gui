@@ -53,7 +53,7 @@ class FederetedNetworksPage extends Component {
       <div>
         {this.state.tableVisible ?
           (<OrderList orders={this.networks} handleShow={this.handleShow} type={'fednets'}
-                      form={<FederatedNetworksForm/>}/>) :
+                      forms={[<FederatedNetworksForm/>]}/>) :
           <FedNetDetails id={this.state.orderId} handleHide={this.handleHide}/>
         }
       </div>

@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { deletePublicIpSecurityGroupRule } from '../actions/publicIps.actions';
-import { deleteNetworkSecurityGroupRule } from '../actions/networks.actions';
+import { deletePublicIpSecurityRule } from '../actions/publicIps.actions';
+import { deleteNetworkSecurityRule } from '../actions/networks.actions';
 import '../styles/sidebar.css';
 
 const headers = [
   'Direction', 'Ether Type', 'IP Protocol', 'Port Range', 'CIDR', 'Action'
 ];
 
-class SecurityGroupRulesComponent extends Component {
+class SecurityRulesComponent extends Component {
   getHeaders = () => {
     return(
       <tr>
@@ -20,17 +20,17 @@ class SecurityGroupRulesComponent extends Component {
   };
 
   getRows = () => {
-    return this.props.securityGroupRules.map(securityGroupRule => {
+    return this.props.securityRules.map(securityRule => {
       return (
-        <tr key={securityGroupRule.instanceId}>
-          <td>{securityGroupRule.direction}</td>
-          <td>{securityGroupRule.etherType}</td>
-          <td>{securityGroupRule.protocol}</td>
-          <td>{securityGroupRule.portFrom === securityGroupRule.portTo ?
-               securityGroupRule.portFrom :
-               securityGroupRule.portFrom + '-' + securityGroupRule.portTo}
+        <tr key={securityRule.instanceId}>
+          <td>{securityRule.direction}</td>
+          <td>{securityRule.etherType}</td>
+          <td>{securityRule.protocol}</td>
+          <td>{securityRule.portFrom === securityRule.portTo ?
+               securityRule.portFrom :
+               securityRule.portFrom + '-' + securityRule.portTo}
           </td>
-          <td>{securityGroupRule.cidr}</td>
+          <td>{securityRule.cidr}</td>
           <td>
             <button type='button' className='btn btn-sm btn-danger' onClick={this.handleDelete}>
               Delete Rule
@@ -44,20 +44,20 @@ class SecurityGroupRulesComponent extends Component {
   handleDelete = async(event) => {
     event.preventDefault();
 
-    // Get security rule id from parent tr element
+    // NOTE(pauloewerton): get security rule id from parent tr element.
     const { key } = event.target.parentNode.parentNode;
     const { dispatch } = this.props;
 
     try {
       if (this.props.orderType === 'network') {
-        await dispatch(deleteNetworkSecurityGroupRule(key, this.props.orderId));
+        await dispatch(deleteNetworkSecurityRule(key, this.props.orderId));
       } else if (this.props.orderType === 'publicIp') {
-        await dispatch(deletePublicIpSecurityGroupRule(key, this.props.orderId));
+        await dispatch(deletePublicIpSecurityRule(key, this.props.orderId));
       } else {
         throw(new Error('Wrong order type.'));
       }
 
-      toast.success('Security group rule id: ' + key + ' deleted successfully.');
+      toast.success('Security rule id: ' + key + ' deleted successfully.');
       event.target.parentNode.parentNode.style.visibility = 'hidden';
     } catch (error) {
       console.log(error);
@@ -78,4 +78,4 @@ class SecurityGroupRulesComponent extends Component {
   }
 }
 
-export default connect()(SecurityGroupRulesComponent);
+export default connect()(SecurityRulesComponent);

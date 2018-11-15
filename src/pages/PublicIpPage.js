@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import PublicIpForm from '../components/PublicIpForm';
+import SecurityRuleForm from '../components/SecurityRuleForm';
 import { getPublicIps } from '../actions/publicIps.actions';
 import PublicIpDetails from '../components/PublicIpDetails';
 
@@ -49,12 +50,25 @@ class PublicIpPage extends Component {
     });
   };
 
+  handleSecurityRuleForm = (event) => {
+    event.preventDefault();
+
+    const instanceId = event.target.value;
+
+    this.setState({instanceId: instanceId});
+  };
+
   render() {
     return (
       <div>
         {this.state.tableVisible ?
-         (<OrderList orders={this.publicIps} form={<PublicIpForm/>} disabledHeaders={['Name']}
-                     type={'publicip'} handleShow={this.handleShow} handleHide={this.handleHide}/>) :
+         (<OrderList orders={this.publicIps} type={'publicip'} disabledHeaders={['Name']}
+                     forms={[<PublicIpForm/>,
+                             <SecurityRuleForm orderType='publicip'
+                                               instanceId={this.state.instanceId}/>
+                            ]}
+                     handleSecurityRuleForm={this.handleSecurityRuleForm}
+                     handleShow={this.handleShow} handleHide={this.handleHide}/>) :
          <PublicIpDetails id={this.state.orderId} handleHide={this.handleHide}/>}
       </div>
     );

@@ -54,7 +54,7 @@ class VolumesPage extends Component {
     return (
       <div>
         {this.state.tableVisible ?
-            (<OrderList orders={this.volumes} form={<VolumeForm/>}
+            (<OrderList orders={this.volumes} forms={[<VolumeForm/>]}
             type={'volumes'} handleShow={this.handleShow}/>) :
             <VolumeDetails id={this.state.orderId} handleHide={this.handleHide}/>
         }

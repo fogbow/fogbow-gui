@@ -42,12 +42,16 @@ class NetworksProvider {
     return axios.delete(this.fedNetUrl.concat('/', id), this.config);
   }
 
-  getSecurityGroupRules(id) {
-    return axios.get(this.url.concat('/', id, '/', 'securityGroupRules'), this.config);
+  createSecurityRule(body, id) {
+    return axios.post(this.url.concat('/', id, '/', 'securityRules'), body, this.config);
   }
 
-  deleteSecurityGroupRule(ruleId, orderId) {
-    return axios.get(this.url.concat('/', orderId, '/', 'securityGroupRules', '/', ruleId),
+  getSecurityRules(id) {
+    return axios.get(this.url.concat('/', id, '/', 'securityRules'), this.config);
+  }
+
+  deleteSecurityRule(ruleId, orderId) {
+    return axios.get(this.url.concat('/', orderId, '/', 'securityRules', '/', ruleId),
                      this.config);
   }
 }

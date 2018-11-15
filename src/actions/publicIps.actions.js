@@ -87,54 +87,82 @@ export const deletePublicIp = (id) => {
   };
 };
 
-export const getPublicIpSecurityGroupRules = (id) => {
+export const createPublicIpSecurityRule = (body, id) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       let provider = new PublicIPsProvider();
-      const request = () => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_GROUP_RULES_REQUEST});
-      const success = (securityGroupRules) => ({
-        type: publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_GROUP_RULES_SUCCESS,
-        securityGroupRules: securityGroupRules
+      const request = () => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_SECURITY_RULES_REQUEST});
+      const success = (securityRule) => ({
+        type: publicIpsActionsTypes.CREATE_PUBLIC_IP_SECURITY_RULES_SUCCESS,
+        securityRule,
+        member: body.provider
       });
       const failure = (error) => ({
-        type: publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_GROUP_RULES_FAILURE,
+        type: publicIpsActionsTypes.CREATE_PUBLIC_IP_SECURITY_RULES_FAILURE,
+        error
+      });
+
+      dispatch(request());
+
+      provider.createSecurityRule(body, id).then(
+        securityRule => resolve(dispatch(success(securityRule.data)))
+      ).catch((error) => {
+        const message = error.response ? error.response.data.message : error.message;
+        toast.error('Unable to create security rule for public IP order: ' + id + '. ' + message + '.');
+        return reject(dispatch(failure(error)))
+      });
+    });
+  };
+};
+
+export const getPublicIpSecurityRules = (id) => {
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new PublicIPsProvider();
+      const request = () => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_RULES_REQUEST});
+      const success = (securityRules) => ({
+        type: publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_RULES_SUCCESS,
+        securityRules: securityRules
+      });
+      const failure = (error) => ({
+        type: publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_RULES_FAILURE,
         error: error
       });
 
       dispatch(request());
 
-      provider.getSecurityGroupRules(id).then(
-        securityGroupRules => resolve(dispatch(success(securityGroupRules.data)))
+      provider.getSecurityRules(id).then(
+        securityRules => resolve(dispatch(success(securityRules.data)))
       ).catch((error) => {
         const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to get security group rules for public IP order: ' + id + '. ' + message + '.');
+        toast.error('Unable to get security rules for public IP order: ' + id + '. ' + message + '.');
         return reject(dispatch(failure(error)));
       });
     });
   };
 };
 
-export const deletePublicIpSecurityGroupRule = (ruleId, orderId) => {
+export const deletePublicIpSecurityRule = (ruleId, orderId) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       let provider = new PublicIPsProvider();
-      const request = () => ({ type: publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_GROUP_RULE_REQUEST});
+      const request = () => ({ type: publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_RULE_REQUEST});
       const success = () => ({
-        type: publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_GROUP_RULE_SUCCESS,
+        type: publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_RULE_SUCCESS,
         ruleId: ruleId
       });
       const failure = (error) => ({
-        type: publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_GROUP_RULE_FAILURE,
+        type: publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_RULE_FAILURE,
         error: error
       });
 
       dispatch(request());
 
-      provider.deleteSecurityGroupRule(ruleId, orderId).then(
+      provider.deleteSecurityRule(ruleId, orderId).then(
         () => resolve(dispatch(success()))
       ).catch((error) => {
         const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to delete security group rule: ' + ruleId + ' for public IP order: ' +
+        toast.error('Unable to delete security rule: ' + ruleId + ' for public IP order: ' +
                     orderId + '. ' + message + '.');
         return reject(dispatch(failure(error)));
       });

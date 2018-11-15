@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ToastContainer, Slide } from 'react-toastify';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import { getNetworks } from '../actions/networks.actions';
 import NetworkForm from '../components/NetworkForm';
+import SecurityRuleForm from '../components/SecurityRuleForm';
 import NetworkDetails from '../components/NetworkDetails';
 
 class NetworksPage extends Component {
@@ -14,7 +14,9 @@ class NetworksPage extends Component {
     this.state = {
       tableVisible: true,
       orderId: '',
-      intervalId: ''
+      instanceId: '',
+      intervalId: '',
+      showSecurityRuleForm: false
     }
   }
 
@@ -50,14 +52,25 @@ class NetworksPage extends Component {
     });
   };
 
+  handleSecurityRuleForm = (event) => {
+    event.preventDefault();
+
+    const instanceId = event.target.value;
+
+    this.setState({instanceId: instanceId});
+  };
+
   render() {
     return (
       <div>
         {this.state.tableVisible ?
-          (<OrderList orders={this.networks} form={<NetworkForm/>}
-                      type={'networks'} handleShow={this.handleShow}/>):
+          (<OrderList orders={this.networks} type={'networks'} handleShow={this.handleShow}
+                      forms={[<NetworkForm/>,
+                              <SecurityRuleForm orderType='network'
+                                                instanceId={this.state.instanceId}/>
+                             ]}
+                      handleSecurityRuleForm={this.handleSecurityRuleForm}/>) :
           <NetworkDetails id={this.state.orderId} handleHide={this.handleHide}/>}
-        <ToastContainer transition={Slide} autoClose={false} />
       </div>
     );
   }

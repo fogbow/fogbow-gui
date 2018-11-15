@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import SecurityGroupRulesComponent from './SecurityGroupRulesComponent';
+import SecurityRulesComponent from './SecurityRulesComponent';
 import { getPublicIpData } from '../actions/publicIps.actions';
-import { getPublicIpSecurityGroupRules } from '../actions/publicIps.actions';
+import { getPublicIpSecurityRules } from '../actions/publicIps.actions';
 
 class PublicIpDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
       orderData: {},
-      securityGroupRules: []
+      securityRules: []
     }
   }
 
@@ -23,17 +23,17 @@ class PublicIpDetails extends Component {
       });
     });
 
-    dispatch(getPublicIpSecurityGroupRules(this.props.id)).then(data => {
+    dispatch(getPublicIpSecurityRules(this.props.id)).then(data => {
       this.setState({
-        securityGroupRules: data
+        securityRules: data
       });
     });
   }
 
   render() {
-    const securityGroupRules = this.state.securityGroupRules.length <= 0 ? '-' :
-      <SecurityGroupRulesComponent securityGroupRules={this.state.securityGroupRules}
-                                   orderId={this.state.orderData.id} orderType='publicIp'/>;
+    const securityRules = this.state.securityRules.length <= 0 ? '-' :
+      <SecurityRulesComponent securityRules={this.state.securityRules} orderType='publicIp'
+                              orderId={this.state.orderData.id}/>;
 
     return (
       <div id="details" className="details">
@@ -57,8 +57,8 @@ class PublicIpDetails extends Component {
         <p className="bolder">Compute ID</p>
         <p>{this.state.orderData.computeId || '-'}</p>
 
-        <p className="bolder">Security Group Rules</p>
-        {securityGroupRules}
+        <p className="bolder">Security Rules</p>
+        {securityRules}
       </div>
     );
   }

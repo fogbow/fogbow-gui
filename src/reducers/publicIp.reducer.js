@@ -43,28 +43,45 @@ const publicIps = (state = {loading: false, specific: {}}, action) => {
     case publicIpsActionsTypes.DELETE_PUBLIC_IP_FAILURE:
       return { ...state, error: action.error };
 
-    // GET SECURITY GROUP RULES
-    case publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_GROUP_RULES_REQUEST:
+    // CREATE SECURITY RULE
+    case publicIpsActionsTypes.CREATE_PUBLIC_IP_SECURITY_RULES_REQUEST:
       return { ...state, loading: false };
-    case publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_GROUP_RULES_SUCCESS:
+    case publicIpsActionsTypes.CREATE_PUBLIC_IP_SECURITY_RULES_SUCCESS:
+      state.data.push({
+          instanceId: action.securityRule,
+          state: 'OPEN',
+          provider: action.member
+      });
       return {
           ...state,
-          data: action.securityGroupRules,
+          data: state.data,
           loading: true
       };
-    case publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_GROUP_RULES_FAILURE:
+    case publicIpsActionsTypes.CREATE_PUBLIC_IP_SECURITY_RULES_FAILURE:
       return { ...state, error: action.error };
 
-    // DELETE SECURITY GROUP RULES
-    case publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_GROUP_RULE_REQUEST:
-      return { ...state };
-    case publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_GROUP_RULE_SUCCESS:
+    // GET SECURITY RULES
+    case publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_RULES_REQUEST:
+      return { ...state, loading: false };
+    case publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_RULES_SUCCESS:
       return {
           ...state,
-          data: state.data.filter(securityGroupRule => securityGroupRule.instanceId !== action.ruleId),
+          data: action.securityRules,
           loading: true
       };
-    case publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_GROUP_RULE_FAILURE:
+    case publicIpsActionsTypes.GET_PUBLIC_IP_SECURITY_RULES_FAILURE:
+      return { ...state, error: action.error };
+
+    // DELETE SECURITY RULE
+    case publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_RULE_REQUEST:
+      return { ...state };
+    case publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_RULE_SUCCESS:
+      return {
+          ...state,
+          data: state.data.filter(securityRule => securityRule.instanceId !== action.ruleId),
+          loading: true
+      };
+    case publicIpsActionsTypes.DELETE_PUBLIC_IP_SECURITY_RULE_FAILURE:
       return { ...state, error: action.error };
 
     default:
