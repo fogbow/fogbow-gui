@@ -42,47 +42,6 @@ const networks = (state = {loading: false, data: []}, action) => {
     case networksActionsTypes.DELETE_NETWORK_FAILURE:
       return { ...state, error: action.error };
 
-    // CREATE SECURITY RULES
-    case networksActionsTypes.CREATE_NETWORK_SECURITY_RULE_REQUEST:
-      return { data: state.data, loading: false };
-    case networksActionsTypes.CREATE_NETWORK_SECURITY_RULE_SUCCESS:
-      state.data.push({
-          instanceId: action.securityRule,
-          state: 'OPEN',
-          provider: action.member
-      });
-      return {
-          ...state,
-          data: state.data,
-          loading: true
-      };
-    case networksActionsTypes.CREATE_NETWORK_SECURITY_RULE_FAILURE:
-      return { ...state, error: action.error };
-
-    // GET SECURITY RULES
-    case networksActionsTypes.GET_NETWORK_SECURITY_RULES_REQUEST:
-      return { ...state, loading: false };
-    case networksActionsTypes.GET_NETWORK_SECURITY_RULES_SUCCESS:
-      return {
-          ...state,
-          data: action.securityRules,
-          loading: true
-      };
-    case networksActionsTypes.GET_NETWORK_SECURITY_RULES_FAILURE:
-      return { ...state, error: action.error };
-
-    // DELETE SECURITY RULES
-    case networksActionsTypes.DELETE_NETWORK_SECURITY_RULE_REQUEST:
-      return { ...state };
-    case networksActionsTypes.DELETE_NETWORK_SECURITY_RULE_SUCCESS:
-      return {
-          ...state,
-          data: state.data.filter(securityRule => securityRule.instanceId !== action.ruleId),
-          loading: true
-      };
-    case networksActionsTypes.DELETE_NETWORK_SECURITY_RULE_FAILURE:
-      return { ...state, error: action.error };
-
     default:
       return state;
   }

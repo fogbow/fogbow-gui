@@ -9,8 +9,8 @@ class NetworkDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        orderData: {},
-        securityRules: []
+      orderData: {},
+      securityRules: []
     }
   }
 
@@ -19,13 +19,13 @@ class NetworkDetails extends Component {
 
     dispatch(getNetworkData(this.props.id)).then(data => {
       this.setState({
-          orderData: data.networks
+        orderData: data.networks
       });
     });
 
     dispatch(getNetworkSecurityRules(this.props.id)).then(data => {
       this.setState({
-        securityRules: data
+        securityRules: data.securityRules
       });
     });
   }

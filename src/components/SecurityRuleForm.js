@@ -7,12 +7,12 @@ import { createNetworkSecurityRule } from '../actions/networks.actions';
 import { createPublicIpSecurityRule } from '../actions/publicIps.actions';
 
 const initialState = {
-  direction: 'ingress',
+  direction: 'IN',
   portFrom: 0,
   portTo: 0,
   cidr: '0.0.0.0/0',
   etherType: 'IPv4',
-  protocol: 'tcp',
+  protocol: 'TCP',
   openPort: 'port'
 };
 
@@ -87,7 +87,7 @@ class SecurityRuleForm extends Component {
                           value={this.state.protocol} onChange={this.handleChange}>
                     {
                       protocols.map((protocol, idx) => {
-                        return <option key={idx} value={protocol.toLowerCase()}>{protocol}</option>;
+                        return <option key={idx} value={protocol}>{protocol}</option>;
                       })
                     }
                   </select>
@@ -99,8 +99,8 @@ class SecurityRuleForm extends Component {
                   <label>Direction</label>
                   <select name='direction' className='form-control' required
                           value={this.state.direction} onChange={this.handleChange}>
-                    <option value='ingress'>Ingress</option>
-                    <option value='egress'>Egress</option>
+                    <option value='IN'>Ingress</option>
+                    <option value='OUT'>Egress</option>
                   </select>
                 </div>
               </div>
@@ -119,7 +119,7 @@ class SecurityRuleForm extends Component {
               <div className='form-row'>
                 <div className='col'>
                   <label>{this.state.openPort === 'port' ? 'Port' : 'From Port'}</label>
-                  <input className="form-control" type="number" name="portFrom" min='0'
+                  <input className="form-control" type="number" name="portFrom" min="0"
                          value={this.state.portFrom} onChange={this.handleChange} required />
                 </div>
               </div>
@@ -128,7 +128,7 @@ class SecurityRuleForm extends Component {
                 <div className='form-row'>
                   <div className='col'>
                     <label>To Port</label>
-                    <input className="form-control" type="number" name="portTo" min='0'
+                    <input className="form-control" type="number" name="portTo" min="0"
                            value={this.state.portTo} onChange={this.handleChange} required />
                   </div>
                 </div> :

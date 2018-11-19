@@ -11,6 +11,7 @@ import remoteImages from './remoteImages.reducer';
 import quota from './quota.reducer';
 import publicIps from './publicIp.reducer';
 import version from './version.reducer';
+import securityRules from './securityRules.reducer';
 
 export default combineReducers({
   members,
@@ -23,5 +24,6 @@ export default combineReducers({
   remoteImages,
   quota,
   publicIps,
-  version
+  version,
+  securityRules
 });

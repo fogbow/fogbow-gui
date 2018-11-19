@@ -43,16 +43,16 @@ class NetworksProvider {
   }
 
   createSecurityRule(body, id) {
-    return axios.post(this.url.concat('/', id, '/', 'securityRules'), body, this.config);
+    return axios.post(this.url.concat('/', id, '/', 'securityGroupRules'), body, this.config);
   }
 
   getSecurityRules(id) {
-    return axios.get(this.url.concat('/', id, '/', 'securityRules'), this.config);
+    return axios.get(this.url.concat('/', id, '/', 'securityGroupRules'), this.config);
   }
 
   deleteSecurityRule(ruleId, orderId) {
-    return axios.get(this.url.concat('/', orderId, '/', 'securityRules', '/', ruleId),
-                     this.config);
+    return axios.delete(this.url.concat('/', orderId, '/', 'securityGroupRules', '/', ruleId),
+                        this.config);
   }
 }
 

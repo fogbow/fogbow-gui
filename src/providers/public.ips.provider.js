@@ -34,8 +34,8 @@ class PublicIPsProvider {
   }
 
   deleteSecurityRule(ruleId, orderId) {
-    return axios.get(this.url.concat('/', orderId, '/', 'securityRules', '/', ruleId),
-                     this.config);
+    return axios.delete(this.url.concat('/', orderId, '/', 'securityRules', '/', ruleId),
+                        this.config);
   }
 }
 

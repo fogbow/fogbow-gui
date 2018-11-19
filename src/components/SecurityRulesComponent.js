@@ -11,6 +11,11 @@ const headers = [
 ];
 
 class SecurityRulesComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {rows: this.getRows()};
+  }
+
   getHeaders = () => {
     return(
       <tr>
@@ -20,19 +25,21 @@ class SecurityRulesComponent extends Component {
   };
 
   getRows = () => {
-    return this.props.securityRules.map(securityRule => {
+    return Object.values(this.props.securityRules).map(securityRule => {
+      let port = securityRule.portFrom === securityRule.portTo ? securityRule.portFrom :
+                 securityRule.portFrom + '-' + securityRule.portTo;
+      port = port === 0 ? 'Any' : port;
+
       return (
         <tr key={securityRule.instanceId}>
-          <td>{securityRule.direction}</td>
+          <td>{securityRule.direction === 'IN' ? 'Ingress' : 'Egress'}</td>
           <td>{securityRule.etherType}</td>
-          <td>{securityRule.protocol}</td>
-          <td>{securityRule.portFrom === securityRule.portTo ?
-               securityRule.portFrom :
-               securityRule.portFrom + '-' + securityRule.portTo}
-          </td>
-          <td>{securityRule.cidr}</td>
+          <td>{securityRule.protocol === 'ANY' ? 'Any' : securityRule.protocol}</td>
+          <td>{port}</td>
+          <td>{securityRule.cidr || '-'}</td>
           <td>
-            <button type='button' className='btn btn-sm btn-danger' onClick={this.handleDelete}>
+            <button type='button' className='btn btn-sm btn-danger' onClick={this.handleDelete}
+                    value={securityRule.instanceId}>
               Delete Rule
             </button>
           </td>
@@ -44,21 +51,25 @@ class SecurityRulesComponent extends Component {
   handleDelete = async(event) => {
     event.preventDefault();
 
-    // NOTE(pauloewerton): get security rule id from parent tr element.
-    const { key } = event.target.parentNode.parentNode;
+    const id = event.target.value;
     const { dispatch } = this.props;
 
     try {
-      if (this.props.orderType === 'network') {
-        await dispatch(deleteNetworkSecurityRule(key, this.props.orderId));
-      } else if (this.props.orderType === 'publicIp') {
-        await dispatch(deletePublicIpSecurityRule(key, this.props.orderId));
-      } else {
-        throw(new Error('Wrong order type.'));
-      }
+      const deleteFunc = this.props.orderType === 'network' ? deleteNetworkSecurityRule :
+                         deletePublicIpSecurityRule;
 
-      toast.success('Security rule id: ' + key + ' deleted successfully.');
-      event.target.parentNode.parentNode.style.visibility = 'hidden';
+      await dispatch(deleteFunc(id, this.props.orderId));
+      toast.success('Security rule ' + id + ' deleted successfully.');
+
+      const rowsCopy = [...this.state.rows];
+
+      for (let i = 0; i < rowsCopy.length; i++) {
+        if (rowsCopy[i].key === id) {
+          rowsCopy.splice(rowsCopy.indexOf(rowsCopy[i]), 1);
+          this.setState({rows: rowsCopy});
+          break;
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -66,12 +77,12 @@ class SecurityRulesComponent extends Component {
 
   render() {
     return (
-      <table className='table table-responsive table-sm table-striped'>
+      <table className='table table-responsive table-sm table-striped security-rules'>
         <thead>
           {this.getHeaders()}
         </thead>
         <tbody>
-          {this.getRows()}
+          {this.state.rows || '-'}
         </tbody>
       </table>
     );

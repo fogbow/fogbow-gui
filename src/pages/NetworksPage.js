@@ -77,7 +77,8 @@ class NetworksPage extends Component {
 }
 
 const stateToProps = state => ({
-  networks: state.networks
+  networks: state.networks,
+  securityRules: state.securityRules
 });
 
 export default connect(stateToProps)(NetworksPage);
