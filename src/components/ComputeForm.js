@@ -22,7 +22,7 @@ const initialState = {
   provider: env.local,
   imageId: '',
   vCPU: 1,
-  disk: 30,
+  disk: 20,
   memory: 1024,
   networkIds: '',
   federatedNetworkId: '',
@@ -149,6 +149,10 @@ class ComputeForm extends Component {
               <label>Minimal Number of vCPUs</label>
               <input value={this.state.vCPU} onChange={this.handleChange} className="form-control"
                      type="number" name="vCPU" min="1" required />
+
+              <label>Minimal Amount of Disk (GB)</label>
+              <input value={this.state.disk} onChange={this.handleChange} className="form-control"
+                     type="number" name="disk" min="1" required />
 
               <label>Minimal Amount of RAM (MB)</label>
               <input value={this.state.memory} onChange={this.handleChange} className="form-control"
