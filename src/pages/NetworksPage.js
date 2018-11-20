@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
@@ -16,7 +17,7 @@ class NetworksPage extends Component {
       orderId: '',
       instanceId: '',
       intervalId: '',
-      showSecurityRuleForm: false
+      networkOrders: []
     }
   }
 
@@ -33,10 +34,6 @@ class NetworksPage extends Component {
 
   componentWillUnmount = () => {
     clearInterval(this.state.intervalId);
-  }
-
-  get networks() {
-    return this.props.networks.loading ? this.props.networks.data: [];
   }
 
   handleShow = (orderId) => {
@@ -60,11 +57,20 @@ class NetworksPage extends Component {
     this.setState({instanceId: instanceId});
   };
 
+
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.networks.loading && !_.isEqual(props.networks.data, state.networkOrders)) {
+      return {networkOrders: props.networks.data};
+    }
+
+    return null;
+  };
+
   render() {
     return (
       <div>
         {this.state.tableVisible ?
-          (<OrderList orders={this.networks} type={'networks'} handleShow={this.handleShow}
+          (<OrderList orders={this.state.networkOrders} type={'networks'} handleShow={this.handleShow}
                       forms={[<NetworkForm/>,
                               <SecurityRuleForm orderType='network'
                                                 instanceId={this.state.instanceId}/>

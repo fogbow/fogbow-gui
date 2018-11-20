@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
@@ -12,9 +13,10 @@ class PublicIpPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        tableVisible: true,
-        orderId: '',
-        intervalId: ''
+      tableVisible: true,
+      orderId: '',
+      intervalId: '',
+      publicIpOrders: []
     }
   }
 
@@ -31,10 +33,6 @@ class PublicIpPage extends Component {
 
   componentWillUnmount = () => {
     clearInterval(this.state.intervalId);
-  }
-
-  get publicIps() {
-    return this.props.publicIps.loading ? this.props.publicIps.data: [];
   }
 
   handleShow = (orderId) => {
@@ -58,11 +56,19 @@ class PublicIpPage extends Component {
     this.setState({instanceId: instanceId});
   };
 
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.publicIps.loading && !_.isEqual(props.publicIps.data, state.publicIpOrders)) {
+      return {publicIpOrders: props.publicIps.data};
+    }
+
+    return null;
+  };
+
   render() {
     return (
       <div>
         {this.state.tableVisible ?
-         (<OrderList orders={this.publicIps} type={'publicip'} disabledHeaders={['Name']}
+         (<OrderList orders={this.state.publicIpOrders} type={'publicip'} disabledHeaders={['Name']}
                      forms={[<PublicIpForm/>,
                              <SecurityRuleForm orderType='publicip'
                                                instanceId={this.state.instanceId}/>
@@ -76,7 +82,8 @@ class PublicIpPage extends Component {
 }
 
 const stateToProps = state => ({
-  publicIps: state.publicIps
+  publicIps: state.publicIps,
+  securityRules: state.securityRules
 });
 
 export default connect(stateToProps)(PublicIpPage);
