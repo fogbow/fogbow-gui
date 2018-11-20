@@ -25,7 +25,7 @@ class PublicIpDetails extends Component {
 
     dispatch(getPublicIpSecurityRules(this.props.id)).then(data => {
       this.setState({
-        securityRules: data
+        securityRules: data.securityRules
       });
     });
   }

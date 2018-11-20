@@ -9,12 +9,12 @@ import { deleteVolume } from '../actions/volumes.actions';
 import { deletePublicIp } from '../actions/publicIps.actions';
 
 const mapping = {
-    computes: 'Compute',
-    networks: 'Network',
-    federatedNetworks: 'Federated Network',
-    volumes: 'Volume',
-    attachments: 'Attachment',
-    publicip: 'Public IP',
+  computes: 'Compute',
+  networks: 'Network',
+  federatedNetworks: 'Federated Network',
+  volumes: 'Volume',
+  attachments: 'Attachment',
+  publicip: 'Public IP',
 };
 
 class OrderComponent extends Component {
@@ -27,25 +27,25 @@ class OrderComponent extends Component {
 
     switch (type) {
       case 'computes':
-          dispatch(deleteCompute(id));
-          break;
+        dispatch(deleteCompute(id));
+        break;
       case 'networks':
-          dispatch(deleteNetwork(id));
-          break;
+        dispatch(deleteNetwork(id));
+        break;
       case 'fednets':
-          dispatch(deleteFedNetwork(id));
-          break;
+        dispatch(deleteFedNetwork(id));
+        break;
       case 'volumes':
-          dispatch(deleteVolume(id));
-          break;
+        dispatch(deleteVolume(id));
+        break;
       case 'attachments':
-          dispatch(deleteAttachment(id));
-          break;
+        dispatch(deleteAttachment(id));
+        break;
       case 'publicip':
-          dispatch(deletePublicIp(id));
-          break;
+        dispatch(deletePublicIp(id));
+        break;
       default:
-          break;
+        break;
     }
   };
 
