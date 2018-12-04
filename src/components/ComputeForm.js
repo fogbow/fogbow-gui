@@ -214,10 +214,6 @@ class ComputeForm extends Component {
                 }
               </select>
 
-              <label>User Data File</label>
-              <input onChange={this.handleChange} type="file" ref={(ref) => this.fileContent = ref}
-                     className="form-control" name="fileContent" />
-
               <label>User Data File Type</label>
               <select value={this.state.scriptType} onChange={this.handleChange}
                       name='scriptType' className="form-control">
@@ -225,8 +221,12 @@ class ComputeForm extends Component {
                 { scriptTypes.map((type, idx) => <option key={idx} value={type}>{type}</option>) }
               </select>
 
+              <label>User Data File</label>
+              <input onChange={this.handleChange} type="file" ref={(ref) => this.fileContent = ref}
+                     className="form-control" name="fileContent" />
+
               <label>Public Key</label>
-              <textarea value={this.state.publicKey} onChange={this.handleChange}
+              <textarea value={this.state.publicKey} onChange={this.handleChange} cols="50" rows="5"
                         className="form-control" name="publicKey"></textarea>
             </div>
 

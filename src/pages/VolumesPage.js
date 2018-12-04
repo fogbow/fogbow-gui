@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
@@ -12,9 +13,10 @@ class VolumesPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        tableVisible: true,
-        orderId: '',
-        intervalId: ''
+      tableVisible: true,
+      orderId: '',
+      intervalId: '',
+      volumeOrders: []
     }
   }
 
@@ -24,17 +26,13 @@ class VolumesPage extends Component {
     this.setState({
       intervalId: setInterval(async() => {
         if (this.state.tableVisible)
-            await dispatch(getVolumes());
+          await dispatch(getVolumes());
       }, env.refreshTime)
     });
   };
 
   componentWillUnmount = () => {
     clearInterval(this.state.intervalId);
-  }
-
-  get volumes() {
-    return this.props.volumes.loading ? this.props.volumes.data : [];
   }
 
   handleShow = (orderId) => {
@@ -50,13 +48,21 @@ class VolumesPage extends Component {
     });
   };
 
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.volumes.loading && !_.isEqual(props.volumes.data, state.volumeOrders)) {
+      return {volumeOrders: props.volumes.data};
+    }
+
+    return null;
+  };
+
   render() {
     return (
       <div>
         {this.state.tableVisible ?
-            (<OrderList orders={this.volumes} form={<VolumeForm/>}
-            type={'volumes'} handleShow={this.handleShow}/>) :
-            <VolumeDetails id={this.state.orderId} handleHide={this.handleHide}/>
+          (<OrderList orders={this.state.volumeOrders} forms={[<VolumeForm/>]}
+                      type={'volumes'} handleShow={this.handleShow}/>) :
+          <VolumeDetails id={this.state.orderId} handleHide={this.handleHide}/>
         }
       </div>
     );

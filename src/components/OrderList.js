@@ -4,7 +4,7 @@ import OrderComponent from './OrderComponent';
 import { connect } from 'react-redux';
 
 const headers = [
-    'ID', 'Name', 'Provider', 'State', 'Actions'
+  'ID', 'Name', 'Provider', 'State', 'Actions'
 ];
 
 class OrderList extends Component {
@@ -48,7 +48,8 @@ class OrderList extends Component {
       return(
         <OrderComponent key={order.instanceId} order={order} type={this.props.type}
                         disabledHeaders={this.props.disabledHeaders}
-                        handleShow={() => this.props.handleShow(order.instanceId)}/>
+                        handleShow={() => this.props.handleShow(order.instanceId)}
+                        handleSecurityRuleForm={this.props.handleSecurityRuleForm}/>
       );
     });
   };
@@ -62,6 +63,8 @@ class OrderList extends Component {
   };
 
   render() {
+    const forms = this.props.forms.map((form, idx) => <div key={idx}>{form}</div>);
+
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -74,7 +77,7 @@ class OrderList extends Component {
                       data-toggle="modal" data-target="#form">Create</button>
 
               <div>
-                {this.props.form}
+                {forms}
               </div>
             </form>
             </div>

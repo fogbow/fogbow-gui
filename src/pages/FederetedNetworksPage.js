@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
@@ -13,7 +14,8 @@ class FederetedNetworksPage extends Component {
     this.state = {
       tableVisible: true,
       orderId: '',
-      intervalId: ''
+      intervalId: '',
+      federetedNetworkOrders: []
     }
   }
 
@@ -31,10 +33,6 @@ class FederetedNetworksPage extends Component {
     clearInterval(this.state.intervalId);
   }
 
-  get networks() {
-    return this.props.networks.loading ? this.props.networks.data: [];
-  }
-
   handleShow = (orderId) => {
     this.setState({
       tableVisible: false,
@@ -48,12 +46,20 @@ class FederetedNetworksPage extends Component {
     });
   };
 
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.networks.loading && !_.isEqual(props.networks.data, state.federetedNetworkOrders)) {
+      return {federetedNetworkOrders: props.networks.data};
+    }
+
+    return null;
+  };
+
   render() {
     return (
       <div>
         {this.state.tableVisible ?
-          (<OrderList orders={this.networks} handleShow={this.handleShow} type={'fednets'}
-                      form={<FederatedNetworksForm/>}/>) :
+          (<OrderList orders={this.state.federetedNetworkOrders} handleShow={this.handleShow}
+                      type={'fednets'} forms={[<FederatedNetworksForm/>]}/>) :
           <FedNetDetails id={this.state.orderId} handleHide={this.handleHide}/>
         }
       </div>

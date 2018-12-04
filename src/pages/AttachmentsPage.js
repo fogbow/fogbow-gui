@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
@@ -13,7 +14,8 @@ class AttachmentsPage extends Component {
     this.state = {
       tableVisible: true,
       orderId: '',
-      intervalId: ''
+      intervalId: '',
+      attachmentOrders: []
     }
   }
 
@@ -32,10 +34,6 @@ class AttachmentsPage extends Component {
     clearInterval(this.state.intervalId);
   };
 
-  get attachments() {
-    return this.props.attachments.loading ? this.props.attachments.data: [];
-  }
-
   handleShow = (orderId) => {
     this.setState({
       tableVisible: false,
@@ -49,12 +47,20 @@ class AttachmentsPage extends Component {
     });
   };
 
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.attachments.loading && !_.isEqual(props.attachments.data, state.attachmentOrders)) {
+      return {attachmentOrders: props.attachments.data};
+    }
+
+    return null;
+  };
+
   render() {
     return (
       <div>
         {this.state.tableVisible ?
-          (<OrderList orders={this.attachments} form={<AttachmentForm/>} disabledHeaders={['Name']}
-                      type={'attachments'} handleShow={this.handleShow}/>) :
+          (<OrderList orders={this.state.attachmentOrders} forms={[<AttachmentForm/>]}
+                      disabledHeaders={['Name']} type={'attachments'} handleShow={this.handleShow}/>) :
           <AttachmentDetails id={this.state.orderId} handleHide={this.handleHide}/>
         }
       </div>

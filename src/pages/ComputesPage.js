@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
@@ -13,7 +14,8 @@ class ComputesPage extends Component {
     this.state = {
       tableVisible: true,
       orderId: '',
-      intervalId: ''
+      intervalId: '',
+      computeOrders: []
     }
   }
 
@@ -32,10 +34,6 @@ class ComputesPage extends Component {
     clearInterval(this.state.intervalId);
   }
 
-  get computes() {
-    return this.props.computes.loading ? this.props.computes.data: [];
-  }
-
   handleShow = (orderId) => {
     this.setState({
       tableVisible: false,
@@ -49,13 +47,22 @@ class ComputesPage extends Component {
     });
   };
 
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.computes.loading && !_.isEqual(props.computes.data, state.computeOrders)) {
+      return {computeOrders: props.computes.data};
+    }
+
+    return null;
+  };
+
   render() {
     return (
       <div>
         {this.state.tableVisible ?
-          (<OrderList orders={this.computes} form={<ComputeForm/>}
+          (<OrderList orders={this.state.computeOrders} forms={[<ComputeForm/>]}
                       type={'computes'} handleShow={this.handleShow}/>) :
-          <ComputeDetails id={this.state.orderId} handleHide={this.handleHide}/>}
+          <ComputeDetails id={this.state.orderId} handleHide={this.handleHide}/>
+        }
       </div>
     );
   }

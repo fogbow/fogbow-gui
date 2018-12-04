@@ -16,7 +16,8 @@ export const getNetworks = () => {
       let network = await provider.get();
       dispatch(success(network.data))
     } catch (error) {
-      toast.error(generateErrorMessage(errorTypes.GET, orderTypes.NETWORK));
+      const message = error.response ? error.response.data.message : error.message;
+      toast.error('Unable to create network order. ' + message + '.');
       dispatch(failure(error))
     }
   };
@@ -47,7 +48,11 @@ export const createNetwork = (body) => {
     return new Promise((resolve, reject) => {
       let provider = new NetworksProvider();
       const request = () => ({ type: networksActionsTypes.CREATE_NETWORK_REQUEST});
-      const success = (network) => ({ type: networksActionsTypes.CREATE_NETWORK_SUCCESS, network, member: body.member });
+      const success = (network) => ({
+        type: networksActionsTypes.CREATE_NETWORK_SUCCESS,
+        network,
+        member: body.member
+      });
       const failure = (error) => ({ type: networksActionsTypes.CREATE_NETWORK_FAILURE, error });
 
       dispatch(request());
@@ -156,6 +161,82 @@ export const deleteFedNetwork = (id) => {
         resolve(dispatch(success()))
       ).catch((error) => {
         toast.error(generateErrorMessage(errorTypes.DELETE, orderTypes.FEDERATED_NETWORK, id));
+        return reject(dispatch(failure(error)));
+      });
+    });
+  };
+};
+
+export const createNetworkSecurityRule = (body, id) => {
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new NetworksProvider();
+      const request = () => ({ type: networksActionsTypes.CREATE_FED_NETWORK_REQUEST});
+      const success = (network) => ({ type: networksActionsTypes.CREATE_FED_NETWORK_SUCCESS, network });
+      const failure = (error) => ({ type: networksActionsTypes.CREATE_FED_NETWORK_FAILURE, error });
+
+      dispatch(request());
+
+      provider.createSecurityRule(body, id).then(
+        securityRule => resolve(dispatch(success(securityRule.data)))
+      ).catch((error) => {
+        const message = error.response ? error.response.data.message : error.message;
+        toast.error('Unable to create security rule for network order: ' + id + '. ' + message + '.');
+        return reject(dispatch(failure(error)));
+      });
+    });
+  };
+};
+
+export const getNetworkSecurityRules = (id) => {
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new NetworksProvider();
+      const request = () => ({ type: networksActionsTypes.GET_NETWORK_SECURITY_RULES_REQUEST});
+      const success = (securityRules) => ({
+        type: networksActionsTypes.GET_NETWORK_SECURITY_RULES_SUCCESS,
+        securityRules: securityRules
+      });
+      const failure = (error) => ({
+        type: networksActionsTypes.GET_NETWORK_SECURITY_RULES_FAILURE,
+        error: error
+      });
+
+      dispatch(request());
+
+      provider.getSecurityRules(id).then(
+        securityRules => resolve(dispatch(success(securityRules.data)))
+      ).catch((error) => {
+        const message = error.response ? error.response.data.message : error.message;
+        toast.error('Unable to get security rules for network order: ' + id + '. ' + message + '.');
+        return reject(dispatch(failure(error)));
+      });
+    });
+  };
+};
+
+export const deleteNetworkSecurityRule = (ruleId, orderId) => {
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new NetworksProvider();
+      const request = () => ({ type: networksActionsTypes.DELETE_NETWORK_SECURITY_RULE_REQUEST});
+      const success = () => ({
+        type: networksActionsTypes.DELETE_NETWORK_SECURITY_RULE_SUCCESS,
+        ruleId: ruleId
+      });
+      const failure = (error) => ({
+        type: networksActionsTypes.DELETE_NETWORK_SECURITY_RULE_FAILURE,
+        error: error
+      });
+
+      dispatch(request());
+
+      provider.deleteSecurityRule(ruleId, orderId).then(
+        () => resolve(dispatch(success()))
+      ).catch((error) => {
+        const message = error.response ? error.response.data.message : error.message;
+        toast.error('Unable to delete security rule: ' + ruleId + ' for network order: ' +
+                    orderId + '. ' + message + '.');
         return reject(dispatch(failure(error)));
       });
     });

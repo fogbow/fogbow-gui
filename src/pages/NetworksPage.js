@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ToastContainer, Slide } from 'react-toastify';
+import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import { getNetworks } from '../actions/networks.actions';
 import NetworkForm from '../components/NetworkForm';
+import SecurityRuleForm from '../components/SecurityRuleForm';
 import NetworkDetails from '../components/NetworkDetails';
 
 class NetworksPage extends Component {
@@ -14,7 +15,9 @@ class NetworksPage extends Component {
     this.state = {
       tableVisible: true,
       orderId: '',
-      intervalId: ''
+      instanceId: '',
+      intervalId: '',
+      networkOrders: []
     }
   }
 
@@ -33,10 +36,6 @@ class NetworksPage extends Component {
     clearInterval(this.state.intervalId);
   }
 
-  get networks() {
-    return this.props.networks.loading ? this.props.networks.data: [];
-  }
-
   handleShow = (orderId) => {
     this.setState({
       tableVisible: false,
@@ -50,21 +49,42 @@ class NetworksPage extends Component {
     });
   };
 
+  handleSecurityRuleForm = (event) => {
+    event.preventDefault();
+
+    const instanceId = event.target.value;
+
+    this.setState({instanceId: instanceId});
+  };
+
+
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.networks.loading && !_.isEqual(props.networks.data, state.networkOrders)) {
+      return {networkOrders: props.networks.data};
+    }
+
+    return null;
+  };
+
   render() {
     return (
       <div>
         {this.state.tableVisible ?
-          (<OrderList orders={this.networks} form={<NetworkForm/>}
-                      type={'networks'} handleShow={this.handleShow}/>):
+          (<OrderList orders={this.state.networkOrders} type={'networks'} handleShow={this.handleShow}
+                      forms={[<NetworkForm/>,
+                              <SecurityRuleForm orderType='network'
+                                                instanceId={this.state.instanceId}/>
+                             ]}
+                      handleSecurityRuleForm={this.handleSecurityRuleForm}/>) :
           <NetworkDetails id={this.state.orderId} handleHide={this.handleHide}/>}
-        <ToastContainer transition={Slide} autoClose={false} />
       </div>
     );
   }
 }
 
 const stateToProps = state => ({
-  networks: state.networks
+  networks: state.networks,
+  securityRules: state.securityRules
 });
 
 export default connect(stateToProps)(NetworksPage);

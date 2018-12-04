@@ -65,8 +65,8 @@ class VolumeForm extends Component {
                 <div className='col'>
                   <label>Volume Size (GB)</label>
                   <input className="form-control" type="number" name="volumeSize"
-                          value={this.state.volumeSize} onChange={this.handleChange} min="1"
-                          required />
+                         value={this.state.volumeSize} onChange={this.handleChange} min="1"
+                         required />
                 </div>
               </div>
 

@@ -1,26 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import SecurityRulesComponent from './SecurityRulesComponent';
 import { getNetworkData } from '../actions/networks.actions';
+import { getNetworkSecurityRules } from '../actions/networks.actions';
 
 class NetworkDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        orderData: {}
+      orderData: {},
+      securityRules: []
     }
   }
 
   componentDidMount() {
     let { dispatch } = this.props;
+
     dispatch(getNetworkData(this.props.id)).then(data => {
       this.setState({
-          orderData: data.networks
+        orderData: data.networks
       });
-    })
+    });
+
+    dispatch(getNetworkSecurityRules(this.props.id)).then(data => {
+      this.setState({
+        securityRules: data.securityRules
+      });
+    });
   }
 
   render() {
+    const securityRules = this.state.securityRules.length <= 0 ? '-' :
+      <SecurityRulesComponent securityRules={this.state.securityRules} orderType='network'
+                              orderId={this.state.orderData.id}/>;
+
     return (
       <div className="details">
         <button type="button" className="close" aria-label="Close"
@@ -47,6 +61,9 @@ class NetworkDetails extends Component {
 
         <p className="bolder">Allocation Mode</p>
         <p>{this.state.orderData.allocationMode || '-'}</p>
+
+        <p className="bolder">Security Rules</p>
+        {securityRules}
       </div>
     );
   }
