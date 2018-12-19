@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { env } from '../defaults/api.config';
 import { getImages, getRemoteImages, createCompute } from '../actions/computes.actions';
 import { getNetworks, getFedNetworks } from '../actions/networks.actions';
+import RequirementsComponent from './RequirementsComponent';
 
 import '../styles/order-form.css';
 
@@ -27,7 +28,10 @@ const initialState = {
   networkIds: '',
   federatedNetworkId: '',
   scriptType: '',
-  publicKey: ''
+  publicKey: '',
+  requirements: {},
+  requirementTag: '',
+  requirementValue: '',
 };
 
 class ComputeForm extends Component {
@@ -38,18 +42,18 @@ class ComputeForm extends Component {
 
   componentDidMount = () => {
     let { dispatch } = this.props;
-    if(! this.props.images.loading) {
+    if (! this.props.images.loading) {
       dispatch(getImages());
     }
-    if(! this.props.remoteImages.loading) {
+    if (! this.props.remoteImages.loading) {
       if (this.props.members.loading) {
         dispatch(getRemoteImages(this.props.members.data));
       }
     }
-    if(! this.props.networks.loading) {
+    if (! this.props.networks.loading) {
       dispatch(getNetworks());
     }
-    if(! this.props.fednets.loading) {
+    if (! this.props.fednets.loading) {
       dispatch(getFedNetworks());
     }
   };
@@ -69,6 +73,18 @@ class ComputeForm extends Component {
     }
   };
 
+  handleRequirementTagChange = (newRequirementTag) => {
+    this.setState({
+      requirementTag: newRequirementTag
+    });
+  };
+
+  handleRequirementValueChange = (newRequirementValue) => {
+    this.setState({
+      requirementValue: newRequirementValue
+    });
+  };
+
   readUserDataFile = (userDataFile) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -86,6 +102,23 @@ class ComputeForm extends Component {
     });
   };
 
+  addRequirement = () => {
+    const requirementsCopy = JSON.parse(JSON.stringify(this.state.requirements));
+    requirementsCopy[this.state.requirementTag] = this.state.requirementValue;
+
+    this.setState({
+      requirements: requirementsCopy
+    });
+  };
+
+  resetRequirements = () => {
+    this.setState({
+      requirementTag: '',
+      requirementValue: '',
+      requirements: {}
+    });
+  };
+
   handleSubmit = async(event) => {
     event.preventDefault();
 
@@ -93,10 +126,9 @@ class ComputeForm extends Component {
 
     body = { federatedNetworkId: body.federatedNetworkId, computeOrder: body };
 
-
     if (this.fileContent.files.item(0)) {
       const tag = this.fileContent.value.indexOf('\\') !== -1 ? this.fileContent.value.split('\\') :
-                this.fileContent.value.split('/');
+                  this.fileContent.value.split('/');
 
       try {
         const userDataContent = await this.readUserDataFile(this.fileContent.files.item(0));
@@ -113,9 +145,12 @@ class ComputeForm extends Component {
     delete body.computeOrder.federatedNetworkId;
     delete body.computeOrder.fileContent;
     delete body.computeOrder.scriptType;
+    delete body.computeOrder.requirementTag;
+    delete body.computeOrder.requirementValue;
 
-    let { dispatch } = this.props;
-    dispatch(createCompute(body));
+    //let { dispatch } = this.props;
+    //dispatch(createCompute(body));
+    alert(JSON.stringify(body));
     this.resetForm();
   };
 
@@ -185,6 +220,14 @@ class ComputeForm extends Component {
                   undefined
                 }
               </select>
+
+              <RequirementsComponent requirements={this.state.requirements}
+                                     requirementTag={this.state.requirementTag}
+                                     requirementValue={this.state.requirementValue}
+                                     onRequirementTagChange={this.handleRequirementTagChange}
+                                     onRequirementValueChange={this.handleRequirementValueChange}
+                                     onAddRequirement={this.addRequirement}
+                                     onResetRequirements={this.resetRequirements}/>
 
               <label>Network ID</label>
               <select value={this.state.networkIds} onChange={this.handleChange}
