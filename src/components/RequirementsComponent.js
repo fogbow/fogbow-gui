@@ -21,36 +21,36 @@ class RequirementsComponent extends Component {
 
     return (
       <div>
-        <div className="row">
+        <div className="form-row">
           <div className="form-group col">
             <label>Requirements</label>
           </div>
         </div>
-        <div>
-          <div className="row">
-            <div className="form-group col-md-4">
-              <label>Tag</label>
-              <input type="text" className="form-control" name="tag" value={requirementTag}
-                     onChange={this.handleChange} size="13"/>
-            </div>
-            <div className="form-group col-md-4">
-              <label>Value</label>
-              <input type="text" className="form-control" name="value" value={requirementValue}
-                     onChange={this.handleChange} size="13"/>
-            </div>
-            <div className="form-group col-md-4">
-              <button className="btn btn-sm btn-success mr-md-1" onClick={this.props.onAddRequirement}>
-                Add
-              </button>
-              <button className="btn btn-sm btn-danger" onClick={this.props.onResetRequirements}>
-                Clear
-              </button>
-            </div>
+        <div className="form-row">
+          <div className="form-group col-md-4">
+            <label>Tag</label>
+            <input type="text" className="form-control" name="tag" value={requirementTag}
+                    onChange={this.handleChange} size="13"/>
+          </div>
+          <div className="form-group col-md-4">
+            <label>Value</label>
+            <input type="text" className="form-control" name="value" value={requirementValue}
+                    onChange={this.handleChange} size="13"/>
+          </div>
+          <div className="form-group col-md-4">
+            <button className="btn btn-sm btn-success mr-md-1" onClick={this.props.onAddRequirement}>
+              Add
+            </button>
+            <button className="btn btn-sm btn-danger" onClick={this.props.onResetRequirements}>
+              Clear
+            </button>
           </div>
         </div>
-        <ul className="requirements">
-          {requirementsList}
-        </ul>
+        <div className="form-row">
+          <ul className="requirements">
+            {requirementsList}
+          </ul>
+        </div>
       </div>
     );
   }

@@ -4,11 +4,15 @@ import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
 import { createVolume } from '../actions/volumes.actions';
+import RequirementsComponent from './RequirementsComponent';
 
 const initialState = {
   name: '',
   volumeSize: 1,
-  provider: env.local
+  provider: env.local,
+  requirements: {},
+  requirementTag: '',
+  requirementValue: '',
 };
 
 class VolumeForm extends Component {
@@ -16,6 +20,39 @@ class VolumeForm extends Component {
     super(props);
     this.state = initialState;
   }
+
+  handleRequirementTagChange = (newRequirementTag) => {
+    this.setState({
+      requirementTag: newRequirementTag
+    });
+  };
+
+  handleRequirementValueChange = (newRequirementValue) => {
+    this.setState({
+      requirementValue: newRequirementValue
+    });
+  };
+
+  addRequirement = (event) => {
+    event.preventDefault();
+
+    const requirementsCopy = JSON.parse(JSON.stringify(this.state.requirements));
+    requirementsCopy[this.state.requirementTag] = this.state.requirementValue;
+
+    this.setState({
+      requirements: requirementsCopy
+    });
+  };
+
+  resetRequirements = (event) => {
+    event.preventDefault();
+
+    this.setState({
+      requirementTag: '',
+      requirementValue: '',
+      requirements: {}
+    });
+  };
 
   handleChange = (event) => {
     let { name, value } = event.target;
@@ -27,9 +64,13 @@ class VolumeForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    let body = _.pickBy(this.state, _.identity);
 
+    let body = _.pickBy(this.state, _.identity);
     let { dispatch } = this.props;
+
+    delete body.requirementTag;
+    delete body.requirementValue;
+
     dispatch(createVolume(body));
     this.resetForm();
   };
@@ -88,6 +129,14 @@ class VolumeForm extends Component {
                   </select>
                 </div>
               </div>
+
+              <RequirementsComponent requirements={this.state.requirements}
+                                     requirementTag={this.state.requirementTag}
+                                     requirementValue={this.state.requirementValue}
+                                     onRequirementTagChange={this.handleRequirementTagChange}
+                                     onRequirementValueChange={this.handleRequirementValueChange}
+                                     onAddRequirement={this.addRequirement}
+                                     onResetRequirements={this.resetRequirements}/>
             </div>
 
             <div className="modal-footer">

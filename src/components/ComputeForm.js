@@ -85,6 +85,27 @@ class ComputeForm extends Component {
     });
   };
 
+  addRequirement = (event) => {
+    event.preventDefault();
+
+    const requirementsCopy = JSON.parse(JSON.stringify(this.state.requirements));
+    requirementsCopy[this.state.requirementTag] = this.state.requirementValue;
+
+    this.setState({
+      requirements: requirementsCopy
+    });
+  };
+
+  resetRequirements = (event) => {
+    event.preventDefault();
+
+    this.setState({
+      requirementTag: '',
+      requirementValue: '',
+      requirements: {}
+    });
+  };
+
   readUserDataFile = (userDataFile) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -99,23 +120,6 @@ class ComputeForm extends Component {
       };
 
       reader.readAsText(userDataFile);
-    });
-  };
-
-  addRequirement = () => {
-    const requirementsCopy = JSON.parse(JSON.stringify(this.state.requirements));
-    requirementsCopy[this.state.requirementTag] = this.state.requirementValue;
-
-    this.setState({
-      requirements: requirementsCopy
-    });
-  };
-
-  resetRequirements = () => {
-    this.setState({
-      requirementTag: '',
-      requirementValue: '',
-      requirements: {}
     });
   };
 
@@ -148,9 +152,8 @@ class ComputeForm extends Component {
     delete body.computeOrder.requirementTag;
     delete body.computeOrder.requirementValue;
 
-    //let { dispatch } = this.props;
-    //dispatch(createCompute(body));
-    alert(JSON.stringify(body));
+    let { dispatch } = this.props;
+    dispatch(createCompute(body));
     this.resetForm();
   };
 
