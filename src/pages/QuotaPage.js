@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { env } from '../defaults/api.config';
 import QuotaTable from '../components/QuotaTable';
 import { getMembers, getMemberData, getAllMembersData } from '../actions/members.actions';
+import { getLocalClouds, getCloudsByMemberId } from '../actions/clouds.actions';
 import { getVersion } from '../actions/version.actions';
 
 const mockData = {
@@ -37,6 +38,8 @@ class QuotaPage extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props;
+
+    // aggregated
     dispatch(getMembers())
       .then(data => {
         dispatch(getAllMembersData(data.members))
@@ -48,7 +51,8 @@ class QuotaPage extends Component {
       });
 
     // local
-    dispatch(getMemberData(this.state.localMember))
+    dispatch(getLocalClouds())
+      .then(data => dispatch(getMemberData(this.state.localMember, data.clouds[0])))
       .then(data => {
         this.setState({
           localQuota: data.quota
@@ -100,6 +104,7 @@ class QuotaPage extends Component {
 
 const stateToProps = state => ({
   members: state.members,
+  clouds: state.clouds,
   quota: state.quota,
   version: state.version
 });

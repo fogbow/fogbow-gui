@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 
 import { membersActionsTypes } from './members.actions.types';
 import MembersProvider from '../providers/members.provider';
+import CloudsProvider from '../providers/clouds.provider';
 
 export const getMembers = () => {
   return dispatch => {
@@ -24,7 +25,7 @@ export const getMembers = () => {
   };
 };
 
-export const getMemberData = (id) => {
+export const getMemberData = (id, cloudId) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       let provider = new MembersProvider();
@@ -34,7 +35,7 @@ export const getMemberData = (id) => {
 
       dispatch(request());
 
-      provider.getQuota(id).then(
+      provider.getQuota(id, cloudId).then(
         quota => resolve(dispatch(success(quota.data)))
       ).catch((error) => {
         const message = error.response ? error.response.data.message : error.message;
@@ -48,7 +49,22 @@ export const getMemberData = (id) => {
 export const getAllMembersData = (members) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
-      let promises = members.map(id => dispatch(getMemberData(id)));
+      let provider = new CloudsProvider();
+
+      let promises = members.map(memberId => {
+        let cls = [];
+        provider.getCloudsByMemberId(memberId)
+          .then(clouds => clouds.data.forEach(cloudId => {
+            cls.push(dispatch(getMemberData(memberId, cloudId)));
+          }))
+          .catch((error) => {
+            const message = error.response ? error.response.data.message : error.message;
+            toast.error('Unable to retrieve clouds list from provider: ' + memberId + '. ' + message + '.');
+            return reject(error);
+          });
+        return cls;
+      });
+
       Promise.all(promises)
         .then(data => {
           let response = data.map(action => action.quota)
@@ -59,8 +75,11 @@ export const getAllMembersData = (members) => {
             }));
           resolve(response);
         }).catch((error) => {
+          const message = error.response ? error.response.data.message : error.message;
+          toast.error('Unable to retrieve quota data from all providers. ' + message + '.');
           return reject(error);
         });
+
     });
   };
 };
