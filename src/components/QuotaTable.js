@@ -24,7 +24,8 @@ class QuotaTable extends Component {
     this.state = {
       rows,
       columns,
-      vendor: ''
+      vendor: env.local,
+      cloud: ''
     }
   }
 
@@ -36,28 +37,47 @@ class QuotaTable extends Component {
     });
   };
 
-  vendorChange = (event) => {
+  cloudChange = (event) => {
+    let { name, value } = event.target;
+
     this.handleChange(event);
-    this.props.vendorChange(event);
+    this.props.cloudChange(this.state.vendor, value);
   };
 
   getFirstLabel = () => {
     let label = this.props.label;
-    let vendors = this.props.vendors;
+
     if (label) {
       return <th key={label}>{label}</th>
     } else {
+      let vendors = this.props.vendors ? Object.keys(this.props.vendors) : [];
+      let clouds = this.props.vendors ? this.props.vendors[this.state.vendor] : [];
+
       return(
         <th>
-          <select value={this.state.vendor} onChange={this.vendorChange} name='vendor'>
-            <option value=''>Select a Remote Member</option>
+          <select value={this.state.vendor} name='vendor' onChange={this.handleChange}>
             {
-              vendors.map((vendor, idx) => {
-                if (vendor === env.local) {
-                  return undefined;
-                }
-                return <option key={idx} value={vendor}>{vendor}</option>;
-              })
+              vendors.length > 0 ?
+                vendors.map((vendor, idx) => {
+                  if (vendor === env.local) {
+                    return <option key={idx} value={vendor} defaultValue>{vendor} (local)</option>;
+                  }
+                  return <option key={idx} value={vendor}>{vendor}</option>;
+                }) :
+                undefined
+            }
+          </select>
+
+          <select value={this.state.cloud} onChange={this.cloudChange} name='cloud'>
+            {
+              clouds.length > 0 ?
+                clouds.map((cloud, idx) => {
+                  if (idx === 0) {
+                    return <option key={idx} value={cloud} defaultValue>{cloud}</option>;
+                  }
+                  return <option key={idx} value={cloud}>{cloud}</option>;
+                }) :
+                undefined
             }
           </select>
         </th>

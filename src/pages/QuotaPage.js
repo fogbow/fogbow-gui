@@ -32,14 +32,14 @@ class QuotaPage extends Component {
       localQuota: mockData,
       totalQuota: mockData,
       selectedUserQuota: mockData,
-      localMember: env.local
+      localMember: env.local,
+      vendors: {}
     };
   }
 
   componentDidMount = () => {
     const { dispatch } = this.props;
 
-    // aggregated
     dispatch(getMembers())
       .then(data => {
         dispatch(getAllMembersData(data.members))
@@ -47,7 +47,17 @@ class QuotaPage extends Component {
             this.setState({
               totalQuota: data
             });
-          })
+          });
+
+        data.members.map(async(memberId) => {
+          let memberClouds = await dispatch(getCloudsByMemberId(memberId));
+          let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
+
+          cloudsCopy[memberId] = memberClouds.clouds;
+          this.setState({
+            vendors: cloudsCopy
+          });
+        });
       });
 
     // local
@@ -64,13 +74,11 @@ class QuotaPage extends Component {
     }
   };
 
-  vendorChange = (event) => {
-    event.preventDefault();
+  cloudChange = (memberId, cloudId) => {
     const { dispatch } = this.props;
-    let id = event.target.value;
 
-    if (id && id !== '') {
-      dispatch(getMemberData(id))
+    if (memberId && memberId !== '') {
+      dispatch(getMemberData(memberId, cloudId))
         .then(data => {
           this.setState({
             selectedUserQuota: data.quota
@@ -84,19 +92,16 @@ class QuotaPage extends Component {
   };
 
   render() {
-    let memberQuota = this.props.members.loading ?
-                      <QuotaTable vendors={this.props.members.data} vendorChange={this.vendorChange}
+    let memberQuota = <QuotaTable vendors={this.state.vendors} vendorChange={this.vendorChange}
+                                  cloudChange={this.state.cloudChange}
                                   data={this.props.members.loadingMember ? this.state.selectedUserQuota :
-                                        mockData}/> :
-                      undefined;
+                                        mockData}/>;
 
     return (
         <div>
-          <QuotaTable label={env.local + ' (local)'}
-                      data={this.props.members.loadingMember ? this.state.localQuota: mockData}/>
+          {this.state.vendors[env.local] ? memberQuota : undefined}
           <QuotaTable label="Aggregated" data={this.props.members.loadingMember ?
                                                this.state.totalQuota : mockData}/>
-          {memberQuota}
         </div>
     );
   }
