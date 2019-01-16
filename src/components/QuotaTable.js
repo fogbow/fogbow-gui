@@ -55,31 +55,49 @@ class QuotaTable extends Component {
 
       return(
         <th>
-          <select value={this.state.vendor} name='vendor' onChange={this.handleChange}>
-            {
-              vendors.length > 0 ?
-                vendors.map((vendor, idx) => {
-                  if (vendor === env.local) {
-                    return <option key={idx} value={vendor} defaultValue>{vendor} (local)</option>;
-                  }
-                  return <option key={idx} value={vendor}>{vendor}</option>;
-                }) :
-                undefined
-            }
-          </select>
+          <div className='row'>
+            <div className='col pl-0'>
+              <div className='col'>
+                <div className='form-row'>
+                  <div className='col'>
+                    <label className='mr-2'>Member</label>
+                    <select value={this.state.vendor} name='vendor' onChange={this.handleChange}>
+                      {
+                        vendors.length > 0 ?
+                          vendors.map((vendor, idx) => {
+                            if (vendor === env.local) {
+                              return <option key={idx} value={vendor} defaultValue>{vendor} (local)</option>;
+                            }
+                            return <option key={idx} value={vendor}>{vendor}</option>;
+                          }) :
+                          undefined
+                      }
+                    </select>
+                  </div>
+                </div>
+              </div>
 
-          <select value={this.state.cloud} onChange={this.cloudChange} name='cloud'>
-            {
-              clouds.length > 0 ?
-                clouds.map((cloud, idx) => {
-                  if (idx === 0) {
-                    return <option key={idx} value={cloud} defaultValue>{cloud}</option>;
-                  }
-                  return <option key={idx} value={cloud}>{cloud}</option>;
-                }) :
-                undefined
-            }
-          </select>
+              <div className='col'>
+                <div className='form-row'>
+                  <div className='col'>
+                    <label className='mr-2'>Cloud</label>
+                    <select value={this.state.cloud} onChange={this.cloudChange} name='cloud'>
+                      {
+                        clouds.length > 0 ?
+                          clouds.map((cloud, idx) => {
+                            if (idx === 0) {
+                              return <option key={idx} value={cloud} defaultValue>{cloud}</option>;
+                            }
+                            return <option key={idx} value={cloud}>{cloud}</option>;
+                          }) :
+                          undefined
+                      }
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </th>
       );
     }
@@ -118,14 +136,16 @@ class QuotaTable extends Component {
 
   render() {
     return (
-      <table className="table table-striped table-bordered table-hover">
-        <thead>
-          {this.getHeaders()}
-        </thead>
-        <tbody>
-          {this.getRows()}
-        </tbody>
-      </table>
+      <div className='table-responsive'>
+        <table className="table table-striped table-bordered table-hover">
+          <thead>
+            {this.getHeaders()}
+          </thead>
+          <tbody>
+            {this.getRows()}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }

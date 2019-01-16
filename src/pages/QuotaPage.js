@@ -25,13 +25,14 @@ const mockData = {
   }
 };
 
+const default_cloud_index = 0;
+
 class QuotaPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       localQuota: mockData,
       totalQuota: mockData,
-      selectedUserQuota: mockData,
       localMember: env.local,
       vendors: {}
     };
@@ -62,7 +63,7 @@ class QuotaPage extends Component {
 
     // local
     dispatch(getLocalClouds())
-      .then(data => dispatch(getMemberData(this.state.localMember, data.clouds[0])))
+      .then(data => dispatch(getMemberData(this.state.localMember, data.clouds[default_cloud_index])))
       .then(data => {
         this.setState({
           localQuota: data.quota
@@ -81,20 +82,20 @@ class QuotaPage extends Component {
       dispatch(getMemberData(memberId, cloudId))
         .then(data => {
           this.setState({
-            selectedUserQuota: data.quota
+            localQuota: data.quota
           });
         });
     } else {
       this.setState({
-        selectedUserQuota: mockData
+        localQuota: mockData
       });
     }
   };
 
   render() {
     let memberQuota = <QuotaTable vendors={this.state.vendors} vendorChange={this.vendorChange}
-                                  cloudChange={this.state.cloudChange}
-                                  data={this.props.members.loadingMember ? this.state.selectedUserQuota :
+                                  cloudChange={this.cloudChange}
+                                  data={this.props.members.loadingMember ? this.state.localQuota :
                                         mockData}/>;
 
     return (
