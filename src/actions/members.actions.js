@@ -83,7 +83,7 @@ export const getMemberQuotaFromAllClouds = (memberId) => {
         const message = error.response ? error.response.data.message : error.message;
         toast.error('Unable to retrieve clouds list from provider: ' + memberId + '. ' + message + '.');
         return reject(error);
-      };
+      }
 
       Promise.all(promises)
         .then(data => {

@@ -38,7 +38,7 @@ class QuotaTable extends Component {
   };
 
   cloudChange = (event) => {
-    let { name, value } = event.target;
+    let { value } = event.target;
 
     this.handleChange(event);
     this.props.cloudChange(this.state.vendor, value);

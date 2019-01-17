@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
+import { getRemoteClouds } from '../actions/clouds.actions';
 import { getImages, getRemoteImages, createCompute } from '../actions/computes.actions';
 import { getNetworks, getFedNetworks } from '../actions/networks.actions';
 
@@ -20,6 +21,7 @@ const scriptTypes = [
 const initialState = {
   name: '',
   provider: env.local,
+  cloudName: '',
   imageId: '',
   vCPU: 1,
   disk: 20,
@@ -38,6 +40,12 @@ class ComputeForm extends Component {
 
   componentDidMount = () => {
     let { dispatch } = this.props;
+
+    if(! this.props.remoteClouds.loading) {
+      if (this.props.members.loading) {
+        dispatch(getRemoteClouds(this.props.members.data));
+      }
+    }
     if(! this.props.images.loading) {
       dispatch(getImages());
     }
@@ -129,6 +137,10 @@ class ComputeForm extends Component {
     let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
     let images = this.state.provider === env.local ? localImages : remoteImages[this.state.provider];
 
+    let localClouds = this.props.clouds.loading ? this.props.clouds.data : undefined;
+    let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
+    let clouds = this.state.provider === env.local ? localClouds : remoteClouds[this.state.member];
+
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
            aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -170,6 +182,19 @@ class ComputeForm extends Component {
                     return <option key={idx} value={member}>{member}</option>;
                   }) :
                   undefined
+                }
+              </select>
+
+              <label>Cloud</label>
+              <select value={this.state.cloudName} onChange={this.handleChange} name='cloudName'
+                      className='form-control' required>
+                <option value=''>Choose a cloud name</option>
+                {
+                  clouds ?
+                    clouds.map((cloud, idx) => {
+                      return <option key={idx} value={cloud}>{cloud}</option>;
+                    }) :
+                    undefined
                 }
               </select>
 
@@ -249,6 +274,8 @@ class ComputeForm extends Component {
 
 const stateToProps = state => ({
   members: state.members,
+  clouds: state.clouds,
+  remoteClouds: state.remoteClouds,
   images: state.images,
   remoteImages: state.remoteImages,
   networks: state.networks,

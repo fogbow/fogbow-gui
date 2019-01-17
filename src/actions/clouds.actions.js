@@ -24,6 +24,34 @@ export const getLocalClouds = () => {
   };
 };
 
+export const getRemoteClouds = (membersIds) => {
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      let provider = new CloudsProvider();
+      let remoteClouds = {};
+
+      const request = () => ({ type: cloudsActionsTypes.GET_REMOTE_CLOUDS_REQUEST});
+      const success = (clouds) => ({ type: cloudsActionsTypes.GET_REMOTE_CLOUDS_SUCCESS, clouds });
+      const failure = (error) => ({ type: cloudsActionsTypes.GET_REMOTE_CLOUDS_FAILURE, error });
+
+      dispatch(request());
+
+      membersIds.map(async(memberId) => {
+        try {
+          let cloud = await provider.getCloudsByMemberId(memberId);
+          remoteClouds[memberId] = cloud.data;
+        } catch(error) {
+          const message = error.response ? error.response.data.message : error.message;
+          toast.error('Unable to retrieve clouds list from provider: ' + memberId + '. ' + message + '.');
+          return reject(dispatch(failure(error)))
+        }
+      });
+
+      resolve(dispatch(success(remoteClouds)));
+    });
+  };
+};
+
 export const getCloudsByMemberId = (id) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
