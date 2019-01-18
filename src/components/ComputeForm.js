@@ -38,26 +38,22 @@ class ComputeForm extends Component {
     this.state = initialState;
   }
 
-  componentDidMount = () => {
+  componentDidMount = async() => {
     let { dispatch } = this.props;
 
-    if(! this.props.remoteClouds.loading) {
-      if (this.props.members.loading) {
-        dispatch(getRemoteClouds(this.props.members.data));
-      }
-    }
-    if(! this.props.images.loading) {
+    let rClouds = await dispatch(getRemoteClouds(this.props.members.data));
+    console.log(rClouds.clouds);
+    let rImg = await dispatch(getRemoteImages(rClouds.clouds));
+
+    if (! this.props.images.loading) {
       dispatch(getImages());
     }
-    if(! this.props.remoteImages.loading) {
-      if (this.props.members.loading) {
-        dispatch(getRemoteImages(this.props.members.data));
-      }
-    }
-    if(! this.props.networks.loading) {
+
+    if (! this.props.networks.loading) {
       dispatch(getNetworks());
     }
-    if(! this.props.fednets.loading) {
+
+    if (! this.props.fednets.loading) {
       dispatch(getFedNetworks());
     }
   };
@@ -104,7 +100,7 @@ class ComputeForm extends Component {
 
     if (this.fileContent.files.item(0)) {
       const tag = this.fileContent.value.indexOf('\\') !== -1 ? this.fileContent.value.split('\\') :
-                this.fileContent.value.split('/');
+                  this.fileContent.value.split('/');
 
       try {
         const userDataContent = await this.readUserDataFile(this.fileContent.files.item(0));
@@ -135,7 +131,8 @@ class ComputeForm extends Component {
   render() {
     let localImages = this.props.images.loading ? this.props.images.data : undefined;
     let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
-    let images = this.state.provider === env.local ? localImages : remoteImages[this.state.provider];
+    let images = this.state.provider === env.local ?
+                 localImages : remoteImages[this.state.provider][this.state.cloudName];
 
     let localClouds = this.props.clouds.loading ? this.props.clouds.data : undefined;
     let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;

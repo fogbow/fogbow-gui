@@ -41,36 +41,34 @@ class QuotaPage extends Component {
   componentDidMount = () => {
     const { dispatch } = this.props;
 
-    if (! this.props.members.loading) {
-      dispatch(getMembers())
-        .then(data => {
-          dispatch(getAllMembersData(data.members))
-            .then(data => {
-              this.setState({
-                totalQuota: data
-              });
-            });
-
-          data.members.map(async(memberId) => {
-            let memberClouds = await dispatch(getCloudsByMemberId(memberId));
-            let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
-
-            cloudsCopy[memberId] = memberClouds.clouds;
+    dispatch(getMembers())
+      .then(data => {
+        dispatch(getAllMembersData(data.members))
+          .then(data => {
             this.setState({
-              vendors: cloudsCopy
+              totalQuota: data
             });
           });
-        });
 
-      // local
-      dispatch(getLocalClouds())
-        .then(data => dispatch(getMemberData(this.state.localMember, data.clouds[default_cloud_index])))
-        .then(data => {
+        data.members.map(async(memberId) => {
+          let memberClouds = await dispatch(getCloudsByMemberId(memberId));
+          let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
+
+          cloudsCopy[memberId] = memberClouds.clouds;
           this.setState({
-            localQuota: data.quota
+            vendors: cloudsCopy
           });
         });
-    }
+      });
+
+    // local
+    dispatch(getLocalClouds())
+      .then(data => dispatch(getMemberData(this.state.localMember, data.clouds[default_cloud_index])))
+      .then(data => {
+        this.setState({
+          localQuota: data.quota
+        });
+      });
 
 
     if (! this.props.version.loading) {

@@ -64,11 +64,14 @@ export const getImages = () => {
   };
 };
 
-export const getRemoteImages = (membersIds) => {
+export const getRemoteImages = (remoteClouds) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       let provider = new ComputesProvider();
       let remoteImages = {};
+      console.log('yeeeeeeeeeeeesssssssssssss entered');
+      console.log(remoteClouds);
+      console.log(remoteClouds['fake-localidentity-member']);
 
       const request = () => ({ type: computesActionsTypes.GET_REMOTE_IMAGES_REQUEST});
       const success = (images) => ({ type: computesActionsTypes.GET_REMOTE_IMAGES_SUCCESS, images });
@@ -77,15 +80,17 @@ export const getRemoteImages = (membersIds) => {
       dispatch(request());
 
       try {
-        membersIds.map(async(memberId) => {
-          try {
-            let img = await provider.getImages(memberId);
-            remoteImages[memberId] = img.data;
-          } catch(error) {
-            console.log(error);
-            throw error;
-          }
-        });
+        Object.getOwnPropertyNames(remoteClouds).map((memberId) => {
+          remoteClouds[memberId].map(async(cloudId) => {
+              try {
+                let img = await provider.getCloudImages(memberId, cloudId);
+                remoteImages[memberId] = {[cloudId]: img.data};
+              } catch(error) {
+                console.log(error);
+                throw error;
+              }
+            });
+          });
 
         resolve(dispatch(success(remoteImages)));
       } catch (error) {
