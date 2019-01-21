@@ -69,9 +69,6 @@ export const getRemoteImages = (remoteClouds) => {
     return new Promise((resolve, reject) => {
       let provider = new ComputesProvider();
       let remoteImages = {};
-      console.log('yeeeeeeeeeeeesssssssssssss entered');
-      console.log(remoteClouds);
-      console.log(remoteClouds['fake-localidentity-member']);
 
       const request = () => ({ type: computesActionsTypes.GET_REMOTE_IMAGES_REQUEST});
       const success = (images) => ({ type: computesActionsTypes.GET_REMOTE_IMAGES_SUCCESS, images });

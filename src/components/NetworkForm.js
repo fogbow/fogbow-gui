@@ -41,6 +41,9 @@ class NetworkForm extends Component {
   };
 
   render() {
+    let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
+    let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
+
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
            aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -87,6 +90,19 @@ class NetworkForm extends Component {
                   undefined
                 }
               </select>
+
+              <label>Cloud</label>
+              <select value={this.state.cloudName} onChange={this.handleChange} name='cloudName'
+                      className='form-control' required>
+                <option value=''>Choose a cloud name</option>
+                {
+                  clouds ?
+                    clouds.map((cloud, idx) => {
+                      return <option key={idx} value={cloud}>{cloud}</option>;
+                    }) :
+                    undefined
+                }
+              </select>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal"
@@ -106,7 +122,9 @@ class NetworkForm extends Component {
 }
 
 const stateToProps = state => ({
-  members: state.members
+  members: state.members,
+  clouds: state.clouds,
+  remoteClouds: state.remoteClouds,
 });
 
 export default connect(stateToProps)(NetworkForm);

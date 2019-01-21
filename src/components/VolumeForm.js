@@ -51,9 +51,8 @@ class VolumeForm extends Component {
   };
 
   render() {
-    let localClouds = this.props.clouds.loading ? this.props.clouds.data : undefined;
     let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
-    let clouds = this.state.provider === env.local ? localClouds : remoteClouds[this.state.member];
+    let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
 
     return (
       <div className='modal fade' id='form' tabIndex='-1' role='dialog'

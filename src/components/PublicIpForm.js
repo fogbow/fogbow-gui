@@ -48,6 +48,9 @@ class PublicIpForm extends Component {
   };
 
   render() {
+    let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
+    let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
+
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
            aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -73,6 +76,19 @@ class PublicIpForm extends Component {
                     return <option key={idx} value={member}>{member}</option>;
                   }) :
                   undefined
+                }
+              </select>
+
+              <label>Cloud</label>
+              <select value={this.state.cloudName} onChange={this.handleChange} name='cloudName'
+                      className='form-control' required>
+                <option value=''>Choose a cloud name</option>
+                {
+                  clouds ?
+                    clouds.map((cloud, idx) => {
+                      return <option key={idx} value={cloud}>{cloud}</option>;
+                    }) :
+                    undefined
                 }
               </select>
 
@@ -110,6 +126,8 @@ class PublicIpForm extends Component {
 
 const stateToProps = state => ({
   members: state.members,
+  clouds: state.clouds,
+  remoteClouds: state.remoteClouds,
   computes: state.computes
 });
 
