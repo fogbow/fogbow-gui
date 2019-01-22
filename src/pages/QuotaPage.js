@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { env } from '../defaults/api.config';
 import QuotaTable from '../components/QuotaTable';
 import { getMembers, getMemberData, getAllMembersData } from '../actions/members.actions';
-import { getLocalClouds, getCloudsByMemberId } from '../actions/clouds.actions';
+import { getLocalClouds, getCloudsByMemberId , getRemoteClouds} from '../actions/clouds.actions';
 import { getVersion } from '../actions/version.actions';
 
 const mockData = {
@@ -49,6 +49,8 @@ class QuotaPage extends Component {
               totalQuota: data
             });
           });
+
+        dispatch(getRemoteClouds(data.members));
 
         data.members.map(async(memberId) => {
           let memberClouds = await dispatch(getCloudsByMemberId(memberId));
@@ -112,6 +114,7 @@ class QuotaPage extends Component {
 const stateToProps = state => ({
   members: state.members,
   clouds: state.clouds,
+  remoteClouds: state.remoteClouds,
   quota: state.quota,
   version: state.version
 });

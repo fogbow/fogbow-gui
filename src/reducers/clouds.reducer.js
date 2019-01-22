@@ -1,6 +1,6 @@
 import { cloudsActionsTypes } from '../actions/clouds.actions.types';
 
-const clouds = (state = {loading: false, specific: {}}, action) => {
+const clouds = (state = {loading: false, data: []}, action) => {
   switch (action.type) {
     case cloudsActionsTypes.GET_LOCAL_CLOUDS_REQUEST:
         return { ...state, loading: false };

@@ -41,11 +41,16 @@ class ComputeForm extends Component {
   componentDidMount = async() => {
     let { dispatch } = this.props;
 
-    let rClouds = await dispatch(getRemoteClouds(this.props.members.data));
-    let rImg = await dispatch(getRemoteImages(rClouds.clouds));
+    if (! this.props.remoteClouds.loading) {
+      dispatch(getRemoteClouds(this.props.members));
+    }
 
     if (! this.props.images.loading) {
       dispatch(getImages());
+    }
+
+    if (! this.props.remoteImages.loading) {
+      dispatch(getRemoteImages(this.props.remoteClouds.data));
     }
 
     if (! this.props.networks.loading) {
@@ -133,8 +138,8 @@ class ComputeForm extends Component {
 
     let localImages = this.props.images.loading ? this.props.images.data : undefined;
     let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
-    let images = this.state.provider === env.local ?
-                 localImages : remoteImages[this.state.provider][this.state.cloudName];
+    let images = remoteImages && this.state.provider !== '' && this.state.cloudName !== '' ?
+                 remoteImages[this.state.provider][this.state.cloudName] : localImages;
 
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"

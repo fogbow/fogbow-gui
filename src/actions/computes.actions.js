@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+import _ from 'lodash';
 
 import { messages, generateErrorMessage, errorTypes, orderTypes } from '../defaults/messages';
 import { computesActionsTypes } from './computes.actions.types';
@@ -77,11 +78,11 @@ export const getRemoteImages = (remoteClouds) => {
       dispatch(request());
 
       try {
-        Object.getOwnPropertyNames(remoteClouds).map((memberId) => {
+        Object.keys(remoteClouds).map((memberId) => {
           remoteClouds[memberId].map(async(cloudId) => {
               try {
                 let img = await provider.getCloudImages(memberId, cloudId);
-                remoteImages[memberId] = {[cloudId]: img.data};
+                _.set(remoteImages, memberId.concat('.', cloudId), img.data);
               } catch(error) {
                 console.log(error);
                 throw error;
