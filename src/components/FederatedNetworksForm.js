@@ -6,8 +6,8 @@ import { createFedNetwork } from '../actions/networks.actions';
 
 const initialState = {
   name: '',
-  cidrNotation: '188.140.0.0/24',
-  allowedMembers: []
+  cidr: '188.140.0.0/24',
+  providingMembers: []
 };
 
 class FederatedNetworksForm extends Component {
@@ -26,15 +26,15 @@ class FederatedNetworksForm extends Component {
 
   handleAddMember = (event) => {
     let value = event.target.value;
-    let members = this.state.allowedMembers;
+    let members = this.state.providingMembers;
 
     if(!members.includes(value)) {
       this.setState({
-          allowedMembers: members.concat([value])
+          providingMembers: members.concat([value])
       });
     } else {
       this.setState({
-          allowedMembers: members.filter(member => member !== value)
+          providingMembers: members.filter(member => member !== value)
       });
     }
   };
@@ -71,8 +71,8 @@ class FederatedNetworksForm extends Component {
                      type="text" name="name"/>
 
               <label>CIDR</label>
-              <input className="form-control" type="text" name="cidrNotation"
-                     value={this.state.cidrNotation} onChange={this.handleChange}/>
+              <input className="form-control" type="text" name="cidr"
+                     value={this.state.cidr} onChange={this.handleChange}/>
 
               <label>Members</label>
               {

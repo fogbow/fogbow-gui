@@ -192,7 +192,9 @@ class ComputeForm extends Component {
                 {
                   clouds ?
                     clouds.map((cloud, idx) => {
-                      return <option key={idx} value={cloud}>{cloud}</option>;
+                      return <option key={idx} value={cloud}>
+                              {cloud + (idx === 0 ? ' (default)' : '')}
+                             </option>;
                     }) :
                     undefined
                 }
