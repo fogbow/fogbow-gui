@@ -10,7 +10,7 @@ const initialState = {
   cidr: '10.10.0.0/24',
   gateway: '10.10.0.1',
   allocationMode: 'dynamic',
-  provider: env.local
+  provider: env.local,
 }
 
 class NetworkForm extends Component {
@@ -29,9 +29,12 @@ class NetworkForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    let body = _.pickBy(this.state, _.identity);
 
     let { dispatch } = this.props;
+    let body = _.pickBy(this.state, _.identity);
+
+    body['cloudName'] = this.cloudName.value;
+
     dispatch(createNetwork(body));
     this.resetForm();
   };
@@ -92,12 +95,14 @@ class NetworkForm extends Component {
               </select>
 
               <label>Cloud</label>
-              <select value={this.state.cloudName} onChange={this.handleChange} name='cloudName'
+              <select ref={ref => this.cloudName = ref} onChange={this.handleChange} name='cloudName'
                       className='form-control' required>
-                <option value=''>Choose a cloud name</option>
                 {
                   clouds ?
                     clouds.map((cloud, idx) => {
+                      if (idx === 0) {
+                        return <option key={idx} value={cloud} defaultValue>{cloud + ' (default)'}</option>;
+                      }
                       return <option key={idx} value={cloud}>{cloud}</option>;
                     }) :
                     undefined

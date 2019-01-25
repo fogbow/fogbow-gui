@@ -10,7 +10,6 @@ const initialState = {
   name: '',
   volumeSize: 1,
   provider: env.local,
-  cloudName: ''
 };
 
 class VolumeForm extends Component {
@@ -39,9 +38,12 @@ class VolumeForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    let body = _.pickBy(this.state, _.identity);
 
     let { dispatch } = this.props;
+    let body = _.pickBy(this.state, _.identity);
+
+    body['cloudName'] = this.cloudName.value;
+
     dispatch(createVolume(body));
     this.resetForm();
   };
@@ -107,12 +109,14 @@ class VolumeForm extends Component {
               <div className='form-row'>
                 <div className='col'>
                   <label>Cloud</label>
-                  <select value={this.state.cloudName} onChange={this.handleChange} name='cloudName'
+                  <select ref={ref => this.cloudName = ref} onChange={this.handleChange} name='cloudName'
                           className='form-control' required>
-                    <option value=''>Choose a cloud name</option>
                     {
                       clouds ?
                         clouds.map((cloud, idx) => {
+                          if (idx === 0) {
+                            return <option key={idx} value={cloud} defaultValue>{cloud + ' (default)'}</option>;
+                          }
                           return <option key={idx} value={cloud}>{cloud}</option>;
                         }) :
                         undefined
@@ -123,7 +127,7 @@ class VolumeForm extends Component {
             </div>
 
             <div className='modal-footer'>
-              <button type="button" className='btn btn-secondary' data-dismiss='modal'
+              <button type='button' className='btn btn-secondary' data-dismiss='modal'
                       onClick={this.resetForm}>
                 Close
               </button>

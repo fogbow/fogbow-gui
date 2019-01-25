@@ -78,8 +78,8 @@ export const getRemoteImages = (remoteClouds) => {
       dispatch(request());
 
       try {
-        Object.keys(remoteClouds).map((memberId) => {
-          remoteClouds[memberId].map(async(cloudId) => {
+        Object.keys(remoteClouds).forEach((memberId) => {
+          remoteClouds[memberId].forEach(async(cloudId) => {
               try {
                 let img = await provider.getCloudImages(memberId, cloudId);
                 _.set(remoteImages, memberId.concat('.', cloudId), img.data);
