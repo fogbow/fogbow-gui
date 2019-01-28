@@ -138,8 +138,8 @@ class ComputeForm extends Component {
 
     let localImages = this.props.images.loading ? this.props.images.data : undefined;
     let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
-    let images = remoteImages && Object.keys(remoteImages).length > 0 &&
-                 this.state.provider !== '' && this.state.cloudName !== '' ?
+    let images = remoteImages && remoteImages.hasOwnProperty(this.state.provider) &&
+                 remoteImages[this.state.provider].hasOwnProperty(this.state.cloudName) ?
                  remoteImages[this.state.provider][this.state.cloudName] : localImages;
 
     return (
