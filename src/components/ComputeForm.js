@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
 import { getRemoteClouds } from '../actions/clouds.actions';
-import { getImages, getRemoteImages, createCompute } from '../actions/computes.actions';
+import { getRemoteImages, createCompute } from '../actions/computes.actions';
 import { getNetworks, getFedNetworks } from '../actions/networks.actions';
 
 import '../styles/order-form.css';
@@ -43,10 +43,6 @@ class ComputeForm extends Component {
 
     if (! this.props.remoteClouds.loading) {
       dispatch(getRemoteClouds(this.props.members));
-    }
-
-    if (! this.props.images.loading) {
-      dispatch(getImages());
     }
 
     if (! this.props.remoteImages.loading) {
@@ -136,11 +132,10 @@ class ComputeForm extends Component {
     let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
     let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
 
-    let localImages = this.props.images.loading ? this.props.images.data : undefined;
     let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
     let images = remoteImages && remoteImages.hasOwnProperty(this.state.provider) &&
                  remoteImages[this.state.provider].hasOwnProperty(this.state.cloudName) ?
-                 remoteImages[this.state.provider][this.state.cloudName] : localImages;
+                 remoteImages[this.state.provider][this.state.cloudName] : undefined;
 
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
@@ -279,7 +274,6 @@ const stateToProps = state => ({
   members: state.members,
   clouds: state.clouds,
   remoteClouds: state.remoteClouds,
-  images: state.images,
   remoteImages: state.remoteImages,
   networks: state.networks,
   fednets: state.fedNetworks
