@@ -22,3 +22,23 @@ export const getAuthorization = (credentials) => {
     });
   };
 };
+
+export const getFnsPublicKey = () => {
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      const request = () => ({ type: authActionsTypes.GET_FNS_PUBLIC_KEY_REQUEST });
+      const success = (token) => ({ type: authActionsTypes.GET_FNS_PUBLIC_KEY_SUCCESS, token });
+      const failure = (error) => ({ type: authActionsTypes.GET_FNS_PUBLIC_KEY_FAILURE, error });
+
+      dispatch(request());
+
+      AuthProvider.getFnsPublicKey().then(
+        publicKey => resolve(dispatch(success(publicKey.data)))
+      ).catch((error) => {
+        const message = error.response ? error.response.data.message : error.message;
+        toast.error('Unable to retrieve public key from FNS service. ' + message + '.');
+        return reject(dispatch(failure(error)))
+      });
+    });
+  };
+};
