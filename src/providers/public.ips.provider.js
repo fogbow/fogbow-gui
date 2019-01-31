@@ -5,7 +5,8 @@ class PublicIPsProvider {
   url = env.fns.concat('/publicIps');
   config = {
     headers: {
-      'federationTokenValue': localStorage.getItem('token')
+      'federationTokenValue': localStorage.getItem('token'),
+      'publicKey': localStorage.getItem('publicKey')
     }
   };
 

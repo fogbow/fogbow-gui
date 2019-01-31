@@ -41,7 +41,7 @@ class LoginPage extends Component {
 
     try {
       const publicKeyData = await dispatch(getFnsPublicKey());
-      localStorage.setItem('publicKey', publicKeyData.publicKey);
+      localStorage.setItem('publicKey', publicKeyData.token);
 
       const tokenData = await dispatch(getAuthorization(this.state));
       localStorage.setItem('token', tokenData.token);

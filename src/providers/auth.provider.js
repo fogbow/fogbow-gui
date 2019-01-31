@@ -16,7 +16,7 @@ class AuthProvider {
     }
 
     getFnsPublicKey() {
-      return axios.post(this.fnsUrl);
+      return axios.get(this.fnsUrl);
     }
 }
 

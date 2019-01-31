@@ -6,7 +6,8 @@ class MembersProvider {
     computeQuota = env.fns.concat('/computes/quota/');
     config = {
         headers: {
-            'federationTokenValue': localStorage.getItem('token')
+            'federationTokenValue': localStorage.getItem('token'),
+            'publicKey': localStorage.getItem('publicKey')
         }
     };
 

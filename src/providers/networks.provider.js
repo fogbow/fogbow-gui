@@ -6,7 +6,8 @@ class NetworksProvider {
   fedNetUrl = env.fns.concat('/federatedNetworks');
   config = {
     headers: {
-        'federationTokenValue': localStorage.getItem('token')
+      'federationTokenValue': localStorage.getItem('token'),
+      'publicKey': localStorage.getItem('publicKey')
     }
   };
 
