@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+import _ from 'lodash';
 
 import { messages, generateErrorMessage, errorTypes, orderTypes } from '../defaults/messages';
 import { computesActionsTypes } from './computes.actions.types';
@@ -64,7 +65,7 @@ export const getImages = () => {
   };
 };
 
-export const getRemoteImages = (membersIds) => {
+export const getRemoteImages = (remoteClouds) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       let provider = new ComputesProvider();
@@ -77,15 +78,17 @@ export const getRemoteImages = (membersIds) => {
       dispatch(request());
 
       try {
-        membersIds.map(async(memberId) => {
-          try {
-            let img = await provider.getImages(memberId);
-            remoteImages[memberId] = img.data;
-          } catch(error) {
-            console.log(error);
-            throw error;
-          }
-        });
+        Object.keys(remoteClouds).forEach((memberId) => {
+          remoteClouds[memberId].forEach(async(cloudId) => {
+              try {
+                let img = await provider.getCloudImages(memberId, cloudId);
+                _.set(remoteImages, memberId.concat('.', cloudId), img.data);
+              } catch(error) {
+                console.log(error);
+                throw error;
+              }
+            });
+          });
 
         resolve(dispatch(success(remoteImages)));
       } catch (error) {

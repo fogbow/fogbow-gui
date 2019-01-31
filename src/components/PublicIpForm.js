@@ -21,8 +21,15 @@ class PublicIpForm extends Component {
 
   componentDidMount = () => {
     let { dispatch } = this.props;
-    if(! this.props.computes.loading) {
+
+    if (! this.props.computes.loading) {
         dispatch(getComputes());
+    }
+
+    if (this.props.clouds.loading) {
+      this.setState({
+        cloudName: this.props.clouds.data[0]
+      });
     }
   };
 
@@ -36,9 +43,12 @@ class PublicIpForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    let body = _.pickBy(this.state, _.identity);
 
     let { dispatch } = this.props;
+    let body = _.pickBy(this.state, _.identity);
+
+    body['cloudName'] = this.cloudName.value;
+
     dispatch(createPublicIp(body));
     this.resetForm();
   };
@@ -48,6 +58,9 @@ class PublicIpForm extends Component {
   };
 
   render() {
+    let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
+    let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
+
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
            aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -76,19 +89,34 @@ class PublicIpForm extends Component {
                 }
               </select>
 
+              <label>Cloud</label>
+              <select ref={ref => this.cloudName = ref} onChange={this.handleChange} name='cloudName'
+                      className='form-control' onInput={this.handleChange} required>
+                {
+                  clouds ?
+                    clouds.map((cloud, idx) => {
+                      if (idx === 0) {
+                        return <option key={idx} value={cloud} defaultValue>{cloud + ' (default)'}</option>;
+                      }
+                      return <option key={idx} value={cloud}>{cloud}</option>;
+                    }) :
+                    undefined
+                }
+              </select>
+
               <label>Compute ID</label>
               <select name='computeId' className="form-control" required
                   value={this.state.computeId} onChange={this.handleChange}>
-                  <option value=''></option>
-                  {
-                    this.props.computes.loading ?
-                    this.props.computes.data
-                      .filter(compute => compute.state === 'READY' &&
-                                         compute.provider === this.state.provider)
-                      .map((compute, idx) =>
-                        <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>):
-                    undefined
-                  }
+                <option value=''></option>
+                {
+                  this.props.computes.loading ?
+                  this.props.computes.data
+                    .filter(compute => compute.state === 'READY' &&
+                                        compute.provider === this.state.provider)
+                    .map((compute, idx) =>
+                      <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>):
+                  undefined
+                }
               </select>
             </div>
             <div className="modal-footer">
@@ -110,6 +138,8 @@ class PublicIpForm extends Component {
 
 const stateToProps = state => ({
   members: state.members,
+  clouds: state.clouds,
+  remoteClouds: state.remoteClouds,
   computes: state.computes
 });
 

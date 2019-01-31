@@ -34,6 +34,10 @@ class ComputesProvider {
 
       return axios.get(this.imagesUrl, this.config);
     }
+
+    getCloudImages(memberId, cloudId) {
+      return axios.get(this.imagesUrl.concat('/', memberId, '/', cloudId), this.config);
+    }
 }
 
 export default ComputesProvider;

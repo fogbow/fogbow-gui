@@ -24,7 +24,8 @@ class QuotaTable extends Component {
     this.state = {
       rows,
       columns,
-      vendor: ''
+      vendor: env.local,
+      cloud: ''
     }
   }
 
@@ -36,30 +37,68 @@ class QuotaTable extends Component {
     });
   };
 
-  vendorChange = (event) => {
+  cloudChange = (event) => {
+    let { value } = event.target;
+
     this.handleChange(event);
-    this.props.vendorChange(event);
+    this.props.cloudChange(this.state.vendor, value);
   };
 
   getFirstLabel = () => {
     let label = this.props.label;
-    let vendors = this.props.vendors;
+
     if (label) {
       return <th key={label}>{label}</th>
     } else {
+      let vendors = this.props.vendors ? Object.keys(this.props.vendors) : [];
+      let clouds = this.props.vendors ? this.props.vendors[this.state.vendor] : [];
+
       return(
         <th>
-          <select value={this.state.vendor} onChange={this.vendorChange} name='vendor'>
-            <option value=''>Select a Remote Member</option>
-            {
-              vendors.map((vendor, idx) => {
-                if (vendor === env.local) {
-                  return undefined;
-                }
-                return <option key={idx} value={vendor}>{vendor}</option>;
-              })
-            }
-          </select>
+          <div className='row'>
+            <div className='col pl-0'>
+              <div className='col'>
+                <div className='form-row'>
+                  <div className='col'>
+                    <label className='mr-2'>Member</label>
+                    <select value={this.state.vendor} name='vendor' onChange={this.handleChange}>
+                      {
+                        vendors.length > 0 ?
+                          vendors.map((vendor, idx) => {
+                            if (vendor === env.local) {
+                              return <option key={idx} value={vendor} defaultValue>{vendor} (local)</option>;
+                            }
+                            return <option key={idx} value={vendor}>{vendor}</option>;
+                          }) :
+                          undefined
+                      }
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className='col'>
+                <div className='form-row'>
+                  <div className='col'>
+                    <label className='mr-2'>Cloud</label>
+                    <select value={this.state.cloud} onChange={this.cloudChange} name='cloud'>
+                      <option value=''></option>
+                      {
+                        clouds.length > 0 ?
+                          clouds.map((cloud, idx) => {
+                            if (idx === 0) {
+                              return <option key={idx} value={cloud} defaultValue>{cloud}</option>;
+                            }
+                            return <option key={idx} value={cloud}>{cloud}</option>;
+                          }) :
+                          undefined
+                      }
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </th>
       );
     }
@@ -98,14 +137,16 @@ class QuotaTable extends Component {
 
   render() {
     return (
-      <table className="table table-striped table-bordered table-hover">
-        <thead>
-          {this.getHeaders()}
-        </thead>
-        <tbody>
-          {this.getRows()}
-        </tbody>
-      </table>
+      <div className='table-responsive'>
+        <table className="table table-striped table-bordered table-hover">
+          <thead>
+            {this.getHeaders()}
+          </thead>
+          <tbody>
+            {this.getRows()}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }

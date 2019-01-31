@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
-import { getImages, getRemoteImages, createCompute } from '../actions/computes.actions';
+import { getRemoteClouds } from '../actions/clouds.actions';
+import { getRemoteImages, createCompute } from '../actions/computes.actions';
 import { getNetworks, getFedNetworks } from '../actions/networks.actions';
 import RequirementsComponent from './RequirementsComponent';
 
@@ -21,6 +22,7 @@ const scriptTypes = [
 const initialState = {
   name: '',
   provider: env.local,
+  cloudName: '',
   imageId: '',
   vCPU: 1,
   disk: 20,
@@ -40,19 +42,21 @@ class ComputeForm extends Component {
     this.state = initialState;
   }
 
-  componentDidMount = () => {
+  componentDidMount = async() => {
     let { dispatch } = this.props;
-    if (! this.props.images.loading) {
-      dispatch(getImages());
+
+    if (! this.props.remoteClouds.loading) {
+      dispatch(getRemoteClouds(this.props.members));
     }
+
     if (! this.props.remoteImages.loading) {
-      if (this.props.members.loading) {
-        dispatch(getRemoteImages(this.props.members.data));
-      }
+      dispatch(getRemoteImages(this.props.remoteClouds.data));
     }
+
     if (! this.props.networks.loading) {
       dispatch(getNetworks());
     }
+
     if (! this.props.fednets.loading) {
       dispatch(getFedNetworks());
     }
@@ -163,9 +167,13 @@ class ComputeForm extends Component {
   };
 
   render() {
-    let localImages = this.props.images.loading ? this.props.images.data : undefined;
+    let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
+    let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
+
     let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
-    let images = this.state.provider === env.local ? localImages : remoteImages[this.state.provider];
+    let images = remoteImages && remoteImages.hasOwnProperty(this.state.provider) &&
+                 remoteImages[this.state.provider].hasOwnProperty(this.state.cloudName) ?
+                 remoteImages[this.state.provider][this.state.cloudName] : undefined;
 
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
@@ -208,6 +216,21 @@ class ComputeForm extends Component {
                     return <option key={idx} value={member}>{member}</option>;
                   }) :
                   undefined
+                }
+              </select>
+
+              <label>Cloud</label>
+              <select value={this.state.cloudName} onChange={this.handleChange} name='cloudName'
+                      className='form-control' required>
+                <option value=''>Choose a cloud name</option>
+                {
+                  clouds ?
+                    clouds.map((cloud, idx) => {
+                      return <option key={idx} value={cloud}>
+                              {cloud + (idx === 0 ? ' (default)' : '')}
+                             </option>;
+                    }) :
+                    undefined
                 }
               </select>
 
@@ -295,7 +318,8 @@ class ComputeForm extends Component {
 
 const stateToProps = state => ({
   members: state.members,
-  images: state.images,
+  clouds: state.clouds,
+  remoteClouds: state.remoteClouds,
   remoteImages: state.remoteImages,
   networks: state.networks,
   fednets: state.fedNetworks

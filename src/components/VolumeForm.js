@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
+import { getRemoteClouds } from '../actions/clouds.actions';
 import { createVolume } from '../actions/volumes.actions';
 import RequirementsComponent from './RequirementsComponent';
 
@@ -52,6 +53,16 @@ class VolumeForm extends Component {
       requirementValue: '',
       requirements: {}
     });
+  }
+
+  componentDidMount = () => {
+    let { dispatch } = this.props;
+
+    if(! this.props.remoteClouds.loading) {
+      if (this.props.members.loading) {
+        dispatch(getRemoteClouds(this.props.members.data));
+      }
+    }
   };
 
   handleChange = (event) => {
@@ -71,6 +82,8 @@ class VolumeForm extends Component {
     delete body.requirementTag;
     delete body.requirementValue;
 
+    body['cloudName'] = this.cloudName.value;
+
     dispatch(createVolume(body));
     this.resetForm();
   };
@@ -80,24 +93,27 @@ class VolumeForm extends Component {
   };
 
   render() {
+    let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
+    let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
+
     return (
-      <div className="modal fade" id="form" tabIndex="-1" role="dialog"
-           aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Create Volume</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+      <div className='modal fade' id='form' tabIndex='-1' role='dialog'
+           aria-labelledby='exampleModalLabel' aria-hidden='true'>
+        <div className='modal-dialog' role='document'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+                <h5 className='modal-title' id='exampleModalLabel'>Create Volume</h5>
+                <button type='button' className='close' data-dismiss='modal' aria-label='Close'
                         onClick={this.resetForm}>
-                  <span aria-hidden="true">&times;</span>
+                  <span aria-hidden='true'>&times;</span>
                 </button>
             </div>
 
-            <div className="modal-body needs-validation">
+            <div className='modal-body needs-validation'>
               <div className='form-row'>
                 <div className='col'>
                   <label>Name</label>
-                  <input className="form-control" type="text" name="name"
+                  <input className='form-control' type='text' name='name'
                           value={this.state.name} onChange={this.handleChange}/>
                 </div>
               </div>
@@ -105,8 +121,8 @@ class VolumeForm extends Component {
               <div className='form-row'>
                 <div className='col'>
                   <label>Volume Size (GB)</label>
-                  <input className="form-control" type="number" name="volumeSize"
-                         value={this.state.volumeSize} onChange={this.handleChange} min="1"
+                  <input className='form-control' type='number' name='volumeSize'
+                         value={this.state.volumeSize} onChange={this.handleChange} min='1'
                          required />
                 </div>
               </div>
@@ -114,7 +130,7 @@ class VolumeForm extends Component {
               <div className='form-row'>
                 <div className='col'>
                   <label>Provider</label>
-                  <select name='provider' className="form-control" required
+                  <select name='provider' className='form-control' required
                           value={this.state.provider} onChange={this.handleChange}>
                     {
                       this.props.members.loading ?
@@ -137,14 +153,32 @@ class VolumeForm extends Component {
                                      onRequirementValueChange={this.handleRequirementValueChange}
                                      onAddRequirement={this.addRequirement}
                                      onResetRequirements={this.resetRequirements}/>
+              <div className='form-row'>
+                <div className='col'>
+                  <label>Cloud</label>
+                  <select ref={ref => this.cloudName = ref} onChange={this.handleChange} name='cloudName'
+                          className='form-control' required>
+                    {
+                      clouds ?
+                        clouds.map((cloud, idx) => {
+                          if (idx === 0) {
+                            return <option key={idx} value={cloud} defaultValue>{cloud + ' (default)'}</option>;
+                          }
+                          return <option key={idx} value={cloud}>{cloud}</option>;
+                        }) :
+                        undefined
+                    }
+                  </select>
+                </div>
+              </div>
             </div>
 
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal"
+            <div className='modal-footer'>
+              <button type='button' className='btn btn-secondary' data-dismiss='modal'
                       onClick={this.resetForm}>
                 Close
               </button>
-              <button type="button" className="btn btn-primary" data-dismiss="modal"
+              <button type='button' className='btn btn-primary' data-dismiss='modal'
                       onClick={this.handleSubmit}>
                 Create Volume
               </button>
@@ -157,7 +191,9 @@ class VolumeForm extends Component {
 }
 
 const stateToProps = state => ({
-  members: state.members
+  members: state.members,
+  clouds: state.clouds,
+  remoteClouds: state.remoteClouds
 });
 
 export default connect(stateToProps)(VolumeForm);

@@ -12,6 +12,8 @@ import quota from './quota.reducer';
 import publicIps from './publicIp.reducer';
 import version from './version.reducer';
 import securityRules from './securityRules.reducer';
+import clouds from './clouds.reducer';
+import remoteClouds from './remoteClouds.reducer';
 
 export default combineReducers({
   members,
@@ -25,5 +27,7 @@ export default combineReducers({
   quota,
   publicIps,
   version,
-  securityRules
+  securityRules,
+  clouds,
+  remoteClouds
 });

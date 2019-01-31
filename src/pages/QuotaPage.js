@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { env } from '../defaults/api.config';
 import QuotaTable from '../components/QuotaTable';
 import { getMembers, getMemberData, getAllMembersData } from '../actions/members.actions';
+import { getLocalClouds, getCloudsByMemberId , getRemoteClouds} from '../actions/clouds.actions';
 import { getVersion } from '../actions/version.actions';
 
 const mockData = {
@@ -24,19 +25,22 @@ const mockData = {
   }
 };
 
+const default_cloud_index = 0;
+
 class QuotaPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       localQuota: mockData,
       totalQuota: mockData,
-      selectedUserQuota: mockData,
-      localMember: env.local
+      localMember: env.local,
+      vendors: {}
     };
   }
 
   componentDidMount = () => {
     const { dispatch } = this.props;
+
     dispatch(getMembers())
       .then(data => {
         dispatch(getAllMembersData(data.members))
@@ -44,55 +48,64 @@ class QuotaPage extends Component {
             this.setState({
               totalQuota: data
             });
-          })
+          });
+
+        dispatch(getRemoteClouds(data.members));
+
+        data.members.map(async(memberId) => {
+          let memberClouds = await dispatch(getCloudsByMemberId(memberId));
+          let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
+
+          cloudsCopy[memberId] = memberClouds.clouds;
+          this.setState({
+            vendors: cloudsCopy
+          });
+        });
       });
 
     // local
-    dispatch(getMemberData(this.state.localMember))
+    dispatch(getLocalClouds())
+      .then(data => dispatch(getMemberData(this.state.localMember, data.clouds[default_cloud_index])))
       .then(data => {
         this.setState({
           localQuota: data.quota
         });
       });
 
+
     if (! this.props.version.loading) {
       dispatch(getVersion());
     }
   };
 
-  vendorChange = (event) => {
-    event.preventDefault();
+  cloudChange = (memberId, cloudId) => {
     const { dispatch } = this.props;
-    let id = event.target.value;
 
-    if (id && id !== '') {
-      dispatch(getMemberData(id))
+    if (memberId && memberId !== '') {
+      dispatch(getMemberData(memberId, cloudId))
         .then(data => {
           this.setState({
-            selectedUserQuota: data.quota
+            localQuota: data.quota
           });
         });
     } else {
       this.setState({
-        selectedUserQuota: mockData
+        localQuota: mockData
       });
     }
   };
 
   render() {
-    let memberQuota = this.props.members.loading ?
-                      <QuotaTable vendors={this.props.members.data} vendorChange={this.vendorChange}
-                                  data={this.props.members.loadingMember ? this.state.selectedUserQuota :
-                                        mockData}/> :
-                      undefined;
+    let memberQuota = <QuotaTable vendors={this.state.vendors} vendorChange={this.vendorChange}
+                                  cloudChange={this.cloudChange}
+                                  data={this.props.members.loadingMember ? this.state.localQuota :
+                                        mockData}/>;
 
     return (
         <div>
-          <QuotaTable label={env.local + ' (local)'}
-                      data={this.props.members.loadingMember ? this.state.localQuota: mockData}/>
+          {this.state.vendors[env.local] ? memberQuota : undefined}
           <QuotaTable label="Aggregated" data={this.props.members.loadingMember ?
                                                this.state.totalQuota : mockData}/>
-          {memberQuota}
         </div>
     );
   }
@@ -100,6 +113,8 @@ class QuotaPage extends Component {
 
 const stateToProps = state => ({
   members: state.members,
+  clouds: state.clouds,
+  remoteClouds: state.remoteClouds,
   quota: state.quota,
   version: state.version
 });
