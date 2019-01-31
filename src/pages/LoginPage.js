@@ -6,7 +6,7 @@ import { parse } from 'query-string';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
 
-import { getAuthorization } from '../actions/auth.actions';
+import { getAuthorization, getFnsPublicKey } from '../actions/auth.actions';
 import { env } from '../defaults/api.config';
 
 let fields = Object.keys(env.credentialFields).map(key => {
@@ -40,12 +40,17 @@ class LoginPage extends Component {
     }
 
     try {
-      const data = await dispatch(getAuthorization(this.state));
-      localStorage.setItem('token', data.token);
+      const publicKeyData = await dispatch(getFnsPublicKey());
+      localStorage.setItem('publicKey', publicKeyData.token);
+
+      const tokenData = await dispatch(getAuthorization(this.state));
+      localStorage.setItem('token', tokenData.token);
+
       history.push('/fogbow');
     } catch (err) {
       console.log(err);
       this.resetState();
+      history.push('/');
     }
   }
 
@@ -63,7 +68,7 @@ class LoginPage extends Component {
   }
 
   generateAuth = () => {
-    if(!env.cafeEndpoint)
+    if (!env.cafeEndpoint)
       return this.generateInputs();
   };
 

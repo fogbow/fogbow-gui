@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 class VersionProvider {
-  get(endpoint) {
+  get (endpoint) {
     return axios.get(endpoint.concat('/version'));
   }
 }

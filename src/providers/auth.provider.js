@@ -2,10 +2,21 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class AuthProvider {
-    url = env.fns.concat('/tokens');
+    asUrl = env.as.concat('/tokens');
+    fnsUrl = env.fns.concat('/publicKey');
+
+    config = {
+      headers: {
+        'publicKey': localStorage.getItem('publicKey')
+      }
+    };
 
     authorize(credentials) {
-        return axios.post(this.url, credentials);
+      return axios.post(this.asUrl, credentials, this.config);
+    }
+
+    getFnsPublicKey() {
+      return axios.get(this.fnsUrl);
     }
 }
 
