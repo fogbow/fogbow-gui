@@ -89,6 +89,7 @@ class AttachmentForm extends Component {
               <label>Cloud</label>
               <select ref={ref => this.cloudName = ref} onChange={this.handleChange} name='cloudName'
                       className='form-control' required>
+                <option value=''></option>
                 {
                   clouds ?
                     clouds.map((cloud, idx) => {
@@ -110,7 +111,7 @@ class AttachmentForm extends Component {
                   this.props.computes.data
                     .filter(compute => compute.state === 'READY' &&
                                        compute.provider === this.state.provider &&
-                                       compute.cloudName === this.state.cloudName)
+                                       compute.cloudName === this.cloudName.value)
                     .map((compute, idx) =>
                       <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>) :
                   undefined
@@ -126,7 +127,7 @@ class AttachmentForm extends Component {
                   this.props.volumes.data
                     .filter(volume => volume.state === 'READY' &&
                                       volume.provider === this.state.provider &&
-                                      volume.cloudName === this.state.cloudName)
+                                      volume.cloudName === this.cloudName.value)
                     .map((volume, idx) =>
                       <option key={idx} value={volume.instanceId}>{volume.instanceId}</option>) :
                   undefined

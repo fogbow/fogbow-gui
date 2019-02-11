@@ -132,7 +132,7 @@ class ComputeForm extends Component {
 
     let body = _.pickBy(this.state, _.identity);
 
-    body = { federatedNetworkId: body.federatedNetworkId, computeOrder: body };
+    body = { federatedNetworkId: body.federatedNetworkId, compute: body };
 
     if (this.fileContent.files.item(0)) {
       const tag = this.fileContent.value.indexOf('\\') !== -1 ? this.fileContent.value.split('\\') :
@@ -150,11 +150,11 @@ class ComputeForm extends Component {
       }
     }
 
-    delete body.computeOrder.federatedNetworkId;
-    delete body.computeOrder.fileContent;
-    delete body.computeOrder.scriptType;
-    delete body.computeOrder.requirementTag;
-    delete body.computeOrder.requirementValue;
+    delete body.compute.federatedNetworkId;
+    delete body.compute.fileContent;
+    delete body.compute.scriptType;
+    delete body.compute.requirementTag;
+    delete body.compute.requirementValue;
 
     let { dispatch } = this.props;
     dispatch(createCompute(body));
