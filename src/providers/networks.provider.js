@@ -7,7 +7,6 @@ class NetworksProvider {
   config = {
     headers: {
       'federationTokenValue': localStorage.getItem('token'),
-      'publicKey': localStorage.getItem('publicKey')
     }
   };
 

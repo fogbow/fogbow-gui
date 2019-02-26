@@ -5,14 +5,13 @@ class AuthProvider {
   asUrl = env.as.concat('/tokens');
   fnsUrl = env.fns.concat('/publicKey');
 
-  config = {
-    headers: {
-      'publicKey': localStorage.getItem('publicKey')
-    }
-  };
-
   authorize(credentials) {
-    return axios.post(this.asUrl, credentials, this.config);
+    const body = {
+      'credentials': credentials,
+      'publicKey': localStorage.getItem('publicKey')
+    };
+
+    return axios.post(this.asUrl, body, this.config);
   }
 
   getFnsPublicKey() {

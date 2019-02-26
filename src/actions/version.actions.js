@@ -30,7 +30,7 @@ export const getVersion = () => {
         Object.keys(apiEndpoints).map(async(service) => {
           try {
             let endpoint = await provider.get(apiEndpoints[service]);
-            response[service] = endpoint.data;
+            response[service] = endpoint.data.version;
           } catch (error) {
             const message = error.response ? error.response.data.message : error.message;
             toast.error('Unable to retrieve version from service: ' + service + '. ' + message);

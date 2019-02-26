@@ -58,7 +58,7 @@ export const createNetwork = (body) => {
       dispatch(request());
 
       provider.create(body).then(
-        network => resolve(dispatch(success(network.data)))
+        network => resolve(dispatch(success(network.data.id)))
       ).catch((error) => {
         toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.NETWORK));
         return reject(dispatch(failure(error)));
@@ -138,7 +138,7 @@ export const createFedNetwork = (body) => {
       dispatch(request());
 
       provider.createFedNet(body).then(
-        network => resolve(dispatch(success(network.data)))
+        network => resolve(dispatch(success(network.data.id)))
       ).catch((error) => {
         toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.FEDERATED_NETWORK));
         return reject(dispatch(failure(error)));
@@ -178,7 +178,7 @@ export const createNetworkSecurityRule = (body, id) => {
       dispatch(request());
 
       provider.createSecurityRule(body, id).then(
-        securityRule => resolve(dispatch(success(securityRule.data)))
+        securityRule => resolve(dispatch(success(securityRule.data.id)))
       ).catch((error) => {
         const message = error.response ? error.response.data.message : error.message;
         toast.error('Unable to create security rule for network order: ' + id + '. ' + message + '.');

@@ -53,7 +53,7 @@ export const createVolume = (body) => {
       dispatch(request());
 
       provider.create(body).then(
-        volume => resolve(dispatch(success(volume.data)))
+        volume => resolve(dispatch(success(volume.data.id)))
       ).catch((error) => {
         toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.VOLUME));
         return reject(dispatch(failure(error)));
