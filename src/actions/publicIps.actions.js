@@ -14,7 +14,7 @@ export const createPublicIp = (body) => {
       dispatch(request());
 
       provider.create(body).then(
-        publicIp => resolve(dispatch(success(publicIp.data)))
+        publicIp => resolve(dispatch(success(publicIp.data.id)))
       ).catch((error) => {
         const message = error.response ? error.response.data.message : error.message;
         toast.error('Unable to create public IP order.' + message + '.');

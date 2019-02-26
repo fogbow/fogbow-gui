@@ -15,7 +15,7 @@ export const getMembers = () => {
       dispatch(request());
 
       provider.get().then(
-        members => resolve(dispatch(success(members.data)))
+        members => resolve(dispatch(success(members.data.members)))
       ).catch((error) => {
         const message = error.response ? error.response.data.message : error.message;
         toast.error('Unable to retrieve providers list. ' + message + '.');
@@ -78,7 +78,7 @@ export const getMemberQuotaFromAllClouds = (memberId) => {
 
       try {
         let clouds = await provider.getCloudsByMemberId(memberId);
-        promises = clouds.data.map(cloudId => dispatch(getMemberData(memberId, cloudId)));
+        promises = clouds.data.clouds.map(cloudId => dispatch(getMemberData(memberId, cloudId)));
       } catch(error) {
         const message = error.response ? error.response.data.message : error.message;
         toast.error('Unable to retrieve clouds list from provider: ' + memberId + '. ' + message + '.');

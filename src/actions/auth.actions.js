@@ -14,7 +14,7 @@ export const getAuthorization = (credentials) => {
       dispatch(request());
 
       AuthProvider.authorize(credentials).then(
-        auth => resolve(dispatch(success(auth.data)))
+        auth => resolve(dispatch(success(auth.data.token)))
       ).catch((error) => {
         toast.error(messages.auth.error);
         return reject(dispatch(failure(error)));
@@ -33,7 +33,7 @@ export const getFnsPublicKey = () => {
       dispatch(request());
 
       AuthProvider.getFnsPublicKey().then(
-        publicKey => resolve(dispatch(success(publicKey.data)))
+        publicKey => resolve(dispatch(success(publicKey.data.publicKey)))
       ).catch((error) => {
         const message = error.response ? error.response.data.message : error.message;
         toast.error('Unable to retrieve public key from FNS service. ' + message + '.');

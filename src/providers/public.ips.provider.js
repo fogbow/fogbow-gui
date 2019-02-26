@@ -6,7 +6,6 @@ class PublicIPsProvider {
   config = {
     headers: {
       'federationTokenValue': localStorage.getItem('token'),
-      'publicKey': localStorage.getItem('publicKey')
     }
   };
 

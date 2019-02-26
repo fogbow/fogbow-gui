@@ -23,10 +23,10 @@ class AttachmentForm extends Component {
   componentDidMount = () => {
     let { dispatch } = this.props;
     if(! this.props.computes.loading) {
-        dispatch(getComputes());
+      dispatch(getComputes());
     }
     if(! this.props.volumes.loading) {
-        dispatch(getVolumes());
+      dispatch(getVolumes());
     }
   };
 
@@ -57,6 +57,19 @@ class AttachmentForm extends Component {
   render() {
     let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
     let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
+    let computeIds = this.props.computes.loading ?
+                     this.props.computes.data
+                       .filter((compute) => {
+                         if (compute) {
+                           return compute.state === 'READY' &&
+                                  compute.provider === this.state.provider &&
+                                  compute.cloudName === this.cloudName.value
+                         }
+                         return [];
+                       })
+                       .map((compute, idx) =>
+                         <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>) :
+                     undefined;
 
     return (
       <div className='modal fade' id='form' tabIndex='-1' role='dialog'
@@ -107,14 +120,7 @@ class AttachmentForm extends Component {
                       onChange={this.handleChange}>
                 <option value=''></option>
                 {
-                  this.props.computes.loading ?
-                  this.props.computes.data
-                    .filter(compute => compute.state === 'READY' &&
-                                       compute.provider === this.state.provider &&
-                                       compute.cloudName === this.cloudName.value)
-                    .map((compute, idx) =>
-                      <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>) :
-                  undefined
+                  computeIds
                 }
               </select>
 

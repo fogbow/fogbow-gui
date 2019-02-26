@@ -110,7 +110,7 @@ export const createCompute = (body) => {
       dispatch(request());
 
       provider.create(body).then(
-        compute => resolve(dispatch(success(compute.data)))
+        compute => resolve(dispatch(success(compute.data.id)))
       ).catch((error) => {
         toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.COMPUTE));
         return reject(dispatch(failure(error)));

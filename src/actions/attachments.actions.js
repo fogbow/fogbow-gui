@@ -55,7 +55,7 @@ export const createAttachment = (body) => {
       dispatch(request());
 
       provider.create(body).then(
-        attachment => resolve(dispatch(success(attachment.data)))
+        attachment => resolve(dispatch(success(attachment.data.id)))
       ).catch((error) => {
         toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.ATTACHMENT));
         return reject(dispatch(failure(error)));

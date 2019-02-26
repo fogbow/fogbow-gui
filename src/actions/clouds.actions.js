@@ -14,7 +14,7 @@ export const getLocalClouds = () => {
       dispatch(request());
 
       provider.get().then(
-        clouds => resolve(dispatch(success(clouds.data)))
+        clouds => resolve(dispatch(success(clouds.data.clouds)))
       ).catch((error) => {
         const message = error.response ? error.response.data.message : error.message;
         toast.error('Unable to retrieve local provider clouds list. ' + message + '.');
@@ -39,7 +39,7 @@ export const getRemoteClouds = (membersIds) => {
       membersIds.map(async(memberId) => {
         try {
           let cloud = await provider.getCloudsByMemberId(memberId);
-          remoteClouds[memberId] = cloud.data;
+          remoteClouds[memberId] = cloud.data.clouds;
         } catch(error) {
           const message = error.response ? error.response.data.message : error.message;
           toast.error('Unable to retrieve clouds list from provider: ' + memberId + '. ' + message + '.');
@@ -63,7 +63,7 @@ export const getCloudsByMemberId = (id) => {
       dispatch(request());
 
       provider.getCloudsByMemberId(id).then(
-        clouds => resolve(dispatch(success(clouds.data)))
+        clouds => resolve(dispatch(success(clouds.data.clouds)))
       ).catch((error) => {
         const message = error.response ? error.response.data.message : error.message;
         toast.error('Unable to retrieve clouds list from provider: ' + id + '. ' + message + '.');
