@@ -3,7 +3,7 @@ export const env = {
   ras: 'http://localhost:8081',
   ms: 'http://localhost:8082',
   as: 'http://localhost:8079',
-  local: 'fake-localidentity-member',
+  local: 'fake.localidentity.member',
   remoteEndpoint: '',
   refreshTime: 5000,
   authenticationPlugin: 'KeystoneV3',
