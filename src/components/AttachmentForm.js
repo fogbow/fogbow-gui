@@ -7,6 +7,8 @@ import { getComputes } from '../actions/computes.actions';
 import { getVolumes } from '../actions/volumes.actions';
 import { createAttachment } from '../actions/attachments.actions';
 
+import '../styles/order-form.css';
+
 const initialState = {
   provider: env.local,
   computeId: '',
@@ -102,8 +104,8 @@ class AttachmentForm extends Component {
                 }
               </select>
 
-              <label>Compute ID</label>
-              <select name='computeId' className='form-control' value={this.state.computeId}
+              <label>Compute Name/ID</label>
+              <select name='computeId' className='form-control name-id-pair' value={this.state.computeId}
                       onChange={this.handleChange}>
                 <option value=''></option>
                 {
@@ -113,13 +115,15 @@ class AttachmentForm extends Component {
                                        compute.provider === this.state.provider &&
                                        compute.cloudName === this.cloudName.value)
                     .map((compute, idx) =>
-                      <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>) :
+                      <option key={idx} value={compute.instanceId}>
+                        {compute.instanceName.concat(' (', compute.instanceId, ')')}
+                      </option>) :
                   undefined
                 }
               </select>
 
-              <label>Volume ID</label>
-              <select name='volumeId' className='form-control' value={this.state.volumeId}
+              <label>Volume Name/ID</label>
+              <select name='volumeId' className='form-control name-id-pair' value={this.state.volumeId}
                       onChange={this.handleChange}>
                 <option value=''></option>
                 {
@@ -129,7 +133,9 @@ class AttachmentForm extends Component {
                                       volume.provider === this.state.provider &&
                                       volume.cloudName === this.cloudName.value)
                     .map((volume, idx) =>
-                      <option key={idx} value={volume.instanceId}>{volume.instanceId}</option>) :
+                      <option key={idx} value={volume.instanceId}>
+                        {volume.instanceName.concat(' (' , volume.instanceId, ')')}
+                      </option>) :
                   undefined
                 }
               </select>

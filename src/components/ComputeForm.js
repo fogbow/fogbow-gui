@@ -236,14 +236,15 @@ class ComputeForm extends Component {
 
               <label>Image</label>
               <select value={this.state.imageId} onChange={this.handleChange} name='imageId'
-                      className="form-control" required>
+                      className='form-control name-id-pair' required>
                 <option value=''>Choose an image</option>
                 {
                   images ?
                   Object.keys(images)
                       .map((image, idx) =>
-                        <option key={idx} value={image}>{images[image]}</option>) :
-                  undefined
+                        <option key={idx} value={image}>
+                          {images[image].concat(' (', image, ')')}
+                        </option>) : undefined
                 }
               </select>
 
