@@ -5,7 +5,7 @@ class CloudsProvider {
   clouds = env.fns.concat('/clouds/');
   config = {
     headers: {
-      'federationTokenValue': localStorage.getItem('token'),
+      'systemUserToken': localStorage.getItem('token'),
     }
   };
 

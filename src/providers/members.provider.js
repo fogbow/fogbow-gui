@@ -8,7 +8,7 @@ class MembersProvider {
 
   config = {
     headers: {
-      'federationTokenValue': localStorage.getItem('token'),
+      'systemUserToken': localStorage.getItem('token'),
     }
   };
 
