@@ -5,7 +5,7 @@ class CloudsProvider {
   clouds = env.fns.concat('/clouds/');
   config = {
     headers: {
-      'federationTokenValue': localStorage.getItem('token'),
+      'Fogbow-User-Token': localStorage.getItem('token'),
     }
   };
 

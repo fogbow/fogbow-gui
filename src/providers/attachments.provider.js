@@ -5,7 +5,7 @@ class AttachmentsProvider {
   url = env.fns.concat('/attachments');
   config = {
     headers: {
-      'federationTokenValue': localStorage.getItem('token'),
+      'Fogbow-User-Token': localStorage.getItem('token'),
     }
   };
 

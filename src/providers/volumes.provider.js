@@ -6,7 +6,7 @@ class VolumesProvider {
 
   config = {
     headers: {
-      'federationTokenValue': localStorage.getItem('token'),
+      'Fogbow-User-Token': localStorage.getItem('token'),
     }
   };
 
