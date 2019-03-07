@@ -5,7 +5,7 @@ class PublicIPsProvider {
   url = env.fns.concat('/publicIps');
   config = {
     headers: {
-      'systemUserToken': localStorage.getItem('token'),
+      'Fogbow-User-Token': localStorage.getItem('token'),
     }
   };
 
