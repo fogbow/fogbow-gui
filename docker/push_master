@@ -1,7 +1,0 @@
-#!/bin/bash
-
-./push fogbow/fogbow-gui:latest
-
-sudo docker tag fogbow/fogbow-gui:latest fogbow/fogbow-gui:angra
-./push fogbow/fogbow-gui:angra
-
