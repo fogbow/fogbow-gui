@@ -112,7 +112,8 @@ class PublicIpForm extends Component {
                   this.props.computes.loading ?
                   this.props.computes.data
                     .filter(compute => compute.state === 'READY' &&
-                                        compute.provider === this.state.provider)
+                                       compute.provider === this.state.provider &&
+                                       compute.cloudName === this.cloudName.value)
                     .map((compute, idx) =>
                       <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>):
                   undefined
