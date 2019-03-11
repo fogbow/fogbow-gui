@@ -9,13 +9,13 @@ class App extends Component {
   render() {
     return (
       <div className='container-fluid'>
-          <BrowserRouter>
-            <main>
-              <Switch>
-                <Route exact path="/" component={LoginPage} />
-                <Route exact path="/fogbow" component={DashboardPage}/>
-              </Switch>
-            </main>
+        <BrowserRouter>
+          <main>
+            <Switch>
+              <Route exact path="/" component={LoginPage} />
+              <Route exact path="/fogbow" component={DashboardPage}/>
+            </Switch>
+          </main>
         </BrowserRouter>
       </div>
     );
