@@ -1,4 +1,5 @@
 import { ToastContainer, Slide } from 'react-toastify';
+import { connect } from 'react-redux';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,6 +16,8 @@ import AttachmentsPage from './AttachmentsPage';
 import FederetedNetworksPage from './FederetedNetworksPage';
 import PublicIpPage from './PublicIpPage';
 import AboutPage from './AboutPage';
+
+import { getLocalClouds } from '../actions/clouds.actions';
 
 class DashboardComponent extends Component {
   goto = (tab) => {
@@ -37,6 +40,23 @@ class DashboardComponent extends Component {
         return this.getPageContent(<AboutPage/>, tab);
       default:
         break;
+    }
+  };
+
+  componentDidMount = async() => {
+    let { history, dispatch } = this.props;
+    const forbidden = 401;
+
+    if (!localStorage.getItem('token')) {
+      history.push('/');
+    } else {
+      try {
+        await dispatch(getLocalClouds());
+      } catch (error) {
+        // NOTE(pauloewerton): this is a workaround to check whether the token has expired;
+        // ideally, Fogbow would have a token validation function.
+        if (error.error.response.status === forbidden) history.push('/');
+      }
     }
   };
 
@@ -66,4 +86,4 @@ class DashboardComponent extends Component {
   }
 }
 
-export default DashboardComponent;
+export default connect()(DashboardComponent);
