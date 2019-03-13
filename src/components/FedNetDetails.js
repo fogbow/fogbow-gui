@@ -34,16 +34,16 @@ class FedNetDetails extends Component {
         <p>{this.state.orderData.name || '-'}</p>
 
         <p className="bolder">ID</p>
-        <p>{this.state.orderData.id || '-'}</p>
+        <p>{this.state.orderData.instanceId || '-'}</p>
 
         <p className="bolder">State</p>
-        <p>{this.state.orderData.orderState || '-'}</p>
+        <p>{this.state.orderData.state || '-'}</p>
 
         <p className="bolder">CIDR</p>
-        <p>{this.state.orderData.cidrNotation || '-'}</p>
+        <p>{this.state.orderData.cidr || '-'}</p>
 
-        <p className="bolder">Allowed Members</p>
-        <p>{this.state.orderData.allowedMembers ? this.state.orderData.allowedMembers.toString() : '-'}</p>
+        <p className="bolder">Providers</p>
+        <p>{this.state.orderData.providers ? this.state.orderData.providers.toString() : '-'}</p>
 
       </div>
     );
