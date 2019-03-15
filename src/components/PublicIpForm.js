@@ -106,10 +106,10 @@ class PublicIpForm extends Component {
 
               <label>Compute ID</label>
               <select name='computeId' className="form-control" required
-                  value={this.state.computeId} onChange={this.handleChange}>
+                      value={this.state.computeId} onChange={this.handleChange}>
                 <option value=''></option>
                 {
-                  this.props.computes.loading ?
+                  this.props.computes.loading && this.cloudName ?
                   this.props.computes.data
                     .filter(compute => compute.state === 'READY' &&
                                        compute.provider === this.state.provider &&
@@ -120,6 +120,7 @@ class PublicIpForm extends Component {
                 }
               </select>
             </div>
+
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal"
                       onClick={this.resetForm}>
