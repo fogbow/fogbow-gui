@@ -140,9 +140,9 @@ class ComputeForm extends Component {
 
       try {
         const userDataContent = await this.readUserDataFile(this.fileContent.files.item(0));
-        body.computeOrder['userData'] = [{
+        body.compute['userData'] = [{
           extraUserDataFileContent: userDataContent,
-          extraUserDataFileType: body.computeOrder.scriptType,
+          extraUserDataFileType: body.compute.scriptType,
           tag: tag[tag.length - 1]
         }];
       } catch(error) {
