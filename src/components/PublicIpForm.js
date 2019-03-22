@@ -115,7 +115,9 @@ class PublicIpForm extends Component {
                                        compute.provider === this.state.provider &&
                                        compute.cloudName === this.cloudName.value)
                     .map((compute, idx) =>
-                      <option key={idx} value={compute.instanceId}>{compute.instanceId}</option>):
+                      <option key={idx} value={compute.instanceId}>
+                        {compute.instanceName.concat(' (', compute.instanceId, ')')}
+                      </option>) :
                   undefined
                 }
               </select>

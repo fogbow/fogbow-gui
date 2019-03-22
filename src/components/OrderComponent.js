@@ -65,6 +65,9 @@ class OrderComponent extends Component {
                     </button>
                   </div>
                </div>) : undefined;
+    const provider = this.props.order.cloudName ?
+                     this.props.order.cloudName.concat(' @ ', this.props.order.provider) :
+                     this.props.order.provider;
 
     return (
       <tr>
@@ -73,7 +76,7 @@ class OrderComponent extends Component {
           undefined : <td>{this.props.order.instanceName || '-'}</td>
         }
         {this.props.disabledHeaders && this.props.disabledHeaders.indexOf('Provider') !== -1 ?
-          undefined : <td>{this.props.order.cloudName + ' @ ' + this.props.order.provider || '-'}</td>
+          undefined : <td>{provider || '-'}</td>
         }
         {this.props.disabledHeader && this.props.disabledHeaders.indexOf('State') !== -1 ?
           undefined : <td>{this.props.order.state || '-'}</td>

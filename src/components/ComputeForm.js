@@ -263,7 +263,8 @@ class ComputeForm extends Component {
                 {
                   this.props.networks.loading ?
                   this.props.networks.data.map((network, idx) => {
-                    return network.provider === this.state.provider ?
+                    return network.provider === this.state.provider &&
+                           network.cloudName === this.state.cloudName ?
                       <option key={idx} value={network.instanceId}>
                         {network.instanceId}
                       </option> :
@@ -296,7 +297,7 @@ class ComputeForm extends Component {
                      className="form-control" name="fileContent" />
 
               <label>Public Key</label>
-              <textarea value={this.state.publicKey} onChange={this.handleChange} cols="50" rows="5"
+              <textarea value={this.state.publicKey} onChange={this.handleChange} cols="45" rows="5"
                         className="form-control" name="publicKey"></textarea>
             </div>
 
