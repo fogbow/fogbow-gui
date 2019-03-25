@@ -1,5 +1,5 @@
 export const env = {
-  fns: 'http://localhost:8083',
+  fns: 'http://localhost:8093',
   ras: 'http://localhost:8081',
   ms: 'http://localhost:8082',
   as: 'http://localhost:8080',

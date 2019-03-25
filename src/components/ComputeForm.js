@@ -274,13 +274,15 @@ class ComputeForm extends Component {
               </select>
 
               <label>Federated Network ID</label>
-              <select value={this.props.federatedNetworkId} onChange={this.handleChange}
+              <select value={this.state.federatedNetworkId} onChange={this.handleChange}
                       name='federatedNetworkId' className="form-control">
                 <option value=''>Choose a federated network</option>
                 {
                   this.props.fednets.loading ?
                   this.props.fednets.data.map((network, idx) =>
-                    <option key={idx} value={network.instanceId}>{network.instanceId}</option>) :
+                    <option key={idx} value={network.instanceId}>
+                      {network.instanceName.concat(' (', network.instanceId, ')')}
+                    </option>) :
                   undefined
                 }
               </select>
