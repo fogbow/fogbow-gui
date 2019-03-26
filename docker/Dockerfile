@@ -1,6 +1,6 @@
 FROM node:8.11.4-jessie
 
-ARG BRANCH=master
+ARG BRANCH
 
 RUN \
   sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
