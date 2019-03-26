@@ -1,4 +1,4 @@
-FROM node:8.15.1-strecth
+FROM node:8
 
 ARG BRANCH
 
