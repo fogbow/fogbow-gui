@@ -1,4 +1,4 @@
-FROM node:8.15.1-jessie
+FROM node:8.15.1-strecth
 
 ARG BRANCH
 
