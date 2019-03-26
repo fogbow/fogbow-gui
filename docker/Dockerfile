@@ -1,4 +1,4 @@
-FROM node:8.11.4-jessie
+FROM openjdk:8
 
 ARG BRANCH
 
