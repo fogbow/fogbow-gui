@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-import { messages } from '../defaults/messages';
+import { messages, getErrorMessage } from '../defaults/messages';
 import { authActionsTypes } from './auth.actions.types';
 import AuthProvider from '../providers/auth.provider';
 
@@ -16,7 +16,8 @@ export const getAuthorization = (credentials) => {
       AuthProvider.authorize(credentials).then(
         auth => resolve(dispatch(success(auth.data.token)))
       ).catch((error) => {
-        toast.error(messages.auth.error);
+        const message = getErrorMessage(error);
+        toast.error(messages.auth.login.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -35,8 +36,8 @@ export const getFnsPublicKey = () => {
       AuthProvider.getFnsPublicKey().then(
         publicKey => resolve(dispatch(success(publicKey.data.publicKey)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to retrieve public key from FNS service. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.auth.publicKey.concat(message));
         return reject(dispatch(failure(error)))
       });
     });

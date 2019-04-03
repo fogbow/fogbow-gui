@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 
+import { messages, getErrorMessage } from '../defaults/messages';
 import { cloudsActionsTypes } from './clouds.actions.types';
 import CloudsProvider from '../providers/clouds.provider';
 
@@ -16,8 +17,8 @@ export const getLocalClouds = () => {
       provider.get().then(
         clouds => resolve(dispatch(success(clouds.data.clouds)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to retrieve local provider clouds list. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.clouds.getLocal.concat(message));
         return reject(dispatch(failure(error)))
       });
     });
@@ -41,8 +42,8 @@ export const getRemoteClouds = (membersIds) => {
           let cloud = await provider.getCloudsByMemberId(memberId);
           remoteClouds[memberId] = cloud.data.clouds;
         } catch(error) {
-          const message = error.response ? error.response.data.message : error.message;
-          toast.error('Unable to retrieve clouds list from provider: ' + memberId + '. ' + message + '.');
+          const message = getErrorMessage(error);
+          toast.error(messages.clouds.getRemote.concat(memberId, message));
           return reject(dispatch(failure(error)))
         }
       });
@@ -65,8 +66,8 @@ export const getCloudsByMemberId = (id) => {
       provider.getCloudsByMemberId(id).then(
         clouds => resolve(dispatch(success(clouds.data.clouds)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to retrieve clouds list from provider: ' + id + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.clouds.getRemote.concat(id, message));
         return reject(dispatch(failure(error)))
       });
     });

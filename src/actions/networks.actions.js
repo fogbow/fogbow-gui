@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-import { generateErrorMessage, errorTypes, orderTypes } from '../defaults/messages';
+import { messages, getErrorMessage } from '../defaults/messages';
 import { networksActionsTypes } from './networks.actions.types';
 import NetworksProvider from '../providers/networks.provider';
 
@@ -16,8 +16,8 @@ export const getNetworks = () => {
       let network = await provider.get();
       dispatch(success(network.data))
     } catch (error) {
-      const message = error.response ? error.response.data.message : error.message;
-      toast.error('Unable to create network order. ' + message + '.');
+      const message = getErrorMessage(error);
+      toast.error(messages.orders.getStatus.concat(message));
       dispatch(failure(error))
     }
   };
@@ -36,7 +36,8 @@ export const getNetworkData = (id) => {
       provider.getData(id).then(
         network => resolve(dispatch(success(network.data)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.DATA, orderTypes.NETWORK, id));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.get.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -60,7 +61,8 @@ export const createNetwork = (body) => {
       provider.create(body).then(
         network => resolve(dispatch(success(network.data.id)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.NETWORK));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.create.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -80,7 +82,8 @@ export const deleteNetwork = (id) => {
         provider.delete(id).then(
           resolve(dispatch(success()))
         ).catch((error) => {
-          toast.error(generateErrorMessage(errorTypes.DELETE, orderTypes.NETWORK, id));
+          const message = getErrorMessage(error);
+          toast.error(messages.orders.remove.concat(id, message));
           return reject(dispatch(failure(error)));
         });
       });
@@ -100,7 +103,8 @@ export const getFedNetworks = () => {
       provider.getFetNets().then(
         network => resolve(dispatch(success(network.data)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.GET, orderTypes.FEDERATED_NETWORK));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.getStatus.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -120,7 +124,8 @@ export const getFedNetworkData = (id) => {
       provider.getFedNetData(id).then(
         network => resolve(dispatch(success(network.data)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.DATA, orderTypes.FEDERATED_NETWORK, id));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.get.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -140,7 +145,8 @@ export const createFedNetwork = (body) => {
       provider.createFedNet(body).then(
         network => resolve(dispatch(success(network.data.id)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.FEDERATED_NETWORK));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.create.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -160,7 +166,8 @@ export const deleteFedNetwork = (id) => {
       provider.deletefedNet(id).then(
         resolve(dispatch(success()))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.DELETE, orderTypes.FEDERATED_NETWORK, id));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.remove.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -180,8 +187,8 @@ export const createNetworkSecurityRule = (body, id) => {
       provider.createSecurityRule(body, id).then(
         securityRule => resolve(dispatch(success(securityRule.data.id)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to create security rule for network order: ' + id + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.securityRules.create.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -207,8 +214,8 @@ export const getNetworkSecurityRules = (id) => {
       provider.getSecurityRules(id).then(
         securityRules => resolve(dispatch(success(securityRules.data)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to get security rules for network order: ' + id + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.securityRules.get.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -234,9 +241,8 @@ export const deleteNetworkSecurityRule = (ruleId, orderId) => {
       provider.deleteSecurityRule(ruleId, orderId).then(
         () => resolve(dispatch(success()))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to delete security rule: ' + ruleId + ' for network order: ' +
-                    orderId + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.securityRules.remove.concat(ruleId, message));
         return reject(dispatch(failure(error)));
       });
     });
