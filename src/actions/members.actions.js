@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 
+import { messages, getErrorMessage } from '../defaults/messages';
 import { membersActionsTypes } from './members.actions.types';
 import MembersProvider from '../providers/members.provider';
 import CloudsProvider from '../providers/clouds.provider';
@@ -17,8 +18,8 @@ export const getMembers = () => {
       provider.get().then(
         members => resolve(dispatch(success(members.data.members)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to retrieve providers list. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.members.get.concat(message));
         return reject(dispatch(failure(error)))
       });
     });
@@ -38,8 +39,8 @@ export const getMemberData = (id, cloudId) => {
       provider.getQuota(id, cloudId).then(
         quota => resolve(dispatch(success(quota.data)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to retrieve quota data from provider: ' + id + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.members.getQuota.concat(id, message));
         return reject(dispatch(failure(error)))
       });
     });
@@ -62,8 +63,8 @@ export const getAllMembersData = (members) => {
           resolve(response);
         })
         .catch((error) => {
-          const message = error.response ? error.response.data.message : error.message;
-          toast.error('Unable to retrieve quota data from all providers. ' + message + '.');
+          const message = getErrorMessage(error);
+          toast.error(messages.members.getAllQuota.concat(message));
           return reject(error);
         });
       });
@@ -80,8 +81,8 @@ export const getMemberQuotaFromAllClouds = (memberId) => {
         let clouds = await provider.getCloudsByMemberId(memberId);
         promises = clouds.data.clouds.map(cloudId => dispatch(getMemberData(memberId, cloudId)));
       } catch(error) {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to retrieve clouds list from provider: ' + memberId + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.clouds.getRemote.concat(memberId, message));
         return reject(error);
       }
 
@@ -96,8 +97,8 @@ export const getMemberQuotaFromAllClouds = (memberId) => {
           resolve(response);
         })
         .catch((error) => {
-          const message = error.response ? error.response.data.message : error.message;
-          toast.error('Unable to retrieve quota data from provider: ' + memberId + '. ' + message + '.');
+          const message = getErrorMessage(error);
+          toast.error(messages.members.getQuota.concat(memberId, message));
           return reject(error);
         });
     });

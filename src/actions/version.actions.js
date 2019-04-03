@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 
 import packageJson from '../../package.json';
 import build from '../defaults/build.json';
+import { messages, getErrorMessage } from '../defaults/messages';
 import { env } from '../defaults/api.config';
 import { versionActionsTypes } from './version.actions.types';
 import VersionProvider from '../providers/version.provider';
@@ -32,8 +33,8 @@ export const getVersion = () => {
             let endpoint = await provider.get(apiEndpoints[service]);
             response[service] = endpoint.data.version;
           } catch (error) {
-            const message = error.response ? error.response.data.message : error.message;
-            toast.error('Unable to retrieve version from service: ' + service + '. ' + message);
+            const message = getErrorMessage(error);
+            toast.error(messages.version.get.concat(service, message));
             throw (message);
           }
         });

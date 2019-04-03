@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-import { generateErrorMessage, errorTypes, orderTypes } from '../defaults/messages';
+import { messages, getErrorMessage } from '../defaults/messages';
 import { volumesActionsTypes } from './volumes.actions.types';
 import VolumesProvider from '../providers/volumes.provider';
 
@@ -16,7 +16,8 @@ export const getVolumes = () => {
 
       dispatch(success(volumes.data));
     } catch (error) {
-      toast.error(generateErrorMessage(errorTypes.GET, orderTypes.VOLUME));
+      const message = getErrorMessage(error);
+      toast.error(messages.orders.getStatus.concat(message));
       dispatch(failure(error))
     }
   };
@@ -35,7 +36,8 @@ export const getVolumeData = (id) => {
       provider.getData(id).then(
         volumes => resolve(dispatch(success(volumes.data)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.DATA, orderTypes.VOLUME, id));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.get.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -55,7 +57,8 @@ export const createVolume = (body) => {
       provider.create(body).then(
         volume => resolve(dispatch(success(volume.data.id)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.VOLUME));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.create.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -75,7 +78,8 @@ export const deleteVolume = (id) => {
       provider.delete(id).then(
         () => resolve(dispatch(success()))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.DELETE, orderTypes.VOLUME, id));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.remove.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });

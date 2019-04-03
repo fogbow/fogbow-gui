@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 
+import { messages, getErrorMessage } from '../defaults/messages';
 import { publicIpsActionsTypes } from './publicIps.actions.types';
 import PublicIPsProvider from '../providers/public.ips.provider';
 
@@ -16,8 +17,8 @@ export const createPublicIp = (body) => {
       provider.create(body).then(
         publicIp => resolve(dispatch(success(publicIp.data.id)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to create public IP order.' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.create.concat(message));
         return reject(dispatch(failure(error)))
       });
     });
@@ -37,8 +38,8 @@ export const getPublicIps = () => {
       provider.get().then(
         publicIps => resolve(dispatch(success(publicIps.data)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to get public IP orders list.' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.getStatus.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -58,8 +59,8 @@ export const getPublicIpData = (id) => {
       provider.getData(id).then(
         publicIp => resolve(dispatch(success(publicIp.data)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to get details for public IP order: ' + id + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.get.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -79,8 +80,8 @@ export const deletePublicIp = (id) => {
       provider.delete(id).then(
         () => resolve(dispatch(success()))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to delete public IP order: ' + id + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.remove.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -107,8 +108,8 @@ export const createPublicIpSecurityRule = (body, id) => {
       provider.createSecurityRule(body, id).then(
         securityRule => resolve(dispatch(success(securityRule.data)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to create security rule for public IP order: ' + id + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.securityRules.create.concat(message));
         return reject(dispatch(failure(error)))
       });
     });
@@ -134,8 +135,8 @@ export const getPublicIpSecurityRules = (id) => {
       provider.getSecurityRules(id).then(
         securityRules => resolve(dispatch(success(securityRules.data)))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to get security rules for public IP order: ' + id + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.securityRules.get.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -161,9 +162,8 @@ export const deletePublicIpSecurityRule = (ruleId, orderId) => {
       provider.deleteSecurityRule(ruleId, orderId).then(
         () => resolve(dispatch(success()))
       ).catch((error) => {
-        const message = error.response ? error.response.data.message : error.message;
-        toast.error('Unable to delete security rule: ' + ruleId + ' for public IP order: ' +
-                    orderId + '. ' + message + '.');
+        const message = getErrorMessage(error);
+        toast.error(messages.securityRules.remove.concat(ruleId, message));
         return reject(dispatch(failure(error)));
       });
     });

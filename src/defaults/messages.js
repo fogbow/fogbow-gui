@@ -1,73 +1,59 @@
-import { env } from '../defaults/api.config';
-
-export const errorTypes = {
-  GET: 'GET',
-  DATA: 'DATA',
-  CREATE: 'CREATE',
-  DELETE: 'DELETE'
-};
-
-export const orderTypes = {
-  ATTACHMENT: 'attachment',
-  COMPUTE: 'compute',
-  FEDERATED_NETWORK: 'federated network',
-  NETWORK: 'network',
-  PUBLIC_IP: 'public IP',
-  VOLUME: 'volume',
-};
-
 export const messages = {
+  common: {
+    noResponse: 'Request was sent but the server returned no response',
+    unknown: 'An error occurred. Try again later'
+  },
+  orders: {
+    getStatus: 'Unable to retrieve orders',
+    get: 'Unable to retrieve order ',
+    create: 'Unable to create order',
+    remove: 'Unable to delete order '
+  },
   auth: {
-    error: ('Authentication failed. Please, check your credentials/configuration for the ' +
-            'service ' + env.authenticationPlugin)
+    login: 'Login failed',
+    publicKey: 'Unable to retrieve FNS public key'
+  },
+  clouds: {
+    getLocal: 'Unable to retrieve local provider clouds list',
+    getRemote: 'Unable to retrieve clouds list from provider ',
+  },
+  images: {
+    get: 'Unable to retrieve images list'
   },
   members: {
-    error: ('Unable to retrieve federation members list. Please, check your membership service ' +
-            'configuration.')
+    get: 'Unable to retrieve providers list',
+    getQuota: 'Unable to retrieve quota from provider ',
+    getAllQuota: 'Unable to retrieve quota from all providers',
+  },
+  securityRules: {
+    get: 'Unable to retrieve security rules for order ',
+    create: 'Unable to create security rule',
+    remove: 'Unable to delete security rule '
   },
   version: {
-    error: 'Unable to retrieve API versions.'
-  },
-  quota: {
-    error: ('Unable to retrieve quota data. Your quota page might be outdated. ' +
-            'Please, check your console log for further details.')
-  },
-  getImages: {
-    error: 'Unable to retrieve images list from local provider.'
-  },
-  getRemoteImages: {
-    error: 'Unable to retrieve images list from remote providers.'
-  },
+    get: 'Unable to retrieve version from service ',
+  }
 };
 
-export const quotaErrorMessage = (memberId) => {
-  return ('Unable to retrieve quota data for member: ' + memberId + '. Aggregated quota values ' +
-          'might be outated. Please, check your console log for further details.');
-};
+export const getErrorMessage = (error) => {
+  let message = undefined;
+  const messagePrefix = '. ';
+  const messageSuffix = '.';
 
-export const generateErrorMessage = (errorType, orderType, orderId) => {
-  return error => {
-    let errorMessage = '';
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    message = error.response.data.message;
+  } else if (error.request) {
+    // The request was made but no response was received;
+    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+    // http.ClientRequest in node.js
+    message = messages.common.noResponse;
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    message = error.message;
+  }
 
-    switch(errorType) {
-      case errorTypes.GET:
-        errorMessage = 'Unable to retrieve ' + orderType + ' orders list.';
-        break;
-      case errorTypes.DATA:
-        errorMessage = 'Unable to retrieve details from ' +  orderType + ' order: ' + orderId;
-        break;
-      case errorTypes.CREATE:
-        errorMessage = ('Unable to create ' + orderType + ' order. Please, check whether the ' +
-                        'form is properly filled.');
-        break;
-      case errorTypes.DELETE:
-        errorMessage = 'Unable to delete ' + orderType + ' order: ' + orderId;
-        break;
-      default:
-        errorMessage = 'An error occurred. Please, check your console log for further info.';
-        break;
-    }
-
-    return errorMessage;
-  };
+  message = message ? message : messages.common.unknown;
+  return messagePrefix.concat(message, messageSuffix);
 };

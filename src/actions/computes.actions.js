@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-import { messages, generateErrorMessage, errorTypes, orderTypes } from '../defaults/messages';
+import { messages, getErrorMessage } from '../defaults/messages';
 import { computesActionsTypes } from './computes.actions.types';
 import ComputesProvider from '../providers/computes.provider';
 
@@ -18,7 +18,8 @@ export const getComputes = () => {
 
       dispatch(success(computes.data));
     } catch (error) {
-      toast.error(generateErrorMessage(errorTypes.GET, orderTypes.COMPUTE));
+      const message = getErrorMessage(error);
+      toast.error(messages.orders.getStatus.concat(message));
       dispatch(failure(error));
     }
   };
@@ -37,7 +38,8 @@ export const getComputeData = (id) => {
       provider.getData(id).then(
         compute => resolve(dispatch(success(compute.data)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.DATA, orderTypes.COMPUTE, id));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.get.concat(id, message));
         return reject(dispatch(failure(error)))
       });
     });
@@ -57,7 +59,8 @@ export const getImages = () => {
       provider.getImages().then(
         images => resolve(dispatch(success(images.data)))
       ).catch((error) => {
-        toast.error(messages.getImages.error);
+        const message = getErrorMessage(error);
+        toast.error(messages.images.get.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -92,7 +95,8 @@ export const getRemoteImages = (remoteClouds) => {
 
         resolve(dispatch(success(remoteImages)));
       } catch (error) {
-        toast.error(messages.getRemoteImages.error);
+        const message = getErrorMessage(error);
+        toast.error(messages.images.get.concat(message));
         reject(dispatch(failure(error)));
       }
     });
@@ -112,7 +116,8 @@ export const createCompute = (body) => {
       provider.create(body).then(
         compute => resolve(dispatch(success(compute.data.id)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.COMPUTE));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.create.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -132,7 +137,8 @@ export const deleteCompute = (id) => {
       provider.delete(id).then(
         () => resolve(dispatch(success()))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.DELETE, orderTypes.COMPUTE, id));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.remove.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });

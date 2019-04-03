@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-import { generateErrorMessage, errorTypes, orderTypes } from '../defaults/messages';
+import { messages, getErrorMessage } from '../defaults/messages';
 import { attachmentsActionsTypes } from './attachments.actions.types';
 import AttachmentsProvider from '../providers/attachments.provider';
 
@@ -17,7 +17,8 @@ export const getAttachments = () => {
       provider.get().then(
         attachments => resolve(dispatch(success(attachments.data)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.GET, orderTypes.ATTACHMENT));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.getStatus.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -37,7 +38,8 @@ export const getAttachmentData = (id) => {
       provider.getData(id).then(
         attachments => resolve(dispatch(success(attachments.data)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.DATA, orderTypes.ATTACHMENT, id));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.get.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -57,7 +59,8 @@ export const createAttachment = (body) => {
       provider.create(body).then(
         attachment => resolve(dispatch(success(attachment.data.id)))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.CREATE, orderTypes.ATTACHMENT));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.create.concat(message));
         return reject(dispatch(failure(error)));
       });
     });
@@ -77,7 +80,8 @@ export const deleteAttachment = (id) => {
       provider.delete(id).then(
         () => resolve(dispatch(success()))
       ).catch((error) => {
-        toast.error(generateErrorMessage(errorTypes.DELETE, orderTypes.ATTACHMENT, id));
+        const message = getErrorMessage(error);
+        toast.error(messages.orders.remove.concat(id, message));
         return reject(dispatch(failure(error)));
       });
     });
