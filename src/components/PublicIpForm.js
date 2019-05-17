@@ -47,7 +47,7 @@ class PublicIpForm extends Component {
     let { dispatch } = this.props;
     let body = _.pickBy(this.state, _.identity);
 
-    body['cloudName'] = this.cloudName.value;
+    delete body.provider;
 
     dispatch(createPublicIp(body));
     this.resetForm();

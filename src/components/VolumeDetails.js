@@ -39,7 +39,7 @@ class VolumeDetails extends Component {
         <p>{this.state.orderData.state || '-'}</p>
 
         <p className="bolder">Size</p>
-        <p>{this.state.orderData.volumeSize || '-'} GB</p>
+        <p>{this.state.orderData.size || '-'} GB</p>
       </div>
     );
   }

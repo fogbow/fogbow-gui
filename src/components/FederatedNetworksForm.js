@@ -7,7 +7,7 @@ import { createFedNetwork } from '../actions/networks.actions';
 const initialState = {
   name: '',
   cidr: '188.140.0.0/24',
-  providingMembers: []
+  providers: []
 };
 
 class FederatedNetworksForm extends Component {
@@ -26,15 +26,15 @@ class FederatedNetworksForm extends Component {
 
   handleAddMember = (event) => {
     let value = event.target.value;
-    let members = this.state.providingMembers;
+    let members = this.state.providers;
 
     if(!members.includes(value)) {
       this.setState({
-          providingMembers: members.concat([value])
+          providers: members.concat([value])
       });
     } else {
       this.setState({
-          providingMembers: members.filter(member => member !== value)
+          providers: members.filter(member => member !== value)
       });
     }
   };

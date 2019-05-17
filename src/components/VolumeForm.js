@@ -9,7 +9,7 @@ import RequirementsComponent from './RequirementsComponent';
 
 const initialState = {
   name: '',
-  volumeSize: 1,
+  size: 1,
   provider: env.local,
   requirements: {},
   requirementTag: '',
@@ -121,8 +121,8 @@ class VolumeForm extends Component {
               <div className='form-row'>
                 <div className='col'>
                   <label>Volume Size (GB)</label>
-                  <input className='form-control' type='number' name='volumeSize'
-                         value={this.state.volumeSize} onChange={this.handleChange} min='1'
+                  <input className='form-control' type='number' name='size'
+                         value={this.state.size} onChange={this.handleChange} min='1'
                          required />
                 </div>
               </div>

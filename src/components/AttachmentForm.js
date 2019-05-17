@@ -46,7 +46,7 @@ class AttachmentForm extends Component {
     let body = _.pickBy(this.state, _.identity);
     let { dispatch } = this.props;
 
-    body['cloudName'] = this.cloudName.value;
+    delete body.provider;
 
     dispatch(createAttachment(body));
     this.resetForm();
