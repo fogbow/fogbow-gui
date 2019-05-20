@@ -22,11 +22,11 @@ class ComputeDetails extends Component {
   }
 
   render() {
-    const networks = this.state.orderData.networks ? Object.entries(this.state.orderData.networks)
-      .map((network) =>
-        <div key={network[1]}>
-          <p>Name: {network[1]}</p>
-          <p>ID: {network[0]}</p>
+    const networks = this.state.orderData.networks ? this.state.orderData.networks
+      .map((network, idx) =>
+        <div key={network.id}>
+          <p>Name: {network.name}</p>
+          <p>ID: {network.id}</p>
         </div>)
       : <p>-</p>;
 

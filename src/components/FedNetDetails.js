@@ -11,7 +11,6 @@ class FedNetDetails extends Component {
     }
   }
 
-
   componentDidMount() {
     let { dispatch } = this.props;
     dispatch(getFedNetworkData(this.props.id)).then(data => {
@@ -22,6 +21,14 @@ class FedNetDetails extends Component {
   }
 
   render() {
+    const computeIdsAndIps = this.state.orderData.computeIdsAndIps ? this.state.orderData.computeIdsAndIps
+      .map((computeIdIp, idx) =>
+        <div key={computeIdIp.id}>
+          <p>Compute ID: {computeIdIp.id}</p>
+          <p>IP: {computeIdIp.ip}</p>
+        </div>)
+      : <p>-</p>;
+
     return (
       <div className="details">
         <button type="button" class="close" aria-label="Close" onClick={() => this.props.handleHide()}>
@@ -44,6 +51,9 @@ class FedNetDetails extends Component {
 
         <p className="bolder">Providers</p>
         <p>{this.state.orderData.providers ? this.state.orderData.providers.toString() : '-'}</p>
+
+        <p className="bolder">Compute IDs and IPs</p>
+        {computeIdsAndIps}
 
       </div>
     );

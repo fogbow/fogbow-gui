@@ -240,10 +240,9 @@ class ComputeForm extends Component {
                 <option value=''>Choose an image</option>
                 {
                   images ?
-                  Object.keys(images)
-                      .map((image, idx) =>
-                        <option key={idx} value={image}>
-                          {images[image].concat(' (', image, ')')}
+                  images.map((image, idx) =>
+                        <option key={image.id} value={image.id}>
+                          {image.name.concat(' (', image.id, ')')}
                         </option>) : undefined
                 }
               </select>
