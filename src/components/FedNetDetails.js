@@ -21,11 +21,11 @@ class FedNetDetails extends Component {
   }
 
   render() {
-    const computeIdsAndIps = this.state.orderData.computeIdsAndIps ? this.state.orderData.computeIdsAndIps
-      .map((computeIdIp, idx) =>
-        <div key={computeIdIp.id}>
-          <p>Compute ID: {computeIdIp.id}</p>
-          <p>IP: {computeIdIp.ip}</p>
+    const assignedIps = this.state.orderData.assignedIps ? this.state.orderData.assignedIps
+      .map((assignedIp, idx) =>
+        <div key={assignedIp.id}>
+          <p>Compute ID: {assignedIp.computeId}</p>
+          <p>IP: {assignedIp.ip}</p>
         </div>)
       : <p>-</p>;
 
@@ -53,7 +53,7 @@ class FedNetDetails extends Component {
         <p>{this.state.orderData.providers ? this.state.orderData.providers.toString() : '-'}</p>
 
         <p className="bolder">Compute IDs and IPs</p>
-        {computeIdsAndIps}
+        {assignedIps}
 
       </div>
     );
