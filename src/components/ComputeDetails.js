@@ -74,13 +74,8 @@ class ComputeDetails extends Component {
         <p className="bolder">IP Addresses</p>
         <p>{_.join(this.state.orderData.ipAddresses, ',') || '-'}</p>
 
-        <p className="bolder">Image</p>
-        <p>
-          Name: {this.state.orderData.imageId ? this.state.orderData.imageId.split(':')[1] : '-'}
-        </p>
-        <p>
-          Id: {this.state.orderData.imageId ? this.state.orderData.imageId.split(':')[0] : '-'}
-        </p>
+        <p className="bolder">Image ID</p>
+        <p>{this.state.orderData.imageId || '-'}</p>
 
         <p className="bolder">User Data</p>
         {userData}
