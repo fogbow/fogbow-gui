@@ -7,6 +7,7 @@ import OrderList from '../components/OrderList';
 import PublicIpForm from '../components/PublicIpForm';
 import SecurityRuleForm from '../components/SecurityRuleForm';
 import { getPublicIps } from '../actions/publicIps.actions';
+import { getComputes } from '../actions/computes.actions';
 import PublicIpDetails from '../components/PublicIpDetails';
 
 class PublicIpPage extends Component {
@@ -22,11 +23,16 @@ class PublicIpPage extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props;
+
     dispatch(getPublicIps());
+    dispatch(getComputes());
+
     this.setState({
       intervalId: setInterval(async() => {
-        if (this.state.tableVisible)
+        if (this.state.tableVisible) {
             await dispatch(getPublicIps());
+            await dispatch(getComputes());
+        }
       }, env.refreshTime)
     });
   };

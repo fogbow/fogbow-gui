@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
-import { getComputes } from '../actions/computes.actions';
-import { getVolumes } from '../actions/volumes.actions';
 import { createAttachment } from '../actions/attachments.actions';
 
 import '../styles/order-form.css';
@@ -21,13 +19,6 @@ class AttachmentForm extends Component {
     super(props);
     this.state = initialState;
   }
-
-  componentDidMount = () => {
-    let { dispatch } = this.props;
-
-    dispatch(getComputes());
-    dispatch(getVolumes());
-  };
 
   handleChange = (event) => {
     let { name, value } = event.target;

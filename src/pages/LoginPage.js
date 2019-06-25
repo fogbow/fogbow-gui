@@ -35,19 +35,19 @@ class LoginPage extends Component {
     event.preventDefault();
     let { history, dispatch } = this.props;
 
-    if (env.shibbolethEndpoint) {
-      window.location.href = env.shibbolethEndpoint;
-    }
+    if (env.remoteEndpoint) {
+      window.location.href = env.remoteEndpoint;
+    } else {
+      try {
+        const tokenData = await dispatch(getAuthorization(this.state));
+        localStorage.setItem('token', tokenData.token);
 
-    try {
-      const tokenData = await dispatch(getAuthorization(this.state));
-      localStorage.setItem('token', tokenData.token);
-
-      history.push('/fogbow');
-    } catch (err) {
-      console.log(err);
-      this.resetState();
-      history.push('/');
+        history.push('/fogbow');
+      } catch (err) {
+        console.log(err);
+        this.resetState();
+        history.push('/');
+      }
     }
   }
 
@@ -65,7 +65,7 @@ class LoginPage extends Component {
   }
 
   generateAuth = () => {
-    if (!env.shibbolethEndpoint)
+    if (!env.remoteEndpoint)
       return this.generateInputs();
   };
 

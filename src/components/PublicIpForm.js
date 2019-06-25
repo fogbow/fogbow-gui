@@ -5,7 +5,6 @@ import _ from 'lodash';
 import '../styles/details.css';
 
 import { env } from '../defaults/api.config';
-import { getComputes } from '../actions/computes.actions';
 import { createPublicIp } from '../actions/publicIps.actions';
 
 const initialState = {
@@ -18,12 +17,6 @@ class PublicIpForm extends Component {
     super(props);
     this.state = initialState;
   }
-
-  componentDidMount = () => {
-    let { dispatch } = this.props;
-
-    dispatch(getComputes());
-  };
 
   handleChange = (event) => {
     let { name, value } = event.target;

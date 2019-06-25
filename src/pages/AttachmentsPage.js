@@ -5,6 +5,8 @@ import _ from 'lodash';
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import { getAttachments } from '../actions/attachments.actions';
+import { getComputes } from '../actions/computes.actions';
+import { getVolumes } from '../actions/volumes.actions';
 import AttachmentForm from '../components/AttachmentForm';
 import AttachmentDetails from '../components/AttachmentDetails';
 
@@ -21,11 +23,18 @@ class AttachmentsPage extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props;
+
     dispatch(getAttachments());
+    dispatch(getComputes());
+    dispatch(getVolumes());
+
     this.setState({
       intervalId: setInterval(async() => {
-        if (this.state.tableVisible)
+        if (this.state.tableVisible) {
           await dispatch(getAttachments());
+          await dispatch(getComputes());
+          await dispatch(getVolumes());
+        }
       }, env.refreshTime)
     });
   };
