@@ -107,7 +107,8 @@ class LoginPage extends Component {
     );
   };
 
-  componentDidMount() {
+  componentDidMount = async() => {
+    let { dispatch } = this.props;
     const publicKeyData = await dispatch(getFnsPublicKey());
     localStorage.setItem('publicKey', publicKeyData.token);
 
