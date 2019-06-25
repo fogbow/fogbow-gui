@@ -35,14 +35,11 @@ class LoginPage extends Component {
     event.preventDefault();
     let { history, dispatch } = this.props;
 
-    if (env.cafeEndpoint) {
-      window.location.href = env.cafeEndpoint;
+    if (env.shibbolethEndpoint) {
+      window.location.href = env.shibbolethEndpoint;
     }
 
     try {
-      const publicKeyData = await dispatch(getFnsPublicKey());
-      localStorage.setItem('publicKey', publicKeyData.token);
-
       const tokenData = await dispatch(getAuthorization(this.state));
       localStorage.setItem('token', tokenData.token);
 
@@ -54,11 +51,11 @@ class LoginPage extends Component {
     }
   }
 
-  cafeLogin = async(cafeCredentials) => {
+  shibbolethLogin = async(shibbolethCredentials) => {
     let { history, dispatch } = this.props;
 
     try {
-      const data = await dispatch(getAuthorization(cafeCredentials));
+      const data = await dispatch(getAuthorization(shibbolethCredentials));
       localStorage.setItem('token', data.token);
       history.push('/fogbow');
     } catch (err) {
@@ -68,7 +65,7 @@ class LoginPage extends Component {
   }
 
   generateAuth = () => {
-    if (!env.cafeEndpoint)
+    if (!env.shibbolethEndpoint)
       return this.generateInputs();
   };
 
@@ -111,11 +108,14 @@ class LoginPage extends Component {
   };
 
   componentDidMount() {
-    let cafeRedirect = this.props.location.search;
+    const publicKeyData = await dispatch(getFnsPublicKey());
+    localStorage.setItem('publicKey', publicKeyData.token);
 
-    if (cafeRedirect) {
-      let cafeCredentials = parse(cafeRedirect);
-      this.cafeLogin(cafeCredentials);
+    const shibbolethRedirect = this.props.location.search;
+
+    if (shibbolethRedirect) {
+      let shibbolethCredentials = parse(shibbolethRedirect);
+      this.shibbolethLogin(shibbolethCredentials);
     }
   }
 

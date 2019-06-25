@@ -24,12 +24,9 @@ class AttachmentForm extends Component {
 
   componentDidMount = () => {
     let { dispatch } = this.props;
-    if(! this.props.computes.loading) {
-      dispatch(getComputes());
-    }
-    if(! this.props.volumes.loading) {
-      dispatch(getVolumes());
-    }
+
+    dispatch(getComputes());
+    dispatch(getVolumes());
   };
 
   handleChange = (event) => {

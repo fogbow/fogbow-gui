@@ -22,15 +22,7 @@ class PublicIpForm extends Component {
   componentDidMount = () => {
     let { dispatch } = this.props;
 
-    if (! this.props.computes.loading) {
-        dispatch(getComputes());
-    }
-
-    if (this.props.clouds.loading) {
-      this.setState({
-        cloudName: this.props.clouds.data[0]
-      });
-    }
+    dispatch(getComputes());
   };
 
   handleChange = (event) => {
