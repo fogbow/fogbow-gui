@@ -31,7 +31,7 @@ class SecurityRulesComponent extends Component {
       port = port === 0 ? 'Any' : port;
 
       return (
-        <tr key={securityRule.instanceId}>
+        <tr key={securityRule.id}>
           <td>{securityRule.direction === 'IN' ? 'Ingress' : 'Egress'}</td>
           <td>{securityRule.etherType}</td>
           <td>{securityRule.protocol === 'ANY' ? 'Any' : securityRule.protocol}</td>
@@ -39,7 +39,7 @@ class SecurityRulesComponent extends Component {
           <td>{securityRule.cidr || '-'}</td>
           <td>
             <button type='button' className='btn btn-sm btn-danger' onClick={this.handleDelete}
-                    value={securityRule.instanceId}>
+                    value={securityRule.id}>
               Delete Rule
             </button>
           </td>
