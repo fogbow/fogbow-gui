@@ -4,7 +4,7 @@ export const env = {
   ms: 'http://localhost:8082',
   as: 'http://localhost:8080',
   local: 'fake.localidentity.member',
-  remoteEndpoint: '',
+  remoteCredentialsUrl: '',
   refreshTime: 5000,
   authenticationPlugin: 'KeystoneV3',
   credentialFields: {

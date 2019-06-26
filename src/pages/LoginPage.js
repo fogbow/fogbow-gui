@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer, Slide } from 'react-toastify';
 import { parse } from 'query-string';
+import _ from 'lodash';
 
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
@@ -33,11 +34,12 @@ class LoginPage extends Component {
 
   login = async(event) => {
     event.preventDefault();
+
     let { history, dispatch } = this.props;
 
-    if (env.remoteEndpoint) {
-      window.location.href = env.remoteEndpoint;
-    } else {
+    if (env.remoteCredentialsUrl) {
+      window.location.href = env.remoteCredentialsUrl;
+    } else if (!_.isEmpty(env.credentialFields)) {
       try {
         const tokenData = await dispatch(getAuthorization(this.state));
         localStorage.setItem('token', tokenData.token);
@@ -51,11 +53,11 @@ class LoginPage extends Component {
     }
   }
 
-  shibbolethLogin = async(shibbolethCredentials) => {
+  remoteCredentialsLogin = async(remoteCredentials) => {
     let { history, dispatch } = this.props;
 
     try {
-      const data = await dispatch(getAuthorization(shibbolethCredentials));
+      const data = await dispatch(getAuthorization(remoteCredentials));
       localStorage.setItem('token', data.token);
       history.push('/fogbow');
     } catch (err) {
@@ -64,9 +66,10 @@ class LoginPage extends Component {
     }
   }
 
-  generateAuth = () => {
-    if (!env.remoteEndpoint)
-      return this.generateInputs();
+  generateCredentialsFields = () => {
+    // NOTE(pauloewerton): remote authentication has precedence in case both are
+    // defined on the config file.
+    if (!_.isEmpty(env.credentialFields)) return this.generateInputs();
   };
 
   generateDropdown = (field, label, options) => {
@@ -112,11 +115,11 @@ class LoginPage extends Component {
     const publicKeyData = await dispatch(getFnsPublicKey());
     localStorage.setItem('publicKey', publicKeyData.token);
 
-    const shibbolethRedirect = this.props.location.search;
+    const remoteCredentialsRedirectUrl = this.props.location.search;
 
-    if (shibbolethRedirect) {
-      let shibbolethCredentials = parse(shibbolethRedirect);
-      this.shibbolethLogin(shibbolethCredentials);
+    if (remoteCredentialsRedirectUrl) {
+      let remoteCredentials = parse(remoteCredentialsRedirectUrl);
+      this.remoteCredentialsLogin(remoteCredentials);
     }
   }
 
@@ -132,7 +135,7 @@ class LoginPage extends Component {
 
           <p>Authentication Service : {env.authenticationPlugin}</p>
 
-          {this.generateAuth()}
+          {env.remoteCredentialsUrl ? undefined : this.generateCredentialsFields()}
         </form>
         <div className="form-footer">
           <button type="submit" onClick={this.login} className="btn btn-primary submit">

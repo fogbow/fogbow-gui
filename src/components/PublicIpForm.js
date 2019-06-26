@@ -10,6 +10,7 @@ import { createPublicIp } from '../actions/publicIps.actions';
 const initialState = {
   provider: env.local,
   computeId: '',
+  computes: [],
 };
 
 class PublicIpForm extends Component {
@@ -40,6 +41,14 @@ class PublicIpForm extends Component {
 
   resetForm = () => {
     this.setState(initialState);
+  };
+
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.computes.loading && !_.isEqual(props.computes.data, state.computes)) {
+      return {computes: props.computes.data};
+    }
+
+    return null;
   };
 
   render() {
@@ -94,8 +103,8 @@ class PublicIpForm extends Component {
                       value={this.state.computeId} onChange={this.handleChange}>
                 <option value=''></option>
                 {
-                  this.props.computes.loading && this.cloudName ?
-                  this.props.computes.data
+                  this.state.computes && this.cloudName ?
+                  this.state.computes
                     .filter(compute => compute.state === 'READY' &&
                                        compute.provider === this.state.provider &&
                                        compute.cloudName === this.cloudName.value)
