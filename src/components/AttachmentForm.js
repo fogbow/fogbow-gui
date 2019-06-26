@@ -11,7 +11,9 @@ const initialState = {
   provider: env.local,
   computeId: '',
   volumeId: '',
-  device: '/dev/sdb'
+  device: '/dev/sdb',
+  computesCopy: [],
+  volumesCopy: []
 };
 
 class AttachmentForm extends Component {
@@ -42,6 +44,17 @@ class AttachmentForm extends Component {
 
   resetForm = () => {
     this.setState(initialState);
+  };
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.computesCopy.loading && !_.isEqual(props.computesCopy.data, state.computesCopy) &&
+        props.volumesCopy.loading && !_.isEqual(props.volumesCopy.data, state.volumesCopy)) {
+      return {
+        computesCopy: props.computesCopy.data,
+        volumesCopy: props.volumesCopy.data
+      };
+    }
+
+    return null;
   };
 
   render() {
@@ -97,8 +110,8 @@ class AttachmentForm extends Component {
                       onChange={this.handleChange}>
                 <option value=''></option>
                 {
-                  this.props.computes.loading && this.cloudName ?
-                  this.props.computes.data
+                  this.state.computesCopy && this.cloudName ?
+                  this.state.computesCopy
                     .filter(compute => compute.state === 'READY' &&
                                        compute.provider === this.state.provider &&
                                        compute.cloudName === this.cloudName.value)
@@ -115,8 +128,8 @@ class AttachmentForm extends Component {
                       onChange={this.handleChange}>
                 <option value=''></option>
                 {
-                  this.props.volumes.loading && this.cloudName ?
-                  this.props.volumes.data
+                  this.state.volumesCopy && this.cloudName ?
+                  this.state.volumesCopy
                     .filter(volume => volume.state === 'READY' &&
                                       volume.provider === this.state.provider &&
                                       volume.cloudName === this.cloudName.value)
