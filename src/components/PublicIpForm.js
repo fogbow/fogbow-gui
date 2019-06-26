@@ -44,8 +44,8 @@ class PublicIpForm extends Component {
   };
 
   static getDerivedStateFromProps = (props, state) => {
-    if (props.computesCopy.loading && !_.isEqual(props.computesCopy.data, state.computesCopy)) {
-      return {computesCopy: props.computesCopy.data};
+    if (props.computes.loading && !_.isEqual(props.computes.data, state.computesCopy)) {
+      return {computesCopy: props.computes.data};
     }
 
     return null;

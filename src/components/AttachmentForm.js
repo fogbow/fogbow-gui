@@ -46,11 +46,11 @@ class AttachmentForm extends Component {
     this.setState(initialState);
   };
   static getDerivedStateFromProps = (props, state) => {
-    if (props.computesCopy.loading && !_.isEqual(props.computesCopy.data, state.computesCopy) &&
-        props.volumesCopy.loading && !_.isEqual(props.volumesCopy.data, state.volumesCopy)) {
+    if (props.computes.loading && !_.isEqual(props.computes.data, state.computesCopy) &&
+        props.volumes.loading && !_.isEqual(props.volumes.data, state.volumesCopy)) {
       return {
-        computesCopy: props.computesCopy.data,
-        volumesCopy: props.volumesCopy.data
+        computesCopy: props.computes.data,
+        volumesCopy: props.volumes.data
       };
     }
 
