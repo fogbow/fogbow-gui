@@ -45,9 +45,10 @@ class AttachmentForm extends Component {
   resetForm = () => {
     this.setState(initialState);
   };
+
   static getDerivedStateFromProps = (props, state) => {
-    if (props.computes.loading && !_.isEqual(props.computes.data, state.computesCopy) &&
-        props.volumes.loading && !_.isEqual(props.volumes.data, state.volumesCopy)) {
+    if ((props.computes.loading && !_.isEqual(props.computes.data, state.computesCopy)) ||
+        (props.volumes.loading && !_.isEqual(props.volumes.data, state.volumesCopy))) {
       return {
         computesCopy: props.computes.data,
         volumesCopy: props.volumes.data

@@ -127,8 +127,7 @@ class LoginPage extends Component {
     return (
       <div>
         <form className="login-form">
-          <img className="image" src={require("../assets/logo_fogbow_transparent.png")}
-          alt="Fogbow"></img>
+          <img className="image" src={require("../assets/logo_fogbow_transparent.png")} alt="Fogbow"></img>
           <h3>Login</h3>
 
           <hr className="horizontal-line"/>
