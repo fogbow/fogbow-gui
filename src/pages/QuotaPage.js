@@ -45,16 +45,16 @@ class QuotaPage extends Component {
     if (localStorage.getItem('token')) {
       dispatch(getProviders())
         .then(data => {
-          dispatch(getAllProvidersData(data.members))
+          dispatch(getAllProvidersData(data.providers))
             .then(data => {
               this.setState({
                 totalQuota: data
               });
             });
 
-          dispatch(getRemoteClouds(data.members));
+          dispatch(getRemoteClouds(data.providers));
 
-          data.members.map(async(providerId) => {
+          data.providers.map(async(providerId) => {
             let providerClouds = await dispatch(getCloudsByProviderId(providerId));
             let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
 
