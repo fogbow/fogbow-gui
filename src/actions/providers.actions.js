@@ -16,7 +16,7 @@ export const getProviders = () => {
       dispatch(request());
 
       provider.get().then(
-        providers => resolve(dispatch(success(providers.data.providers)))
+        providers => resolve(dispatch(success(providers.data.members)))
       ).catch((error) => {
         const message = getErrorMessage(error);
         toast.error(messages.providers.get.concat(message));
