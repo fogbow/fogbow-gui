@@ -13,15 +13,15 @@ const clouds = (state = {loading: false, data: []}, action) => {
     case cloudsActionsTypes.GET_LOCAL_CLOUDS_FAILURE:
         return { ...state, error: action.error };
 
-    case cloudsActionsTypes.GET_MEMBER_CLOUDS_REQUEST:
+    case cloudsActionsTypes.GET_PROVIDER_CLOUDS_REQUEST:
         return { ...state, loading: false };
-    case cloudsActionsTypes.GET_MEMBER_CLOUDS_SUCCESS:
+    case cloudsActionsTypes.GET_PROVIDER_CLOUDS_SUCCESS:
         return {
             ...state,
             data: action.clouds,
             loading: true
         };
-    case cloudsActionsTypes.GET_MEMBER_CLOUDS_FAILURE:
+    case cloudsActionsTypes.GET_PROVIDER_CLOUDS_FAILURE:
         return { ...state, error: action.error };
 
     default:

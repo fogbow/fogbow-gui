@@ -49,7 +49,7 @@ export const createVolume = (body) => {
     return new Promise((resolve, reject) => {
       let provider = new VolumesProvider();
       const request = () => ({ type: volumesActionsTypes.CREATE_VOLUME_REQUEST});
-      const success = (volume) => ({ type: volumesActionsTypes.CREATE_VOLUME_SUCCESS, volume, member: body.member });
+      const success = (volume) => ({ type: volumesActionsTypes.CREATE_VOLUME_SUCCESS, volume, provider: body.provider });
       const failure = (error) => ({ type: volumesActionsTypes.CREATE_VOLUME_FAILURE, error });
 
       dispatch(request());

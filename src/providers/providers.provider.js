@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { env } from '../defaults/api.config';
 
-class MembersProvider {
-  members = env.ms.concat('/members');
+class ProvidersProvider {
+  providers = env.ms.concat('/members');
   clouds = env.ms.concat('/clouds');
   computeQuota = env.fns.concat('/computes/quota/');
 
@@ -13,7 +13,7 @@ class MembersProvider {
   };
 
   get() {
-    return axios.get(this.members);
+    return axios.get(this.providers);
   }
 
   getQuota(id, cloudId) {
@@ -21,4 +21,4 @@ class MembersProvider {
   }
 }
 
-export default MembersProvider;
+export default ProvidersProvider;

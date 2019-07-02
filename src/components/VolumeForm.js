@@ -59,8 +59,8 @@ class VolumeForm extends Component {
     let { dispatch } = this.props;
 
     if(! this.props.remoteClouds.loading) {
-      if (this.props.members.loading) {
-        dispatch(getRemoteClouds(this.props.members.data));
+      if (this.props.providers.loading) {
+        dispatch(getRemoteClouds(this.props.providers.data));
       }
     }
   };
@@ -133,12 +133,12 @@ class VolumeForm extends Component {
                   <select name='provider' className='form-control' required
                           value={this.state.provider} onChange={this.handleChange}>
                     {
-                      this.props.members.loading ?
-                      this.props.members.data.map((member, idx) => {
-                        if (member === env.local) {
-                          return <option key={idx} value={member} defaultValue>{member} (local)</option>;
+                      this.props.providers.loading ?
+                      this.props.providers.data.map((provider, idx) => {
+                        if (provider === env.local) {
+                          return <option key={idx} value={provider} defaultValue>{provider} (local)</option>;
                         }
-                        return <option key={idx} value={member}>{member}</option>;
+                        return <option key={idx} value={provider}>{provider}</option>;
                       }) :
                       undefined
                     }
@@ -191,7 +191,7 @@ class VolumeForm extends Component {
 }
 
 const stateToProps = state => ({
-  members: state.members,
+  providers: state.providers,
   clouds: state.clouds,
   remoteClouds: state.remoteClouds
 });

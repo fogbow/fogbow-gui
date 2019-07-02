@@ -25,7 +25,7 @@ export const getLocalClouds = () => {
   };
 };
 
-export const getRemoteClouds = (membersIds) => {
+export const getRemoteClouds = (providerIds) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       let provider = new CloudsProvider();
@@ -37,13 +37,13 @@ export const getRemoteClouds = (membersIds) => {
 
       dispatch(request());
 
-      membersIds.map(async(memberId) => {
+      providerIds.map(async(providerId) => {
         try {
-          let cloud = await provider.getCloudsByMemberId(memberId);
-          remoteClouds[memberId] = cloud.data.clouds;
+          let cloud = await provider.getCloudsByProviderId(providerId);
+          remoteClouds[providerId] = cloud.data.clouds;
         } catch(error) {
           const message = getErrorMessage(error);
-          toast.error(messages.clouds.getRemote.concat(memberId, message));
+          toast.error(messages.clouds.getRemote.concat(providerId, message));
           return reject(dispatch(failure(error)))
         }
       });
@@ -53,17 +53,17 @@ export const getRemoteClouds = (membersIds) => {
   };
 };
 
-export const getCloudsByMemberId = (id) => {
+export const getCloudsByProviderId = (id) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       let provider = new CloudsProvider();
-      const request = () => ({ type: cloudsActionsTypes.GET_MEMBER_CLOUDS_REQUEST});
-      const success = (clouds) => ({ type: cloudsActionsTypes.GET_MEMBER_CLOUDS_SUCCESS, clouds, id });
-      const failure = (error) => ({ type: cloudsActionsTypes.GET_MEMBER_CLOUDS_FAILURE, error });
+      const request = () => ({ type: cloudsActionsTypes.GET_PROVIDER_CLOUDS_REQUEST});
+      const success = (clouds) => ({ type: cloudsActionsTypes.GET_PROVIDER_CLOUDS_SUCCESS, clouds, id });
+      const failure = (error) => ({ type: cloudsActionsTypes.GET_PROVIDER_CLOUDS_FAILURE, error });
 
       dispatch(request());
 
-      provider.getCloudsByMemberId(id).then(
+      provider.getCloudsByProviderId(id).then(
         clouds => resolve(dispatch(success(clouds.data.clouds)))
       ).catch((error) => {
         const message = getErrorMessage(error);

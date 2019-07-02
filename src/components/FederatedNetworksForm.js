@@ -24,17 +24,17 @@ class FederatedNetworksForm extends Component {
     });
   };
 
-  handleAddMember = (event) => {
+  handleAddProvider = (event) => {
     let value = event.target.value;
-    let members = this.state.providers;
+    let providers = this.state.providers;
 
-    if(!members.includes(value)) {
+    if(!providers.includes(value)) {
       this.setState({
-          providers: members.concat([value])
+          providers: providers.concat([value])
       });
     } else {
       this.setState({
-          providers: members.filter(member => member !== value)
+          providers: providers.filter(provider => provider !== value)
       });
     }
   };
@@ -74,14 +74,14 @@ class FederatedNetworksForm extends Component {
               <input className="form-control" type="text" name="cidr"
                      value={this.state.cidr} onChange={this.handleChange}/>
 
-              <label>Members</label>
+              <label>Providers</label>
               {
-                this.props.members.data.map((member, idx) => {
+                this.props.providers.data.map((provider, idx) => {
                   return(
                     <div key={idx}>
                       <label>
-                        <input type="checkbox" value={member} onChange={this.handleAddMember}/>
-                        { member }
+                        <input type="checkbox" value={provider} onChange={this.handleAddProvider}/>
+                        { provider }
                       </label>
                     </div>
                   );
@@ -106,7 +106,7 @@ class FederatedNetworksForm extends Component {
 }
 
 const stateToProps = state => ({
-  members: state.members,
+  providers: state.providers,
 });
 
 export default connect(stateToProps)(FederatedNetworksForm);

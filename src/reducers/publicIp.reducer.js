@@ -21,7 +21,7 @@ const publicIps = (state = {loading: false, specific: {}}, action) => {
       state.data.push({
           instanceId: action.publicIp,
           state: 'OPEN',
-          provider: action.member
+          provider: action.provider
       });
       return {
           ...state,

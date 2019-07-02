@@ -20,7 +20,7 @@ export const messages = {
   images: {
     get: 'Unable to retrieve images list'
   },
-  members: {
+  providers: {
     get: 'Unable to retrieve providers list',
     getQuota: 'Unable to retrieve quota from provider ',
     getAllQuota: 'Unable to retrieve quota from all providers',

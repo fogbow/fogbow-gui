@@ -21,7 +21,7 @@ const volumes = (state = {loading: false, data: []}, action) => {
             state.data.push({
                 instanceId: action.volume,
                 state: 'OPEN',
-                provider: action.member
+                provider: action.provider
             });
             return {
                 ...state,

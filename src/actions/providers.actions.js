@@ -1,38 +1,38 @@
 import { toast } from 'react-toastify';
 
 import { messages, getErrorMessage } from '../defaults/messages';
-import { membersActionsTypes } from './members.actions.types';
-import MembersProvider from '../providers/members.provider';
+import { providersActionsTypes } from './providers.actions.types';
+import ProvidersProvider from '../providers/providers.provider';
 import CloudsProvider from '../providers/clouds.provider';
 
-export const getMembers = () => {
+export const getProviders = () => {
   return dispatch => {
     return new Promise((resolve, reject) => {
-      let provider = new MembersProvider();
-      const request = () => ({ type: membersActionsTypes.GET_MEMBERS_REQUEST});
-      const success = (members) => ({ type: membersActionsTypes.GET_MEMBERS_SUCCESS, members });
-      const failure = (error) => ({ type: membersActionsTypes.GET_MEMBERS_FAILURE, error });
+      let provider = new ProvidersProvider();
+      const request = () => ({ type: providersActionsTypes.GET_PROVIDERS_REQUEST});
+      const success = (providers) => ({ type: providersActionsTypes.GET_PROVIDERS_SUCCESS, providers });
+      const failure = (error) => ({ type: providersActionsTypes.GET_PROVIDERS_FAILURE, error });
 
       dispatch(request());
 
       provider.get().then(
-        members => resolve(dispatch(success(members.data.members)))
+        providers => resolve(dispatch(success(providers.data.providers)))
       ).catch((error) => {
         const message = getErrorMessage(error);
-        toast.error(messages.members.get.concat(message));
+        toast.error(messages.providers.get.concat(message));
         return reject(dispatch(failure(error)))
       });
     });
   };
 };
 
-export const getMemberData = (id, cloudId) => {
+export const getProviderData = (id, cloudId) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
-      let provider = new MembersProvider();
-      const request = () => ({ type: membersActionsTypes.GET_MEMBER_DATA_REQUEST});
-      const success = (quota) => ({ type: membersActionsTypes.GET_MEMBER_DATA_SUCCESS, quota, id });
-      const failure = (error) => ({ type: membersActionsTypes.GET_MEMBER_DATA_FAILURE, error });
+      let provider = new ProvidersProvider();
+      const request = () => ({ type: providersActionsTypes.GET_PROVIDER_DATA_REQUEST});
+      const success = (quota) => ({ type: providersActionsTypes.GET_PROVIDER_DATA_SUCCESS, quota, id });
+      const failure = (error) => ({ type: providersActionsTypes.GET_PROVIDER_DATA_FAILURE, error });
 
       dispatch(request());
 
@@ -40,17 +40,17 @@ export const getMemberData = (id, cloudId) => {
         quota => resolve(dispatch(success(quota.data)))
       ).catch((error) => {
         const message = getErrorMessage(error);
-        toast.error(messages.members.getQuota.concat(id, message));
+        toast.error(messages.providers.getQuota.concat(id, message));
         return reject(dispatch(failure(error)))
       });
     });
   };
 };
 
-export const getAllMembersData = (members) => {
+export const getAllProvidersData = (providers) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
-      let promises = members.map(memberId => dispatch(getMemberQuotaFromAllClouds(memberId)));
+      let promises = providers.map(providerId => dispatch(getProviderQuotaFromAllClouds(providerId)));
 
       Promise.all(promises)
         .then(data => {
@@ -64,25 +64,25 @@ export const getAllMembersData = (members) => {
         })
         .catch((error) => {
           const message = getErrorMessage(error);
-          toast.error(messages.members.getAllQuota.concat(message));
+          toast.error(messages.providers.getAllQuota.concat(message));
           return reject(error);
         });
       });
   };
 };
 
-export const getMemberQuotaFromAllClouds = (memberId) => {
+export const getProviderQuotaFromAllClouds = (providerId) => {
   return dispatch => {
     return new Promise(async(resolve, reject) => {
       let provider = new CloudsProvider();
       let promises = [];
 
       try {
-        let clouds = await provider.getCloudsByMemberId(memberId);
-        promises = clouds.data.clouds.map(cloudId => dispatch(getMemberData(memberId, cloudId)));
+        let clouds = await provider.getCloudsByProviderId(providerId);
+        promises = clouds.data.clouds.map(cloudId => dispatch(getProviderData(providerId, cloudId)));
       } catch(error) {
         const message = getErrorMessage(error);
-        toast.error(messages.clouds.getRemote.concat(memberId, message));
+        toast.error(messages.clouds.getRemote.concat(providerId, message));
         return reject(error);
       }
 
@@ -98,7 +98,7 @@ export const getMemberQuotaFromAllClouds = (memberId) => {
         })
         .catch((error) => {
           const message = getErrorMessage(error);
-          toast.error(messages.members.getQuota.concat(memberId, message));
+          toast.error(messages.providers.getQuota.concat(providerId, message));
           return reject(error);
         });
     });

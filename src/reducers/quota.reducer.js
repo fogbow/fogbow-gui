@@ -1,16 +1,16 @@
-import { membersActionsTypes } from '../actions/members.actions.types';
+import { providersActionsTypes } from '../actions/providers.actions.types';
 
-const members = (state = {loading: false, data: []}, action) => {
+const providers = (state = {loading: false, data: []}, action) => {
     switch (action.type) {
-        case membersActionsTypes.GET_MEMBER_DATA_REQUEST:
+        case providersActionsTypes.GET_PROVIDER_DATA_REQUEST:
             return { data: [] };
-        case membersActionsTypes.GET_MEMBER_DATA_SUCCESS:
+        case providersActionsTypes.GET_PROVIDER_DATA_SUCCESS:
             let data = {};
             data[action.id] = action.quota;
             return {
                 data: data
             };
-        case membersActionsTypes.GET_MEMBERS_FAILURE:
+        case providersActionsTypes.GET_PROVIDERS_FAILURE:
             return { ...state, error: action.error };
         
         default:
@@ -18,4 +18,4 @@ const members = (state = {loading: false, data: []}, action) => {
     }
 };
 
-export default members;
+export default providers;

@@ -80,12 +80,12 @@ export const getRemoteImages = (remoteClouds) => {
       dispatch(request());
 
       try {
-        Object.keys(remoteClouds).forEach((memberId) => {
-          remoteImages[memberId] = {};
-          remoteClouds[memberId].forEach(async(cloudId) => {
+        Object.keys(remoteClouds).forEach((providerId) => {
+          remoteImages[providerId] = {};
+          remoteClouds[providerId].forEach(async(cloudId) => {
               try {
-                let img = await provider.getCloudImages(memberId, cloudId);
-                Object.assign(remoteImages[memberId], {[cloudId]: img.data});
+                let img = await provider.getCloudImages(providerId, cloudId);
+                Object.assign(remoteImages[providerId], {[cloudId]: img.data});
               } catch(error) {
                 console.log(error);
                 throw error;
@@ -108,7 +108,7 @@ export const createCompute = (body) => {
     return new Promise((resolve, reject) => {
       let provider = new ComputesProvider();
       const request = () => ({ type: computesActionsTypes.CREATE_COMPUTE_REQUEST});
-      const success = (compute) => ({ type: computesActionsTypes.CREATE_COMPUTE_SUCCESS, compute, member: body.member });
+      const success = (compute) => ({ type: computesActionsTypes.CREATE_COMPUTE_SUCCESS, compute, provider: body.provider });
       const failure = (error) => ({ type: computesActionsTypes.CREATE_COMPUTE_FAILURE, error });
 
       dispatch(request());

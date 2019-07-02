@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import { env } from '../defaults/api.config';
 import QuotaTable from '../components/QuotaTable';
-import { getMembers, getMemberData, getAllMembersData } from '../actions/members.actions';
-import { getLocalClouds, getCloudsByMemberId , getRemoteClouds} from '../actions/clouds.actions';
+import { getProviders, getProviderData, getAllProvidersData } from '../actions/providers.actions';
+import { getLocalClouds, getCloudsByProviderId , getRemoteClouds} from '../actions/clouds.actions';
 import { getVersion } from '../actions/version.actions';
 
 const mockData = {
@@ -33,7 +33,7 @@ class QuotaPage extends Component {
     this.state = {
       localQuota: mockData,
       totalQuota: mockData,
-      localMember: env.local,
+      localProvider: env.local,
       vendors: {}
     };
   }
@@ -43,22 +43,22 @@ class QuotaPage extends Component {
 
     // NOTE(pauloewerton): check whether login was successful
     if (localStorage.getItem('token')) {
-      dispatch(getMembers())
+      dispatch(getProviders())
         .then(data => {
-          dispatch(getAllMembersData(data.members))
+          dispatch(getAllProvidersData(data.providers))
             .then(data => {
               this.setState({
                 totalQuota: data
               });
             });
 
-          dispatch(getRemoteClouds(data.members));
+          dispatch(getRemoteClouds(data.providers));
 
-          data.members.map(async(memberId) => {
-            let memberClouds = await dispatch(getCloudsByMemberId(memberId));
+          data.providers.map(async(providerId) => {
+            let providerClouds = await dispatch(getCloudsByProviderId(providerId));
             let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
 
-            cloudsCopy[memberId] = memberClouds.clouds;
+            cloudsCopy[providerId] = providerClouds.clouds;
             this.setState({
               vendors: cloudsCopy
             });
@@ -67,7 +67,7 @@ class QuotaPage extends Component {
 
       // local
       dispatch(getLocalClouds())
-        .then(data => dispatch(getMemberData(this.state.localMember, data.clouds[default_cloud_index])))
+        .then(data => dispatch(getProviderData(this.state.localProvider, data.clouds[default_cloud_index])))
         .then(data => {
           this.setState({
             localQuota: data.quota
@@ -80,11 +80,11 @@ class QuotaPage extends Component {
     }
   };
 
-  cloudChange = (memberId, cloudId) => {
+  cloudChange = (providerId, cloudId) => {
     const { dispatch } = this.props;
 
-    if (memberId && memberId !== '') {
-      dispatch(getMemberData(memberId, cloudId))
+    if (providerId && providerId !== '') {
+      dispatch(getProviderData(providerId, cloudId))
         .then(data => {
           this.setState({
             localQuota: data.quota
@@ -98,15 +98,15 @@ class QuotaPage extends Component {
   };
 
   render() {
-    let memberQuota = <QuotaTable vendors={this.state.vendors} vendorChange={this.vendorChange}
+    let providerQuota = <QuotaTable vendors={this.state.vendors} vendorChange={this.vendorChange}
                                   cloudChange={this.cloudChange}
-                                  data={this.props.members.loadingMember ? this.state.localQuota :
+                                  data={this.props.providers.loadingProvider ? this.state.localQuota :
                                         mockData}/>;
 
     return (
         <div>
-          {this.state.vendors[env.local] ? memberQuota : undefined}
-          <QuotaTable label="Aggregated" data={this.props.members.loadingMember ?
+          {this.state.vendors[env.local] ? providerQuota : undefined}
+          <QuotaTable label="Aggregated" data={this.props.providers.loadingProvider ?
                                                this.state.totalQuota : mockData}/>
         </div>
     );
@@ -114,7 +114,7 @@ class QuotaPage extends Component {
 }
 
 const stateToProps = state => ({
-  members: state.members,
+  providers: state.providers,
   clouds: state.clouds,
   remoteClouds: state.remoteClouds,
   quota: state.quota,

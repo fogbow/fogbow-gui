@@ -27,16 +27,16 @@ class ComputesProvider {
     return axios.delete(this.url.concat('/', id), this.config);
   }
 
-  getImages(memberId) {
-    if (memberId) {
-      this.config.headers['memberId'] = memberId;
+  getImages(providerId) {
+    if (providerId) {
+      this.config.headers['providerId'] = providerId;
     }
 
     return axios.get(this.imagesUrl, this.config);
   }
 
-  getCloudImages(memberId, cloudId) {
-    return axios.get(this.imagesUrl.concat('/', memberId, '/', cloudId), this.config);
+  getCloudImages(providerId, cloudId) {
+    return axios.get(this.imagesUrl.concat('/', providerId, '/', cloudId), this.config);
   }
 }
 

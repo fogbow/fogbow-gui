@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import members from './members.reducer';
+import providers from './providers.reducer';
 import computes from './computes.reducer';
 import volumes from './volumes.reducer';
 import networks from './networks.reducer';
@@ -16,7 +16,7 @@ import clouds from './clouds.reducer';
 import remoteClouds from './remoteClouds.reducer';
 
 export default combineReducers({
-  members,
+  providers,
   computes,
   volumes,
   networks,
