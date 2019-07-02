@@ -60,7 +60,7 @@ class QuotaTable extends Component {
               <div className='col'>
                 <div className='form-row'>
                   <div className='col'>
-                    <label className='mr-2'>Member</label>
+                    <label className='mr-2'>Provider</label>
                     <select value={this.state.vendor} name='vendor' onChange={this.handleChange}>
                       {
                         vendors.length > 0 ?

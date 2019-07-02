@@ -10,7 +10,7 @@ const securityRules = (state = {loading: false, data: []}, action) => {
       state.data.push({
           instanceId: action.securityRule,
           state: 'OPEN',
-          provider: action.member
+          provider: action.provider
       });
       return {
           ...state,
@@ -51,7 +51,7 @@ const securityRules = (state = {loading: false, data: []}, action) => {
       state.data.push({
           instanceId: action.securityRule,
           state: 'OPEN',
-          provider: action.member
+          provider: action.provider
       });
       return {
           ...state,

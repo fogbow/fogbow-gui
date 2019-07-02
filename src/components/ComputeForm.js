@@ -46,7 +46,7 @@ class ComputeForm extends Component {
     let { dispatch } = this.props;
 
     if (! this.props.remoteClouds.loading) {
-      dispatch(getRemoteClouds(this.props.members));
+      dispatch(getRemoteClouds(this.props.providers));
     }
 
     if (! this.props.remoteImages.loading) {
@@ -208,12 +208,12 @@ class ComputeForm extends Component {
               <select value={this.state.provider} onChange={this.handleChange}
                       name='provider' className="form-control" required>
                 {
-                  this.props.members.loading ?
-                  this.props.members.data.map((member, idx) => {
-                    if (member === env.local) {
-                      return <option key={idx} value={member} defaultValue>{member} (local)</option>;
+                  this.props.providers.loading ?
+                  this.props.providers.data.map((provider, idx) => {
+                    if (provider === env.local) {
+                      return <option key={idx} value={provider} defaultValue>{provider} (local)</option>;
                     }
-                    return <option key={idx} value={member}>{member}</option>;
+                    return <option key={idx} value={provider}>{provider}</option>;
                   }) :
                   undefined
                 }
@@ -320,7 +320,7 @@ class ComputeForm extends Component {
 }
 
 const stateToProps = state => ({
-  members: state.members,
+  providers: state.providers,
   clouds: state.clouds,
   remoteClouds: state.remoteClouds,
   remoteImages: state.remoteImages,

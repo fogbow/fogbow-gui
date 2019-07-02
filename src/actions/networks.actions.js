@@ -52,7 +52,7 @@ export const createNetwork = (body) => {
       const success = (network) => ({
         type: networksActionsTypes.CREATE_NETWORK_SUCCESS,
         network,
-        member: body.member
+        provider: body.provider
       });
       const failure = (error) => ({ type: networksActionsTypes.CREATE_NETWORK_FAILURE, error });
 

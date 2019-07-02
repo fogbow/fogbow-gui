@@ -20,7 +20,7 @@ const fedNetworks = (state = {loading: false, data: []}, action) => {
             state.data.push({
                 instanceId: action.network,
                 state: 'OPEN',
-                provider: action.member
+                provider: action.provider
             });
             return {
                 ...state,

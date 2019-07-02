@@ -13,7 +13,7 @@ class CloudsProvider {
     return axios.get(this.clouds, this.config);
   }
 
-  getCloudsByMemberId(id) {
+  getCloudsByProviderId(id) {
     return axios.get(this.clouds.concat(id), this.config);
   }
 }

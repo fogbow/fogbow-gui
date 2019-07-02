@@ -9,7 +9,7 @@ export const createPublicIp = (body) => {
     return new Promise((resolve, reject) => {
       let provider = new PublicIPsProvider();
       const request = () => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_REQUEST});
-      const success = (publicIp) => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_SUCCESS, publicIp, member: body.provider });
+      const success = (publicIp) => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_SUCCESS, publicIp, provider: body.provider });
       const failure = (error) => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_FAILURE, error });
 
       dispatch(request());
@@ -96,7 +96,7 @@ export const createPublicIpSecurityRule = (body, id) => {
       const success = (securityRule) => ({
         type: publicIpsActionsTypes.CREATE_PUBLIC_IP_SECURITY_RULES_SUCCESS,
         securityRule,
-        member: body.provider
+        provider: body.provider
       });
       const failure = (error) => ({
         type: publicIpsActionsTypes.CREATE_PUBLIC_IP_SECURITY_RULES_FAILURE,
