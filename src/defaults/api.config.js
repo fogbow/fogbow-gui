@@ -20,5 +20,6 @@ export const env = {
       type: 'text',
       label: 'Domain'
     },
-  }
+  },
+  fnsModes: ['vanilla', 'dfns']
 };

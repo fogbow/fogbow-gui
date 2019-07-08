@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+import { env } from '../defaults/api.config';
 import { createFedNetwork } from '../actions/networks.actions';
 
 const initialState = {
   name: '',
   cidr: '188.140.0.0/24',
-  providers: []
+  providers: [],
+  mode: ''
 };
 
 class FederatedNetworksForm extends Component {
@@ -87,6 +89,13 @@ class FederatedNetworksForm extends Component {
                   );
                 })
               }
+
+              <label>FNS Mode</label>
+              <select value={this.state.fnsModes} onChange={this.handleChange}
+                      name='mode' className='form-control'>
+                <option value=''>Choose a mode</option>
+                { env.fnsModes.map((mode, idx) => <option key={idx} value={mode}>{mode}</option>) }
+              </select>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal"
