@@ -30,4 +30,4 @@ RUN \
   npm i
 
 CMD \
-  npm start || tail -f /dev/null
+  npm start > fogbow-gui.log || tail -f /dev/null
