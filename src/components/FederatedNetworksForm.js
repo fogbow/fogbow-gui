@@ -9,7 +9,7 @@ const initialState = {
   name: '',
   cidr: '188.140.0.0/24',
   providers: [],
-  mode: ''
+  serviceName: ''
 };
 
 class FederatedNetworksForm extends Component {
@@ -90,11 +90,11 @@ class FederatedNetworksForm extends Component {
                 })
               }
 
-              <label>FNS Mode</label>
-              <select value={this.state.fnsModes} onChange={this.handleChange}
-                      name='mode' className='form-control'>
-                <option value=''>Choose a mode</option>
-                { env.fnsModes.map((mode, idx) => <option key={idx} value={mode}>{mode}</option>) }
+              <label>FNS Service</label>
+              <select value={this.state.fnsServiceNames} onChange={this.handleChange}
+                      name='serviceName' className='form-control'>
+                <option value=''>Choose a service</option>
+                { env.fnsServiceNames.map((serviceName, idx) => <option key={idx} value={serviceName}>{serviceName}</option>) }
               </select>
             </div>
             <div className="modal-footer">
