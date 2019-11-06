@@ -7,7 +7,7 @@ import _ from 'lodash';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
 
-import { getAuthorization, getFnsPublicKey } from '../actions/auth.actions';
+import { getAuthorization, getServerPublicKey } from '../actions/auth.actions';
 import { env } from '../defaults/api.config';
 
 let fields = Object.keys(env.credentialFields).map(key => {
@@ -112,7 +112,7 @@ class LoginPage extends Component {
 
   componentDidMount = async() => {
     let { dispatch } = this.props;
-    const publicKeyData = await dispatch(getFnsPublicKey());
+    const publicKeyData = await dispatch(getServerPublicKey());
     localStorage.setItem('publicKey', publicKeyData.token);
 
     const remoteCredentialsRedirectUrl = this.props.location.search;

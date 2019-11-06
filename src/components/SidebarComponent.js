@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 
 import '../styles/sidebar.css';
 
 import { resources as tabs } from '../defaults/resources.types';
+import { env } from '../defaults/api.config';
 
 class SidebarComponent extends Component {
   constructor(props) {
@@ -20,6 +22,13 @@ class SidebarComponent extends Component {
   };
 
   renderItens = () => {
+    let currentTabs;
+    if(env.deployType !== "fns-deploy") {
+      currentTabs = _.remove(tabs, tab => tab.value === "fednets")
+    } else {
+      currentTabs = tabs;
+    }
+
     return tabs.map(tab => {
       return(
         <li key={tab.text} onClick={() => this.setContent(tab.value)} style={{cursor: 'Pointer'}}>

@@ -2,7 +2,6 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class PublicIPsProvider {
-  url = env.fns.concat('/publicIps');
   config = {
     headers: {
       'Fogbow-User-Token': localStorage.getItem('token'),
@@ -10,31 +9,31 @@ class PublicIPsProvider {
   };
 
   create(body) {
-    return axios.post(this.url, body, this.config);
+    return axios.post(env.serverEndpoint + '/publicIps', body, this.config);
   }
 
   get() {
-    return axios.get(this.url.concat('/status'), this.config);
+    return axios.get(env.serverEndpoint + '/publicIps'.concat('/status'), this.config);
   }
 
   getData(id) {
-    return axios.get(this.url.concat('/', id), this.config);
+    return axios.get(env.serverEndpoint + '/publicIps'.concat('/', id), this.config);
   }
 
   delete(id) {
-    return axios.delete(this.url.concat('/', id), this.config);
+    return axios.delete(env.serverEndpoint + '/publicIps'.concat('/', id), this.config);
   }
 
   createSecurityRule(body, id) {
-    return axios.post(this.url.concat('/', id, '/', 'securityRules'), body, this.config);
+    return axios.post(env.serverEndpoint + '/publicIps'.concat('/', id, '/', 'securityRules'), body, this.config);
   }
 
   getSecurityRules(id) {
-    return axios.get(this.url.concat('/', id, '/', 'securityRules'), this.config);
+    return axios.get(env.serverEndpoint + '/publicIps'.concat('/', id, '/', 'securityRules'), this.config);
   }
 
   deleteSecurityRule(ruleId, orderId) {
-    return axios.delete(this.url.concat('/', orderId, '/', 'securityRules', '/', ruleId),
+    return axios.delete(env.serverEndpoint + '/publicIps'.concat('/', orderId, '/', 'securityRules', '/', ruleId),
                         this.config);
   }
 }

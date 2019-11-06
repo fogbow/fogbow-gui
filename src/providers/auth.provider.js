@@ -3,7 +3,6 @@ import { env } from '../defaults/api.config';
 
 class AuthProvider {
   asUrl = env.as.concat('/tokens');
-  fnsUrl = env.fns.concat('/publicKey');
 
   authorize(credentials) {
     const body = {
@@ -14,8 +13,8 @@ class AuthProvider {
     return axios.post(this.asUrl, body, this.config);
   }
 
-  getFnsPublicKey() {
-    return axios.get(this.fnsUrl);
+  getServerPublicKey() {
+    return axios.get(env.serverEndpoint + '/publicKey');
   }
 }
 

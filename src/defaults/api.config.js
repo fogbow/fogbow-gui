@@ -1,12 +1,14 @@
 export const env = {
-  fns: 'http://localhost:8083',
-  ras: 'http://localhost:8081',
-  ms: 'http://localhost:8082',
-  as: 'http://localhost:8080',
+  serverEndpoint: '',
+  deployType: 'fns-deploy',
+  fns: 'http://localhost:8083/fns',
+  ras: 'http://localhost:8082/ras',
+  ms: 'http://localhost:8084/ms',
+  as: 'http://localhost:8081/as',
   local: 'fake.localidentity.member',
   remoteCredentialsUrl: '',
   refreshTime: 5000,
-  authenticationPlugin: 'KeystoneV3',
+  authenticationPlugin: 'LDAP',
   credentialFields: {
     username: {
       type: 'text',
@@ -21,5 +23,5 @@ export const env = {
       label: 'Domain'
     },
   },
-  fnsModes: ['vanilla', 'dfns']
+  fnsServiceNames: ['vanilla', 'dfns']
 };

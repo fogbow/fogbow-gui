@@ -2,7 +2,6 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class AttachmentsProvider {
-  url = env.fns.concat('/attachments');
   config = {
     headers: {
       'Fogbow-User-Token': localStorage.getItem('token'),
@@ -10,19 +9,19 @@ class AttachmentsProvider {
   };
 
   create(body) {
-    return axios.post(this.url, body, this.config);
+    return axios.post(env.serverEndpoint + "/attachments", body, this.config);
   }
 
   get() {
-    return axios.get(this.url.concat('/status'), this.config);
+    return axios.get(env.serverEndpoint + "/attachments".concat('/status'), this.config);
   }
 
   getData(id) {
-    return axios.get(this.url.concat('/', id), this.config);
+    return axios.get(env.serverEndpoint + "/attachments".concat('/', id), this.config);
   }
 
   delete(id) {
-    return axios.delete(this.url.concat('/', id), this.config);
+    return axios.delete(env.serverEndpoint + "/attachments".concat('/', id), this.config);
   }
 }
 

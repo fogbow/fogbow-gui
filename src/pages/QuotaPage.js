@@ -43,7 +43,8 @@ class QuotaPage extends Component {
 
     // NOTE(pauloewerton): check whether login was successful
     if (localStorage.getItem('token')) {
-      dispatch(getProviders())
+      if(env.deployType !== "basic-site") {
+        dispatch(getProviders())
         .then(data => {
           dispatch(getAllProvidersData(data.providers))
             .then(data => {
@@ -64,6 +65,7 @@ class QuotaPage extends Component {
             });
           });
         });
+      }
 
       // local
       dispatch(getLocalClouds())
@@ -72,6 +74,12 @@ class QuotaPage extends Component {
           this.setState({
             localQuota: data.quota
           });
+
+          if(env.deployType === "basic-site") {
+            this.setState({
+              totalQuota: data.quota
+            })
+          }
         });
     }
 

@@ -45,11 +45,11 @@ class ComputeForm extends Component {
   componentDidMount = async() => {
     let { dispatch } = this.props;
 
-    if (! this.props.remoteClouds.loading) {
+    if (! this.props.remoteClouds.loading && env.deployType !== "basic-site") {
       dispatch(getRemoteClouds(this.props.providers));
     }
 
-    if (! this.props.remoteImages.loading) {
+    if (! this.props.remoteImages.loading && env.deployType !== "basic-site") {
       dispatch(getRemoteImages(this.props.remoteClouds.data));
     }
 
@@ -57,7 +57,7 @@ class ComputeForm extends Component {
       dispatch(getNetworks());
     }
 
-    if (! this.props.fednets.loading) {
+    if (! this.props.fednets.loading && env.deployType === "fns-deploy") {
       dispatch(getFedNetworks());
     }
   };
@@ -132,7 +132,9 @@ class ComputeForm extends Component {
 
     let body = _.pickBy(this.state, _.identity);
 
-    body = { federatedNetworkId: body.federatedNetworkId, compute: body };
+    if(env.serverEndpoint === env.fns) {
+      body = { federatedNetworkId: body.federatedNetworkId, compute: body };
+    }
 
     if (this.fileContent.files.item(0)) {
       const tag = this.fileContent.value.indexOf('\\') !== -1 ? this.fileContent.value.split('\\') :

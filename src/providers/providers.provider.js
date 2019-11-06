@@ -4,7 +4,6 @@ import { env } from '../defaults/api.config';
 class ProvidersProvider {
   providers = env.ms.concat('/members');
   clouds = env.ms.concat('/clouds');
-  computeQuota = env.fns.concat('/computes/quota/');
 
   config = {
     headers: {
@@ -17,7 +16,7 @@ class ProvidersProvider {
   }
 
   getQuota(id, cloudId) {
-    return axios.get(this.computeQuota.concat(id, '/', cloudId), this.config);
+    return axios.get(env.serverEndpoint + "/computes/quota/".concat(id, '/', cloudId), this.config);
   }
 }
 

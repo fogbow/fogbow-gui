@@ -58,7 +58,7 @@ class VolumeForm extends Component {
   componentDidMount = () => {
     let { dispatch } = this.props;
 
-    if(! this.props.remoteClouds.loading) {
+    if(! this.props.remoteClouds.loading && env.deployType !== "basic-site") {
       if (this.props.providers.loading) {
         dispatch(getRemoteClouds(this.props.providers.data));
       }

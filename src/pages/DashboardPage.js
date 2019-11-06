@@ -18,6 +18,7 @@ import PublicIpPage from './PublicIpPage';
 import AboutPage from './AboutPage';
 
 import { getLocalClouds } from '../actions/clouds.actions';
+import { env } from '../defaults/api.config';
 
 class DashboardComponent extends Component {
   goto = (tab) => {
@@ -44,6 +45,7 @@ class DashboardComponent extends Component {
   };
 
   componentDidMount = async() => {
+
     let { history, dispatch } = this.props;
     const forbidden = 401;
 

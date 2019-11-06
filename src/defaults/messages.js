@@ -11,7 +11,7 @@ export const messages = {
   },
   auth: {
     login: 'Login failed',
-    publicKey: 'Unable to retrieve FNS public key'
+    publicKey: 'Unable to retrieve SERVER public key'
   },
   clouds: {
     getLocal: 'Unable to retrieve local provider clouds list',

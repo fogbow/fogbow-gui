@@ -2,7 +2,6 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class CloudsProvider {
-  clouds = env.fns.concat('/clouds/');
   config = {
     headers: {
       'Fogbow-User-Token': localStorage.getItem('token'),
@@ -10,11 +9,11 @@ class CloudsProvider {
   };
 
   get() {
-    return axios.get(this.clouds, this.config);
+    return axios.get(env.serverEndpoint + "/clouds/", this.config);
   }
 
   getCloudsByProviderId(id) {
-    return axios.get(this.clouds.concat(id), this.config);
+    return axios.get(env.serverEndpoint + "/clouds/".concat(id), this.config);
   }
 }
 

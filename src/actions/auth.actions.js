@@ -24,16 +24,16 @@ export const getAuthorization = (credentials) => {
   };
 };
 
-export const getFnsPublicKey = () => {
+export const getServerPublicKey = () => {
   return dispatch => {
     return new Promise((resolve, reject) => {
-      const request = () => ({ type: authActionsTypes.GET_FNS_PUBLIC_KEY_REQUEST });
-      const success = (token) => ({ type: authActionsTypes.GET_FNS_PUBLIC_KEY_SUCCESS, token });
-      const failure = (error) => ({ type: authActionsTypes.GET_FNS_PUBLIC_KEY_FAILURE, error });
+      const request = () => ({ type: authActionsTypes.GET_SERVER_PUBLIC_KEY_REQUEST });
+      const success = (token) => ({ type: authActionsTypes.GET_SERVER_PUBLIC_KEY_SUCCESS, token });
+      const failure = (error) => ({ type: authActionsTypes.GET_SERVER_PUBLIC_KEY_FAILURE, error });
 
       dispatch(request());
 
-      AuthProvider.getFnsPublicKey().then(
+      AuthProvider.getServerPublicKey().then(
         publicKey => resolve(dispatch(success(publicKey.data.publicKey)))
       ).catch((error) => {
         const message = getErrorMessage(error);
