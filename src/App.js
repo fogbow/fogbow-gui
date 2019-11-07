@@ -23,7 +23,6 @@ class App extends Component {
     }
 
     Object.assign(env, {serverEndpoint: serverEndpoint});
-    console.log(env)
   }
 
   render() {

@@ -43,6 +43,7 @@ class ComputeForm extends Component {
   }
 
   componentDidMount = async() => {
+    console.log(this.props.providers)
     let { dispatch } = this.props;
 
     if (! this.props.remoteClouds.loading && env.deployType !== "basic-site") {
@@ -210,14 +211,14 @@ class ComputeForm extends Component {
               <select value={this.state.provider} onChange={this.handleChange}
                       name='provider' className="form-control" required>
                 {
-                  this.props.providers.loading ?
+                  this.props.providers && this.props.providers.loading ?
                   this.props.providers.data.map((provider, idx) => {
                     if (provider === env.local) {
                       return <option key={idx} value={provider} defaultValue>{provider} (local)</option>;
                     }
                     return <option key={idx} value={provider}>{provider}</option>;
                   }) :
-                  undefined
+                  this.state.provider
                 }
               </select>
 

@@ -1,11 +1,11 @@
 export const env = {
   serverEndpoint: '',
-  deployType: 'fns-deploy',
+  deployType: 'basic-site',
   fns: 'http://localhost:8083/fns',
   ras: 'http://localhost:8082/ras',
   ms: 'http://localhost:8084/ms',
   as: 'http://localhost:8081/as',
-  local: 'fake.localidentity.member',
+  local: 'atm-test-site1.lsd.ufcg.edu.br',
   remoteCredentialsUrl: '',
   refreshTime: 5000,
   authenticationPlugin: 'LDAP',

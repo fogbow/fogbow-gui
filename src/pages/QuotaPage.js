@@ -40,9 +40,9 @@ class QuotaPage extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props;
-
     // NOTE(pauloewerton): check whether login was successful
     if (localStorage.getItem('token')) {
+      console.log(this.props);
       if(env.deployType !== "basic-site") {
         dispatch(getProviders())
         .then(data => {
@@ -69,10 +69,14 @@ class QuotaPage extends Component {
 
       // local
       dispatch(getLocalClouds())
-        .then(data => dispatch(getProviderData(this.state.localProvider, data.clouds[default_cloud_index])))
+        .then(data => {console.log(data); return dispatch(getProviderData(this.state.localProvider, data.clouds[default_cloud_index]))})
         .then(data => {
+          let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
+          console.log(data)
+          cloudsCopy[this.state.localProvider] = data.clouds;
           this.setState({
-            localQuota: data.quota
+            localQuota: data.quota,
+            vendors: cloudsCopy
           });
 
           if(env.deployType === "basic-site") {
