@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { env } from '../defaults/api.config';
 import { getRemoteClouds } from '../actions/clouds.actions';
-import { getRemoteImages, createCompute } from '../actions/computes.actions';
+import { getRemoteImages, createCompute, getImages } from '../actions/computes.actions';
 import { getNetworks, getFedNetworks } from '../actions/networks.actions';
 import RequirementsComponent from './RequirementsComponent';
 
@@ -43,7 +43,6 @@ class ComputeForm extends Component {
   }
 
   componentDidMount = async() => {
-    console.log(this.props.providers)
     let { dispatch } = this.props;
 
     if (! this.props.remoteClouds.loading && env.deployType !== "basic-site") {
@@ -52,6 +51,10 @@ class ComputeForm extends Component {
 
     if (! this.props.remoteImages.loading && env.deployType !== "basic-site") {
       dispatch(getRemoteImages(this.props.remoteClouds.data));
+    }
+
+    if(! this.props.images.loading && env.deployType === "basic-site") {
+      dispatch(getImages(this.state.provider, this.props.clouds.data));
     }
 
     if (! this.props.networks.loading) {
@@ -169,14 +172,43 @@ class ComputeForm extends Component {
     this.fileContent.value = '';
   };
 
-  render() {
+  getClouds = () => {
     let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
-    let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
+    let clouds = remoteClouds ? remoteClouds[this.state.provider] : undefined;
 
+    if(env.deployType === "basic-site" && !clouds) {
+      clouds = this.props.clouds.data;
+    }
+
+    return clouds;
+  }
+
+  getImages = () => {
     let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
     let images = remoteImages && remoteImages.hasOwnProperty(this.state.provider) &&
                  remoteImages[this.state.provider].hasOwnProperty(this.state.cloudName) ?
                  remoteImages[this.state.provider][this.state.cloudName] : undefined;
+    
+    if(env.deployType === "basic-site" && !images) {
+      let localImages = this.props.images.loading ? this.props.images.data[this.state.cloudName] : undefined;
+      images = localImages && localImages.hasOwnProperty(this.state.cloudName) ? localImages[this.state.cloudName] : undefined;
+    }
+
+    return images;
+  }
+
+  getProviders = () => {
+    let providers = this.props.providers.loading ? this.props.providers.data : undefined;;
+    if(env.deployType === "basic-site" && !providers) {
+      providers = [this.state.provider];
+    }
+    return providers;
+  }
+
+  render() {
+    let clouds = this.getClouds();
+    let images = this.getImages();
+    let providers = this.getProviders();
 
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
@@ -211,14 +243,14 @@ class ComputeForm extends Component {
               <select value={this.state.provider} onChange={this.handleChange}
                       name='provider' className="form-control" required>
                 {
-                  this.props.providers && this.props.providers.loading ?
-                  this.props.providers.data.map((provider, idx) => {
+                  providers ?
+                  providers.map((provider, idx) => {
                     if (provider === env.local) {
                       return <option key={idx} value={provider} defaultValue>{provider} (local)</option>;
                     }
                     return <option key={idx} value={provider}>{provider}</option>;
                   }) :
-                  this.state.provider
+                  undefined
                 }
               </select>
 
@@ -326,6 +358,7 @@ const stateToProps = state => ({
   providers: state.providers,
   clouds: state.clouds,
   remoteClouds: state.remoteClouds,
+  images: state.images,
   remoteImages: state.remoteImages,
   networks: state.networks,
   fednets: state.fedNetworks

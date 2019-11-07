@@ -24,12 +24,8 @@ class ComputesProvider {
     return axios.delete(env.serverEndpoint + "/computes".concat('/', id), this.config);
   }
 
-  getImages(providerId) {
-    if (providerId) {
-      this.config.headers['providerId'] = providerId;
-    }
-
-    return axios.get(env.serverEndpoint + "/images", this.config);
+  getImages(providerId, cloudName) {
+    return axios.get(env.serverEndpoint + "/images" + '/' + providerId  + '/' + cloudName, this.config);
   }
 
   getCloudImages(providerId, cloudId) {
