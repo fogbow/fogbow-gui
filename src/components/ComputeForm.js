@@ -209,7 +209,7 @@ class ComputeForm extends Component {
     let clouds = this.getClouds();
     let images = this.getImages();
     let providers = this.getProviders();
-
+    console.log(images);
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
            aria-labelledby="exampleModalLabel" aria-hidden="true">

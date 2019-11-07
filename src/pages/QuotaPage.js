@@ -69,11 +69,11 @@ class QuotaPage extends Component {
 
       // local
       dispatch(getLocalClouds())
-        .then(data => {console.log(data); return dispatch(getProviderData(this.state.localProvider, data.clouds[default_cloud_index]))})
+        .then(data => dispatch(getProviderData(this.state.localProvider, data.clouds[default_cloud_index])))
         .then(data => {
           let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
-          console.log(data)
-          cloudsCopy[this.state.localProvider] = data.clouds;
+          console.log(data);
+          cloudsCopy[this.state.localProvider] = this.state.localProvider;
           this.setState({
             localQuota: data.quota,
             vendors: cloudsCopy
