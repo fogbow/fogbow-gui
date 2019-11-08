@@ -43,9 +43,19 @@ class NetworkForm extends Component {
     this.setState(initialState);
   };
 
-  render() {
+  getClouds = () => {
     let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
-    let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
+    let clouds = remoteClouds ? remoteClouds[this.state.provider] : undefined;
+
+    if(env.deployType === "basic-site" && !clouds) {
+      clouds = this.props.clouds.data;
+    }
+
+    return clouds;
+  };
+
+  render() {
+    let clouds = this.getClouds();
 
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"

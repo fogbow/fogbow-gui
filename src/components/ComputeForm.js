@@ -136,9 +136,7 @@ class ComputeForm extends Component {
 
     let body = _.pickBy(this.state, _.identity);
 
-    if(env.serverEndpoint === env.fns) {
-      body = { federatedNetworkId: body.federatedNetworkId, compute: body };
-    }
+    body = { federatedNetworkId: body.federatedNetworkId, compute: body };
 
     if (this.fileContent.files.item(0)) {
       const tag = this.fileContent.value.indexOf('\\') !== -1 ? this.fileContent.value.split('\\') :
@@ -162,6 +160,10 @@ class ComputeForm extends Component {
     delete body.compute.requirementTag;
     delete body.compute.requirementValue;
 
+    if(env.deployType !== "fns-deploy") {
+      body = body.compute;
+    }
+
     let { dispatch } = this.props;
     dispatch(createCompute(body));
     this.resetForm();
@@ -181,21 +183,7 @@ class ComputeForm extends Component {
     }
 
     return clouds;
-  }
-
-  getImages = () => {
-    let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
-    let images = remoteImages && remoteImages.hasOwnProperty(this.state.provider) &&
-                 remoteImages[this.state.provider].hasOwnProperty(this.state.cloudName) ?
-                 remoteImages[this.state.provider][this.state.cloudName] : undefined;
-    
-    if(env.deployType === "basic-site" && !images) {
-      let localImages = this.props.images.loading ? this.props.images.data[this.state.cloudName] : undefined;
-      images = localImages && localImages.hasOwnProperty(this.state.cloudName) ? localImages[this.state.cloudName] : undefined;
-    }
-
-    return images;
-  }
+  };
 
   getProviders = () => {
     let providers = this.props.providers.loading ? this.props.providers.data : undefined;;
@@ -203,13 +191,21 @@ class ComputeForm extends Component {
       providers = [this.state.provider];
     }
     return providers;
-  }
+  };
 
   render() {
     let clouds = this.getClouds();
-    let images = this.getImages();
     let providers = this.getProviders();
-    console.log(images);
+    let remoteImages = this.props.remoteImages.loading ? this.props.remoteImages.data : undefined;
+    let images = remoteImages && remoteImages.hasOwnProperty(this.state.provider) &&
+                  remoteImages[this.state.provider].hasOwnProperty(this.state.cloudName) ?
+                  remoteImages[this.state.provider][this.state.cloudName] : undefined;
+        
+    if(env.deployType === "basic-site" && !images) {
+      let localImages = this.props.images.loading && this.props.images.data[this.state.cloudName];
+      images = localImages;
+    }
+
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
            aria-labelledby="exampleModalLabel" aria-hidden="true">
