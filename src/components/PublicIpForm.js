@@ -51,9 +51,28 @@ class PublicIpForm extends Component {
     return null;
   };
 
-  render() {
+  getClouds = () => {
     let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
-    let clouds = remoteClouds ? remoteClouds[this.state.provider] : remoteClouds;
+    let clouds = remoteClouds ? remoteClouds[this.state.provider] : undefined;
+
+    if(env.deployType === "basic-site" && !clouds) {
+      clouds = this.props.clouds.data;
+    }
+
+    return clouds;
+  };
+
+  getProviders = () => {
+    let providers = this.props.providers.loading ? this.props.providers.data : undefined;;
+    if(env.deployType === "basic-site" && !providers) {
+      providers = [this.state.provider];
+    }
+    return providers;
+  };
+
+  render() {
+    let clouds = this.getClouds();
+    let providers = this.getProviders();
 
     return (
       <div className="modal fade" id="form" tabIndex="-1" role="dialog"
@@ -72,8 +91,8 @@ class PublicIpForm extends Component {
               <select name='provider' className="form-control" required
                       value={this.state.provider} onChange={this.handleChange}>
                 {
-                  this.props.providers.loading ?
-                  this.props.providers.data.map((provider, idx) => {
+                  providers ?
+                  providers.map((provider, idx) => {
                     if (provider === env.local) {
                       return <option key={idx} value={provider} defaultValue>{provider} (local)</option>;
                     }

@@ -2,7 +2,6 @@ import axios from 'axios';
 import { env } from '../defaults/api.config';
 
 class NetworksProvider {
-  url = env.fns.concat('/networks');
   fedNetUrl = env.fns.concat('/federatedNetworks');
   config = {
     headers: {
@@ -11,19 +10,19 @@ class NetworksProvider {
   };
 
   create(body) {
-    return axios.post(this.url, body, this.config);
+    return axios.post(env.serverEndpoint + "/networks", body, this.config);
   }
 
   get() {
-    return axios.get(this.url.concat('/status'), this.config);
+    return axios.get(env.serverEndpoint + "/networks".concat('/status'), this.config);
   }
 
   getData(id) {
-    return axios.get(this.url.concat('/', id), this.config);
+    return axios.get(env.serverEndpoint + "/networks".concat('/', id), this.config);
   }
 
   delete(id) {
-    return axios.delete(this.url.concat('/', id), this.config);
+    return axios.delete(env.serverEndpoint + "/networks".concat('/', id), this.config);
   }
 
   createFedNet(body) {
@@ -43,15 +42,15 @@ class NetworksProvider {
   }
 
   createSecurityRule(body, id) {
-    return axios.post(this.url.concat('/', id, '/', 'securityRules'), body, this.config);
+    return axios.post(env.serverEndpoint + "/networks".concat('/', id, '/', 'securityRules'), body, this.config);
   }
 
   getSecurityRules(id) {
-    return axios.get(this.url.concat('/', id, '/', 'securityRules'), this.config);
+    return axios.get(env.serverEndpoint + "/networks".concat('/', id, '/', 'securityRules'), this.config);
   }
 
   deleteSecurityRule(ruleId, orderId) {
-    return axios.delete(this.url.concat('/', orderId, '/', 'securityRules', '/', ruleId),
+    return axios.delete(env.serverEndpoint + "/networks".concat('/', orderId, '/', 'securityRules', '/', ruleId),
                         this.config);
   }
 }

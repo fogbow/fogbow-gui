@@ -46,7 +46,7 @@ export const getComputeData = (id) => {
   };
 };
 
-export const getImages = () => {
+export const getImages = (providerId, cloudNames) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
       let provider = new ComputesProvider();
@@ -55,14 +55,25 @@ export const getImages = () => {
       const failure = (error) => ({ type: computesActionsTypes.GET_IMAGES_FAILURE, error });
 
       dispatch(request());
+      try {
+        const images = {};
+        cloudNames.forEach(async(cloudName) => {
+          try {
+            images[cloudName] = [];
+            let imgs = await provider.getImages(providerId, cloudName);
+            Object.assign(images[cloudName], imgs.data);
+          } catch(error) {
+            console.log(error);
+            throw error;
+          }
+        });
 
-      provider.getImages().then(
-        images => resolve(dispatch(success(images.data)))
-      ).catch((error) => {
+        resolve(dispatch(success(images)));
+      } catch(error) {
         const message = getErrorMessage(error);
         toast.error(messages.images.get.concat(message));
-        return reject(dispatch(failure(error)));
-      });
+        reject(dispatch(failure(error)));
+      }
     });
   };
 };

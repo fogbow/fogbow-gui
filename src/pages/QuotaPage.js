@@ -40,10 +40,11 @@ class QuotaPage extends Component {
 
   componentDidMount = () => {
     const { dispatch } = this.props;
-
     // NOTE(pauloewerton): check whether login was successful
     if (localStorage.getItem('token')) {
-      dispatch(getProviders())
+      console.log(this.props);
+      if(env.deployType !== "basic-site") {
+        dispatch(getProviders())
         .then(data => {
           dispatch(getAllProvidersData(data.providers))
             .then(data => {
@@ -64,14 +65,28 @@ class QuotaPage extends Component {
             });
           });
         });
+      }
 
       // local
       dispatch(getLocalClouds())
-        .then(data => dispatch(getProviderData(this.state.localProvider, data.clouds[default_cloud_index])))
+        .then(data => {
+          let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
+          cloudsCopy[this.state.localProvider] = data.clouds;
+          this.setState({
+            vendors: cloudsCopy
+          })
+          return dispatch(getProviderData(this.state.localProvider, data.clouds[default_cloud_index]))
+        })
         .then(data => {
           this.setState({
             localQuota: data.quota
           });
+
+          if(env.deployType === "basic-site") {
+            this.setState({
+              totalQuota: data.quota
+            })
+          }
         });
     }
 

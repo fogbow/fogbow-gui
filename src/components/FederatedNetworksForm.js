@@ -8,7 +8,6 @@ import { createFedNetwork } from '../actions/networks.actions';
 const initialState = {
   name: '',
   cidr: '188.140.0.0/24',
-  providers: [],
   serviceName: ''
 };
 
@@ -24,21 +23,6 @@ class FederatedNetworksForm extends Component {
     this.setState({
       [name]: value
     });
-  };
-
-  handleAddProvider = (event) => {
-    let value = event.target.value;
-    let providers = this.state.providers;
-
-    if(!providers.includes(value)) {
-      this.setState({
-          providers: providers.concat([value])
-      });
-    } else {
-      this.setState({
-          providers: providers.filter(provider => provider !== value)
-      });
-    }
   };
 
   handleSubmit = (event) => {
@@ -76,20 +60,6 @@ class FederatedNetworksForm extends Component {
               <input className="form-control" type="text" name="cidr"
                      value={this.state.cidr} onChange={this.handleChange}/>
 
-              <label>Providers</label>
-              {
-                this.props.providers.data.map((provider, idx) => {
-                  return(
-                    <div key={idx}>
-                      <label>
-                        <input type="checkbox" value={provider} onChange={this.handleAddProvider}/>
-                        { provider }
-                      </label>
-                    </div>
-                  );
-                })
-              }
-
               <label>FNS Service</label>
               <select value={this.state.fnsServiceNames} onChange={this.handleChange}
                       name='serviceName' className='form-control'>
@@ -114,8 +84,4 @@ class FederatedNetworksForm extends Component {
   }
 }
 
-const stateToProps = state => ({
-  providers: state.providers,
-});
-
-export default connect(stateToProps)(FederatedNetworksForm);
+export default connect()(FederatedNetworksForm);

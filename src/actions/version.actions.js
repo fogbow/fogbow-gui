@@ -26,6 +26,14 @@ export const getVersion = () => {
         'Membership Service': env.ms,
       };
 
+      if(env.deployType === "basic-site") {
+        delete apiEndpoints['Membership Service'];
+      }
+
+      if(env.deployType !== "fns-deploy") {
+        delete apiEndpoints['Federated Network Service'];
+      }
+
       dispatch(request());
 
       try {
