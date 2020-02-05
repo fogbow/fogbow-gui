@@ -8,22 +8,31 @@ import { getLocalClouds, getCloudsByProviderId , getRemoteClouds} from '../actio
 import { getVersion } from '../actions/version.actions';
 
 const mockData = {
-  totalQuota: {
-    vCPU: 0,
-    ram: 0,
-    instances: 0
-  },
-  usedQuota: {
-    vCPU: 0,
-    ram: 0,
-    instances: 0
-  },
-  availableQuota: {
-    vCPU: 0,
-    ram: 0,
-    instances: 0
-  }
-};
+    "totalQuota": {
+        "instances": 0,
+        "vCPU": 0,
+        "ram": 0,
+        "disk": 0,
+        "networks": 0,
+        "publicIps": 0
+    },
+    "usedQuota": {
+        "instances": 0,
+        "vCPU": 0,
+        "ram": 0,
+        "disk": 0,
+        "networks": 0,
+        "publicIps": 0
+    },
+    "availableQuota": {
+        "instances": 0,
+        "vCPU": 0,
+        "ram": 0,
+        "disk": 0,
+        "networks": 0,
+        "publicIps": 0
+    }
+}
 
 const default_cloud_index = 0;
 
