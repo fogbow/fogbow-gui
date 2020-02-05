@@ -7,13 +7,13 @@ const columns = [
   { label: 'vCPU', key: 'vCPU'},
   { label: 'RAM', key: 'ram'},
   { label: 'Volume', key: 'volumes'},
-  { label: 'Storage', key: 'storages'},
-  { label: 'FIP', key: 'fips'},
+  { label: 'Storage', key: 'disk'},
+  { label: 'FIP', key: 'publicIps'},
   { label: 'Network', key: 'networks' }
 ];
 
 const rows = [
-  { label: 'Shared quota',  key: 'totalQuota' },
+  { label: 'Total quota',  key: 'totalQuota' },
   { label: 'Available quota',  key: 'availableQuota' },
   { label: 'Quota used by me',  key: 'usedQuota' },
 ];
