@@ -4,6 +4,32 @@ import { messages, getErrorMessage } from '../defaults/messages';
 import { publicIpsActionsTypes } from './publicIps.actions.types';
 import PublicIPsProvider from '../providers/public.ips.provider';
 
+export const getPublicIpAllocation = (providerId, cloudName) => {
+  return dispatch => {
+    return new Promise(async(resolve, reject) => {
+      let resourceProvider = new PublicIPsProvider();
+      const request = () => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_REQUEST});
+      const success = (allocation) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_SUCCESS, allocation });
+      const failure = (error) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_FAILURE, error });
+    
+      dispatch(request());
+      try {
+          try {
+            let allocation = await resourceProvider.getAllocation(providerId, cloudName);
+            resolve(dispatch(success(allocation.data)));
+          } catch (error) {
+            console.err(error);
+            throw error;
+          }
+      } catch (error) {
+        // const message = getErrorMessage(error);
+        // toast.error(messages.allocations.get.concat(message));
+        reject(dispatch(failure(error)));
+      }
+    });
+  };
+};
+
 export const createPublicIp = (body) => {
   return dispatch => {
     return new Promise((resolve, reject) => {

@@ -5,6 +5,45 @@ import { providersActionsTypes } from './providers.actions.types';
 import ProvidersProvider from '../providers/providers.provider';
 import CloudsProvider from '../providers/clouds.provider';
 
+/**
+ * Get user allocation from a specified cloud and resource.
+ *
+ * 
+ * Example of request, success and failure parameters:
+ *  
+ * const request = () => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_REQUEST});
+ * const success = (allocation) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_SUCCESS, allocation });
+ * const failure = (error) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_FAILURE, error });
+ * 
+ * @param {String} providerId 
+ * @param {String} cloudName 
+ * @param {Provider} resourceProvider a instance of Provider (Example: VolumesProvider, ComputesProvider, etc)
+ * @param {function} request function that must retrieve a object with type field filled with a resource action type
+ * @param {function} success function that given a data it must build a object with a resource action type and the retrieving data
+ * @param {function} failure function that given a error it must build a object with a resource action type and the retrieving error
+ */
+export const getAllocation = (providerId, cloudName, resourceProvider, request, success, failure) => {
+  return (dispatch) => {
+    new Promise(async(resolve, reject) => {
+      dispatch(request());
+  
+      try {
+          try {
+            let allocation = await resourceProvider.getAllocation(providerId, cloudName);
+            resolve(dispatch(success(allocation.data)));
+          } catch (error) {
+            console.error(error);
+            throw error;
+          }
+      } catch (error) {
+        // const message = getErrorMessage(error);
+        // toast.error(messages.allocations.get.concat(message));
+        reject(dispatch(failure(error)));
+      }
+    });
+  }
+};
+
 export const getProviders = () => {
   return dispatch => {
     return new Promise((resolve, reject) => {
