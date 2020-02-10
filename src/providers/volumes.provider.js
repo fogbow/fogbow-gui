@@ -23,6 +23,10 @@ class VolumesProvider {
   delete(id) {
     return axios.delete(env.serverEndpoint + '/volumes'.concat('/', id), this.config);
   }
+
+  getAllocation(providerId, cloudName) {
+    return axios.get(env.serverEndpoint + "/volumes/allocation".concat('/', providerId, '/', cloudName), this.config);
+  }
 }
 
 export default VolumesProvider;
