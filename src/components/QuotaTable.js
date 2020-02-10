@@ -3,20 +3,27 @@ import React, { Component } from 'react';
 import { env } from '../defaults/api.config';
 
 const columns = [
-  { label: 'Instance', key: 'instances'},
-  { label: 'vCPU', key: 'vCPU'},
-  { label: 'RAM', key: 'ram'},
-  { label: 'Volume', key: 'volumes'},
-  { label: 'Storage', key: 'disk'},
-  { label: 'FIP', key: 'publicIps'},
-  { label: 'Network', key: 'networks' }
-];
+  { resource: "Compute", fields: [
+      { label: 'Instances', key: 'instances'},
+      { label: 'vCPU', key: 'vCPU'},
+      { label: 'RAM (MB)', key: 'ram'}
+    ]
+  },
+  { resource: "Volume", fields: [
+      { label: 'Instances', key: 'volumes'},
+      { label: 'Storage (GB)', key: 'storage'}
+    ]
+  },
+  { resource: "Network", fields: [{ label: 'Instances', key: 'networks'}] },
+  { resource: "Public IP", fields: [{ label: 'Instances', key: 'publicIps'}] }
+]
 
-const rows = [
-  { label: 'Total quota',  key: 'totalQuota' },
-  { label: 'Available quota',  key: 'availableQuota' },
-  { label: 'Quota used by me',  key: 'usedQuota' },
-];
+const rows = {
+  sharedQuota: { label: 'Shared quota',  key: 'totalQuota' },
+  availableQuota: { label: 'Available quota',  key: 'availableQuota' },
+  usedByMeQuota: { label: 'Quota used by me',  key: 'allocatedQuota' },
+  usedByOthersQuota: { label: 'Quota used by others',  key: 'usedByOthers' },
+};
 
 class QuotaTable extends Component {
   constructor(props) {
@@ -105,33 +112,113 @@ class QuotaTable extends Component {
   };
 
   getHeaders = () => {
-    let columns = this.state.columns.map(col => col.label);
+    let fields = this.state.columns.map(resource => resource.fields);
+    let columns = [];
+
+    fields.forEach(item => {
+      item.forEach(innerItem => columns.push(innerItem));
+    });
 
     return (
       <tr>
         {this.getFirstLabel()}
-        {columns.map(header => <th key={header}>{header}</th>)}
+        {columns.map(field => <th key={field.key}>{field.label}</th>)}
       </tr>
     );
   };
 
+/*
+const rows = [
+  { label: 'Shared quota',  key: 'totalQuota' },
+  { label: 'Available quota',  key: 'availableQuota' },
+  { label: 'Quota used by me',  key: 'usedQuota' },
+  { label: 'Quota used by others',  key: 'usedQuota' },
+];
+*/
+
   getRows = () => {
     let data = this.props.data;
-    return this.state.rows
-      .map(row => {
-        return(
-          <tr key={row.label}>
-            <td key={row.label}>{row.label}</td>
-            {this.getCells(data[row.key])}
-          </tr>
-        );
-    });
+    let sharedQuota = rows.sharedQuota;
+    let sharedQuotaRow = (
+      <tr key={sharedQuota.key}>
+        <td>{sharedQuota.label}</td>
+        {this.getCells(data[sharedQuota.key])}
+      </tr>
+    );
+
+    let availableQuota = rows.availableQuota;
+    let availableQuotaRow = (
+      <tr key={availableQuota.key}>
+        <td>{availableQuota.label}</td>
+        {this.getCells(data[availableQuota.key])}
+      </tr>
+    );
+
+    let usedByMeQuota = rows.usedByMeQuota;
+
+    console.log(data[usedByMeQuota.key]);
+
+    let usedByMeQuotaRow = (
+      <tr key={usedByMeQuota.key}>
+      <td>{usedByMeQuota.label}</td>
+      {this.getCells(data[usedByMeQuota.key])}
+      </tr>
+    );
+
+
+    const usedByOthers = {
+      instances: data.usedQuota.instances - data.allocatedQuota.instances,
+      ram: data.usedQuota.ram - data.allocatedQuota.ram,
+      vCPU: data.usedQuota.vCPU - data.allocatedQuota.vCPU,
+      volumes: data.usedQuota.volumes - data.allocatedQuota.volumes,
+      storage: data.usedQuota.storage - data.allocatedQuota.storage,
+      networks: data.usedQuota.networks - data.allocatedQuota.networks,
+      publicIps: data.usedQuota.publicIps - data.allocatedQuota.publicIps
+    };
+
+    let usedByOthersQuota = rows.usedByOthersQuota;
+    let usedByOthersQuotaRow = (
+      <tr key={usedByOthersQuota.key}>
+        <td>{usedByOthersQuota.label}</td>
+        {this.getCells(usedByOthers)}
+      </tr>
+    );
+
+
+    // return this.state.rows
+    //   .map(row => {
+    //     return(
+    //       <tr key={row.label}>
+    //         <td key={row.label}>{row.label}</td>
+    //         {this.getCells(data[row.key])}
+    //       </tr>
+    //     );
+    // });
+    const a = [];
+    a.push(sharedQuotaRow);
+    a.push(availableQuotaRow);
+    a.push(usedByMeQuotaRow);
+    a.push(usedByOthersQuotaRow);
+    return a;
   };
 
   getCells = (row) => {
-    let cells = this.state.columns.map(col => col.key);
+    let fields = this.state.columns.map(resource => resource.fields);
+    let cells = [];
+
+    fields.forEach(item => {
+      item.forEach(innerItem => cells.push(innerItem.key));
+    });
+
+    // let cells = this.state.columns.map(col => col.key);
     return cells.map((key, index) => {
       return row[key] ? <td key={key}>{row[key]}</td> : <td key={index}>-</td>
+    });
+  };
+
+  getHeaderGroup = () => {
+    return this.state.columns.map(item => {
+      return <th colSpan={item.fields.length}>{item.resource}</th>
     });
   };
 
@@ -140,7 +227,11 @@ class QuotaTable extends Component {
       <div className='table-responsive'>
         <table className="table table-striped table-bordered table-hover">
           <thead>
-            {this.getHeaders()}
+          <tr>
+            <th></th>
+            {this.getHeaderGroup()}
+          </tr>
+          {this.getHeaders()}
           </thead>
           <tbody>
             {this.getRows()}
