@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 
 import { env } from '../defaults/api.config';
+import BinaryUnit from '../utils/binary.utils';
+import floorTo from '../utils/math.utils';
 
 const columns = [
   { resource: "Compute", fields: [
       { label: 'Instances', key: 'instances'},
       { label: 'vCPU', key: 'vCPU'},
-      { label: 'RAM (MB)', key: 'ram'}
+      { label: 'RAM', key: 'ram'}
     ]
   },
   { resource: "Volume", fields: [
       { label: 'Instances', key: 'volumes'},
-      { label: 'Storage (GB)', key: 'storage'}
+      { label: 'Storage', key: 'storage'}
     ]
   },
   { resource: "Network", fields: [{ label: 'Instances', key: 'networks'}] },
@@ -127,44 +129,42 @@ class QuotaTable extends Component {
     );
   };
 
-/*
-const rows = [
-  { label: 'Shared quota',  key: 'totalQuota' },
-  { label: 'Available quota',  key: 'availableQuota' },
-  { label: 'Quota used by me',  key: 'usedQuota' },
-  { label: 'Quota used by others',  key: 'usedQuota' },
-];
-*/
+  formatUnit = (data, unit) => {
+    if (data === undefined || data == 0) return 0;
+
+    let binaryUnit = new BinaryUnit(data, unit);
+    binaryUnit.convert();
+    
+    if (Number.isInteger(binaryUnit.value)) 
+      return binaryUnit.toString();
+    else
+      return floorTo(binaryUnit.value, 2) + " " + binaryUnit.unit();
+  }
+
+  formatUnits = (quota) => {
+    const formattedQuota = { ... quota };
+    formattedQuota.ram = this.formatUnit(quota.ram, "MB");
+    formattedQuota.storage = this.formatUnit(quota.storage, "GB");
+    return formattedQuota;
+  };
+
+  getRow = (row, data, quota) => {
+    if (!quota) quota = data[row.key];
+    const rowData = this.formatUnits(quota);
+    return (
+      <tr key={row.key}>
+        <td>{row.label}</td>
+        {this.getCells(rowData)}
+      </tr>
+    );
+  };
 
   getRows = () => {
     let data = this.props.data;
-    let sharedQuota = rows.sharedQuota;
-    let sharedQuotaRow = (
-      <tr key={sharedQuota.key}>
-        <td>{sharedQuota.label}</td>
-        {this.getCells(data[sharedQuota.key])}
-      </tr>
-    );
 
-    let availableQuota = rows.availableQuota;
-    let availableQuotaRow = (
-      <tr key={availableQuota.key}>
-        <td>{availableQuota.label}</td>
-        {this.getCells(data[availableQuota.key])}
-      </tr>
-    );
-
-    let usedByMeQuota = rows.usedByMeQuota;
-
-    console.log(data[usedByMeQuota.key]);
-
-    let usedByMeQuotaRow = (
-      <tr key={usedByMeQuota.key}>
-      <td>{usedByMeQuota.label}</td>
-      {this.getCells(data[usedByMeQuota.key])}
-      </tr>
-    );
-
+    let sharedQuotaRow = this.getRow(rows.sharedQuota, data);
+    let availableQuotaRow = this.getRow(rows.availableQuota, data);
+    let usedByMeQuotaRow = this.getRow(rows.usedByMeQuota, data);
 
     const usedByOthers = {
       instances: data.usedQuota.instances - data.allocatedQuota.instances,
@@ -176,14 +176,7 @@ const rows = [
       publicIps: data.usedQuota.publicIps - data.allocatedQuota.publicIps
     };
 
-    let usedByOthersQuota = rows.usedByOthersQuota;
-    let usedByOthersQuotaRow = (
-      <tr key={usedByOthersQuota.key}>
-        <td>{usedByOthersQuota.label}</td>
-        {this.getCells(usedByOthers)}
-      </tr>
-    );
-
+    let usedByOthersQuotaRow = this.getRow(rows.usedByOthersQuota, data, usedByOthers);
 
     // return this.state.rows
     //   .map(row => {
@@ -194,12 +187,8 @@ const rows = [
     //       </tr>
     //     );
     // });
-    const a = [];
-    a.push(sharedQuotaRow);
-    a.push(availableQuotaRow);
-    a.push(usedByMeQuotaRow);
-    a.push(usedByOthersQuotaRow);
-    return a;
+
+    return [sharedQuotaRow, availableQuotaRow, usedByMeQuotaRow, usedByOthersQuotaRow];
   };
 
   getCells = (row) => {
@@ -212,7 +201,7 @@ const rows = [
 
     // let cells = this.state.columns.map(col => col.key);
     return cells.map((key, index) => {
-      return row[key] ? <td key={key}>{row[key]}</td> : <td key={index}>-</td>
+      return (row[key] && row[key] != -1) ? <td key={key}>{row[key]}</td> : <td key={index}>-</td>
     });
   };
 
