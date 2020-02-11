@@ -142,9 +142,6 @@ class QuotaPage extends Component {
           return dispatch(getComputeAllocation(this.state.localProvider, localCloudsCopy[default_cloud_index]));
         })
         .then(data => {
-          console.log("SADSAD");
-          console.log(data);
-          
           this.setState({
             computeAllocation: data.allocation
           })
@@ -160,9 +157,6 @@ class QuotaPage extends Component {
         .then(() => {
           const computeAllocation = this.state.computeAllocation;
           const volumeAllocation = this.state.volumeAllocation;
-
-          console.log(computeAllocation);
-          console.log(volumeAllocation);
 
           const allocatedQuota = {
             instances: computeAllocation.instances,
@@ -198,9 +192,6 @@ class QuotaPage extends Component {
 
       dispatch(getComputeAllocation(this.state.localProvider, cloudId))
       .then(data => {
-        console.log("SADSAD");
-        console.log(data);
-        
         this.setState({
           computeAllocation: data.allocation
         })
@@ -231,9 +222,6 @@ class QuotaPage extends Component {
         const volumeAllocation = this.state.volumeAllocation;
         const networkAllocation = this.state.networkAllocation;
         const publicIpAllocation = this.state.publicIpAllocation;
-
-        console.log(computeAllocation);
-        console.log(volumeAllocation);
 
         const allocatedQuota = {
           instances: computeAllocation.instances,
