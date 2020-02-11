@@ -38,7 +38,7 @@ class BinaryUnit {
     if (this.unit() == finalUnit) return;
     if (this.value > GAP_BETWEEN_BINARY_UNITS) {
         this.next();
-        this.fit();
+        this.convert(finalUnit);
     }
   }
 
