@@ -157,6 +157,8 @@ class QuotaPage extends Component {
         .then(() => {
           const computeAllocation = this.state.computeAllocation;
           const volumeAllocation = this.state.volumeAllocation;
+          const networkAllocation = this.state.networkAllocation;
+          const publicIpAllocation = this.state.publicIpAllocation;
 
           const allocatedQuota = {
             instances: computeAllocation.instances,
@@ -164,8 +166,8 @@ class QuotaPage extends Component {
             vCPU: computeAllocation.vCPU,
             volumes: volumeAllocation.instances,
             storage: volumeAllocation.storage,
-            networks: 0,
-            publicIps: 0
+            networks: networkAllocation.instances,
+            publicIps: publicIpAllocation.instances
           };
 
           this.setState({
