@@ -91,6 +91,7 @@ class QuotaPage extends Component {
   componentDidMount = () => {
     const { dispatch } = this.props;
     // NOTE(pauloewerton): check whether login was successful
+    // NOTE(jadsonluan): remember to implement quota requests for remote clouds too
     if (localStorage.getItem('token')) {
       console.log(this.props);
       if(env.deployType !== "basic-site") {
@@ -138,41 +139,12 @@ class QuotaPage extends Component {
             })
           }
 
-          let localCloudsCopy = this.state.vendors[this.state.localProvider];
-          return dispatch(getComputeAllocation(this.state.localProvider, localCloudsCopy[default_cloud_index]));
+          let cloudNames = this.state.vendors[this.state.localProvider];
+          return cloudNames;
         })
-        .then(data => {
-          this.setState({
-            computeAllocation: data.allocation
-          })
-
-          let localCloudsCopy = this.state.vendors[this.state.localProvider];
-          return dispatch(getVolumeAllocation(this.state.localProvider, localCloudsCopy[default_cloud_index]));
-        })
-        .then(data => {
-          this.setState({
-            volumeAllocation: data.allocation
-          })
-        })
-        .then(() => {
-          const computeAllocation = this.state.computeAllocation;
-          const volumeAllocation = this.state.volumeAllocation;
-          const networkAllocation = this.state.networkAllocation;
-          const publicIpAllocation = this.state.publicIpAllocation;
-
-          const allocatedQuota = {
-            instances: computeAllocation.instances,
-            ram: computeAllocation.ram,
-            vCPU: computeAllocation.vCPU,
-            volumes: volumeAllocation.instances,
-            storage: volumeAllocation.storage,
-            networks: networkAllocation.instances,
-            publicIps: publicIpAllocation.instances
-          };
-
-          this.setState({
-            allocatedQuota
-          })
+        .then(cloudNames => {
+          let cloudName = cloudNames[default_cloud_index];
+          this.getAllocations(this.state.localProvider, cloudName);
         });
     }
 
@@ -192,58 +164,53 @@ class QuotaPage extends Component {
           });
         });
 
-      dispatch(getComputeAllocation(this.state.localProvider, cloudId))
-      .then(data => {
-        this.setState({
-          computeAllocation: data.allocation
-        })
-
-        return dispatch(getVolumeAllocation(this.state.localProvider, cloudId));
-      })
-      .then(data => {
-        this.setState({
-          volumeAllocation: data.allocation
-        })
-
-        return dispatch(getNetworkAllocation(this.state.localProvider, cloudId));
-      })
-      .then(data => {
-        this.setState({
-          networkAllocation: data.allocation
-        })
-
-        return dispatch(getPublicIpAllocation(this.state.localProvider, cloudId));
-      })
-      .then(data => {
-        this.setState({
-          publicIpAllocation: data.allocation
-        })
-      })
-      .then(() => {
-        const computeAllocation = this.state.computeAllocation;
-        const volumeAllocation = this.state.volumeAllocation;
-        const networkAllocation = this.state.networkAllocation;
-        const publicIpAllocation = this.state.publicIpAllocation;
-
-        const allocatedQuota = {
-          instances: computeAllocation.instances,
-          ram: computeAllocation.ram,
-          vCPU: computeAllocation.vCPU,
-          volumes: volumeAllocation.instances,
-          storage: volumeAllocation.storage,
-          networks: networkAllocation.instances,
-          publicIps: publicIpAllocation.instances
-        };
-
-        this.setState({
-          allocatedQuota
-        })
-      });
+      this.getAllocations(providerId, cloudId);
     } else {
       this.setState({
         localQuota: mockData
       });
     }
+  };
+
+  buildAllocatedQuota(computeAllocation, volumeAllocation, networkAllocation, publicIpAllocation) {
+    return {
+      instances: computeAllocation.instances,
+      ram: computeAllocation.ram,
+      vCPU: computeAllocation.vCPU,
+      volumes: volumeAllocation.instances,
+      storage: volumeAllocation.storage,
+      networks: networkAllocation.instances,
+      publicIps: publicIpAllocation.instances
+    };
+  }
+
+  getAllocations(provider, cloudId) {
+    const { dispatch } = this.props;
+
+    return dispatch(getComputeAllocation(provider, cloudId))
+    .then(data => {
+      this.setState({ computeAllocation: data.allocation })
+      return dispatch(getVolumeAllocation(provider, cloudId));
+    })
+    .then(data => {
+      this.setState({ volumeAllocation: data.allocation })
+      return dispatch(getNetworkAllocation(provider, cloudId));
+    })
+    .then(data => {
+      this.setState({ networkAllocation: data.allocation })
+      return dispatch(getPublicIpAllocation(provider, cloudId));
+    })
+    .then(data => {
+      this.setState({ publicIpAllocation: data.allocation })
+    })
+    .then(() => {
+      const computeAllocation = this.state.computeAllocation;
+      const volumeAllocation = this.state.volumeAllocation;
+      const networkAllocation = this.state.networkAllocation;
+      const publicIpAllocation = this.state.publicIpAllocation;
+      const allocatedQuota = this.buildAllocatedQuota(computeAllocation, volumeAllocation, networkAllocation, publicIpAllocation);
+      this.setState({ allocatedQuota });
+    });
   };
 
   render() {
