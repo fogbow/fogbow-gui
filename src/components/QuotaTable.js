@@ -178,16 +178,6 @@ class QuotaTable extends Component {
 
     let usedByOthersQuotaRow = this.getRow(rows.usedByOthersQuota, data, usedByOthers);
 
-    // return this.state.rows
-    //   .map(row => {
-    //     return(
-    //       <tr key={row.label}>
-    //         <td key={row.label}>{row.label}</td>
-    //         {this.getCells(data[row.key])}
-    //       </tr>
-    //     );
-    // });
-
     return [sharedQuotaRow, availableQuotaRow, usedByMeQuotaRow, usedByOthersQuotaRow];
   };
 
@@ -199,7 +189,6 @@ class QuotaTable extends Component {
       item.forEach(innerItem => cells.push(innerItem.key));
     });
 
-    // let cells = this.state.columns.map(col => col.key);
     return cells.map((key, index) => {
       return (row[key] && row[key] != -1) ? <td key={key}>{row[key]}</td> : <td key={index}>-</td>
     });
