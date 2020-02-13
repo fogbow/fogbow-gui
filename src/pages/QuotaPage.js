@@ -5,7 +5,7 @@ import { env } from '../defaults/api.config';
 import QuotaTable from '../components/QuotaTable';
 import { getProviders, getProviderData, getAllProvidersData } from '../actions/providers.actions';
 import { getVersion } from '../actions/version.actions';
-import { getNetworkAllocation } from '../actions/networks.actions';
+import { getNetworkAllocation, getAllNetworkAllocation } from '../actions/networks.actions';
 import { getPublicIpAllocation } from '../actions/publicIps.actions';
 import { getComputeAllocation, getAllComputeAllocation } from '../actions/computes.actions';
 import { getVolumeAllocation, getAllVolumeAllocation } from '../actions/volumes.actions';
@@ -218,8 +218,17 @@ class QuotaPage extends Component {
       storage: previous.storage + current.storage
     }));
 
-    let networkAllocation = {};
-    let publicIpAllocation = {};
+    let networkResponse = await dispatch(getAllNetworkAllocation(provider, cloudNames));
+    let networkAllocations = Object.values(networkResponse.allocations);
+    let networkAllocation = networkAllocations.reduce((previous, current) => ({
+      instances: previous.instances + current.instances
+    }));
+
+    let publicIpResponse = await dispatch(getAllPublicIpAllocation(provider, cloudNames));
+    let publicIpAllocations = Object.values(publicIpResponse.allocations);
+    let publicIpAllocation = publicIpAllocations.reduce((previous, current) => ({
+      instances: previous.instances + current.instances
+    }));
 
     let aggregatedQuota = this.buildAllocatedQuota(computeAllocation, volumeAllocation, networkAllocation, publicIpAllocation);
     this.setState({
