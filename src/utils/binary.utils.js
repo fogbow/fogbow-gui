@@ -13,7 +13,7 @@ class BinaryUnit {
      */
   constructor(value, unit) {
     this.value = value;
-    this.units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    this.units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'BB'];
     this.index = this.units.indexOf(unit);
   }
   
@@ -36,7 +36,7 @@ class BinaryUnit {
   convert(finalUnit) {
     if (!finalUnit) finalUnit = this.units[this.units.length - 1];
     if (this.unit() == finalUnit) return;
-    if (this.value > GAP_BETWEEN_BINARY_UNITS) {
+    if (this.value >= GAP_BETWEEN_BINARY_UNITS) {
         this.next();
         this.convert(finalUnit);
     }
