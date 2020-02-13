@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { computesActionsTypes } from './computes.actions.types';
 import ComputesProvider from '../providers/computes.provider';
-import { getAllocations } from './common.actions';
+import { getAllocations, getAllocation } from './common.actions';
 
 export const getComputes = () => {
   return async(dispatch) => {
@@ -57,29 +57,12 @@ export const getAllComputeAllocation = (providerId, cloudNames) => {
 };
 
 export const getComputeAllocation = (providerId, cloudName) => {
-  return dispatch => {
-    return new Promise(async(resolve, reject) => {
-      let resourceProvider = new ComputesProvider();
-      const request = () => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_REQUEST});
-      const success = (allocation) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_SUCCESS, allocation });
-      const failure = (error) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_FAILURE, error });
-    
-      dispatch(request());
-      try {
-          try {
-            let allocation = await resourceProvider.getAllocation(providerId, cloudName);
-            resolve(dispatch(success(allocation.data)));
-          } catch (error) {
-            console.error(error);
-            throw error;
-          }
-      } catch (error) {
-        // const message = getErrorMessage(error);
-        // toast.error(messages.allocations.get.concat(message));
-        reject(dispatch(failure(error)));
-      }
-    });
-  };
+  let resourceProvider = new ComputesProvider();
+  const request = () => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_REQUEST});
+  const success = (allocation) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_SUCCESS, allocation });
+  const failure = (error) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
 };
 
 export const getImages = (providerId, cloudNames) => {

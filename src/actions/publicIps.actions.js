@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { publicIpsActionsTypes } from './publicIps.actions.types';
 import PublicIPsProvider from '../providers/public.ips.provider';
-import { getAllocations } from './common.actions';
+import { getAllocations, getAllocation } from './common.actions';
 
 export const getAllPublicIpAllocation = (providerId, cloudNames) => {
   let resourceProvider = new PublicIPsProvider();
@@ -15,29 +15,12 @@ export const getAllPublicIpAllocation = (providerId, cloudNames) => {
 };
 
 export const getPublicIpAllocation = (providerId, cloudName) => {
-  return dispatch => {
-    return new Promise(async(resolve, reject) => {
-      let resourceProvider = new PublicIPsProvider();
-      const request = () => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_REQUEST});
-      const success = (allocation) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_SUCCESS, allocation });
-      const failure = (error) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_FAILURE, error });
-    
-      dispatch(request());
-      try {
-          try {
-            let allocation = await resourceProvider.getAllocation(providerId, cloudName);
-            resolve(dispatch(success(allocation.data)));
-          } catch (error) {
-            console.error(error);
-            throw error;
-          }
-      } catch (error) {
-        // const message = getErrorMessage(error);
-        // toast.error(messages.allocations.get.concat(message));
-        reject(dispatch(failure(error)));
-      }
-    });
-  };
+  let resourceProvider = new PublicIPsProvider();
+  const request = () => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_REQUEST});
+  const success = (allocation) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_SUCCESS, allocation });
+  const failure = (error) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
 };
 
 export const createPublicIp = (body) => {
