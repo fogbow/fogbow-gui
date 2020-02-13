@@ -7,8 +7,8 @@ import { getProviders, getProviderData, getAllProvidersData } from '../actions/p
 import { getVersion } from '../actions/version.actions';
 import { getNetworkAllocation } from '../actions/networks.actions';
 import { getPublicIpAllocation } from '../actions/publicIps.actions';
-import { getComputeAllocation } from '../actions/computes.actions';
-import { getVolumeAllocation } from '../actions/volumes.actions';
+import { getComputeAllocation, getAllComputeAllocation } from '../actions/computes.actions';
+import { getVolumeAllocation, getAllVolumeAllocation } from '../actions/volumes.actions';
 import { getLocalClouds, getCloudsByProviderId , getRemoteClouds} from '../actions/clouds.actions';
 
 const mockData = {
@@ -49,6 +49,16 @@ const mockAllocationQuota = {
   }
 }
 
+const mockQuota = {
+  instances: 0,
+  vCPU: 0,
+  ram: 0,
+  storage: 0,
+  volumes: 0,
+  networks: 0,
+  publicIps: 0
+};
+
 const mockComputeAllocation = {
   instances: 0,
   vCPU: 0,
@@ -78,6 +88,8 @@ class QuotaPage extends Component {
     this.state = {
       localQuota: mockData,
       totalQuota: mockData,
+      aggregatedQuota: mockQuota,
+      temp: {},
       computeAllocation: mockComputeAllocation,
       volumeAllocation: mockVolumeAllocation,
       networkAllocation: mockNetworkAllocation,
@@ -144,7 +156,10 @@ class QuotaPage extends Component {
         })
         .then(cloudNames => {
           let cloudName = cloudNames[default_cloud_index];
-          this.getAllocations(this.state.localProvider, cloudName);
+          this.getAllocations(this.state.localProvider, cloudName)
+            .then(() => {
+              this.getAggregatedAllocations(this.state.localProvider, cloudNames);
+            })
         });
     }
 
@@ -184,33 +199,51 @@ class QuotaPage extends Component {
     };
   }
 
-  getAllocations(provider, cloudId) {
+  async getAggregatedAllocations(provider, cloudNames) {
     const { dispatch } = this.props;
 
-    return dispatch(getComputeAllocation(provider, cloudId))
-    .then(data => {
-      this.setState({ computeAllocation: data.allocation })
-      return dispatch(getVolumeAllocation(provider, cloudId));
+    let computeResponse = await dispatch(getAllComputeAllocation(provider, cloudNames));
+    let computeAllocations = Object.values(computeResponse.allocations);
+    let computeAllocation = computeAllocations.reduce((previous, current) => ({
+      instances: previous.instances + current.instances,
+      vCPU: previous.vCPU + current.vCPU,
+      ram: previous.ram + current.ram,
+      disk: previous.disk + current.disk,
+    }));
+
+    let volumeResponse = await dispatch(getAllVolumeAllocation(provider, cloudNames));
+    let volumeAllocations = Object.values(volumeResponse.allocations);
+    let volumeAllocation = volumeAllocations.reduce((previous, current) => ({
+      instances: previous.instances + current.instances,
+      storage: previous.storage + current.storage
+    }));
+
+    let networkAllocation = {};
+    let publicIpAllocation = {};
+
+    let aggregatedQuota = this.buildAllocatedQuota(computeAllocation, volumeAllocation, networkAllocation, publicIpAllocation);
+    this.setState({
+      aggregatedQuota
     })
-    .then(data => {
-      this.setState({ volumeAllocation: data.allocation })
-      return dispatch(getNetworkAllocation(provider, cloudId));
-    })
-    .then(data => {
-      this.setState({ networkAllocation: data.allocation })
-      return dispatch(getPublicIpAllocation(provider, cloudId));
-    })
-    .then(data => {
-      this.setState({ publicIpAllocation: data.allocation })
-    })
-    .then(() => {
-      const computeAllocation = this.state.computeAllocation;
-      const volumeAllocation = this.state.volumeAllocation;
-      const networkAllocation = this.state.networkAllocation;
-      const publicIpAllocation = this.state.publicIpAllocation;
-      const allocatedQuota = this.buildAllocatedQuota(computeAllocation, volumeAllocation, networkAllocation, publicIpAllocation);
-      this.setState({ allocatedQuota });
-    });
+  }
+
+  async getAllocations(provider, cloudId) {
+    const { dispatch } = this.props;
+
+    const computeResponse = await dispatch(getComputeAllocation(provider, cloudId));
+    const computeAllocation = computeResponse.allocation;
+
+    const volumeResponse = await dispatch(getVolumeAllocation(provider, cloudId));
+    const volumeAllocation = volumeResponse.allocation;
+
+    const networkResponse = await dispatch(getNetworkAllocation(provider, cloudId));
+    const networkAllocation = networkResponse.allocation;
+
+    const publicIpResponse = await dispatch(getPublicIpAllocation(provider, cloudId));
+    const publicIpAllocation = publicIpResponse.allocation;
+
+    const allocatedQuota = this.buildAllocatedQuota(computeAllocation, volumeAllocation, networkAllocation, publicIpAllocation);
+    this.setState({ allocatedQuota });
   };
 
   render() {
@@ -224,10 +257,17 @@ class QuotaPage extends Component {
     let providerQuota = <QuotaTable vendors={this.state.vendors} vendorChange={this.vendorChange}
                                   cloudChange={this.cloudChange}
                                   data={data}/>;
+
+    let aggregatedQuota = this.state.aggregatedQuota;
+    let aggregatedQuotaData = {
+      ... mockData,
+      allocatedQuota: aggregatedQuota
+    }
+
     return (
         <div>
           {this.state.vendors[env.local] ? providerQuota : undefined}
-          <QuotaTable label="Aggregated" data={data}/>
+          <QuotaTable label="Aggregated" data={aggregatedQuotaData}/>
         </div>
     );
   }
