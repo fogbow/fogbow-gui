@@ -37,6 +37,22 @@ export const getAllocation = (providerId, cloudName, dispatch, resourceProvider,
   });
 };
 
+/**
+ * Get user allocation from a specified cloud and resource.
+ * 
+ * Example of actionTypes parameter:
+ *  
+ * const request = () => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_REQUEST});
+ * const success = (allocation) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_SUCCESS, allocation });
+ * const failure = (error) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_FAILURE, error });
+ * const actionTypes = { request, success, failure };
+ * 
+ * @param {String} providerId 
+ * @param {[String]} cloudNames a list of cloud names
+ * @param {*} dispatch
+ * @param {Provider} resourceProvider a instance of Provider (Example: VolumesProvider, ComputesProvider, etc)
+ * @param {Object} request object containing three functions (action types): request, success and failure. 
+ */
 export const getAllocations = (providerId, cloudNames, dispatch, resourceProvider, actionTypes) => {
   return new Promise((resolve, reject) => {
     const { request, success, failure } = actionTypes;
