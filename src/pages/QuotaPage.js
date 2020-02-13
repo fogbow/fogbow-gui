@@ -38,17 +38,6 @@ const mockData = {
     }
 }
 
-const mockAllocationQuota = {
-  "allocatedQuota": {
-      "instances": 0,
-      "vCPU": 0,
-      "ram": 0,
-      "storage": 0,
-      "networks": 0,
-      "publicIps": 0
-  }
-}
-
 const mockQuota = {
   instances: 0,
   vCPU: 0,
@@ -79,8 +68,17 @@ const mockPublicIpAllocation = {
   publicIps: 0
 }
 
-
 const default_cloud_index = 0;
+
+function subtractByKey(obj1, obj2) {
+  const diff = {};
+  Object.keys(obj1).forEach(key => {
+    if (obj2.hasOwnProperty(key)) {
+      diff[key] = obj1[key] - obj2[key];
+    }
+  })
+  return diff;
+}
 
 class QuotaPage extends Component {
   constructor(props) {
@@ -89,12 +87,7 @@ class QuotaPage extends Component {
       localQuota: mockData,
       totalQuota: mockData,
       aggregatedQuota: mockQuota,
-      temp: {},
-      computeAllocation: mockComputeAllocation,
-      volumeAllocation: mockVolumeAllocation,
-      networkAllocation: mockNetworkAllocation,
-      publicIpAllocation: mockPublicIpAllocation,
-      allocatedQuota: mockAllocationQuota,
+      allocatedQuota: mockQuota,
       localProvider: env.local,
       vendors: {}
     };
@@ -255,23 +248,29 @@ class QuotaPage extends Component {
     this.setState({ allocatedQuota });
   };
 
-  render() {
-    let quota = this.props.providers.loadingProvider ? this.state.localQuota : mockData;
-    const allocatedQuota = this.state.allocatedQuota;
-    let data = {
-      ...quota,
-      allocatedQuota
+  buildQuota(quota, allocatedQuota) {
+    const { totalQuota, usedQuota } = quota;
+    const usedByMe = { ...allocatedQuota };
+    const availableQuota = subtractByKey(totalQuota, usedQuota);
+    const usedByOthers = subtractByKey(quota.usedQuota, usedByMe);
+  
+    return {
+      totalQuota,
+      availableQuota,
+      usedByOthers,
+      usedByMe
     }
+  }
 
+  render() {
+    let localQuota = this.props.providers.loadingProvider ? this.state.localQuota : mockData;
+    let localQuotaData = this.buildQuota(localQuota, this.state.allocatedQuota);
     let providerQuota = <QuotaTable vendors={this.state.vendors} vendorChange={this.vendorChange}
                                   cloudChange={this.cloudChange}
-                                  data={data}/>;
+                                  data={localQuotaData}/>;
 
     let aggregatedQuota = this.state.aggregatedQuota;
-    let aggregatedQuotaData = {
-      ... mockData,
-      allocatedQuota: aggregatedQuota
-    }
+    let aggregatedQuotaData = this.buildQuota(localQuota, aggregatedQuota);
 
     return (
         <div>

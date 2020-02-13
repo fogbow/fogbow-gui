@@ -23,7 +23,7 @@ const columns = [
 const rows = {
   sharedQuota: { label: 'Shared quota',  key: 'totalQuota' },
   availableQuota: { label: 'Available quota',  key: 'availableQuota' },
-  usedByMeQuota: { label: 'Quota used by me',  key: 'allocatedQuota' },
+  usedByMeQuota: { label: 'Quota used by me',  key: 'usedByMe' },
   usedByOthersQuota: { label: 'Quota used by others',  key: 'usedByOthers' },
 };
 
@@ -148,8 +148,7 @@ class QuotaTable extends Component {
     return formattedQuota;
   };
 
-  getRow = (row, data, quota) => {
-    if (!quota) quota = data[row.key];
+  getRow = (row, quota) => {
     const rowData = this.formatUnits(quota);
     return (
       <tr key={row.key}>
@@ -160,25 +159,8 @@ class QuotaTable extends Component {
   };
 
   getRows = () => {
-    let data = this.props.data;
-
-    let sharedQuotaRow = this.getRow(rows.sharedQuota, data);
-    let availableQuotaRow = this.getRow(rows.availableQuota, data);
-    let usedByMeQuotaRow = this.getRow(rows.usedByMeQuota, data);
-
-    const usedByOthers = {
-      instances: data.usedQuota.instances - data.allocatedQuota.instances,
-      ram: data.usedQuota.ram - data.allocatedQuota.ram,
-      vCPU: data.usedQuota.vCPU - data.allocatedQuota.vCPU,
-      volumes: data.usedQuota.volumes - data.allocatedQuota.volumes,
-      storage: data.usedQuota.storage - data.allocatedQuota.storage,
-      networks: data.usedQuota.networks - data.allocatedQuota.networks,
-      publicIps: data.usedQuota.publicIps - data.allocatedQuota.publicIps
-    };
-
-    let usedByOthersQuotaRow = this.getRow(rows.usedByOthersQuota, data, usedByOthers);
-
-    return [sharedQuotaRow, availableQuotaRow, usedByMeQuotaRow, usedByOthersQuotaRow];
+    let { data } = this.props;
+    return rows.map(row => this.getRow(row, data[row.key]))
   };
 
   getCells = (row) => {
