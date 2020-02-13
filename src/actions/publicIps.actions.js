@@ -3,6 +3,16 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { publicIpsActionsTypes } from './publicIps.actions.types';
 import PublicIPsProvider from '../providers/public.ips.provider';
+import { getAllocations } from './common.actions';
+
+export const getAllPublicIpAllocation = (providerId, cloudNames) => {
+  let resourceProvider = new PublicIPsProvider();
+  const request = () => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_REQUEST});
+  const success = (allocations) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_SUCCESS, allocations });
+  const failure = (error) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
+};
 
 export const getPublicIpAllocation = (providerId, cloudName) => {
   return dispatch => {
@@ -18,7 +28,7 @@ export const getPublicIpAllocation = (providerId, cloudName) => {
             let allocation = await resourceProvider.getAllocation(providerId, cloudName);
             resolve(dispatch(success(allocation.data)));
           } catch (error) {
-            console.err(error);
+            console.error(error);
             throw error;
           }
       } catch (error) {

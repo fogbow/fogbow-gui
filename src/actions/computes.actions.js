@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { computesActionsTypes } from './computes.actions.types';
 import ComputesProvider from '../providers/computes.provider';
-import { getAllocation } from './providers.actions';
+import { getAllocations } from './common.actions';
 
 export const getComputes = () => {
   return async(dispatch) => {
@@ -47,6 +47,15 @@ export const getComputeData = (id) => {
   };
 };
 
+export const getAllComputeAllocation = (providerId, cloudNames) => {
+  let resourceProvider = new ComputesProvider();
+  const request = () => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_REQUEST});
+  const success = (allocations) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_SUCCESS, allocations });
+  const failure = (error) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
+};
+
 export const getComputeAllocation = (providerId, cloudName) => {
   return dispatch => {
     return new Promise(async(resolve, reject) => {
@@ -61,7 +70,7 @@ export const getComputeAllocation = (providerId, cloudName) => {
             let allocation = await resourceProvider.getAllocation(providerId, cloudName);
             resolve(dispatch(success(allocation.data)));
           } catch (error) {
-            console.err(error);
+            console.error(error);
             throw error;
           }
       } catch (error) {

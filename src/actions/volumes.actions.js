@@ -3,7 +3,16 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { volumesActionsTypes } from './volumes.actions.types';
 import VolumesProvider from '../providers/volumes.provider';
-import { getAllocation } from './providers.actions';
+import { getAllocations } from './common.actions';
+
+export const getAllVolumeAllocation = (providerId, cloudNames) => {
+  let resourceProvider = new VolumesProvider();
+  const request = () => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_REQUEST});
+  const success = (allocations) => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_SUCCESS, allocations });
+  const failure = (error) => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
+};
 
 export const getVolumeAllocation = (providerId, cloudName) => {
   return dispatch => {
