@@ -1,3 +1,5 @@
+import { messages, getErrorMessage } from '../defaults/messages';
+
 /**
  * Get user allocation from a specified cloud and resource.
  * 
@@ -29,9 +31,8 @@ export const getAllocation = (providerId, cloudName, dispatch, resourceProvider,
         throw error;
       }
     } catch (error) {
-      // TODO(jadsonluan): Add new messages to this request
-      // const message = getErrorMessage(error);
-      // toast.error(messages.allocations.get.concat(message));
+      const message = getErrorMessage(error);
+      toast.error(messages.allocations.get.concat(cloudName, message));
       reject(dispatch(failure(error)));
     }
   });
@@ -85,9 +86,8 @@ export const getAllocations = (providerId, cloudNames, dispatch, resourceProvide
         resolve(dispatch(success(allocations)));
       })
     } catch (error) {
-      // TODO(jadsonluan): Add new messages to this request
-      // const message = getErrorMessage(error);
-      // toast.error(messages.images.get.concat(message));
+      const message = getErrorMessage(error);
+      toast.error(messages.allocations.get.concat(message));
       reject(dispatch(failure(error)));
     }
   });
