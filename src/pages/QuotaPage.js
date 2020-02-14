@@ -86,7 +86,7 @@ class QuotaPage extends Component {
     this.state = {
       localQuota: mockData,
       totalQuota: mockData,
-      aggregatedQuota: mockQuota,
+      totalUsedByMe: mockQuota,
       allocatedQuota: mockQuota,
       localProvider: env.local,
       vendors: {}
@@ -151,7 +151,7 @@ class QuotaPage extends Component {
           let cloudName = cloudNames[default_cloud_index];
           this.getAllocations(this.state.localProvider, cloudName)
             .then(() => {
-              this.getAggregatedAllocations(this.state.localProvider, cloudNames);
+              this.getTotalAllocation(this.state.localProvider, cloudNames);
             })
         });
     }
@@ -192,7 +192,7 @@ class QuotaPage extends Component {
     };
   }
 
-  async getAggregatedAllocations(provider, cloudNames) {
+  async getTotalAllocation(provider, cloudNames) {
     const { dispatch } = this.props;
 
     let computeResponse = await dispatch(getAllComputeAllocation(provider, cloudNames));
@@ -223,9 +223,9 @@ class QuotaPage extends Component {
       instances: previous.instances + current.instances
     }));
 
-    let aggregatedQuota = this.buildAllocatedQuota(computeAllocation, volumeAllocation, networkAllocation, publicIpAllocation);
+    let totalUsedByMe = this.buildAllocatedQuota(computeAllocation, volumeAllocation, networkAllocation, publicIpAllocation);
     this.setState({
-      aggregatedQuota
+      totalUsedByMe
     })
   }
 
@@ -269,8 +269,7 @@ class QuotaPage extends Component {
                                   cloudChange={this.cloudChange}
                                   data={localQuotaData}/>;
 
-    let aggregatedQuota = this.state.aggregatedQuota;
-    let aggregatedQuotaData = this.buildQuota(localQuota, aggregatedQuota);
+    let aggregatedQuotaData = this.buildQuota(this.state.totalQuota, this.state.totalUsedByMe);
 
     return (
         <div>
