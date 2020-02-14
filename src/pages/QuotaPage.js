@@ -17,6 +17,7 @@ const mockData = {
         "vCPU": 0,
         "ram": 0,
         "storage": 0,
+        "volumes": 0,
         "networks": 0,
         "publicIps": 0
     },
@@ -25,6 +26,7 @@ const mockData = {
         "vCPU": 0,
         "ram": 0,
         "storage": 0,
+        "volumes": 0,
         "networks": 0,
         "publicIps": 0
     },
@@ -33,6 +35,7 @@ const mockData = {
         "vCPU": 0,
         "ram": 0,
         "storage": 0,
+        "volumes": 0,
         "networks": 0,
         "publicIps": 0
     }
@@ -139,9 +142,12 @@ class QuotaPage extends Component {
           });
 
           if(env.deployType === "basic-site") {
-            this.setState({
-              totalQuota: data.quota
-            })
+            dispatch(getAllProvidersData([this.state.localProvider]))
+            .then(data => {
+              this.setState({
+                totalQuota: data
+              });
+            });
           }
 
           let cloudNames = this.state.vendors[this.state.localProvider];
