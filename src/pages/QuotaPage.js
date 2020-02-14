@@ -51,26 +51,6 @@ const mockQuota = {
   publicIps: 0
 };
 
-const mockComputeAllocation = {
-  instances: 0,
-  vCPU: 0,
-  ram: 0,
-  disk: 0
-}
-
-const mockVolumeAllocation = {
-  instances: 0,
-  storage: 0
-}
-
-const mockNetworkAllocation = {
-  networks: 0
-}
-
-const mockPublicIpAllocation = {
-  publicIps: 0
-}
-
 const default_cloud_index = 0;
 
 function subtractByKey(obj1, obj2) {
@@ -99,7 +79,6 @@ class QuotaPage extends Component {
   componentDidMount = () => {
     const { dispatch } = this.props;
     // NOTE(pauloewerton): check whether login was successful
-    // NOTE(jadsonluan): remember to implement quota requests for remote clouds too
     if (localStorage.getItem('token')) {
       console.log(this.props);
       if(env.deployType !== "basic-site") {
