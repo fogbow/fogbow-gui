@@ -6,7 +6,7 @@ import QuotaTable from '../components/QuotaTable';
 import { getProviders, getProviderData, getAllProvidersData } from '../actions/providers.actions';
 import { getVersion } from '../actions/version.actions';
 import { getNetworkAllocation, getAllNetworkAllocation } from '../actions/networks.actions';
-import { getPublicIpAllocation } from '../actions/publicIps.actions';
+import { getPublicIpAllocation, getAllPublicIpAllocation } from '../actions/publicIps.actions';
 import { getComputeAllocation, getAllComputeAllocation } from '../actions/computes.actions';
 import { getVolumeAllocation, getAllVolumeAllocation } from '../actions/volumes.actions';
 import { getLocalClouds, getCloudsByProviderId , getRemoteClouds} from '../actions/clouds.actions';
