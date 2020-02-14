@@ -32,6 +32,10 @@ export const messages = {
   },
   version: {
     get: 'Unable to retrieve version from service ',
+  },
+  allocations: {
+    get: 'Unable to retrieve allocation from cloud ',
+    getAll: 'Unable to retrieve allocation from all clouds'
   }
 };
 
