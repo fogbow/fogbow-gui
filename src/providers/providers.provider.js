@@ -16,7 +16,7 @@ class ProvidersProvider {
   }
 
   getQuota(id, cloudId) {
-    return axios.get(env.serverEndpoint + "/computes/quota/".concat(id, '/', cloudId), this.config);
+    return axios.get(env.serverEndpoint + "/quota/".concat(id, '/', cloudId), this.config);
   }
 }
 

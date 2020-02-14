@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { computesActionsTypes } from './computes.actions.types';
 import ComputesProvider from '../providers/computes.provider';
+import { getAllocations, getAllocation } from './common.actions';
 
 export const getComputes = () => {
   return async(dispatch) => {
@@ -44,6 +45,24 @@ export const getComputeData = (id) => {
       });
     });
   };
+};
+
+export const getAllComputeAllocation = (providerId, cloudNames) => {
+  let resourceProvider = new ComputesProvider();
+  const request = () => ({ type: computesActionsTypes.GET_ALL_COMPUTE_ALLOCATION_REQUEST});
+  const success = (allocations) => ({ type: computesActionsTypes.GET_ALL_COMPUTE_ALLOCATION_SUCCESS, allocations });
+  const failure = (error) => ({ type: computesActionsTypes.GET_ALL_COMPUTE_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
+};
+
+export const getComputeAllocation = (providerId, cloudName) => {
+  let resourceProvider = new ComputesProvider();
+  const request = () => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_REQUEST});
+  const success = (allocation) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_SUCCESS, allocation });
+  const failure = (error) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
 };
 
 export const getImages = (providerId, cloudNames) => {

@@ -3,6 +3,25 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { networksActionsTypes } from './networks.actions.types';
 import NetworksProvider from '../providers/networks.provider';
+import { getAllocations, getAllocation } from './common.actions';
+
+export const getAllNetworkAllocation = (providerId, cloudNames) => {
+  let resourceProvider = new NetworksProvider();
+  const request = () => ({ type: networksActionsTypes.GET_ALL_NETWORK_ALLOCATION_REQUEST});
+  const success = (allocations) => ({ type: networksActionsTypes.GET_ALL_NETWORK_ALLOCATION_SUCCESS, allocations });
+  const failure = (error) => ({ type: networksActionsTypes.GET_ALL_NETWORK_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
+};
+
+export const getNetworkAllocation = (providerId, cloudName) => {
+  let resourceProvider = new NetworksProvider();
+  const request = () => ({ type: networksActionsTypes.GET_NETWORK_ALLOCATION_REQUEST});
+  const success = (allocation) => ({ type: networksActionsTypes.GET_NETWORK_ALLOCATION_SUCCESS, allocation });
+  const failure = (error) => ({ type: networksActionsTypes.GET_NETWORK_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
+};
 
 export const getNetworks = () => {
   return async(dispatch) => {

@@ -36,6 +36,10 @@ class PublicIPsProvider {
     return axios.delete(env.serverEndpoint + '/publicIps'.concat('/', orderId, '/', 'securityRules', '/', ruleId),
                         this.config);
   }
+
+  getAllocation(providerId, cloudName) {
+    return axios.get(env.serverEndpoint + "/publicIps/allocation".concat('/', providerId, '/', cloudName), this.config);
+  }
 }
 
 export default PublicIPsProvider;

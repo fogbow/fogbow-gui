@@ -56,9 +56,8 @@ export const getAllProvidersData = (providers) => {
         .then(data => {
           let response = data.map(quota => quota)
             .reduce((a,b) => ({
-              totalQuota: sumAllocation(a.totalQuota, b.totalQuota),
-              usedQuota: sumAllocation(a.usedQuota, b.usedQuota),
-              availableQuota: sumAllocation(a.availableQuota, b.availableQuota)
+              totalQuota: sumByKey(a.totalQuota, b.totalQuota),
+              usedQuota: sumByKey(a.usedQuota, b.usedQuota)
             }));
           resolve(response);
         })
@@ -90,9 +89,8 @@ export const getProviderQuotaFromAllClouds = (providerId) => {
         .then(data => {
           let response = data.map(action => action.quota)
             .reduce((a,b) => ({
-              totalQuota: sumAllocation(a.totalQuota, b.totalQuota),
-              usedQuota: sumAllocation(a.usedQuota, b.usedQuota),
-              availableQuota: sumAllocation(a.availableQuota, b.availableQuota)
+              totalQuota: sumByKey(a.totalQuota, b.totalQuota),
+              usedQuota: sumByKey(a.usedQuota, b.usedQuota)
             }));
           resolve(response);
         })
@@ -105,10 +103,23 @@ export const getProviderQuotaFromAllClouds = (providerId) => {
   };
 };
 
-const sumAllocation = (a, b) => {
-  return {
-    vCPU: a.vCPU + b.vCPU,
-    ram: a.ram + b.ram,
-    instances: a.instances + b.instances
-  }
+/**
+ * Sum the keys of two objects. If any key has a negative value associated with,
+ * instead of the sum of the two fields, the result will be -1
+ * 
+ * @param {Object} obj1 
+ * @param {Object} obj2 
+ */
+const sumByKey = (obj1, obj2) => {
+  const sum = {};
+  Object.keys(obj1).forEach(key => {
+    if (obj2.hasOwnProperty(key)) {
+      if (obj1[key] < 0 || obj2[key] < 0) {
+        sum[key] = -1;
+      } else {
+        sum[key] = obj1[key] + obj2[key];
+      }
+    }
+  })
+  return sum;
 }

@@ -31,6 +31,10 @@ class ComputesProvider {
   getCloudImages(providerId, cloudId) {
     return axios.get(env.serverEndpoint + "/images".concat('/', providerId, '/', cloudId), this.config);
   }
+
+  getAllocation(providerId, cloudName) {
+    return axios.get(env.serverEndpoint + "/computes/allocation".concat('/', providerId, '/', cloudName), this.config);
+  }
 }
 
 export default ComputesProvider;

@@ -3,6 +3,25 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { publicIpsActionsTypes } from './publicIps.actions.types';
 import PublicIPsProvider from '../providers/public.ips.provider';
+import { getAllocations, getAllocation } from './common.actions';
+
+export const getAllPublicIpAllocation = (providerId, cloudNames) => {
+  let resourceProvider = new PublicIPsProvider();
+  const request = () => ({ type: publicIpsActionsTypes.GET_ALL_PUBLIC_IP_ALLOCATION_REQUEST});
+  const success = (allocations) => ({ type: publicIpsActionsTypes.GET_ALL_PUBLIC_IP_ALLOCATION_SUCCESS, allocations });
+  const failure = (error) => ({ type: publicIpsActionsTypes.GET_ALL_PUBLIC_IP_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
+};
+
+export const getPublicIpAllocation = (providerId, cloudName) => {
+  let resourceProvider = new PublicIPsProvider();
+  const request = () => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_REQUEST});
+  const success = (allocation) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_SUCCESS, allocation });
+  const failure = (error) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
+};
 
 export const createPublicIp = (body) => {
   return dispatch => {

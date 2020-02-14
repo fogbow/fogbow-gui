@@ -1,22 +1,33 @@
 import React, { Component } from 'react';
 
 import { env } from '../defaults/api.config';
+import BinaryUnit from '../utils/binary.utils';
+import floorTo from '../utils/math.utils';
 
 const columns = [
-  { label: 'Instance', key: 'instances'},
-  { label: 'vCPU', key: 'vCPU'},
-  { label: 'RAM', key: 'ram'},
-  { label: 'Volume', key: 'volumes'},
-  { label: 'Storage', key: 'storages'},
-  { label: 'FIP', key: 'fips'},
-  { label: 'Network', key: 'networks' }
-];
+  { resource: "Compute", fields: [
+      { label: 'Instances', key: 'instances'},
+      { label: 'vCPU', key: 'vCPU'},
+      { label: 'RAM', key: 'ram'}
+    ]
+  },
+  { resource: "Volume", fields: [
+      { label: 'Instances', key: 'volumes'},
+      { label: 'Storage', key: 'storage'}
+    ]
+  },
+  { resource: "Network", fields: [{ label: 'Instances', key: 'networks'}] },
+  { resource: "Public IP", fields: [{ label: 'Instances', key: 'publicIps'}] }
+]
 
 const rows = [
   { label: 'Shared quota',  key: 'totalQuota' },
   { label: 'Available quota',  key: 'availableQuota' },
-  { label: 'Quota used by me',  key: 'usedQuota' },
+  { label: 'Quota used by me',  key: 'usedByMe' },
+  { label: 'Quota used by others',  key: 'usedByOthers' },
 ];
+
+const BINARY_UNIT_DECIMAL_PLACES_NUMBER = 2;
 
 class QuotaTable extends Component {
   constructor(props) {
@@ -82,7 +93,6 @@ class QuotaTable extends Component {
                   <div className='col'>
                     <label className='mr-2'>Cloud</label>
                     <select value={this.state.cloud} onChange={this.cloudChange} name='cloud'>
-                      <option value=''></option>
                       {
                         clouds.length > 0 ?
                           clouds.map((cloud, idx) => {
@@ -105,33 +115,73 @@ class QuotaTable extends Component {
   };
 
   getHeaders = () => {
-    let columns = this.state.columns.map(col => col.label);
+    let fields = this.state.columns.map(resource => resource.fields);
+    let columns = [];
+
+    fields.forEach(item => {
+      item.forEach(innerItem => columns.push(innerItem));
+    });
 
     return (
       <tr>
         {this.getFirstLabel()}
-        {columns.map(header => <th key={header}>{header}</th>)}
+        {columns.map(field => <th key={field.key}>{field.label}</th>)}
+      </tr>
+    );
+  };
+
+  formatUnit = (data, unit) => {
+    if (data === undefined || data == 0) return 0;
+
+    let binaryUnit = new BinaryUnit(data, unit);
+    binaryUnit.convert();
+    
+    if (Number.isInteger(binaryUnit.value)) 
+      return binaryUnit.toString();
+    else
+      return floorTo(binaryUnit.value, BINARY_UNIT_DECIMAL_PLACES_NUMBER) + " " + binaryUnit.unit();
+  }
+
+  formatUnits = (quota) => {
+    const formattedQuota = { ... quota };
+    formattedQuota.ram = this.formatUnit(quota.ram, "MB");
+    formattedQuota.storage = this.formatUnit(quota.storage, "GB");
+    return formattedQuota;
+  };
+
+  getRow = (row, quota) => {
+    const rowData = this.formatUnits(quota);
+    return (
+      <tr key={row.key}>
+        <td>{row.label}</td>
+        {this.getCells(rowData)}
       </tr>
     );
   };
 
   getRows = () => {
-    let data = this.props.data;
-    return this.state.rows
-      .map(row => {
-        return(
-          <tr key={row.label}>
-            <td key={row.label}>{row.label}</td>
-            {this.getCells(data[row.key])}
-          </tr>
-        );
-    });
+    let { data } = this.props;
+    return rows.map(row => this.getRow(row, data[row.key]))
   };
 
   getCells = (row) => {
-    let cells = this.state.columns.map(col => col.key);
+    let fields = this.state.columns.map(resource => resource.fields);
+    let cells = [];
+
+    fields.forEach(item => {
+      item.forEach(innerItem => cells.push(innerItem.key));
+    });
+
+    let value;
     return cells.map((key, index) => {
-      return row[key] ? <td key={key}>{row[key]}</td> : <td key={index}>-</td>
+      value = row[key];
+      return (!value || (Number.isInteger(value) && value < 0)) ? <td key={index}>-</td> : <td key={key}>{value}</td>;
+    });
+  };
+
+  getHeaderGroup = () => {
+    return this.state.columns.map(item => {
+      return <th colSpan={item.fields.length}>{item.resource}</th>
     });
   };
 
@@ -140,7 +190,11 @@ class QuotaTable extends Component {
       <div className='table-responsive'>
         <table className="table table-striped table-bordered table-hover">
           <thead>
-            {this.getHeaders()}
+          <tr>
+            <th></th>
+            {this.getHeaderGroup()}
+          </tr>
+          {this.getHeaders()}
           </thead>
           <tbody>
             {this.getRows()}

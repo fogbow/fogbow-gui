@@ -53,6 +53,10 @@ class NetworksProvider {
     return axios.delete(env.serverEndpoint + "/networks".concat('/', orderId, '/', 'securityRules', '/', ruleId),
                         this.config);
   }
+
+  getAllocation(providerId, cloudName) {
+    return axios.get(env.serverEndpoint + "/networks/allocation".concat('/', providerId, '/', cloudName), this.config);
+  }
 }
 
 export default NetworksProvider;
