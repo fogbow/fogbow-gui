@@ -91,7 +91,6 @@ class QuotaTable extends Component {
                   <div className='col'>
                     <label className='mr-2'>Cloud</label>
                     <select value={this.state.cloud} onChange={this.cloudChange} name='cloud'>
-                      <option value=''></option>
                       {
                         clouds.length > 0 ?
                           clouds.map((cloud, idx) => {
