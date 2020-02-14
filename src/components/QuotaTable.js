@@ -20,12 +20,12 @@ const columns = [
   { resource: "Public IP", fields: [{ label: 'Instances', key: 'publicIps'}] }
 ]
 
-const rows = {
-  sharedQuota: { label: 'Shared quota',  key: 'totalQuota' },
-  availableQuota: { label: 'Available quota',  key: 'availableQuota' },
-  usedByMeQuota: { label: 'Quota used by me',  key: 'usedByMe' },
-  usedByOthersQuota: { label: 'Quota used by others',  key: 'usedByOthers' },
-};
+const rows = [
+  { label: 'Shared quota',  key: 'totalQuota' },
+  { label: 'Available quota',  key: 'availableQuota' },
+  { label: 'Quota used by me',  key: 'usedByMe' },
+  { label: 'Quota used by others',  key: 'usedByOthers' },
+];
 
 class QuotaTable extends Component {
   constructor(props) {
@@ -171,8 +171,10 @@ class QuotaTable extends Component {
       item.forEach(innerItem => cells.push(innerItem.key));
     });
 
+    let value;
     return cells.map((key, index) => {
-      return (row[key] && row[key] != -1) ? <td key={key}>{row[key]}</td> : <td key={index}>-</td>
+      value = row[key];
+      return (!value || (Number.isInteger(value) && value < 0)) ? <td key={index}>-</td> : <td key={key}>{value}</td>;
     });
   };
 
