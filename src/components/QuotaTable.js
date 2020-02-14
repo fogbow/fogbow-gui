@@ -27,6 +27,8 @@ const rows = [
   { label: 'Quota used by others',  key: 'usedByOthers' },
 ];
 
+const BINARY_UNIT_DECIMAL_PLACES_NUMBER = 2;
+
 class QuotaTable extends Component {
   constructor(props) {
     super(props);
@@ -137,7 +139,7 @@ class QuotaTable extends Component {
     if (Number.isInteger(binaryUnit.value)) 
       return binaryUnit.toString();
     else
-      return floorTo(binaryUnit.value, 2) + " " + binaryUnit.unit();
+      return floorTo(binaryUnit.value, BINARY_UNIT_DECIMAL_PLACES_NUMBER) + " " + binaryUnit.unit();
   }
 
   formatUnits = (quota) => {
