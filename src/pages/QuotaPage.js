@@ -12,33 +12,33 @@ import { getVolumeAllocation, getAllVolumeAllocation } from '../actions/volumes.
 import { getLocalClouds, getCloudsByProviderId , getRemoteClouds} from '../actions/clouds.actions';
 
 const mockData = {
-    "totalQuota": {
-        "instances": 0,
-        "vCPU": 0,
-        "ram": 0,
-        "storage": 0,
-        "volumes": 0,
-        "networks": 0,
-        "publicIps": 0
-    },
-    "usedQuota": {
-        "instances": 0,
-        "vCPU": 0,
-        "ram": 0,
-        "storage": 0,
-        "volumes": 0,
-        "networks": 0,
-        "publicIps": 0
-    },
-    "availableQuota": {
-        "instances": 0,
-        "vCPU": 0,
-        "ram": 0,
-        "storage": 0,
-        "volumes": 0,
-        "networks": 0,
-        "publicIps": 0
-    }
+  totalQuota: {
+    instances: 0,
+    vCPU: 0,
+    ram: 0,
+    storage: 0,
+    volumes: 0,
+    networks: 0,
+    publicIps: 0
+  },
+  usedQuota: {
+    instances: 0,
+    vCPU: 0,
+    ram: 0,
+    storage: 0,
+    volumes: 0,
+    networks: 0,
+    publicIps: 0
+  },
+  availableQuota: {
+    instances: 0,
+    vCPU: 0,
+    ram: 0,
+    storage: 0,
+    volumes: 0,
+    networks: 0,
+    publicIps: 0
+  }
 }
 
 const mockQuota = {
@@ -76,69 +76,80 @@ class QuotaPage extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async() => {
     const { dispatch } = this.props;
     // NOTE(pauloewerton): check whether login was successful
     if (localStorage.getItem('token')) {
       console.log(this.props);
       if(env.deployType !== "basic-site") {
-        dispatch(getProviders())
-        .then(data => {
-          dispatch(getAllProvidersData(data.providers))
-            .then(data => {
-              this.setState({
-                totalQuota: data
-              });
-            });
+        // TODO(jadsonluan): test if it works
+        let providersResponse = await dispatch(getProviders());
+        let { providers } = providersResponse;
+        let totalQuota = await dispatch(getAllProvidersData(providers));
+        this.setState({
+          totalQuota
+        });
 
-          dispatch(getRemoteClouds(data.providers));
+        dispatch(getRemoteClouds(providers));
 
-          data.providers.map(async(providerId) => {
-            let providerClouds = await dispatch(getCloudsByProviderId(providerId));
-            let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
+        providers.map(async(providerId) => {
+          let providerClouds = await dispatch(getCloudsByProviderId(providerId));
+          let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
 
-            cloudsCopy[providerId] = providerClouds.clouds;
-            this.setState({
-              vendors: cloudsCopy
-            });
+          cloudsCopy[providerId] = providerClouds.clouds;
+          this.setState({
+            vendors: cloudsCopy
           });
         });
+        
+        // NOTE(jadsonluan): only remove it if the code above works
+        // dispatch(getProviders())
+        // .then(data => {
+        //   dispatch(getAllProvidersData(data.providers))
+        //     .then(data => {
+        //       this.setState({
+        //         totalQuota: data
+        //       });
+        //     });
+
+        //   dispatch(getRemoteClouds(data.providers));
+
+        //   data.providers.map(async(providerId) => {
+        //     let providerClouds = await dispatch(getCloudsByProviderId(providerId));
+        //     let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
+
+        //     cloudsCopy[providerId] = providerClouds.clouds;
+        //     this.setState({
+        //       vendors: cloudsCopy
+        //     });
+        //   });
+        // });
       }
 
       // local
-      dispatch(getLocalClouds())
-        .then(data => {
-          let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
-          cloudsCopy[this.state.localProvider] = data.clouds;
-          this.setState({
-            vendors: cloudsCopy
-          })
-          return dispatch(getProviderData(this.state.localProvider, data.clouds[default_cloud_index]))
-        })
-        .then(data => {
-          this.setState({
-            localQuota: data.quota
-          });
+      let localCloudResponse = await dispatch(getLocalClouds());
+      let cloudNames = JSON.parse(JSON.stringify(this.state.vendors));
+      let { clouds } = localCloudResponse;
+      cloudNames[this.state.localProvider] = clouds;
+      this.setState({
+        vendors: cloudNames
+      })
 
-          if(env.deployType === "basic-site") {
-            dispatch(getAllProvidersData([this.state.localProvider]))
-            .then(data => {
-              this.setState({
-                totalQuota: data
-              });
-            });
-          }
+      let providerDataResponse = await dispatch(getProviderData(this.state.localProvider, clouds[default_cloud_index]));
+      this.setState({
+        localQuota: providerDataResponse.quota
+      });
 
-          let cloudNames = this.state.vendors[this.state.localProvider];
-          return cloudNames;
-        })
-        .then(cloudNames => {
-          let cloudName = cloudNames[default_cloud_index];
-          this.getAllocations(this.state.localProvider, cloudName)
-            .then(() => {
-              this.getTotalAllocation(this.state.localProvider, cloudNames);
-            })
+      if(env.deployType === "basic-site") {
+        let totalQuota = await dispatch(getAllProvidersData([this.state.localProvider]))
+        this.setState({
+          totalQuota
         });
+      }
+
+      let cloudName = cloudNames[default_cloud_index];
+      await this.getAllocations(this.state.localProvider, cloudName);
+      await this.getTotalAllocation(this.state.localProvider, cloudNames[this.state.localProvider]);
     }
 
     if (! this.props.version.loading) {
@@ -146,18 +157,16 @@ class QuotaPage extends Component {
     }
   };
 
-  cloudChange = (providerId, cloudId) => {
+  cloudChange = async(providerId, cloudId) => {
     const { dispatch } = this.props;
 
     if (providerId && providerId !== '') {
-      dispatch(getProviderData(providerId, cloudId))
-        .then(data => {
-          this.setState({
-            localQuota: data.quota
-          });
-        });
-
-      this.getAllocations(providerId, cloudId);
+      let { quota } = await dispatch(getProviderData(providerId, cloudId))
+      this.setState({
+        localQuota: quota
+      });
+      
+      await this.getAllocations(providerId, cloudId);
     } else {
       this.setState({
         localQuota: mockData
