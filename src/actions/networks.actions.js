@@ -7,9 +7,9 @@ import { getAllocations, getAllocation } from './common.actions';
 
 export const getAllNetworkAllocation = (providerId, cloudNames) => {
   let resourceProvider = new NetworksProvider();
-  const request = () => ({ type: networksActionsTypes.GET_NETWORK_ALLOCATION_REQUEST});
-  const success = (allocations) => ({ type: networksActionsTypes.GET_NETWORK_ALLOCATION_SUCCESS, allocations });
-  const failure = (error) => ({ type: networksActionsTypes.GET_NETWORK_ALLOCATION_FAILURE, error });
+  const request = () => ({ type: networksActionsTypes.GET_ALL_NETWORK_ALLOCATION_REQUEST});
+  const success = (allocations) => ({ type: networksActionsTypes.GET_ALL_NETWORK_ALLOCATION_SUCCESS, allocations });
+  const failure = (error) => ({ type: networksActionsTypes.GET_ALL_NETWORK_ALLOCATION_FAILURE, error });
   const actionTypes = { request, success, failure };
   return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
 };

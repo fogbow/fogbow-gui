@@ -49,9 +49,9 @@ export const getComputeData = (id) => {
 
 export const getAllComputeAllocation = (providerId, cloudNames) => {
   let resourceProvider = new ComputesProvider();
-  const request = () => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_REQUEST});
-  const success = (allocations) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_SUCCESS, allocations });
-  const failure = (error) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_FAILURE, error });
+  const request = () => ({ type: computesActionsTypes.GET_ALL_COMPUTE_ALLOCATION_REQUEST});
+  const success = (allocations) => ({ type: computesActionsTypes.GET_ALL_COMPUTE_ALLOCATION_SUCCESS, allocations });
+  const failure = (error) => ({ type: computesActionsTypes.GET_ALL_COMPUTE_ALLOCATION_FAILURE, error });
   const actionTypes = { request, success, failure };
   return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
 };
