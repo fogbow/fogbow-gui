@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { networksActionsTypes } from './networks.actions.types';
 import NetworksProvider from '../providers/networks.provider';
-import { getAllocations, getAllocation } from './common.actions';
+import ResourceActions from './common.actions';
 
 export const getAllNetworkAllocation = (providerId, cloudNames) => {
   let resourceProvider = new NetworksProvider();
@@ -11,7 +11,7 @@ export const getAllNetworkAllocation = (providerId, cloudNames) => {
   const success = (allocations) => ({ type: networksActionsTypes.GET_ALL_NETWORK_ALLOCATION_SUCCESS, allocations });
   const failure = (error) => ({ type: networksActionsTypes.GET_ALL_NETWORK_ALLOCATION_FAILURE, error });
   const actionTypes = { request, success, failure };
-  return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
+  return dispatch => ResourceActions.getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
 };
 
 export const getNetworkAllocation = (providerId, cloudName) => {
@@ -20,93 +20,43 @@ export const getNetworkAllocation = (providerId, cloudName) => {
   const success = (allocation) => ({ type: networksActionsTypes.GET_NETWORK_ALLOCATION_SUCCESS, allocation });
   const failure = (error) => ({ type: networksActionsTypes.GET_NETWORK_ALLOCATION_FAILURE, error });
   const actionTypes = { request, success, failure };
-  return dispatch => getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
+  return dispatch => ResourceActions.getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
 };
 
 export const getNetworks = () => {
-  return async(dispatch) => {
-    let provider = new NetworksProvider();
-    const request = () => ({ type: networksActionsTypes.GET_NETWORKS_REQUEST});
-    const success = (networks) => ({ type: networksActionsTypes.GET_NETWORKS_SUCCESS, networks });
-    const failure = (error) => ({ type: networksActionsTypes.GET_NETWORKS_FAILURE, error });
-
-    try {
-      dispatch(request());
-      let network = await provider.get();
-      dispatch(success(network.data))
-    } catch (error) {
-      const message = getErrorMessage(error);
-      toast.error(messages.orders.getStatus.concat(message));
-      dispatch(failure(error))
-    }
-  };
+  let provider = new NetworksProvider();
+  const request = () => ({ type: networksActionsTypes.GET_NETWORKS_REQUEST});
+  const success = (networks) => ({ type: networksActionsTypes.GET_NETWORKS_SUCCESS, networks });
+  const failure = (error) => ({ type: networksActionsTypes.GET_NETWORKS_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return (dispatch) => ResourceActions.listAll(dispatch, provider, actionTypes)
 };
 
 export const getNetworkData = (id) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new NetworksProvider();
-      const request = () => ({ type: networksActionsTypes.GET_DATA_NETWORK_REQUEST});
-      const success = (networks) => ({ type: networksActionsTypes.GET_DATA_NETWORK_SUCCESS, networks });
-      const failure = (error) => ({ type: networksActionsTypes.GET_DATA_NETWORK_FAILURE, error });
-
-      dispatch(request());
-
-      provider.getData(id).then(
-        network => resolve(dispatch(success(network.data)))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.get.concat(id, message));
-        return reject(dispatch(failure(error)));
-      });
-    });
-  };
+  let provider = new NetworksProvider();
+  const request = () => ({ type: networksActionsTypes.GET_DATA_NETWORK_REQUEST});
+  const success = (networks) => ({ type: networksActionsTypes.GET_DATA_NETWORK_SUCCESS, networks });
+  const failure = (error) => ({ type: networksActionsTypes.GET_DATA_NETWORK_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return (dispatch) => ResourceActions.get(id, dispatch, provider, actionTypes)
 };
 
 export const createNetwork = (body) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new NetworksProvider();
-      const request = () => ({ type: networksActionsTypes.CREATE_NETWORK_REQUEST});
-      const success = (network) => ({
-        type: networksActionsTypes.CREATE_NETWORK_SUCCESS,
-        network,
-        provider: body.provider
-      });
-      const failure = (error) => ({ type: networksActionsTypes.CREATE_NETWORK_FAILURE, error });
-
-      dispatch(request());
-
-      provider.create(body).then(
-        network => resolve(dispatch(success(network.data.id)))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.create.concat(message));
-        return reject(dispatch(failure(error)));
-      });
-    });
-  };
+  let provider = new NetworksProvider();
+  const request = () => ({ type: networksActionsTypes.CREATE_NETWORK_REQUEST});
+  const success = (network) => ({ type: networksActionsTypes.CREATE_NETWORK_SUCCESS, network, provider: body.provider });
+  const failure = (error) => ({ type: networksActionsTypes.CREATE_NETWORK_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.create(body, dispatch, provider, actionTypes);
 };
 
 export const deleteNetwork = (id) => {
-  return dispatch => {
-      return new Promise((resolve, reject) => {
-        let provider = new NetworksProvider();
-        const request = () => ({ type: networksActionsTypes.DELETE_NETWORK_REQUEST});
-        const success = () => ({ type: networksActionsTypes.DELETE_NETWORK_SUCCESS, id });
-        const failure = (error) => ({ type: networksActionsTypes.DELETE_NETWORK_FAILURE, error });
-
-        dispatch(request());
-
-        provider.delete(id).then(
-          resolve(dispatch(success()))
-        ).catch((error) => {
-          const message = getErrorMessage(error);
-          toast.error(messages.orders.remove.concat(id, message));
-          return reject(dispatch(failure(error)));
-        });
-      });
-  };
+  let provider = new NetworksProvider();
+  const request = () => ({ type: networksActionsTypes.DELETE_NETWORK_REQUEST});
+  const success = () => ({ type: networksActionsTypes.DELETE_NETWORK_SUCCESS, id });
+  const failure = (error) => ({ type: networksActionsTypes.DELETE_NETWORK_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return (dispatch) => ResourceActions.delete(id, dispatch, provider, actionTypes)
 };
 
 export const getFedNetworks = () => {

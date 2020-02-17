@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
  * @param {Provider} resourceProvider a instance of Provider (Example: VolumesProvider, ComputesProvider, etc)
  * @param {Object} request object containing three functions (action types): request, success and failure. 
  */
-export const getAllocation = (providerId, cloudName, dispatch, resourceProvider, actionTypes) => {
+const getAllocation = (providerId, cloudName, dispatch, resourceProvider, actionTypes) => {
   return new Promise(async (resolve, reject) => {
     const { request, success, failure } = actionTypes;
 
@@ -55,7 +55,7 @@ export const getAllocation = (providerId, cloudName, dispatch, resourceProvider,
  * @param {Provider} resourceProvider a instance of Provider (Example: VolumesProvider, ComputesProvider, etc)
  * @param {Object} request object containing three functions (action types): request, success and failure. 
  */
-export const getAllocations = (providerId, cloudNames, dispatch, resourceProvider, actionTypes) => {
+const getAllocations = (providerId, cloudNames, dispatch, resourceProvider, actionTypes) => {
   return new Promise((resolve, reject) => {
     const { request, success, failure } = actionTypes;
 
@@ -93,3 +93,91 @@ export const getAllocations = (providerId, cloudNames, dispatch, resourceProvide
     }
   });
 };
+
+/**
+ * Returns a list of a specified resource (by th resourceProvider)
+ * 
+ * Example of actionTypes parameter:
+ * const request = () => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_REQUEST});
+ * const success = (allocation) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_SUCCESS, allocation });
+ * const failure = (error) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_FAILURE, error });
+ * const actionTypes = { request, success, failure };
+ * 
+ * @param {*} dispatch 
+ * @param {*} resourceProvider a instance of Provider (Example: VolumesProvider, ComputesProvider, etc)
+ * @param {*} actionTypes object containing three functions (action types): request, success and failure. 
+ */
+const listAll = (dispatch, resourceProvider, actionTypes) => {
+  return new Promise(async (resolve, reject) => {
+    const { request, success, failure } = actionTypes;
+
+    try {
+      dispatch(request());
+      let response = await resourceProvider.get();
+      resolve(dispatch(success(response.data)));
+    } catch (error) {
+      const message = getErrorMessage(error);
+      toast.error(messages.orders.getStatus.concat(message));
+      reject(dispatch(failure(error)));
+    }
+  });
+};
+
+const get = (id, dispatch, resourceProvider, actionTypes) => {
+  return new Promise(async(resolve, reject) => {
+    let { success, failure, request } = actionTypes;
+    dispatch(request());
+
+    try {
+      let { data } = await resourceProvider.getData(id);
+      resolve(dispatch(success(data)));
+    } catch (error) {
+      const message = getErrorMessage(error);
+      toast.error(messages.orders.get.concat(id, message));
+      reject(dispatch(failure(error)));
+    }
+  });
+};
+
+const remove = (id, dispatch, resourceProvider, actionTypes) => {
+  return new Promise(async(resolve, reject) => {
+    let { success, failure, request } = actionTypes;
+    dispatch(request());
+
+    try {
+      await resourceProvider.delete(id);
+      resolve(dispatch(success()));
+    } catch(error) {
+      const message = getErrorMessage(error);
+      toast.error(messages.orders.remove.concat(id, message));
+      reject(dispatch(failure(error)));
+    }
+  });
+};
+
+const create = (body, dispatch, resourceProvider, actionTypes) => {
+  return new Promise(async(resolve, reject) => {
+    const { success, failure, request } = actionTypes;
+    dispatch(request());
+
+    try {
+      let { data } = await resourceProvider.create(body);
+      resolve(dispatch(success(data.id)))
+    } catch (error) {
+      const message = getErrorMessage(error);
+      toast.error(messages.orders.create.concat(message));
+      reject(dispatch(failure(error)));
+    }
+  });
+}
+
+const ResourceActions = {
+  listAll,
+  get,
+  delete: remove,
+  create,
+  getAllocation,
+  getAllocations
+}
+
+export default ResourceActions;

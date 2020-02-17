@@ -1,9 +1,6 @@
-import { toast } from 'react-toastify';
-
-import { messages, getErrorMessage } from '../defaults/messages';
 import { volumesActionsTypes } from './volumes.actions.types';
 import VolumesProvider from '../providers/volumes.provider';
-import { getAllocations, getAllocation } from './common.actions';
+import ResourceActions from './common.actions';
 
 export const getAllVolumeAllocation = (providerId, cloudNames) => {
   let resourceProvider = new VolumesProvider();
@@ -11,7 +8,7 @@ export const getAllVolumeAllocation = (providerId, cloudNames) => {
   const success = (allocations) => ({ type: volumesActionsTypes.GET_ALL_VOLUME_ALLOCATION_SUCCESS, allocations });
   const failure = (error) => ({ type: volumesActionsTypes.GET_ALL_VOLUME_ALLOCATION_FAILURE, error });
   const actionTypes = { request, success, failure };
-  return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
+  return dispatch => ResourceActions.getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
 };
 
 export const getVolumeAllocation = (providerId, cloudName) => {
@@ -20,87 +17,41 @@ export const getVolumeAllocation = (providerId, cloudName) => {
   const success = (allocation) => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_SUCCESS, allocation });
   const failure = (error) => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_FAILURE, error });
   const actionTypes = { request, success, failure };
-  return dispatch => getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
+  return dispatch => ResourceActions.getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
 };
 
 export const getVolumes = () => {
-  return async(dispatch) => {
-    let provider = new VolumesProvider();
-    const request = () => ({ type: volumesActionsTypes.GET_VOLUMES_REQUEST});
-    const success = (volumes) => ({ type: volumesActionsTypes.GET_VOLUMES_SUCCESS, volumes });
-    const failure = (error) => ({ type: volumesActionsTypes.GET_VOLUMES_FAILURE, error });
-    try {
-      dispatch(request());
-      let volumes = await provider.get();
-
-      dispatch(success(volumes.data));
-    } catch (error) {
-      const message = getErrorMessage(error);
-      toast.error(messages.orders.getStatus.concat(message));
-      dispatch(failure(error))
-    }
-  };
+  let provider = new VolumesProvider();
+  const request = () => ({ type: volumesActionsTypes.GET_VOLUMES_REQUEST});
+  const success = (volumes) => ({ type: volumesActionsTypes.GET_VOLUMES_SUCCESS, volumes });
+  const failure = (error) => ({ type: volumesActionsTypes.GET_VOLUMES_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return (dispatch) => ResourceActions.listAll(dispatch, provider, actionTypes);
 };
 
 export const getVolumeData = (id) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new VolumesProvider();
-      const request = () => ({ type: volumesActionsTypes.GET_DATA_VOLUME_REQUEST});
-      const success = (volume) => ({ type: volumesActionsTypes.GET_DATA_VOLUME_SUCCESS, volume });
-      const failure = (error) => ({ type: volumesActionsTypes.GET_DATA_VOLUME_FAILURE, error });
-
-      dispatch(request());
-
-      provider.getData(id).then(
-        volumes => resolve(dispatch(success(volumes.data)))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.get.concat(id, message));
-        return reject(dispatch(failure(error)));
-      });
-    });
-  };
+  let provider = new VolumesProvider();
+  const request = () => ({ type: volumesActionsTypes.GET_DATA_VOLUME_REQUEST});
+  const success = (volume) => ({ type: volumesActionsTypes.GET_DATA_VOLUME_SUCCESS, volume });
+  const failure = (error) => ({ type: volumesActionsTypes.GET_DATA_VOLUME_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.get(id, dispatch, provider, actionTypes);
 };
 
 export const createVolume = (body) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new VolumesProvider();
-      const request = () => ({ type: volumesActionsTypes.CREATE_VOLUME_REQUEST});
-      const success = (volume) => ({ type: volumesActionsTypes.CREATE_VOLUME_SUCCESS, volume, provider: body.provider });
-      const failure = (error) => ({ type: volumesActionsTypes.CREATE_VOLUME_FAILURE, error });
-
-      dispatch(request());
-
-      provider.create(body).then(
-        volume => resolve(dispatch(success(volume.data.id)))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.create.concat(message));
-        return reject(dispatch(failure(error)));
-      });
-    });
-  };
+  let provider = new VolumesProvider();
+  const request = () => ({ type: volumesActionsTypes.CREATE_VOLUME_REQUEST});
+  const success = (volume) => ({ type: volumesActionsTypes.CREATE_VOLUME_SUCCESS, volume, provider: body.provider });
+  const failure = (error) => ({ type: volumesActionsTypes.CREATE_VOLUME_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.create(body, dispatch, provider, actionTypes);
 };
 
 export const deleteVolume = (id) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new VolumesProvider();
-      const request = () => ({ type: volumesActionsTypes.DELETE_VOLUME_REQUEST});
-      const success = () => ({ type: volumesActionsTypes.DELETE_VOLUME_SUCCESS, id });
-      const failure = (error) => ({ type: volumesActionsTypes.DELETE_VOLUME_FAILURE, error });
-
-      dispatch(request());
-
-      provider.delete(id).then(
-        () => resolve(dispatch(success()))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.remove.concat(id, message));
-        return reject(dispatch(failure(error)));
-      });
-    });
-  };
+  let provider = new VolumesProvider();
+  const request = () => ({ type: volumesActionsTypes.DELETE_VOLUME_REQUEST});
+  const success = () => ({ type: volumesActionsTypes.DELETE_VOLUME_SUCCESS, id });
+  const failure = (error) => ({ type: volumesActionsTypes.DELETE_VOLUME_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.delete(id, dispatch, provider, actionTypes);
 };

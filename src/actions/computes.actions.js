@@ -3,48 +3,24 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { computesActionsTypes } from './computes.actions.types';
 import ComputesProvider from '../providers/computes.provider';
-import { getAllocations, getAllocation } from './common.actions';
+import ResourceActions from './common.actions';
 
 export const getComputes = () => {
-  return async(dispatch) => {
-    let provider = new ComputesProvider();
-
-    const request = () => ({ type: computesActionsTypes.GET_COMPUTES_REQUEST});
-    const success = (computes) => ({ type: computesActionsTypes.GET_COMPUTES_SUCCESS, computes });
-    const failure = (error) => ({ type: computesActionsTypes.GET_COMPUTES_FAILURE, error });
-
-    try {
-      dispatch(request());
-      let computes = await provider.get();
-
-      dispatch(success(computes.data));
-    } catch (error) {
-      const message = getErrorMessage(error);
-      toast.error(messages.orders.getStatus.concat(message));
-      dispatch(failure(error));
-    }
-  };
+  let provider = new ComputesProvider();
+  let request = () => ({ type: computesActionsTypes.GET_COMPUTES_REQUEST});
+  let success = (computes) => ({ type: computesActionsTypes.GET_COMPUTES_SUCCESS, computes });
+  let failure = (error) => ({ type: computesActionsTypes.GET_COMPUTES_FAILURE, error });
+  let actionTypes = { request, success, failure };
+  return (dispatch) => ResourceActions.listAll(dispatch, provider, actionTypes);
 };
 
 export const getComputeData = (id) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new ComputesProvider();
-      const request = () => ({ type: computesActionsTypes.GET_DATA_COMPUTE_REQUEST});
-      const success = (compute) => ({ type: computesActionsTypes.GET_DATA_COMPUTE_SUCCESS, compute });
-      const failure = (error) => ({ type: computesActionsTypes.GET_DATA_COMPUTE_FAILURE, error });
-
-      dispatch(request());
-
-      provider.getData(id).then(
-        compute => resolve(dispatch(success(compute.data)))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.get.concat(id, message));
-        return reject(dispatch(failure(error)))
-      });
-    });
-  };
+  let provider = new ComputesProvider();
+  const request = () => ({ type: computesActionsTypes.GET_DATA_COMPUTE_REQUEST});
+  const success = (compute) => ({ type: computesActionsTypes.GET_DATA_COMPUTE_SUCCESS, compute });
+  const failure = (error) => ({ type: computesActionsTypes.GET_DATA_COMPUTE_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.get(id, dispatch, provider, actionTypes);
 };
 
 export const getAllComputeAllocation = (providerId, cloudNames) => {
@@ -53,7 +29,7 @@ export const getAllComputeAllocation = (providerId, cloudNames) => {
   const success = (allocations) => ({ type: computesActionsTypes.GET_ALL_COMPUTE_ALLOCATION_SUCCESS, allocations });
   const failure = (error) => ({ type: computesActionsTypes.GET_ALL_COMPUTE_ALLOCATION_FAILURE, error });
   const actionTypes = { request, success, failure };
-  return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
+  return dispatch => ResourceActions.getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
 };
 
 export const getComputeAllocation = (providerId, cloudName) => {
@@ -62,7 +38,7 @@ export const getComputeAllocation = (providerId, cloudName) => {
   const success = (allocation) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_SUCCESS, allocation });
   const failure = (error) => ({ type: computesActionsTypes.GET_COMPUTE_ALLOCATION_FAILURE, error });
   const actionTypes = { request, success, failure };
-  return dispatch => getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
+  return dispatch => ResourceActions.getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
 };
 
 export const getImages = (providerId, cloudNames) => {
@@ -134,43 +110,19 @@ export const getRemoteImages = (remoteClouds) => {
 };
 
 export const createCompute = (body) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new ComputesProvider();
-      const request = () => ({ type: computesActionsTypes.CREATE_COMPUTE_REQUEST});
-      const success = (compute) => ({ type: computesActionsTypes.CREATE_COMPUTE_SUCCESS, compute, provider: body.provider });
-      const failure = (error) => ({ type: computesActionsTypes.CREATE_COMPUTE_FAILURE, error });
-
-      dispatch(request());
-
-      provider.create(body).then(
-        compute => resolve(dispatch(success(compute.data.id)))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.create.concat(message));
-        return reject(dispatch(failure(error)));
-      });
-    });
-  };
+  let provider = new ComputesProvider();
+  const request = () => ({ type: computesActionsTypes.CREATE_COMPUTE_REQUEST});
+  const success = (compute) => ({ type: computesActionsTypes.CREATE_COMPUTE_SUCCESS, compute, provider: body.provider });
+  const failure = (error) => ({ type: computesActionsTypes.CREATE_COMPUTE_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.create(body, dispatch, provider, actionTypes);
 };
 
 export const deleteCompute = (id) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new ComputesProvider();
-      const request = () => ({ type: computesActionsTypes.DELETE_COMPUTE_REQUEST});
-      const success = () => ({ type: computesActionsTypes.DELETE_COMPUTE_SUCCESS, id});
-      const failure = (error) => ({ type: computesActionsTypes.DELETE_COMPUTE_FAILURE, error });
-
-      dispatch(request());
-
-      provider.delete(id).then(
-        () => resolve(dispatch(success()))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.remove.concat(id, message));
-        return reject(dispatch(failure(error)));
-      });
-    });
-  };
+  let provider = new ComputesProvider();
+  const request = () => ({ type: computesActionsTypes.DELETE_COMPUTE_REQUEST});
+  const success = () => ({ type: computesActionsTypes.DELETE_COMPUTE_SUCCESS, id});
+  const failure = (error) => ({ type: computesActionsTypes.DELETE_COMPUTE_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.delete(id, dispatch, provider, actionTypes);
 };
