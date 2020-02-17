@@ -123,6 +123,20 @@ const listAll = (dispatch, resourceProvider, actionTypes) => {
   });
 };
 
+/**
+ * Return a instance of a specified resource (by the resourceProvider)
+ * 
+ * Example of actionTypes parameter:
+ * const request = () => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_REQUEST});
+ * const success = (allocation) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_SUCCESS, allocation });
+ * const failure = (error) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_FAILURE, error });
+ * const actionTypes = { request, success, failure };
+ * 
+ * @param {String} id The identifier of the instance
+ * @param {*} dispatch 
+ * @param {*} resourceProvider a instance of Provider (Example: VolumesProvider, ComputesProvider, etc)
+ * @param {*} actionTypes object containing three functions (action types): request, success and failure. 
+ */
 const get = (id, dispatch, resourceProvider, actionTypes) => {
   return new Promise(async(resolve, reject) => {
     let { success, failure, request } = actionTypes;
@@ -139,6 +153,20 @@ const get = (id, dispatch, resourceProvider, actionTypes) => {
   });
 };
 
+/**
+ * Delete a instance of a specified resource (by the resourceProvider)
+ * 
+ * Example of actionTypes parameter:
+ * const request = () => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_REQUEST});
+ * const success = (allocation) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_SUCCESS, allocation });
+ * const failure = (error) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_FAILURE, error });
+ * const actionTypes = { request, success, failure };
+ * 
+ * @param {String} id The identifier of the instance
+ * @param {*} dispatch 
+ * @param {*} resourceProvider a instance of Provider (Example: VolumesProvider, ComputesProvider, etc)
+ * @param {*} actionTypes object containing three functions (action types): request, success and failure. 
+ */
 const remove = (id, dispatch, resourceProvider, actionTypes) => {
   return new Promise(async(resolve, reject) => {
     let { success, failure, request } = actionTypes;
@@ -155,6 +183,20 @@ const remove = (id, dispatch, resourceProvider, actionTypes) => {
   });
 };
 
+/**
+ * Creates a instance of a specified resource (by the resourceProvider)
+ * 
+ * Example of actionTypes parameter:
+ * const request = () => ({ type: volumesActionsTypes.GET_VOLUME_ALLOCATION_REQUEST});
+ * const success = (allocation) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_SUCCESS, allocation });
+ * const failure = (error) => ({ type: volumesActionTypes.GET_VOLUME_ALLOCATION_FAILURE, error });
+ * const actionTypes = { request, success, failure };
+ * 
+ * @param {Object} body the content of the object that must be created
+ * @param {*} dispatch 
+ * @param {*} resourceProvider a instance of Provider (Example: VolumesProvider, ComputesProvider, etc)
+ * @param {*} actionTypes object containing three functions (action types): request, success and failure. 
+ */
 const create = (body, dispatch, resourceProvider, actionTypes) => {
   return new Promise(async(resolve, reject) => {
     const { success, failure, request } = actionTypes;
