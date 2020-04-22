@@ -144,8 +144,8 @@ class QuotaTable extends Component {
 
   formatUnits = (quota) => {
     const formattedQuota = { ... quota };
-    formattedQuota.ram = this.formatUnit(quota.ram, "MB");
-    formattedQuota.storage = this.formatUnit(quota.storage, "GB");
+    formattedQuota.ram = formattedQuota.ram <= -1 ? formattedQuota.ram : this.formatUnit(quota.ram, "MB");
+    formattedQuota.storage = formattedQuota.ram <= -1 ? formattedQuota.ram : this.formatUnit(quota.storage, "GB");
     return formattedQuota;
   };
 

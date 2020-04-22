@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { messages, getErrorMessage } from '../defaults/messages';
 import { publicIpsActionsTypes } from './publicIps.actions.types';
 import PublicIPsProvider from '../providers/public.ips.provider';
-import { getAllocations, getAllocation } from './common.actions';
+import ResourceActions from './common.actions';
 
 export const getAllPublicIpAllocation = (providerId, cloudNames) => {
   let resourceProvider = new PublicIPsProvider();
@@ -11,7 +11,7 @@ export const getAllPublicIpAllocation = (providerId, cloudNames) => {
   const success = (allocations) => ({ type: publicIpsActionsTypes.GET_ALL_PUBLIC_IP_ALLOCATION_SUCCESS, allocations });
   const failure = (error) => ({ type: publicIpsActionsTypes.GET_ALL_PUBLIC_IP_ALLOCATION_FAILURE, error });
   const actionTypes = { request, success, failure };
-  return dispatch => getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
+  return dispatch => ResourceActions.getAllocations(providerId, cloudNames, dispatch, resourceProvider, actionTypes);
 };
 
 export const getPublicIpAllocation = (providerId, cloudName) => {
@@ -20,91 +20,43 @@ export const getPublicIpAllocation = (providerId, cloudName) => {
   const success = (allocation) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_SUCCESS, allocation });
   const failure = (error) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IP_ALLOCATION_FAILURE, error });
   const actionTypes = { request, success, failure };
-  return dispatch => getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
+  return dispatch => ResourceActions.getAllocation(providerId, cloudName, dispatch, resourceProvider, actionTypes);
 };
 
 export const createPublicIp = (body) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new PublicIPsProvider();
-      const request = () => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_REQUEST});
-      const success = (publicIp) => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_SUCCESS, publicIp, provider: body.provider });
-      const failure = (error) => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_FAILURE, error });
-
-      dispatch(request());
-
-      provider.create(body).then(
-        publicIp => resolve(dispatch(success(publicIp.data.id)))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.create.concat(message));
-        return reject(dispatch(failure(error)))
-      });
-    });
-  };
+  let provider = new PublicIPsProvider();
+  const request = () => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_REQUEST});
+  const success = (publicIp) => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_SUCCESS, publicIp, provider: body.provider });
+  const failure = (error) => ({ type: publicIpsActionsTypes.CREATE_PUBLIC_IP_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.create(body, dispatch, provider, actionTypes);
 };
 
 export const getPublicIps = () => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new PublicIPsProvider();
-      const request = () => ({ type: publicIpsActionsTypes.GET_PUBLIC_IPS_REQUEST});
-      const success = (publicIps) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IPS_SUCCESS, publicIps });
-      const failure = (error) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IPS_FAILURE, error });
-
-      dispatch(request());
-
-      provider.get().then(
-        publicIps => resolve(dispatch(success(publicIps.data)))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.getStatus.concat(message));
-        return reject(dispatch(failure(error)));
-      });
-    });
-  };
+  let provider = new PublicIPsProvider();
+  const request = () => ({ type: publicIpsActionsTypes.GET_PUBLIC_IPS_REQUEST});
+  const success = (publicIps) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IPS_SUCCESS, publicIps });
+  const failure = (error) => ({ type: publicIpsActionsTypes.GET_PUBLIC_IPS_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.listAll(dispatch, provider, actionTypes);
 };
 
 export const getPublicIpData = (id) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new PublicIPsProvider();
-      const request = () => ({ type: publicIpsActionsTypes.GET_DATA_PUBLIC_IP_REQUEST});
-      const success = (publicIp) => ({ type: publicIpsActionsTypes.GET_DATA_PUBLIC_IP_SUCCESS, publicIp });
-      const failure = (error) => ({ type: publicIpsActionsTypes.GET_DATA_PUBLIC_IP_FAILURE, error });
-
-      dispatch(request());
-
-      provider.getData(id).then(
-        publicIp => resolve(dispatch(success(publicIp.data)))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.get.concat(id, message));
-        return reject(dispatch(failure(error)));
-      });
-    });
-  };
+  let provider = new PublicIPsProvider();
+  const request = () => ({ type: publicIpsActionsTypes.GET_DATA_PUBLIC_IP_REQUEST});
+  const success = (publicIp) => ({ type: publicIpsActionsTypes.GET_DATA_PUBLIC_IP_SUCCESS, publicIp });
+  const failure = (error) => ({ type: publicIpsActionsTypes.GET_DATA_PUBLIC_IP_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.get(id, dispatch, provider, actionTypes);
 };
 
 export const deletePublicIp = (id) => {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      let provider = new PublicIPsProvider();
-      const request = () => ({ type: publicIpsActionsTypes.DELETE_PUBLIC_IP_REQUEST});
-      const success = () => ({ type: publicIpsActionsTypes.DELETE_PUBLIC_IP_SUCCESS, id });
-      const failure = (error) => ({ type: publicIpsActionsTypes.DELETE_PUBLIC_IP_FAILURE, error });
-
-      dispatch(request());
-
-      provider.delete(id).then(
-        () => resolve(dispatch(success()))
-      ).catch((error) => {
-        const message = getErrorMessage(error);
-        toast.error(messages.orders.remove.concat(id, message));
-        return reject(dispatch(failure(error)));
-      });
-    });
-  };
+  let provider = new PublicIPsProvider();
+  const request = () => ({ type: publicIpsActionsTypes.DELETE_PUBLIC_IP_REQUEST});
+  const success = () => ({ type: publicIpsActionsTypes.DELETE_PUBLIC_IP_SUCCESS, id });
+  const failure = (error) => ({ type: publicIpsActionsTypes.DELETE_PUBLIC_IP_FAILURE, error });
+  const actionTypes = { request, success, failure };
+  return dispatch => ResourceActions.delete(id, dispatch, provider, actionTypes);
 };
 
 export const createPublicIpSecurityRule = (body, id) => {
