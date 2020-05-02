@@ -28,9 +28,6 @@ export const getVersion = () => {
 
       if(env.deployType === "multi-cloud") {
         delete apiEndpoints['Membership Service'];
-      }
-
-      if(env.deployType !== "federation-site") {
         delete apiEndpoints['Federated Network Service'];
       }
 
