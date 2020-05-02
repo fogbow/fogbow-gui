@@ -58,7 +58,7 @@ class VolumeForm extends Component {
   componentDidMount = () => {
     let { dispatch } = this.props;
 
-    if(! this.props.remoteClouds.loading && env.deployType !== "basic-site") {
+    if(! this.props.remoteClouds.loading && env.deployType !== "multi-cloud") {
       if (this.props.providers.loading) {
         dispatch(getRemoteClouds(this.props.providers.data));
       }
@@ -96,7 +96,7 @@ class VolumeForm extends Component {
     let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
     let clouds = remoteClouds ? remoteClouds[this.state.provider] : undefined;
 
-    if(env.deployType === "basic-site" && !clouds) {
+    if(env.deployType === "multi-cloud" && !clouds) {
       clouds = this.props.clouds.data;
     }
 
@@ -105,7 +105,7 @@ class VolumeForm extends Component {
 
   getProviders = () => {
     let providers = this.props.providers.loading ? this.props.providers.data : undefined;;
-    if(env.deployType === "basic-site" && !providers) {
+    if(env.deployType === "multi-cloud" && !providers) {
       providers = [this.state.provider];
     }
     return providers;

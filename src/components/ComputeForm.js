@@ -45,15 +45,15 @@ class ComputeForm extends Component {
   componentDidMount = async() => {
     let { dispatch } = this.props;
 
-    if (! this.props.remoteClouds.loading && env.deployType !== "basic-site") {
+    if (! this.props.remoteClouds.loading && env.deployType !== "multi-cloud") {
       dispatch(getRemoteClouds(this.props.providers));
     }
 
-    if (! this.props.remoteImages.loading && env.deployType !== "basic-site") {
+    if (! this.props.remoteImages.loading && env.deployType !== "multi-cloud") {
       dispatch(getRemoteImages(this.props.remoteClouds.data));
     }
 
-    if(! this.props.images.loading && env.deployType === "basic-site") {
+    if(! this.props.images.loading && env.deployType === "multi-cloud") {
       dispatch(getImages(this.state.provider, this.props.clouds.data));
     }
 
@@ -61,7 +61,7 @@ class ComputeForm extends Component {
       dispatch(getNetworks());
     }
 
-    if (! this.props.fednets.loading && env.deployType === "fns-deploy") {
+    if (! this.props.fednets.loading && env.deployType === "federation-site") {
       dispatch(getFedNetworks());
     }
   };
@@ -160,7 +160,7 @@ class ComputeForm extends Component {
     delete body.compute.requirementTag;
     delete body.compute.requirementValue;
 
-    if(env.deployType !== "fns-deploy") {
+    if(env.deployType !== "federation-site") {
       body = body.compute;
     }
 
@@ -178,7 +178,7 @@ class ComputeForm extends Component {
     let remoteClouds = this.props.remoteClouds.loading ? this.props.remoteClouds.data : undefined;
     let clouds = remoteClouds ? remoteClouds[this.state.provider] : undefined;
 
-    if(env.deployType === "basic-site" && !clouds) {
+    if(env.deployType === "multi-cloud" && !clouds) {
       clouds = this.props.clouds.data;
     }
 
@@ -187,7 +187,7 @@ class ComputeForm extends Component {
 
   getProviders = () => {
     let providers = this.props.providers.loading ? this.props.providers.data : undefined;;
-    if(env.deployType === "basic-site" && !providers) {
+    if(env.deployType === "multi-cloud" && !providers) {
       providers = [this.state.provider];
     }
     return providers;
@@ -201,7 +201,7 @@ class ComputeForm extends Component {
                   remoteImages[this.state.provider].hasOwnProperty(this.state.cloudName) ?
                   remoteImages[this.state.provider][this.state.cloudName] : undefined;
         
-    if(env.deployType === "basic-site" && !images) {
+    if(env.deployType === "multi-cloud" && !images) {
       let localImages = this.props.images.loading && this.props.images.data[this.state.cloudName];
       images = localImages;
     }

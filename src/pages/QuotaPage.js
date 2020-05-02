@@ -81,7 +81,7 @@ class QuotaPage extends Component {
     // NOTE(pauloewerton): check whether login was successful
     if (localStorage.getItem('token')) {
       console.log(this.props);
-      if(env.deployType !== "basic-site") {
+      if(env.deployType !== "multi-cloud") {
         // TODO(jadsonluan): test if it works
         let providersResponse = await dispatch(getProviders());
         let { providers } = providersResponse;
@@ -140,7 +140,7 @@ class QuotaPage extends Component {
         localQuota: providerDataResponse.quota
       });
 
-      if(env.deployType === "basic-site") {
+      if(env.deployType === "multi-cloud") {
         let totalQuota = await dispatch(getAllProvidersData([this.state.localProvider]))
         this.setState({
           totalQuota
