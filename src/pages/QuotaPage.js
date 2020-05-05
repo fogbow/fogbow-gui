@@ -256,6 +256,10 @@ class QuotaPage extends Component {
     }
   }
 
+  vendorChange(provider) {
+    this.cloudChange(provider, default_cloud_index);
+  }
+
   render() {
     let localQuota = this.props.providers.loadingProvider ? this.state.localQuota : mockData;
     let localQuotaData = this.buildQuota(localQuota, this.state.allocatedQuota);
