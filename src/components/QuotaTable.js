@@ -59,7 +59,7 @@ class QuotaTable extends Component {
     let { value } = event.target;
 
     this.handleChange(event);
-    this.props.vendorChange(value);
+    this.props.vendorChange(value, this.state.cloud);
   };
 
   getFirstLabel = () => {

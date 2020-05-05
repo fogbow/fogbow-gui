@@ -129,6 +129,7 @@ class QuotaPage extends Component {
       // local
       let localCloudResponse = await dispatch(getLocalClouds());
       let cloudNames = JSON.parse(JSON.stringify(this.state.vendors));
+      console.log(cloudNames[this.state.localProvider]);
       let { clouds } = localCloudResponse;
       cloudNames[this.state.localProvider] = clouds;
       this.setState({
@@ -256,8 +257,8 @@ class QuotaPage extends Component {
     }
   }
 
-  vendorChange(provider) {
-    this.cloudChange(provider, default_cloud_index);
+  vendorChange(provider, cloudName) {
+    this.cloudChange(provider, cloudName);
   }
 
   render() {
