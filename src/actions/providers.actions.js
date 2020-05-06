@@ -29,9 +29,12 @@ export const getProviders = () => {
 export const getProviderData = (id, cloudId) => {
   return dispatch => {
     return new Promise((resolve, reject) => {
+      console.log("[DEBUG] getProviderData");
+      console.log(id);
+      console.log(quota);
       let provider = new ProvidersProvider();
       const request = () => ({ type: providersActionsTypes.GET_PROVIDER_DATA_REQUEST, quota, id });
-      const success = (quota) => ({ type: providersActionsTypes.GET_PROVIDER_DATA_SUCCESS, quota, id });
+      const success = (quota) => ({ type: providersActionsTypes.GET_PROVIDER_DATA_SUCCESS });
       const failure = (error) => ({ type: providersActionsTypes.GET_PROVIDER_DATA_FAILURE, error });
 
       dispatch(request());

@@ -82,6 +82,7 @@ class QuotaPage extends Component {
     if (localStorage.getItem('token')) {
       console.log(this.props);
       if(env.deployType !== "multi-cloud") {
+        console.log("not a multi-cloud");
         // TODO(jadsonluan): test if it works
         let providersResponse = await dispatch(getProviders());
         let { providers } = providersResponse;
