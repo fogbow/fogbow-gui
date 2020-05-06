@@ -259,12 +259,13 @@ class QuotaPage extends Component {
   }
 
   vendorChange(provider, cloudName) {
+    console.log("[DEBUG] Changing vendor. provider:" +provider+"; cloudName:" + cloudName);
     if (cloudName == "") {
       let cloudNames = this.state.vendors[provider];
       cloudName = cloudNames[default_cloud_index];
+      console.log("Cloudname not found. Set to: " + cloudName);
     }
 
-    console.log("[DEBUG] Changing vendor. provider:" +provider+"; cloudName:" + cloudName);
     this.cloudChange(provider, cloudName);
   }
 
