@@ -259,7 +259,7 @@ class QuotaPage extends Component {
     }
   }
 
-  vendorChange(provider) {
+  vendorChange = (provider) => {
     console.log("[DEBUG] Changing vendor. provider:" +provider);
     
     console.log(this.state);
