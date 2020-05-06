@@ -151,6 +151,11 @@ class QuotaPage extends Component {
 
       let cloudName = cloudNames[default_cloud_index];
 
+      console.log("In 3s, calling vendorChange(jlss.lsd.ufcg.edu.br)");
+      setTimeout(() => {
+        this.vendorChange("jlss.lsd.ufcg.edu.br");
+      }, 3000);
+
       await this.getAllocations(this.state.localProvider, cloudName);
       await this.getTotalAllocation(this.state.localProvider, cloudNames[this.state.localProvider]);
     }
@@ -262,11 +267,11 @@ class QuotaPage extends Component {
   vendorChange(provider) {
     console.log("[DEBUG] Changing vendor. provider:" +provider);
     
-    let cloudNames = this.state.vendors[provider];
     console.log(this.state);
+    let cloudNames = this.state.vendors[provider];
 
-    cloudName = cloudNames[default_cloud_index];
-    console.log("Cloudname not found. Set to: " + cloudName);
+    let cloudName = cloudNames[default_cloud_index];
+    console.log("Cloudname set to " + cloudName);
 
     this.cloudChange(provider, cloudName);
   }
