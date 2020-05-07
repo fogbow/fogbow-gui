@@ -80,10 +80,7 @@ class QuotaPage extends Component {
     const { dispatch } = this.props;
     // NOTE(pauloewerton): check whether login was successful
     if (localStorage.getItem('token')) {
-      console.log(this.props);
       if(env.deployType !== "multi-cloud") {
-        console.log("not a multi-cloud");
-        // TODO(jadsonluan): test if it works
         let providersResponse = await dispatch(getProviders());
         let { providers } = providersResponse;
         let totalQuota = await dispatch(getAllProvidersData(providers));
@@ -102,35 +99,11 @@ class QuotaPage extends Component {
             vendors: cloudsCopy
           });
         });
-        
-        // NOTE(jadsonluan): only remove it if the code above works
-        // dispatch(getProviders())
-        // .then(data => {
-        //   dispatch(getAllProvidersData(data.providers))
-        //     .then(data => {
-        //       this.setState({
-        //         totalQuota: data
-        //       });
-        //     });
-
-        //   dispatch(getRemoteClouds(data.providers));
-
-        //   data.providers.map(async(providerId) => {
-        //     let providerClouds = await dispatch(getCloudsByProviderId(providerId));
-        //     let cloudsCopy = JSON.parse(JSON.stringify(this.state.vendors));
-
-        //     cloudsCopy[providerId] = providerClouds.clouds;
-        //     this.setState({
-        //       vendors: cloudsCopy
-        //     });
-        //   });
-        // });
       }
 
       // local
       let localCloudResponse = await dispatch(getLocalClouds());
       let cloudNames = JSON.parse(JSON.stringify(this.state.vendors));
-      console.log(cloudNames[this.state.localProvider]);
       let { clouds } = localCloudResponse;
       cloudNames[this.state.localProvider] = clouds;
       this.setState({
@@ -260,14 +233,8 @@ class QuotaPage extends Component {
   }
 
   vendorChange = (provider) => {
-    console.log("[DEBUG] Changing vendor. provider:" +provider);
-    
-    console.log(this.state);
     let cloudNames = this.state.vendors[provider];
-
     let cloudName = cloudNames[default_cloud_index];
-    console.log("Cloudname set to " + cloudName);
-
     this.cloudChange(provider, cloudName);
   }
 
