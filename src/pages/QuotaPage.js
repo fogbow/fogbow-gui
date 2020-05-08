@@ -51,6 +51,21 @@ const mockQuota = {
   publicIps: 0
 };
 
+const mockComputeQuota = {
+  instances: 0,
+  vCPU: 0,
+  ram: 0,
+  disk: 0
+};
+
+const mockVolumeQuota = {
+  instances: 0,
+  storage: 0
+};
+
+const mockNetworkQuota = { instances: 0 };
+const mockPublicIpQuota = { instances: 0 };
+
 const default_cloud_index = 0;
 
 function subtractByKey(obj1, obj2) {
@@ -58,6 +73,16 @@ function subtractByKey(obj1, obj2) {
   Object.keys(obj1).forEach(key => {
     if (obj2.hasOwnProperty(key)) {
       diff[key] = obj1[key] - obj2[key];
+    }
+  })
+  return diff;
+}
+
+function sumByKey(obj1, obj2) {
+  const diff = {};
+  Object.keys(obj1).forEach(key => {
+    if (obj2.hasOwnProperty(key)) {
+      diff[key] = obj1[key] + obj2[key];
     }
   })
   return diff;
@@ -125,7 +150,7 @@ class QuotaPage extends Component {
       let cloudName = cloudNames[default_cloud_index];
 
       await this.getAllocations(this.state.localProvider, cloudName);
-      await this.getTotalAllocation(this.state.localProvider, cloudNames[this.state.localProvider]);
+      await this.getTotalAllocation();
     }
 
     if (! this.props.version.loading) {
@@ -162,38 +187,56 @@ class QuotaPage extends Component {
     };
   }
 
-  async getTotalAllocation(provider, cloudNames) {
+  getComputeAllocationByProvider = async(provider, cloudNames) => {
     const { dispatch } = this.props;
-
     let computeResponse = await dispatch(getAllComputeAllocation(provider, cloudNames));
     let computeAllocations = Object.values(computeResponse.allocations);
-    let computeAllocation = computeAllocations.reduce((previous, current) => ({
-      instances: previous.instances + current.instances,
-      vCPU: previous.vCPU + current.vCPU,
-      ram: previous.ram + current.ram,
-      disk: previous.disk + current.disk,
-    }));
+    return computeAllocations.reduce(sumByKey);
+  };
 
+  getVolumeAllocationByProvider = async(provider, cloudNames) => {
+    const { dispatch } = this.props;
     let volumeResponse = await dispatch(getAllVolumeAllocation(provider, cloudNames));
     let volumeAllocations = Object.values(volumeResponse.allocations);
-    let volumeAllocation = volumeAllocations.reduce((previous, current) => ({
-      instances: previous.instances + current.instances,
-      storage: previous.storage + current.storage
-    }));
+    return volumeAllocations.reduce(sumByKey);
+  };
 
+  getNetworkAllocationByProvider = async(provider, cloudNames) => {
+    const { dispatch } = this.props;
     let networkResponse = await dispatch(getAllNetworkAllocation(provider, cloudNames));
     let networkAllocations = Object.values(networkResponse.allocations);
-    let networkAllocation = networkAllocations.reduce((previous, current) => ({
-      instances: previous.instances + current.instances
-    }));
+    return networkAllocations.reduce(sumByKey);
+  }
 
+  getPublicIpAllocationByProvider = async(provider, cloudNames) => {
+    const { dispatch } = this.props;
     let publicIpResponse = await dispatch(getAllPublicIpAllocation(provider, cloudNames));
     let publicIpAllocations = Object.values(publicIpResponse.allocations);
-    let publicIpAllocation = publicIpAllocations.reduce((previous, current) => ({
-      instances: previous.instances + current.instances
-    }));
+    return publicIpAllocations.reduce(sumByKey);
+  }
 
-    let totalUsedByMe = this.buildAllocatedQuota(computeAllocation, volumeAllocation, networkAllocation, publicIpAllocation);
+  async getTotalAllocation() {
+    let aggregatedCompute = { ...mockComputeQuota };
+    let aggregatedVolume = { ...mockVolumeQuota };
+    let aggregatedNetwork = { ...mockNetworkQuota };
+    let aggregatedPublicIp = { ...mockPublicIpQuota };
+
+    let vendors = this.state.vendors ? Object.keys(this.props.vendors) : [];
+
+    vendors.map(vendor => {
+      let clouds = vendor ? this.state.vendors[vendor] : [];
+      let computeAllocation = await getComputeAllocationByProvider(vendor, clouds);
+      let volumeAllocation = await getVolumeAllocationByProvider(vendor, clouds);
+      let networkAllocation = await getNetworkAllocationByProvider(vendor, clouds);
+      let publicIpAllocation = await getPublicIpAllocationByProvider(vendor, clouds);
+
+      aggregatedCompute = sumByKey(aggregatedCompute, computeAllocation);
+      aggregatedVolume = sumByKey(aggregatedVolume, volumeAllocation);
+      aggregatedNetwork = sumByKey(aggregatedNetwork, networkAllocation);
+      aggregatedPublicIp = sumByKey(aggregatedPublicIp, publicIpAllocation);
+    });
+
+    let totalUsedByMe = this.buildAllocatedQuota(aggregatedCompute, aggregatedVolume, aggregatedNetwork, aggregatedPublicIp);
     this.setState({
       totalUsedByMe
     })
@@ -218,7 +261,12 @@ class QuotaPage extends Component {
     this.setState({ allocatedQuota });
   };
 
-  buildQuota(quota, allocatedQuota) {
+  buildQuota(quota, allocatedQuota, aggregated=false) {
+    console.log("buildQuota(quota, allocated, aggregated="+aggregated+")");
+    if (aggregated) {
+      console.log(allocatedQuota);
+    }
+
     const { totalQuota, usedQuota } = quota;
     const usedByMe = { ...allocatedQuota };
     const availableQuota = subtractByKey(totalQuota, usedQuota);
@@ -245,7 +293,7 @@ class QuotaPage extends Component {
                                   cloudChange={this.cloudChange}
                                   data={localQuotaData}/>;
 
-    let aggregatedQuotaData = this.buildQuota(this.state.totalQuota, this.state.totalUsedByMe);
+    let aggregatedQuotaData = this.buildQuota(this.state.totalQuota, this.state.totalUsedByMe, true);
 
     return (
         <div>
