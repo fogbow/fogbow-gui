@@ -222,35 +222,46 @@ class QuotaPage extends Component {
 
     let vendors = this.state.vendors ? Object.keys(this.state.vendors) : [];
 
-    vendors.map(async(vendor) => {
-      console.log("getTotalAllocation(" + vendor + "): ");
+    let promises = Promise.all(vendors.map(async(vendor) => {
       let clouds = vendor ? this.state.vendors[vendor] : [];
+      console.log(`getTotalAllocation: provider=${vendor}; clouds=${clouds}`);
       let computeAllocation = await this.getComputeAllocationByProvider(vendor, clouds);
       let volumeAllocation = await this.getVolumeAllocationByProvider(vendor, clouds);
       let networkAllocation = await this.getNetworkAllocationByProvider(vendor, clouds);
       let publicIpAllocation = await this.getPublicIpAllocationByProvider(vendor, clouds);
+
+      console.log("getAllocationByProvider");
+      console.log(computeAllocation);
+      console.log(volumeAllocation);
+      console.log(networkAllocation);
+      console.log(publicIpAllocation);
 
       aggregatedCompute = sumByKey(aggregatedCompute, computeAllocation);
       aggregatedVolume = sumByKey(aggregatedVolume, volumeAllocation);
       aggregatedNetwork = sumByKey(aggregatedNetwork, networkAllocation);
       aggregatedPublicIp = sumByKey(aggregatedPublicIp, publicIpAllocation);
 
-      let totalUsedByMeTemp = this.buildAllocatedQuota(aggregatedCompute, aggregatedVolume, aggregatedNetwork, aggregatedPublicIp);
-      console.log(totalUsedByMeTemp)
-      console.log("=====");
-    });
+      console.log("aggregate");
+      console.log(aggregatedCompute);
+      console.log(aggregatedVolume);
+      console.log(aggregatedNetwork);
+      console.log(aggregatedPublicIp);
+    }));
 
-    let totalUsedByMe = this.buildAllocatedQuota(aggregatedCompute, aggregatedVolume, aggregatedNetwork, aggregatedPublicIp);
-    this.setState({
-      totalUsedByMe
-    })
-    console.log("=======");
-    console.log(this.state.totalUsedByMe);
-    console.log("end of getTotalAllocation() call");
+    promises.then(() => {
+      console.log("buildAllocatedQuota");
+      let totalUsedByMe = this.buildAllocatedQuota(aggregatedCompute, aggregatedVolume, aggregatedNetwork, aggregatedPublicIp);
+      console.log(totalUsedByMe);
+
+      console.log("setState");
+      this.setState({
+        totalUsedByMe
+      })
+      console.log(this.state.totalUsedByMe);
+    });
   }
 
   async getAllocations(provider, cloudId) {
-    console.log(`getAllocation(${provider}, ${cloudId})`);
     const { dispatch } = this.props;
 
     const computeResponse = await dispatch(getComputeAllocation(provider, cloudId));
