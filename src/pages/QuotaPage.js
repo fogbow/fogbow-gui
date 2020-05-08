@@ -215,20 +215,20 @@ class QuotaPage extends Component {
     return publicIpAllocations.reduce(sumByKey);
   }
 
-  async getTotalAllocation() {
+  getTotalAllocation = () => {
     let aggregatedCompute = { ...mockComputeQuota };
     let aggregatedVolume = { ...mockVolumeQuota };
     let aggregatedNetwork = { ...mockNetworkQuota };
     let aggregatedPublicIp = { ...mockPublicIpQuota };
 
-    let vendors = this.state.vendors ? Object.keys(this.props.vendors) : [];
+    let vendors = this.state.vendors ? Object.keys(this.state.vendors) : [];
 
     vendors.map(async(vendor) => {
       let clouds = vendor ? this.state.vendors[vendor] : [];
-      let computeAllocation = await getComputeAllocationByProvider(vendor, clouds);
-      let volumeAllocation = await getVolumeAllocationByProvider(vendor, clouds);
-      let networkAllocation = await getNetworkAllocationByProvider(vendor, clouds);
-      let publicIpAllocation = await getPublicIpAllocationByProvider(vendor, clouds);
+      let computeAllocation = await this.getComputeAllocationByProvider(vendor, clouds);
+      let volumeAllocation = await this.getVolumeAllocationByProvider(vendor, clouds);
+      let networkAllocation = await this.getNetworkAllocationByProvider(vendor, clouds);
+      let publicIpAllocation = await this.getPublicIpAllocationByProvider(vendor, clouds);
 
       aggregatedCompute = sumByKey(aggregatedCompute, computeAllocation);
       aggregatedVolume = sumByKey(aggregatedVolume, volumeAllocation);
