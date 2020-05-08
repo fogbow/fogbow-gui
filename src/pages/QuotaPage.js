@@ -223,7 +223,7 @@ class QuotaPage extends Component {
 
     let vendors = this.state.vendors ? Object.keys(this.props.vendors) : [];
 
-    vendors.map(vendor => {
+    vendors.map(async(vendor) => {
       let clouds = vendor ? this.state.vendors[vendor] : [];
       let computeAllocation = await getComputeAllocationByProvider(vendor, clouds);
       let volumeAllocation = await getVolumeAllocationByProvider(vendor, clouds);
