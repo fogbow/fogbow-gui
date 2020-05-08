@@ -55,6 +55,13 @@ class QuotaTable extends Component {
     this.props.cloudChange(this.state.vendor, value);
   };
 
+  vendorChange = (event) => {
+    let { value } = event.target;
+
+    this.handleChange(event);
+    this.props.vendorChange(value);
+  };
+
   getFirstLabel = () => {
     let label = this.props.label;
 
@@ -72,7 +79,7 @@ class QuotaTable extends Component {
                 <div className='form-row'>
                   <div className='col'>
                     <label className='mr-2'>Provider</label>
-                    <select value={this.state.vendor} name='vendor' onChange={this.handleChange}>
+                    <select value={this.state.vendor} name='vendor' onChange={this.vendorChange}>
                       {
                         vendors.length > 0 ?
                           vendors.map((vendor, idx) => {
