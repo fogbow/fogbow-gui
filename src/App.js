@@ -15,7 +15,7 @@ class App extends Component {
     let serverEndpoint;
 
     switch(env.deployType) {
-      case "federation-site":
+      case "federation":
         serverEndpoint = env.fns;
         break;
       default:

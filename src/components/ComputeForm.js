@@ -61,7 +61,7 @@ class ComputeForm extends Component {
       dispatch(getNetworks());
     }
 
-    if (! this.props.fednets.loading && env.deployType === "federation-site") {
+    if (! this.props.fednets.loading && env.deployType === "federation") {
       dispatch(getFedNetworks());
     }
   };
@@ -160,7 +160,7 @@ class ComputeForm extends Component {
     delete body.compute.requirementTag;
     delete body.compute.requirementValue;
 
-    if(env.deployType !== "federation-site") {
+    if(env.deployType !== "federation") {
       body = body.compute;
     }
 

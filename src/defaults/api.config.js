@@ -1,6 +1,6 @@
 export const env = {
   serverEndpoint: '',
-  deployType: 'federation-site',
+  deployType: 'federation',
   fns: 'http://localhost:8083/fns',
   ras: 'http://localhost:8082/ras',
   ms: 'http://localhost:8084/ms',

@@ -23,7 +23,7 @@ class SidebarComponent extends Component {
 
   renderItens = () => {
     let currentTabs;
-    if(env.deployType !== "federation-site") {
+    if(env.deployType !== "federation") {
       currentTabs = _.remove(tabs, tab => tab.value === "fednets")
     } else {
       currentTabs = tabs;
