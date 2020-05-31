@@ -5,7 +5,8 @@ class CloudsProvider {
   config = {
     headers: {
       'Fogbow-User-Token': localStorage.getItem('token'),
-    }
+    },
+    timeout: env.timeout
   };
 
   get() {

@@ -3,6 +3,9 @@ import { env } from '../defaults/api.config';
 
 class AuthProvider {
   asUrl = env.as.concat('/tokens');
+  config = {
+    timeout: env.timeout
+  }
 
   authorize(credentials) {
     const body = {
@@ -14,7 +17,7 @@ class AuthProvider {
   }
 
   getServerPublicKey() {
-    return axios.get(env.serverEndpoint + '/publicKey');
+    return axios.get(env.serverEndpoint + '/publicKey', this.config);
   }
 }
 

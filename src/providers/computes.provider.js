@@ -5,7 +5,8 @@ class ComputesProvider {
   config = {
     headers: {
       'Fogbow-User-Token': localStorage.getItem('token'),
-    }
+    },
+    timeout: env.timeout
   };
 
   create(body) {
