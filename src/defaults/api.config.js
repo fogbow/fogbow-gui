@@ -8,6 +8,7 @@ export const env = {
   local: 'atm-test-site1.lsd.ufcg.edu.br',
   remoteCredentialsUrl: '',
   refreshTime: 5000,
+  timeout: 10000,
   authenticationPlugin: 'LDAP',
   credentialFields: {
     username: {

@@ -8,11 +8,12 @@ class ProvidersProvider {
   config = {
     headers: {
       'Fogbow-User-Token': localStorage.getItem('token'),
-    }
+    },
+    timeout: env.timeout
   };
 
   get() {
-    return axios.get(this.providers);
+    return axios.get(this.providers, { timeout: env.timeout });
   }
 
   getQuota(id, cloudId) {
