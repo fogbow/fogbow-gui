@@ -70,7 +70,7 @@ class ComputeForm extends Component {
     let { name, value } = event.target;
 
     if (name === 'networkIds') {
-      // FIXME(pauloewerton): this will work only with a single network id
+      // NOTE(pauloewerton): this will work only with a single network id
       this.setState({
           [name]: [value]
       });
