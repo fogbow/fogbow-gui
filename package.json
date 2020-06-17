@@ -13,7 +13,7 @@
     "react-dom": "^16.13.0",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "3.4.1",
     "react-toastify": "^4.4.0",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
