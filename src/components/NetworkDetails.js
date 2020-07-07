@@ -53,6 +53,9 @@ class NetworkDetails extends Component {
         <p className="bolder">State</p>
         <p>{this.state.orderData.state || '-'}</p>
 
+        <p className="bolder">Fault Message</p>
+        <p>{this.state.orderData.faultMessage || '-'}</p>
+
         <p className="bolder">CIDR</p>
         <p>{this.state.orderData.cidr || '-'}</p>
 
