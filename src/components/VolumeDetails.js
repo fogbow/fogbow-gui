@@ -38,6 +38,9 @@ class VolumeDetails extends Component {
         <p className="bolder">State</p>
         <p>{this.state.orderData.state || '-'}</p>
 
+        <p className="bolder">Fault Message</p>
+        <p>{this.state.orderData.faultMessage || '-'}</p>
+
         <p className="bolder">Size</p>
         <p>{this.state.orderData.size || '-'} GB</p>
       </div>
