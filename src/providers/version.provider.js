@@ -3,7 +3,7 @@ import { env } from '../defaults/api.config';
 
 class VersionProvider {
   get (endpoint) {
-    return axios.get(endpoint.concat('/version', { timeout: env.timeout }));
+    return axios.get(endpoint.concat('/version'), { timeout: env.timeout });
   }
 }
 
