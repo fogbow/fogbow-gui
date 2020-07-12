@@ -48,6 +48,9 @@ class PublicIpDetails extends Component {
         <p className="bolder">ID</p>
         <p>{this.state.orderData.id || '-'}</p>
 
+        <p className="bolder">Fault Message</p>
+        <p>{this.state.orderData.faultMessage || '-'}</p>
+
         <p className="bolder">IP Address</p>
         <p>{this.state.orderData.ip || '-'}</p>
 
