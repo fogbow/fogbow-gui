@@ -37,7 +37,7 @@ const publicIps = (state = {loading: false, specific: {}}, action) => {
     case publicIpsActionsTypes.DELETE_PUBLIC_IP_SUCCESS:
       return {
           ...state,
-          data: state.data.filter(publicIp => publicIp.instanceId !== action.id),
+          data: state.data,
           loading: true
       };
     case publicIpsActionsTypes.DELETE_PUBLIC_IP_FAILURE:

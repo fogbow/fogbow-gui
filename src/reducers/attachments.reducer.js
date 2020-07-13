@@ -36,7 +36,7 @@ const attachments = (state = {loading: false}, action) => {
         case attachmentsActionsTypes.DELETE_ATTACHEMENT_SUCCESS:
             return {
                 ...state,
-                data: state.data.filter(compute => compute.instanceId !== action.id),
+                data: state.data,
                 loading: true
             };
         case attachmentsActionsTypes.DELETE_ATTACHEMENT_FAILURE:
