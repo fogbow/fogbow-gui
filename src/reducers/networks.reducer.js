@@ -36,7 +36,7 @@ const networks = (state = {loading: false, data: []}, action) => {
     case networksActionsTypes.DELETE_NETWORK_SUCCESS:
       return {
           ...state,
-          data: state.data.filter(network => network.instanceId !== action.id),
+          data: state.data,
           loading: true
       };
     case networksActionsTypes.DELETE_NETWORK_FAILURE:

@@ -37,7 +37,7 @@ const volumes = (state = {loading: false, data: []}, action) => {
         case volumesActionsTypes.DELETE_VOLUME_SUCCESS:
             return {
                 ...state,
-                data: state.data.filter(volume => volume.instanceId !== action.id),
+                data: state.data,
                 loading: true
             };
         case volumesActionsTypes.DELETE_VOLUME_FAILURE:

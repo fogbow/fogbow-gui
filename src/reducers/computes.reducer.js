@@ -36,7 +36,7 @@ const computes = (state = { data: [], loading: false }, action) => {
         case computesActionsTypes.DELETE_COMPUTE_SUCCESS:
             return {
                 ...state,
-                data: state.data.filter(compute => compute.instanceId !== action.id),
+                data: state.data,
                 loading: true
             };
         case computesActionsTypes.DELETE_COMPUTE_FAILURE:
