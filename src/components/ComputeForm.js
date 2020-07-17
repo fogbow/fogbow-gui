@@ -293,7 +293,7 @@ class ComputeForm extends Component {
                                      onAddRequirement={this.addRequirement}
                                      onResetRequirements={this.resetRequirements}/>
 
-              <label>Network ID(s)</label>
+              <label>Networks</label>
               <fieldset className="checkbox-list">
                 { !this.state.provider || !this.state.cloudName ? <label>No cloud or provider selected</label> : undefined }
                 { this.props.networks.loading ?
@@ -301,8 +301,9 @@ class ComputeForm extends Component {
                     return network.provider === this.state.provider &&
                            network.cloudName === this.state.cloudName ?
                       <div className="checkbox-field">
+                        { console.log(network) }
                         <input onChange={this.handleChange} type="checkbox" id={idx} value={network.instanceId} name="networkIds"></input>
-                        <label htmlFor={idx}>{network.instanceId}</label>
+                        <label htmlFor={idx}>{network.instanceName}</label>
                       </div> : undefined
                       ; }) :
                   undefined
