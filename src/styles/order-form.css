@@ -19,3 +19,10 @@
   max-width: 20rem;
   text-overflow: ellipsis;
 }
+
+.checkbox-list { margin-bottom: 15px; }
+.checkbox-field { display: flex; } 
+.checkbox-field label { 
+  margin-left: 10px;
+  display: inline; 
+}

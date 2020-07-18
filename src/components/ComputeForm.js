@@ -27,7 +27,7 @@ const initialState = {
   vCPU: 1,
   disk: 20,
   memory: 1024,
-  networkIds: '',
+  networkIds: [],
   federatedNetworkId: '',
   scriptType: '',
   publicKey: '',
@@ -70,9 +70,16 @@ class ComputeForm extends Component {
     let { name, value } = event.target;
 
     if (name === 'networkIds') {
-      // NOTE(pauloewerton): this will work only with a single network id
+      let networkIds = this.state.networkIds || [];
+
+      if (networkIds.includes(value)) {
+        networkIds.pop(value);
+      } else {
+        networkIds.push(value);
+      }
+
       this.setState({
-          [name]: [value]
+        'networkIds': networkIds
       });
     } else {
       this.setState({
@@ -286,22 +293,22 @@ class ComputeForm extends Component {
                                      onAddRequirement={this.addRequirement}
                                      onResetRequirements={this.resetRequirements}/>
 
-              <label>Network ID</label>
-              <select value={this.state.networkIds} onChange={this.handleChange}
-                      name='networkIds' className="form-control">
-                <option value=''>Choose a network</option>
-                {
-                  this.props.networks.loading ?
+              <label>Networks</label>
+              <fieldset className="checkbox-list">
+                { !this.state.provider || !this.state.cloudName ? <label>No cloud or provider selected</label> : undefined }
+                { this.props.networks.loading ?
                   this.props.networks.data.map((network, idx) => {
                     return network.provider === this.state.provider &&
                            network.cloudName === this.state.cloudName ?
-                      <option key={idx} value={network.instanceId}>
-                        {network.instanceId}
-                      </option> :
-                      undefined; }) :
+                      <div className="checkbox-field">
+                        { console.log(network) }
+                        <input onChange={this.handleChange} type="checkbox" id={idx} value={network.instanceId} name="networkIds"></input>
+                        <label htmlFor={idx}>{network.instanceName}</label>
+                      </div> : undefined
+                      ; }) :
                   undefined
                 }
-              </select>
+              </fieldset>
 
               <label>Federated Network ID</label>
               <select value={this.state.federatedNetworkId} onChange={this.handleChange}
