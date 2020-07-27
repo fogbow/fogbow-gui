@@ -20,6 +20,7 @@ const mapping = {
 class OrderComponent extends Component {
   handleDelete = async(event) => {
     event.preventDefault();
+    event.target.disabled = true;
 
     const { dispatch } = this.props;
     let id = this.props.order.instanceId;
