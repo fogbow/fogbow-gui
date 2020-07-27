@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import '../styles/order.css';
-import { deleteAttachment } from '../actions/attachments.actions';
-import { deleteCompute } from '../actions/computes.actions';
-import { deleteNetwork, deleteFedNetwork } from '../actions/networks.actions';
-import { deleteVolume } from '../actions/volumes.actions';
-import { deletePublicIp } from '../actions/publicIps.actions';
+import { deleteAttachment, getAttachments } from '../actions/attachments.actions';
+import { deleteCompute, getComputes } from '../actions/computes.actions';
+import { deleteNetwork, deleteFedNetwork, getNetworks, getFedNetworks } from '../actions/networks.actions';
+import { deleteVolume, getVolumes } from '../actions/volumes.actions';
+import { deletePublicIp, getPublicIps } from '../actions/publicIps.actions';
 
 const mapping = {
   computes: 'Compute',
@@ -18,31 +18,37 @@ const mapping = {
 };
 
 class OrderComponent extends Component {
-  handleDelete = (event) => {
+  handleDelete = async(event) => {
     event.preventDefault();
-    const { dispatch } = this.props;
 
+    const { dispatch } = this.props;
     let id = this.props.order.instanceId;
     let type = this.props.type;
 
     switch (type) {
       case 'computes':
-        dispatch(deleteCompute(id));
+        await dispatch(deleteCompute(id));
+        await dispatch(getComputes());
         break;
       case 'networks':
-        dispatch(deleteNetwork(id));
+        await dispatch(deleteNetwork(id));
+        await dispatch(getNetworks());
         break;
       case 'fednets':
-        dispatch(deleteFedNetwork(id));
+        await dispatch(deleteFedNetwork(id));
+        await dispatch(getFedNetworks());
         break;
       case 'volumes':
-        dispatch(deleteVolume(id));
+        await dispatch(deleteVolume(id));
+        await dispatch(getVolumes());
         break;
       case 'attachments':
-        dispatch(deleteAttachment(id));
+        await dispatch(deleteAttachment(id));
+        await dispatch(getAttachments());
         break;
       case 'publicip':
-        dispatch(deletePublicIp(id));
+        await dispatch(deletePublicIp(id));
+        await dispatch(getPublicIps());
         break;
       default:
         break;
