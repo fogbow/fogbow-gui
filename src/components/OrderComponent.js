@@ -18,9 +18,8 @@ const mapping = {
 };
 
 class OrderComponent extends Component {
-  handleDelete = async(event) => {
+  handleDelete = async (event) => {
     event.preventDefault();
-    event.target.disabled = true;
 
     const { dispatch } = this.props;
     let id = this.props.order.instanceId;
@@ -59,22 +58,22 @@ class OrderComponent extends Component {
   render() {
     // NOTE(pauloewerton): any new order action should be placed here.
     const dropdownMenu = (this.props.type === 'publicip' || this.props.type === 'networks') ?
-              (<div className='btn-group' role='group'>
-                  <button className='btn btn-secondary dropdown-toggle'
-                          data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'
-                          id='btnGroupDrop1'>
-                  </button>
-                  <div className='dropdown-menu order-dropdown' aria-labelledby='btnGroupDrop1'>
-                    <button className='dropdown-item' onClick={this.props.handleSecurityRuleForm}
-                            value={this.props.order.instanceId} data-toggle='modal'
-                            data-target='#security-rule-form'>
-                      Add Security Rule
+      (<div className='btn-group' role='group'>
+        <button className='btn btn-secondary dropdown-toggle'
+          data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'
+          id='btnGroupDrop1'>
+        </button>
+        <div className='dropdown-menu order-dropdown' aria-labelledby='btnGroupDrop1'>
+          <button className='dropdown-item' onClick={this.props.handleSecurityRuleForm}
+            value={this.props.order.instanceId} data-toggle='modal'
+            data-target='#security-rule-form'>
+            Add Security Rule
                     </button>
-                  </div>
-               </div>) : undefined;
+        </div>
+      </div>) : undefined;
     const provider = this.props.order.cloudName ?
-                     this.props.order.cloudName.concat(' @ ', this.props.order.provider) :
-                     this.props.order.provider;
+      this.props.order.cloudName.concat(' @ ', this.props.order.provider) :
+      this.props.order.provider;
 
     return (
       <tr>
@@ -90,7 +89,7 @@ class OrderComponent extends Component {
         }
         <td className='text-center'>
           <div className='btn-group' role='group'>
-            <button type='button' className='btn btn-primary btn-danger' onClick={this.handleDelete}>
+            <button type='button' className='btn btn-primary btn-danger' disabled={this.props.order.state === 'DELETING'} onClick={this.handleDelete}>
               Terminate {mapping[this.props.type]}
             </button>
             {dropdownMenu}
