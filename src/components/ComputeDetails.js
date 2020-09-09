@@ -66,7 +66,7 @@ class ComputeDetails extends Component {
         <p>{this.state.orderData.vCPU || '-'}</p>
 
         <p className="bolder">RAM</p>
-        <p>{this.state.orderData.memory || '-'} MB</p>
+        <p>{this.state.orderData.ram || '-'} MB</p>
 
         <p className="bolder">Disk</p>
         <p>{this.state.orderData.disk || '-'} GB</p>

@@ -26,7 +26,7 @@ const initialState = {
   imageId: '',
   vCPU: 1,
   disk: 20,
-  memory: 1024,
+  ram: 1024,
   networkIds: [],
   federatedNetworkId: '',
   scriptType: '',
@@ -239,8 +239,8 @@ class ComputeForm extends Component {
                      type="number" name="disk" min="0" required />
 
               <label>Minimal Amount of RAM (MB)</label>
-              <input value={this.state.memory} onChange={this.handleChange} className="form-control"
-                     type="number" name="memory" min="0" required />
+              <input value={this.state.ram} onChange={this.handleChange} className="form-control"
+                     type="number" name="ram" min="0" required />
 
               <label>Provider</label>
               <select value={this.state.provider} onChange={this.handleChange}
