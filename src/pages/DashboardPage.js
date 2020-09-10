@@ -18,7 +18,6 @@ import PublicIpPage from './PublicIpPage';
 import AboutPage from './AboutPage';
 
 import { getLocalClouds } from '../actions/clouds.actions';
-import { env } from '../defaults/api.config';
 
 class DashboardComponent extends Component {
   goto = (tab) => {

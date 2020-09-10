@@ -5,26 +5,28 @@ import BinaryUnit from '../utils/binary.utils';
 import floorTo from '../utils/math.utils';
 
 const columns = [
-  { resource: "Compute", fields: [
-      { label: 'Instances', key: 'instances'},
-      { label: 'vCPU', key: 'vCPU'},
-      { label: 'RAM', key: 'ram'}
+  {
+    resource: "Compute", fields: [
+      { label: 'Instances', key: 'instances' },
+      { label: 'vCPU', key: 'vCPU' },
+      { label: 'RAM', key: 'ram' }
     ]
   },
-  { resource: "Volume", fields: [
-      { label: 'Instances', key: 'volumes'},
-      { label: 'Storage', key: 'storage'}
+  {
+    resource: "Volume", fields: [
+      { label: 'Instances', key: 'volumes' },
+      { label: 'Storage', key: 'storage' }
     ]
   },
-  { resource: "Network", fields: [{ label: 'Instances', key: 'networks'}] },
-  { resource: "Public IP", fields: [{ label: 'Instances', key: 'publicIps'}] }
+  { resource: "Network", fields: [{ label: 'Instances', key: 'networks' }] },
+  { resource: "Public IP", fields: [{ label: 'Instances', key: 'publicIps' }] }
 ]
 
 const rows = [
-  { label: 'Shared quota',  key: 'totalQuota' },
-  { label: 'Available quota',  key: 'availableQuota' },
-  { label: 'Quota used by me',  key: 'usedByMe' },
-  { label: 'Quota used by others',  key: 'usedByOthers' },
+  { label: 'Shared quota', key: 'totalQuota' },
+  { label: 'Available quota', key: 'availableQuota' },
+  { label: 'Quota used by me', key: 'usedByMe' },
+  { label: 'Quota used by others', key: 'usedByOthers' },
 ];
 
 const BINARY_UNIT_DECIMAL_PLACES_NUMBER = 2;
@@ -44,7 +46,7 @@ class QuotaTable extends Component {
     let { name, value } = event.target;
 
     this.setState({
-        [name]: value
+      [name]: value
     });
   };
 
@@ -71,7 +73,7 @@ class QuotaTable extends Component {
       let vendors = this.props.vendors ? Object.keys(this.props.vendors) : [];
       let clouds = this.props.vendors ? this.props.vendors[this.state.vendor] : [];
 
-      return(
+      return (
         <th>
           <div className='row'>
             <div className='col pl-0'>
@@ -138,19 +140,19 @@ class QuotaTable extends Component {
   };
 
   formatUnit = (data, unit) => {
-    if (data === undefined || data == 0) return 0;
+    if (data === undefined || data === 0) return 0;
 
     let binaryUnit = new BinaryUnit(data, unit);
     binaryUnit.convert();
-    
-    if (Number.isInteger(binaryUnit.value)) 
+
+    if (Number.isInteger(binaryUnit.value))
       return binaryUnit.toString();
     else
       return floorTo(binaryUnit.value, BINARY_UNIT_DECIMAL_PLACES_NUMBER) + " " + binaryUnit.unit();
   }
 
   formatUnits = (quota) => {
-    const formattedQuota = { ... quota };
+    const formattedQuota = { ...quota };
     formattedQuota.ram = formattedQuota.ram <= -1 ? formattedQuota.ram : this.formatUnit(quota.ram, "MB");
     formattedQuota.storage = formattedQuota.ram <= -1 ? formattedQuota.ram : this.formatUnit(quota.storage, "GB");
     return formattedQuota;
@@ -197,11 +199,11 @@ class QuotaTable extends Component {
       <div className='table-responsive'>
         <table className="table table-striped table-bordered table-hover">
           <thead>
-          <tr>
-            <th></th>
-            {this.getHeaderGroup()}
-          </tr>
-          {this.getHeaders()}
+            <tr>
+              <th></th>
+              {this.getHeaderGroup()}
+            </tr>
+            {this.getHeaders()}
           </thead>
           <tbody>
             {this.getRows()}

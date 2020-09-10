@@ -77,7 +77,7 @@ class OrderComponent extends Component {
 
     return (
       <tr>
-        <td><a href="#" onClick={this.props.handleShow}>{this.props.order.instanceId}</a></td>
+        <td><button className="no-style-btn" onClick={this.props.handleShow}>{this.props.order.instanceId}</button></td>
         {this.props.disabledHeaders && this.props.disabledHeaders.indexOf('Name') !== -1 ?
           undefined : <td>{this.props.order.instanceName || '-'}</td>
         }
