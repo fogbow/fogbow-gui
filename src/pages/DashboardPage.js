@@ -18,33 +18,32 @@ import PublicIpPage from './PublicIpPage';
 import AboutPage from './AboutPage';
 
 import { getLocalClouds } from '../actions/clouds.actions';
-import { env } from '../defaults/api.config';
 
 class DashboardComponent extends Component {
   goto = (tab) => {
     switch (tab) {
       case 'quota':
-        return this.getPageContent(<QuotaPage/>, tab);
+        return this.getPageContent(<QuotaPage />, tab);
       case 'computes':
-        return this.getPageContent(<ComputesPage/>, tab);
+        return this.getPageContent(<ComputesPage />, tab);
       case 'volumes':
-        return this.getPageContent(<VolumesPage/>, tab);
+        return this.getPageContent(<VolumesPage />, tab);
       case 'networks':
-        return this.getPageContent(<NetworksPage/>, tab);
+        return this.getPageContent(<NetworksPage />, tab);
       case 'attachments':
-        return this.getPageContent(<AttachmentsPage/>, tab);
+        return this.getPageContent(<AttachmentsPage />, tab);
       case 'fednets':
-        return this.getPageContent(<FederetedNetworksPage/>, tab);
+        return this.getPageContent(<FederetedNetworksPage />, tab);
       case 'publicip':
-        return this.getPageContent(<PublicIpPage/>, tab);
+        return this.getPageContent(<PublicIpPage />, tab);
       case 'about':
-        return this.getPageContent(<AboutPage/>, tab);
+        return this.getPageContent(<AboutPage />, tab);
       default:
         break;
     }
   };
 
-  componentDidMount = async() => {
+  componentDidMount = async () => {
 
     let { history, dispatch } = this.props;
     const forbidden = 401;
@@ -63,10 +62,10 @@ class DashboardComponent extends Component {
   };
 
   getPageContent = (tab, label) => {
-    return(
+    return (
       <div>
-        <TopMenu labelName={label} logout={this.logout}/>
-        { tab }
+        <TopMenu labelName={label} logout={this.logout} />
+        {tab}
       </div>
     );
   }
@@ -81,8 +80,8 @@ class DashboardComponent extends Component {
   render() {
     return (
       <div>
-        <SidebarComponent goto={this.goto} defaultView={this.getPageContent(<QuotaPage/>, 'quota')}/>
-        <ToastContainer transition={Slide} autoClose={false} />
+        <SidebarComponent goto={this.goto} defaultView={this.getPageContent(<QuotaPage />, 'quota')} />
+        <ToastContainer transition={Slide} />
       </div>
     );
   }

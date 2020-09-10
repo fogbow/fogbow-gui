@@ -26,7 +26,7 @@ class ComputesProvider {
   }
 
   getImages(providerId, cloudName) {
-    return axios.get(env.serverEndpoint + "/images" + '/' + providerId  + '/' + cloudName, this.config);
+    return axios.get(env.serverEndpoint + "/images".concat('/', providerId, '/', cloudName), this.config);
   }
 
   getCloudImages(providerId, cloudId) {
