@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import ComputeForm from '../components/ComputeForm';
-import { getComputes, hibernateCompute, pauseCompute, resumeCompute } from '../actions/computes.actions';
+import { getComputes, hibernateCompute, pauseCompute, resumeCompute, takeSnapshot } from '../actions/computes.actions';
 import ComputeDetails from '../components/ComputeDetails';
 
 class ComputesPage extends Component {
@@ -76,6 +76,13 @@ class ComputesPage extends Component {
     dispatch(resumeCompute(instanceId))
   }
 
+  handleTakeSnapshot = (event) => {
+    event.preventDefault();
+    const instanceId = event.target.value;
+    const { dispatch } = this.props;
+    dispatch(takeSnapshot(instanceId))
+  }
+
   getActions(order) {
     return [
       { 
@@ -95,6 +102,12 @@ class ComputesPage extends Component {
         value: order.instanceId,
         modalId: "",
         onClick: this.handleResume 
+      },
+      { 
+        text: 'Take snapshot',
+        value: order.instanceId,
+        modalId: "",
+        onClick: this.handleTakeSnapshot 
       },
     ];
   }

@@ -195,3 +195,26 @@ export const resumeCompute = (id) => {
     })
   }
 };
+
+export const takeSnapshot = (id) => {
+  let provider = new ComputesProvider();
+
+  const request = () => ({ type: computesActionsTypes.TAKE_SNAPSHOT_REQUEST});
+  const success = () => ({ type: computesActionsTypes.TAKE_SNAPSHOT_SUCCESS, id});
+  const failure = (error) => ({ type: computesActionsTypes.TAKE_SNAPSHOT_FAILURE, error });
+
+  return dispatch => {
+    return new Promise(async(resolve, reject) => {
+      dispatch(request());
+
+      try {
+        await provider.takeSnapshot(id);
+        resolve(dispatch(success()));
+      } catch(error) {
+        const message = getErrorMessage(error);
+        toast.error(messages.compute.takeSnapshot.concat(id, message));
+        reject(dispatch(failure(error)));
+      }
+    })
+  }
+};

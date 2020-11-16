@@ -48,6 +48,10 @@ class ComputesProvider {
   resume(id) {
     return axios.post(env.serverEndpoint + "/computes".concat('/resume/', id), this.config);
   }
+
+  takeSnapshot(id) {
+    return axios.post(env.serverEndpoint + "/computes".concat('/', id, '/snapshot'), this.config);
+  }
 }
 
 export default ComputesProvider;

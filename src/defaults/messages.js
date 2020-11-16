@@ -13,6 +13,7 @@ export const messages = {
     pause: 'Unable to pause compute ',
     hibernate: 'Unable to hibernate compute ',
     resume: 'Unable to resume compute ',
+    takeSnapshot: 'Unable to take snapshot of compute ',
   },
   auth: {
     login: 'Login failed',
