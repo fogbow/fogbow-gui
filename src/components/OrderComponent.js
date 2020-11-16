@@ -55,32 +55,10 @@ class OrderComponent extends Component {
         break;
     }
   };
-
-  getSecurityRuleActions() {
-    return [
-      { 
-        text: 'Add Security Rule',
-        value: this.props.order.instanceId,
-        modalId: '#security-rule-form',
-        onClick: this.props.handleSecurityRuleForm 
-      }
-    ];
-  }
-
-  getActionList() {
-    // NOTE(pauloewerton): any new order action should be placed here.
-    switch(this.props.type) {
-      case 'publicip':
-      case 'networks':
-        return this.getSecurityRuleActions()
-      default:
-        return []
-    }
-  }
-
+  
   renderDropdownMenu() {
-    const actionList = this.getActionList();
-    return actionList.length > 0 ? <OrderActions actions={actionList}/> : undefined
+    const actions = this.props.actions;
+    return actions.length > 0 ? <OrderActions actions={actions}/> : undefined
   }
 
   render() {

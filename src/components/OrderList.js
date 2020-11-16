@@ -45,11 +45,13 @@ class OrderList extends Component {
 
   getLines = () => {
     return this.props.orders.map(order => {
+      const actions = this.props.actionsByOrder ? this.props.actionsByOrder[order.id] : []
       return(
-        <OrderComponent key={order.instanceId} order={order} type={this.props.type}
+        <OrderComponent key={order.instanceId} order={order}
                         disabledHeaders={this.props.disabledHeaders}
                         handleShow={() => this.props.handleShow(order.instanceId)}
-                        handleSecurityRuleForm={this.props.handleSecurityRuleForm}/>
+                        type={this.props.type}
+                        actions={actions}/>
       );
     });
   };

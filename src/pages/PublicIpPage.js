@@ -70,7 +70,27 @@ class PublicIpPage extends Component {
     return null;
   };
 
+  getActions(order) {
+    return [
+      { 
+        text: 'Add Security Rule',
+        value: order.instanceId,
+        modalId: '#security-rule-form',
+        onClick: this.handleSecurityRuleForm 
+      }
+    ];
+  }
+
+  getActionsMap() {
+    const actionsMap = {};
+    this.state.publicIpOrders.map(order => {
+      actionsMap[order.id] = this.getActions(order)
+    })
+    return actionsMap;
+  }
+
   render() {
+    const actionsByOrder = this.getActionsMap()
     return (
       <div>
         {this.state.tableVisible ?
@@ -79,7 +99,7 @@ class PublicIpPage extends Component {
                              <SecurityRuleForm orderType='publicip'
                                                instanceId={this.state.instanceId}/>
                             ]}
-                     handleSecurityRuleForm={this.handleSecurityRuleForm}
+                     actionsByOrder={actionsByOrder}
                      handleShow={this.handleShow} handleHide={this.handleHide}/>) :
          <PublicIpDetails id={this.state.orderId} handleHide={this.handleHide}/>}
       </div>
