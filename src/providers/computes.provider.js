@@ -45,6 +45,9 @@ class ComputesProvider {
     return axios.post(env.serverEndpoint + "/computes".concat('/hibernate/', id), this.config);
   }
 
+  resume(id) {
+    return axios.post(env.serverEndpoint + "/computes".concat('/resume/', id), this.config);
+  }
 }
 
 export default ComputesProvider;

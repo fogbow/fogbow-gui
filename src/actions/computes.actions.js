@@ -172,3 +172,26 @@ export const hibernateCompute = (id) => {
     })
   }
 };
+
+export const resumeCompute = (id) => {
+  let provider = new ComputesProvider();
+
+  const request = () => ({ type: computesActionsTypes.RESUME_COMPUTE_REQUEST});
+  const success = () => ({ type: computesActionsTypes.RESUME_COMPUTE_SUCCESS, id});
+  const failure = (error) => ({ type: computesActionsTypes.RESUME_COMPUTE_FAILURE, error });
+
+  return dispatch => {
+    return new Promise(async(resolve, reject) => {
+      dispatch(request());
+
+      try {
+        await provider.resume(id);
+        resolve(dispatch(success()));
+      } catch(error) {
+        const message = getErrorMessage(error);
+        toast.error(messages.compute.resume.concat(id, message));
+        reject(dispatch(failure(error)));
+      }
+    })
+  }
+};
