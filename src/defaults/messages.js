@@ -10,7 +10,8 @@ export const messages = {
     remove: 'Unable to delete order '
   },
   compute: {
-    pause: 'Unable to pause compute '
+    pause: 'Unable to pause compute ',
+    hibernate: 'Unable to hibernate compute ',
   },
   auth: {
     login: 'Login failed',

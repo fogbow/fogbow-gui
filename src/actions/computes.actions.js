@@ -149,3 +149,26 @@ export const pauseCompute = (id) => {
     })
   }
 };
+
+export const hibernateCompute = (id) => {
+  let provider = new ComputesProvider();
+
+  const request = () => ({ type: computesActionsTypes.HIBERNATE_COMPUTE_REQUEST});
+  const success = () => ({ type: computesActionsTypes.HIBERNATE_COMPUTE_SUCCESS, id});
+  const failure = (error) => ({ type: computesActionsTypes.HIBERNATE_COMPUTE_FAILURE, error });
+
+  return dispatch => {
+    return new Promise(async(resolve, reject) => {
+      dispatch(request());
+
+      try {
+        await provider.hibernate(id);
+        resolve(dispatch(success()));
+      } catch(error) {
+        const message = getErrorMessage(error);
+        toast.error(messages.compute.hibernate.concat(id, message));
+        reject(dispatch(failure(error)));
+      }
+    })
+  }
+};

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import ComputeForm from '../components/ComputeForm';
-import { getComputes, pauseCompute } from '../actions/computes.actions';
+import { getComputes, hibernateCompute, pauseCompute } from '../actions/computes.actions';
 import ComputeDetails from '../components/ComputeDetails';
 
 class ComputesPage extends Component {
@@ -62,6 +62,13 @@ class ComputesPage extends Component {
     dispatch(pauseCompute(instanceId))
   }
 
+  handleHibernate = (event) => {
+    event.preventDefault();
+    const instanceId = event.target.value;
+    const { dispatch } = this.props;
+    dispatch(hibernateCompute(instanceId))
+  }
+
   getActions(order) {
     return [
       { 
@@ -69,6 +76,12 @@ class ComputesPage extends Component {
         value: order.instanceId,
         modalId: "",
         onClick: this.handlePause 
+      },
+      { 
+        text: 'Hibernate',
+        value: order.instanceId,
+        modalId: "",
+        onClick: this.handleHibernate 
       }
     ];
   }

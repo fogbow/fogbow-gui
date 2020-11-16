@@ -40,6 +40,11 @@ class ComputesProvider {
   pause(id) {
     return axios.post(env.serverEndpoint + "/computes".concat('/pause/', id), this.config);
   }
+
+  hibernate(id) {
+    return axios.post(env.serverEndpoint + "/computes".concat('/hibernate/', id), this.config);
+  }
+
 }
 
 export default ComputesProvider;
