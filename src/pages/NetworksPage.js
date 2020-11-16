@@ -70,6 +70,7 @@ class NetworksPage extends Component {
     return [
       { 
         text: 'Add Security Rule',
+        name: 'createSecurityRule',
         value: order.instanceId,
         modalId: '#security-rule-form',
         onClick: this.handleSecurityRuleForm 

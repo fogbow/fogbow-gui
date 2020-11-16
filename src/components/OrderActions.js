@@ -14,6 +14,7 @@ class OrderActions extends Component {
             <button 
               className='dropdown-item' 
               onClick={action.onClick}
+              name={action.name}
               value={action.value} data-toggle='modal'
               data-target={action.modalId}>
             {action.text}

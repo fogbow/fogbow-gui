@@ -55,60 +55,36 @@ class ComputesPage extends Component {
     return null;
   };
 
-  handlePause = (event) => {
+  handleAction = (event) => {
     event.preventDefault();
-    const instanceId = event.target.value;
+    const { value: instanceId, name } = event.target;
     const { dispatch } = this.props;
-    dispatch(pauseCompute(instanceId))
-  }
 
-  handleHibernate = (event) => {
-    event.preventDefault();
-    const instanceId = event.target.value;
-    const { dispatch } = this.props;
-    dispatch(hibernateCompute(instanceId))
-  }
-
-  handleResume = (event) => {
-    event.preventDefault();
-    const instanceId = event.target.value;
-    const { dispatch } = this.props;
-    dispatch(resumeCompute(instanceId))
-  }
-
-  handleTakeSnapshot = (event) => {
-    event.preventDefault();
-    const instanceId = event.target.value;
-    const { dispatch } = this.props;
-    dispatch(takeSnapshot(instanceId))
+    switch (name) {
+      case 'pause':
+        dispatch(pauseCompute(instanceId));
+        break;
+      case 'hibernate':
+        dispatch(hibernateCompute(instanceId));
+        break;
+      case 'resume':
+        dispatch(resumeCompute(instanceId))
+        break;
+      case 'takeSnapshot':
+        dispatch(takeSnapshot(instanceId))
+        break;
+      default:
+        break;
+    }
   }
 
   getActions(order) {
+    const baseAction = { value: order.instanceId, modelId: "", onClick: this.handleAction };
     return [
-      { 
-        text: 'Pause',
-        value: order.instanceId,
-        modalId: "",
-        onClick: this.handlePause 
-      },
-      { 
-        text: 'Hibernate',
-        value: order.instanceId,
-        modalId: "",
-        onClick: this.handleHibernate 
-      },
-      { 
-        text: 'Resume',
-        value: order.instanceId,
-        modalId: "",
-        onClick: this.handleResume 
-      },
-      { 
-        text: 'Take snapshot',
-        value: order.instanceId,
-        modalId: "",
-        onClick: this.handleTakeSnapshot 
-      },
+      { text: 'Pause', name: 'pause', ...baseAction },
+      { text: 'Hibernate', name: 'hibernate', ...baseAction },
+      { text: 'Resume', name: 'resume', ...baseAction },
+      { text: 'Take snapshot', name: 'takeSnapshot', ...baseAction }
     ];
   }
 
