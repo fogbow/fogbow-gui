@@ -36,6 +36,10 @@ class ComputesProvider {
   getAllocation(providerId, cloudName) {
     return axios.get(env.serverEndpoint + "/computes/allocation".concat('/', providerId, '/', cloudName), this.config);
   }
+
+  pause(id) {
+    return axios.post(env.serverEndpoint + "/computes".concat('/pause/', id), this.config);
+  }
 }
 
 export default ComputesProvider;

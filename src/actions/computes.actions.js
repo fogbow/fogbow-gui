@@ -126,3 +126,26 @@ export const deleteCompute = (id) => {
   const actionTypes = { request, success, failure };
   return dispatch => ResourceActions.delete(id, dispatch, provider, actionTypes);
 };
+
+export const pauseCompute = (id) => {
+  let provider = new ComputesProvider();
+
+  const request = () => ({ type: computesActionsTypes.PAUSE_COMPUTE_REQUEST});
+  const success = () => ({ type: computesActionsTypes.PAUSE_COMPUTE_SUCCESS, id});
+  const failure = (error) => ({ type: computesActionsTypes.PAUSE_COMPUTE_FAILURE, error });
+
+  return dispatch => {
+    return new Promise(async(resolve, reject) => {
+      dispatch(request());
+
+      try {
+        await provider.pause(id);
+        resolve(dispatch(success()));
+      } catch(error) {
+        const message = getErrorMessage(error);
+        toast.error(messages.compute.pause.concat(id, message));
+        reject(dispatch(failure(error)));
+      }
+    })
+  }
+};
