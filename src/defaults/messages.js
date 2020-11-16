@@ -9,6 +9,12 @@ export const messages = {
     create: 'Unable to create order',
     remove: 'Unable to delete order '
   },
+  compute: {
+    pause: 'Unable to pause compute ',
+    hibernate: 'Unable to hibernate compute ',
+    resume: 'Unable to resume compute ',
+    takeSnapshot: 'Unable to take snapshot of compute ',
+  },
   auth: {
     login: 'Login failed',
     publicKey: 'Unable to retrieve SERVER public key'

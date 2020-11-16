@@ -7,6 +7,7 @@ import { deleteCompute, getComputes } from '../actions/computes.actions';
 import { deleteNetwork, deleteFedNetwork, getNetworks, getFedNetworks } from '../actions/networks.actions';
 import { deleteVolume, getVolumes } from '../actions/volumes.actions';
 import { deletePublicIp, getPublicIps } from '../actions/publicIps.actions';
+import OrderActions from './OrderActions';
 
 const mapping = {
   computes: 'Compute',
@@ -54,23 +55,13 @@ class OrderComponent extends Component {
         break;
     }
   };
+  
+  renderDropdownMenu() {
+    const actions = this.props.actions;
+    return actions.length > 0 ? <OrderActions actions={actions}/> : undefined
+  }
 
   render() {
-    // NOTE(pauloewerton): any new order action should be placed here.
-    const dropdownMenu = (this.props.type === 'publicip' || this.props.type === 'networks') ?
-      (<div className='btn-group' role='group'>
-        <button className='btn btn-secondary dropdown-toggle'
-          data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'
-          id='btnGroupDrop1'>
-        </button>
-        <div className='dropdown-menu order-dropdown' aria-labelledby='btnGroupDrop1'>
-          <button className='dropdown-item' onClick={this.props.handleSecurityRuleForm}
-            value={this.props.order.instanceId} data-toggle='modal'
-            data-target='#security-rule-form'>
-            Add Security Rule
-                    </button>
-        </div>
-      </div>) : undefined;
     const provider = this.props.order.cloudName ?
       this.props.order.cloudName.concat(' @ ', this.props.order.provider) :
       this.props.order.provider;
@@ -92,7 +83,7 @@ class OrderComponent extends Component {
             <button type='button' className='btn btn-primary btn-danger' disabled={this.props.order.state === 'DELETING'} onClick={this.handleDelete}>
               Terminate {mapping[this.props.type]}
             </button>
-            {dropdownMenu}
+            { this.renderDropdownMenu() }
           </div>
         </td>
       </tr>

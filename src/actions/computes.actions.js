@@ -126,3 +126,95 @@ export const deleteCompute = (id) => {
   const actionTypes = { request, success, failure };
   return dispatch => ResourceActions.delete(id, dispatch, provider, actionTypes);
 };
+
+export const pauseCompute = (id) => {
+  let provider = new ComputesProvider();
+
+  const request = () => ({ type: computesActionsTypes.PAUSE_COMPUTE_REQUEST});
+  const success = () => ({ type: computesActionsTypes.PAUSE_COMPUTE_SUCCESS, id});
+  const failure = (error) => ({ type: computesActionsTypes.PAUSE_COMPUTE_FAILURE, error });
+
+  return dispatch => {
+    return new Promise(async(resolve, reject) => {
+      dispatch(request());
+
+      try {
+        await provider.pause(id);
+        resolve(dispatch(success()));
+      } catch(error) {
+        const message = getErrorMessage(error);
+        toast.error(messages.compute.pause.concat(id, message));
+        reject(dispatch(failure(error)));
+      }
+    })
+  }
+};
+
+export const hibernateCompute = (id) => {
+  let provider = new ComputesProvider();
+
+  const request = () => ({ type: computesActionsTypes.HIBERNATE_COMPUTE_REQUEST});
+  const success = () => ({ type: computesActionsTypes.HIBERNATE_COMPUTE_SUCCESS, id});
+  const failure = (error) => ({ type: computesActionsTypes.HIBERNATE_COMPUTE_FAILURE, error });
+
+  return dispatch => {
+    return new Promise(async(resolve, reject) => {
+      dispatch(request());
+
+      try {
+        await provider.hibernate(id);
+        resolve(dispatch(success()));
+      } catch(error) {
+        const message = getErrorMessage(error);
+        toast.error(messages.compute.hibernate.concat(id, message));
+        reject(dispatch(failure(error)));
+      }
+    })
+  }
+};
+
+export const resumeCompute = (id) => {
+  let provider = new ComputesProvider();
+
+  const request = () => ({ type: computesActionsTypes.RESUME_COMPUTE_REQUEST});
+  const success = () => ({ type: computesActionsTypes.RESUME_COMPUTE_SUCCESS, id});
+  const failure = (error) => ({ type: computesActionsTypes.RESUME_COMPUTE_FAILURE, error });
+
+  return dispatch => {
+    return new Promise(async(resolve, reject) => {
+      dispatch(request());
+
+      try {
+        await provider.resume(id);
+        resolve(dispatch(success()));
+      } catch(error) {
+        const message = getErrorMessage(error);
+        toast.error(messages.compute.resume.concat(id, message));
+        reject(dispatch(failure(error)));
+      }
+    })
+  }
+};
+
+export const takeSnapshot = (id) => {
+  let provider = new ComputesProvider();
+
+  const request = () => ({ type: computesActionsTypes.TAKE_SNAPSHOT_REQUEST});
+  const success = () => ({ type: computesActionsTypes.TAKE_SNAPSHOT_SUCCESS, id});
+  const failure = (error) => ({ type: computesActionsTypes.TAKE_SNAPSHOT_FAILURE, error });
+
+  return dispatch => {
+    return new Promise(async(resolve, reject) => {
+      dispatch(request());
+
+      try {
+        await provider.takeSnapshot(id);
+        resolve(dispatch(success()));
+      } catch(error) {
+        const message = getErrorMessage(error);
+        toast.error(messages.compute.takeSnapshot.concat(id, message));
+        reject(dispatch(failure(error)));
+      }
+    })
+  }
+};

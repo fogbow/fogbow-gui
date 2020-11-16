@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { env } from '../defaults/api.config';
 import OrderList from '../components/OrderList';
 import ComputeForm from '../components/ComputeForm';
-import { getComputes } from '../actions/computes.actions';
+import { getComputes, hibernateCompute, pauseCompute, resumeCompute, takeSnapshot } from '../actions/computes.actions';
 import ComputeDetails from '../components/ComputeDetails';
 
 class ComputesPage extends Component {
@@ -55,12 +55,55 @@ class ComputesPage extends Component {
     return null;
   };
 
+  handleAction = (event) => {
+    event.preventDefault();
+    const { value: instanceId, name } = event.target;
+    const { dispatch } = this.props;
+
+    switch (name) {
+      case 'pause':
+        dispatch(pauseCompute(instanceId));
+        break;
+      case 'hibernate':
+        dispatch(hibernateCompute(instanceId));
+        break;
+      case 'resume':
+        dispatch(resumeCompute(instanceId))
+        break;
+      case 'takeSnapshot':
+        dispatch(takeSnapshot(instanceId))
+        break;
+      default:
+        break;
+    }
+  }
+
+  getActions(order) {
+    const baseAction = { value: order.instanceId, modelId: "", onClick: this.handleAction };
+    return [
+      { text: 'Pause', name: 'pause', ...baseAction },
+      { text: 'Hibernate', name: 'hibernate', ...baseAction },
+      { text: 'Resume', name: 'resume', ...baseAction },
+      { text: 'Take snapshot', name: 'takeSnapshot', ...baseAction }
+    ];
+  }
+
+  getActionsMap() {
+    const actionsMap = {};
+    this.state.computeOrders.map(order => {
+      actionsMap[order.id] = this.getActions(order)
+    })
+    return actionsMap;
+  }
+
   render() {
+    const actionsByOrder = this.getActionsMap();
     return (
       <div>
         {this.state.tableVisible ?
           (<OrderList orders={this.state.computeOrders} forms={[<ComputeForm/>]}
-                      type={'computes'} handleShow={this.handleShow}/>) :
+                      type={'computes'} handleShow={this.handleShow} 
+                      actionsByOrder={actionsByOrder}/>) :
           <ComputeDetails id={this.state.orderId} handleHide={this.handleHide}/>
         }
       </div>

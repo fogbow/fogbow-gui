@@ -66,7 +66,28 @@ class NetworksPage extends Component {
     return null;
   };
 
+  getActions(order) {
+    return [
+      { 
+        text: 'Add Security Rule',
+        name: 'createSecurityRule',
+        value: order.instanceId,
+        modalId: '#security-rule-form',
+        onClick: this.handleSecurityRuleForm 
+      }
+    ];
+  }
+
+  getActionsMap() {
+    const actionsMap = {};
+    this.state.networkOrders.map(order => {
+      actionsMap[order.id] = this.getActions(order)
+    })
+    return actionsMap;
+  }
+
   render() {
+    const actionsByOrder = this.getActionsMap()
     return (
       <div>
         {this.state.tableVisible ?
@@ -75,7 +96,7 @@ class NetworksPage extends Component {
                               <SecurityRuleForm orderType='network'
                                                 instanceId={this.state.instanceId}/>
                              ]}
-                      handleSecurityRuleForm={this.handleSecurityRuleForm}/>) :
+                      actionsByOrder={actionsByOrder}/>) :
           <NetworkDetails id={this.state.orderId} handleHide={this.handleHide}/>}
       </div>
     );

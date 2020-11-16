@@ -36,6 +36,22 @@ class ComputesProvider {
   getAllocation(providerId, cloudName) {
     return axios.get(env.serverEndpoint + "/computes/allocation".concat('/', providerId, '/', cloudName), this.config);
   }
+
+  pause(id) {
+    return axios.post(env.serverEndpoint + "/computes".concat('/pause/', id), this.config);
+  }
+
+  hibernate(id) {
+    return axios.post(env.serverEndpoint + "/computes".concat('/hibernate/', id), this.config);
+  }
+
+  resume(id) {
+    return axios.post(env.serverEndpoint + "/computes".concat('/resume/', id), this.config);
+  }
+
+  takeSnapshot(id) {
+    return axios.post(env.serverEndpoint + "/computes".concat('/', id, '/snapshot'), this.config);
+  }
 }
 
 export default ComputesProvider;
