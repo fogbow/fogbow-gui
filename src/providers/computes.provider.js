@@ -38,15 +38,15 @@ class ComputesProvider {
   }
 
   pause(id) {
-    return axios.post(env.serverEndpoint + "/computes".concat('/pause/', id), this.config);
+    return axios.post(env.serverEndpoint + "/computes".concat(id, '/pause'), this.config);
   }
 
   hibernate(id) {
-    return axios.post(env.serverEndpoint + "/computes".concat('/hibernate/', id), this.config);
+    return axios.post(env.serverEndpoint + "/computes".concat(id, '/hibernate'), this.config);
   }
 
   resume(id) {
-    return axios.post(env.serverEndpoint + "/computes".concat('/resume/', id), this.config);
+    return axios.post(env.serverEndpoint + "/computes".concat(id, '/resume'), this.config);
   }
 
   takeSnapshot(id) {
