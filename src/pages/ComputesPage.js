@@ -71,7 +71,7 @@ class ComputesPage extends Component {
         dispatch(resumeCompute(instanceId))
         break;
       case 'takeSnapshot':
-        dispatch(takeSnapshot(instanceId))
+        dispatch(takeSnapshot(instanceId, { "name": "fogbow-snapshot-".concat(instanceId) }))
         break;
       default:
         break;
