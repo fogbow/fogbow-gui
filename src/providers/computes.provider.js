@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { env } from '../defaults/api.config';
 
+const emptyBody = {}
+
 class ComputesProvider {
   config = {
     headers: {
@@ -38,19 +40,19 @@ class ComputesProvider {
   }
 
   pause(id) {
-    return axios.post(env.serverEndpoint + "/computes".concat(id, '/pause'), this.config);
+    return axios.post(env.serverEndpoint + "/computes".concat('/', id, '/pause'), emptyBody, this.config);
   }
 
   hibernate(id) {
-    return axios.post(env.serverEndpoint + "/computes".concat(id, '/hibernate'), this.config);
+    return axios.post(env.serverEndpoint + "/computes".concat('/', id, '/hibernate'), emptyBody, this.config);
   }
 
   resume(id) {
-    return axios.post(env.serverEndpoint + "/computes".concat(id, '/resume'), this.config);
+    return axios.post(env.serverEndpoint + "/computes".concat('/', id, '/resume'), emptyBody, this.config);
   }
 
-  takeSnapshot(id) {
-    return axios.post(env.serverEndpoint + "/computes".concat('/', id, '/snapshot'), this.config);
+  takeSnapshot(id, body) {
+    return axios.post(env.serverEndpoint + "/computes".concat('/', id, '/snapshot'), body, this.config);
   }
 }
 
