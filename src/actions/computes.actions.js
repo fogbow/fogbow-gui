@@ -196,7 +196,7 @@ export const resumeCompute = (id) => {
   }
 };
 
-export const takeSnapshot = (id) => {
+export const takeSnapshot = (id, body) => {
   let provider = new ComputesProvider();
 
   const request = () => ({ type: computesActionsTypes.TAKE_SNAPSHOT_REQUEST});
@@ -208,9 +208,10 @@ export const takeSnapshot = (id) => {
       dispatch(request());
 
       try {
-        await provider.takeSnapshot(id);
+        await provider.takeSnapshot(id, body);
         resolve(dispatch(success()));
       } catch(error) {
+        console.log(error);
         const message = getErrorMessage(error);
         toast.error(messages.compute.takeSnapshot.concat(id, message));
         reject(dispatch(failure(error)));
